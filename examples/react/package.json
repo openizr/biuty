@@ -1,0 +1,49 @@
+{
+  "name": "examples-react",
+  "devDependencies": {
+    "typescript-dev-kit": "^2.3.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/typescript-dev-kit/main.js"
+    ]
+  },
+  "dependencies": {
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^16.9.55",
+    "@types/react-dom": "^16.9.9",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "sonar-ui": "file:../../../../library/dist"
+  },
+  "tsDevKitConfig": {
+    "target": "web",
+    "entry": {
+      "main": "./scripts/main.tsx"
+    },
+    "devServer": {
+      "ip": "0.0.0.0",
+      "port": 3000
+    },
+    "splitChunks": false,
+    "srcPath": "src",
+    "distPath": "public",
+    "banner": "",
+    "env": {
+      "development": {
+        "NODE_ENV": "\"development\""
+      },
+      "production": {
+        "NODE_ENV": "\"production\""
+      }
+    }
+  },
+  "scripts": {
+    "init": "node_modules/typescript-dev-kit/scripts/init.sh",
+    "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
+    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build",
+    "test": "cd node_modules/typescript-dev-kit/ && node scripts/test",
+    "doc": "node_modules/.bin/typedoc --out ./doc/ src/ --exclude \"**/__+(tests|mocks)__/**\""
+  }
+}

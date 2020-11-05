@@ -1,0 +1,96 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+@charset "UTF-8";
+@import './_constants';
+
+// 1rem = 16px = 4*4px
+
+// 1sp = 1/4rem = 4px
+
+$SASS_BORDER_STYLES: hidden dotted dashed solid double groove ridge inset outset;
+$SASS_COLORS: (primary);
+
+// $colors: (
+//   primary: black,
+// );
+
+@function transpile($value) {
+  @if (is($value, number)) {
+    @if (to-lower-case(unit($value)) == 'sp') {
+      @return sp($value);
+    } @else if (to-lower-case(unit($value)) == '%') {
+      @return $value;
+    } @else if (is-unitless($value)) {
+      @return $value + px;
+    } @else {
+      @error ('BAD CSS UNIT');
+    }
+  } @else if (is($value, list)) {
+    $transpiledList: ();
+    @each $item in $value {
+      $transpiledList: append($transpiledList, transpile($item));
+    }
+    @return $transpiledList;
+  }
+  @if (map-has-key($colors, $value)) {
+    @return map-get($colors, $value);
+  } @else {
+    @return $value;
+  }
+}
+
+@function dp($number) {
+  @return $number * 1 / ($number * 0 + 1) + px;
+}
+
+@function sp($number) {
+  // Removing unit and applying the 0.25rem factor.
+  @return ($number / ($number * 0 + 1)) * 0.25rem;
+}
+@function is-list-of($list, $types) {
+  @each $item in $list {
+    @if (not is($item, $types)) {
+      @return false;
+    }
+  }
+  @return true;
+}
+
+@function is($variable, $types) {
+  @each $type in $types {
+    $isSassType: index($SASS_TYPES, $type) != null;
+    @if (
+      ($isSassType and type-of($variable) == $type) or (not $isSassType and $variable == $type)
+    ) {
+      // TODO : deal with variables like "5zadzad54dp" which are considered as numbers whereas they're not.
+      @return true;
+    }
+  }
+  @return false;
+}
+
+@function has-unitless($list) {
+  @each $item in $list {
+    @if (type-of($item) == number) {
+      @if (unitless($item)) {
+        @return true;
+      }
+    }
+  }
+  @return false;
+}
+
+@function is-unitless-list($list) {
+  @each $item in $list {
+    @if (unitless($item)) {
+      @return true;
+    }
+  }
+  @return false;
+}

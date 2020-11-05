@@ -1,0 +1,164 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.ui-button {
+  $style: map-get($typeScale, button);
+  $fontFamily: map-get($style, typeface);
+  $fontWeight: map-get($style, font);
+  $fontSize: map-get($style, size);
+  $lineHeight: map-get($style, line-height);
+  $letterSpacing: map-get($style, letter-spacing);
+  $case: map-get($style, case);
+
+  @include ui-size($min: 16gp 9gp, $includeBorders: true);
+  @include ui-text(default, default, $case, ellipsis);
+  @include ui-text-break($space: nowrap);
+  @include ui-overflow(hidden, hidden);
+  @include ui-paddings(0gp 4gp);
+  @include ui-text-spacing($letter: $letterSpacing);
+  @include ui-user-interactions(all, pointer, none);
+  @include ui-font($size: 0px); // Ignore whitespaces between tags.
+  @include ui-borders(0px solid transparent, $radius: $cornerRadius);
+
+  &__label {
+    display: inline-block;
+    @include ui-font($fontFamily, $fontSize, $lineHeight, default, $fontWeight, normal, normal);
+  }
+
+  &__icon {
+    display: inline-block;
+    $style: map-get($typeScale, icon);
+    $fontFamily: map-get($style, typeface);
+    $fontWeight: map-get($style, font);
+    $fontSize: map-get($style, size);
+    $lineHeight: map-get($style, line-height);
+    @include ui-text($transform: none);
+    @include ui-text-align(center, -13%);
+    @include ui-size(4gp 4gp);
+    @include ui-margins(0gp 2gp 0gp -1gp);
+    @include ui-font($fontFamily, $fontSize, $lineHeight, default, $fontWeight, normal, normal);
+  }
+
+  &--contained {
+    @include ui-shadows(
+      join(map-get($umbraValues, 2), #00000034),
+      join(map-get($penumbraValues, 2), #00000024),
+      join(map-get($ambiantValues, 2), #0000001f)
+    );
+    &:hover {
+      @include ui-shadows(
+        join(map-get($umbraValues, 4), #00000034),
+        join(map-get($penumbraValues, 4), #00000024),
+        join(map-get($ambiantValues, 4), #0000001f)
+      );
+    }
+    &:focus-visible {
+      @include ui-shadows(
+        join(map-get($umbraValues, 4), #00000034),
+        join(map-get($penumbraValues, 4), #00000024),
+        join(map-get($ambiantValues, 4), #0000001f)
+      );
+    }
+    &:active {
+      @include ui-shadows(
+        join(map-get($umbraValues, 8), #00000034),
+        join(map-get($penumbraValues, 8), #00000024),
+        join(map-get($ambiantValues, 8), #0000001f)
+      );
+    }
+    &.ui-button {
+      &--disabled {
+        @include ui-background(grey);
+      }
+      @each $color in primary secondary warning error {
+        &--#{$color} {
+          &.ui-button {
+            &:hover {
+              @include ui-background(lighten(map-get($colors, $color), 10%));
+            }
+            &:focus-visible {
+              @include ui-background(lighten(map-get($colors, $color), 15%));
+            }
+            &:active {
+              @include ui-background(lighten(map-get($colors, $color), 20%));
+            }
+          }
+          @include ui-font($color: map-get($colors, on-#{$color}));
+          @include ui-background(map-get($colors, $color));
+        }
+      }
+    }
+  }
+
+  &--outlined {
+    &.ui-button {
+      &--disabled {
+        @include ui-borders(1px solid grey, $radius: $cornerRadius);
+        @include ui-font($color: grey);
+      }
+      @each $color in primary secondary warning error {
+        &--#{$color} {
+          @include ui-borders(1px solid #bebebe, $radius: $cornerRadius);
+          &.ui-button {
+            &:hover {
+              @include ui-background(rgba(map-get($colors, $color), 0.05));
+            }
+            &:focus-visible {
+              @include ui-background(rgba(map-get($colors, $color), 0.15));
+            }
+            &:active {
+              @include ui-background(rgba(map-get($colors, $color), 0.2));
+            }
+          }
+          @include ui-font($color: map-get($colors, $color));
+          @include ui-background(none);
+        }
+      }
+    }
+  }
+
+  &--text {
+    &.ui-button {
+      &--disabled {
+        @include ui-font($color: grey);
+      }
+      @each $color in primary secondary warning error {
+        &--#{$color} {
+          &.ui-button {
+            &:hover {
+              @include ui-background(rgba(map-get($colors, $color), 0.05));
+            }
+            &:focus-visible {
+              @include ui-background(rgba(map-get($colors, $color), 0.15));
+            }
+            &:active {
+              @include ui-background(rgba(map-get($colors, $color), 0.2));
+            }
+          }
+          @include ui-font($color: map-get($colors, $color));
+          @include ui-background(none);
+        }
+      }
+    }
+  }
+
+  &--disabled {
+    @include ui-user-interactions(none, pointer, none);
+    @include ui-opacity(0.4);
+    @include ui-shadows(none);
+  }
+
+  // Removes browser's default styling.
+  &:focus {
+    @include ui-outline(0px, solid, transparent);
+  }
+  &::-moz-focus-inner {
+    @include ui-paddings(0gp);
+    @include ui-borders(none);
+  }
+}

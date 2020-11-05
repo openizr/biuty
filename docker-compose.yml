@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  library:
+    container_name: ${PROJECT_NAME}_library
+    image: node:14-alpine
+    env_file:
+      - .env
+    ports:
+      - "${HOST_LIBRARY_PORT}:${PORT}"
+    entrypoint: ""
+    command: sh -c "cd /var/www/html && yarn install && yarn run dev"
+    volumes:
+      - ./library:/var/www/html
+    restart: on-failure
+  examples:
+    container_name: ${PROJECT_NAME}_examples
+    image: node:14-alpine
+    env_file:
+      - .env
+    ports:
+      - "${HOST_EXAMPLES_PORT}:${EXAMPLES_PORT}"
+    entrypoint: ""
+    command: tail -f /dev/null
+    volumes:
+      - ./examples:/var/www/html
+      - ./library:/library
+    restart: on-failure

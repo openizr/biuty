@@ -1,0 +1,272 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+$colors: (
+  primary: #6204ea,
+  on-primary: #ffffff,
+  // primary-dark-variant: #151f1d,
+    // primary-light-variant: #e7e7e7,
+    secondary: #e95f68,
+  // secondrary-dark-variant: #ae2031,
+    // // secondrary-light-variant: violet,
+    //   background: #fafafa,
+    // surface: #f6f6f6,
+    error: #e6261f,
+  warning: orange,
+  // on-primary-dark-variant: #ffffff,
+    // on-primary-light-variant: #000000,
+    on-secondary: #ffffff,
+  // on-secondary-dark-variant: #ffffff,
+    // on-secondary-light-variant: #000000,
+    // on-background: #7a7a7a,
+    // on-surface: #151f1d,
+    on-error: #ffffff,
+  on-warning: #ffffff,
+) !default;
+
+$umbraValues: (
+  0: 0px 0px 0px 0px,
+  1: 0px 2px 1px -1px,
+  2: 0px 3px 1px -2px,
+  3: 0px 3px 3px -2px,
+  4: 0px 2px 4px -1px,
+  5: 0px 3px 5px -1px,
+  6: 0px 3px 5px -1px,
+  7: 0px 4px 5px -2px,
+  8: 0px 5px 5px -3px,
+  9: 0px 5px 6px -3px,
+  10: 0px 6px 6px -3px,
+  11: 0px 6px 7px -4px,
+  12: 0px 7px 8px -4px,
+  13: 0px 7px 8px -4px,
+  14: 0px 7px 9px -4px,
+  15: 0px 8px 9px -5px,
+  16: 0px 8px 10px -5px,
+  17: 0px 8px 11px -5px,
+  18: 0px 9px 11px -5px,
+  19: 0px 9px 12px -6px,
+  20: 0px 10px 13px -6px,
+  21: 0px 10px 13px -6px,
+  22: 0px 10px 14px -6px,
+  23: 0px 11px 14px -7px,
+  24: 0px 11px 15px -7px,
+);
+
+$penumbraValues: (
+  0: 0px 0px 0px 0px,
+  1: 0px 1px 1px 0px,
+  2: 0px 2px 2px 0px,
+  3: 0px 3px 4px 0px,
+  4: 0px 4px 5px 0px,
+  5: 0px 5px 8px 0px,
+  6: 0px 6px 10px 0px,
+  7: 0px 7px 10px 1px,
+  8: 0px 8px 10px 1px,
+  9: 0px 9px 12px 1px,
+  10: 0px 10px 14px 1px,
+  11: 0px 11px 15px 1px,
+  12: 0px 12px 17px 2px,
+  13: 0px 13px 19px 2px,
+  14: 0px 14px 21px 2px,
+  15: 0px 15px 22px 2px,
+  16: 0px 16px 24px 2px,
+  17: 0px 17px 26px 2px,
+  18: 0px 18px 28px 2px,
+  19: 0px 19px 29px 2px,
+  20: 0px 20px 31px 3px,
+  21: 0px 21px 33px 3px,
+  22: 0px 22px 35px 3px,
+  23: 0px 23px 36px 3px,
+  24: 0px 24px 38px 3px,
+);
+
+$ambiantValues: (
+  0: 0px 0px 0px 0px,
+  1: 0px 1px 3px 0px,
+  2: 0px 1px 5px 0px,
+  3: 0px 1px 8px 0px,
+  4: 0px 1px 10px 0px,
+  5: 0px 1px 14px 0px,
+  6: 0px 1px 18px 0px,
+  7: 0px 2px 16px 1px,
+  8: 0px 3px 14px 2px,
+  9: 0px 3px 16px 2px,
+  10: 0px 4px 18px 3px,
+  11: 0px 4px 20px 3px,
+  12: 0px 5px 22px 4px,
+  13: 0px 5px 24px 4px,
+  14: 0px 5px 26px 4px,
+  15: 0px 6px 28px 5px,
+  16: 0px 6px 30px 5px,
+  17: 0px 6px 32px 5px,
+  18: 0px 7px 34px 6px,
+  19: 0px 7px 36px 6px,
+  20: 0px 8px 38px 7px,
+  21: 0px 8px 40px 7px,
+  22: 0px 8px 42px 7px,
+  23: 0px 9px 44px 8px,
+  24: 0px 9px 46px 8px,
+);
+
+$cornerRadius: 1gp;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@font-face {
+  font-family: 'Material Icons';
+  src: url(https://fonts.gstatic.com/s/materialicons/v50/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2)
+    format('woff2');
+}
+
+$typeScale: (
+  headline1: (
+    typeface: (
+      Roboto,
+      sans-serif,
+    ),
+    font: 500,
+    size: 30px,
+    case: capitalize,
+    line-height: 49px,
+    letter-spacing: 0px,
+  ),
+  headline2: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 100,
+    size: 28px,
+    case: capitalize,
+    line-height: 45px,
+    letter-spacing: 0px,
+  ),
+  headline3: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 500,
+    size: 22px,
+    case: capitalize,
+    line-height: 36px,
+    letter-spacing: 0px,
+  ),
+  headline4: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 100,
+    size: 20px,
+    case: capitalize,
+    line-height: 32px,
+    letter-spacing: 0px,
+  ),
+  headline5: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 400,
+    size: 15px,
+    case: uppercase,
+    line-height: 24px,
+    letter-spacing: 0.3px,
+  ),
+  headline6: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 400,
+    size: 12px,
+    case: uppercase,
+    line-height: 19px,
+    letter-spacing: 0.3px,
+  ),
+  subtitle1: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 500,
+    size: 14px,
+    case: capitalize,
+    line-height: 24px,
+    letter-spacing: 0.4px,
+  ),
+  subtitle2: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 500,
+    size: 13px,
+    case: capitalize,
+    line-height: 22px,
+    letter-spacing: 0.4px,
+  ),
+  body1: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 400,
+    size: 15px,
+    case: capitalize,
+    line-height: 24px,
+    letter-spacing: 0.4px,
+  ),
+  body2: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 400,
+    size: 13.5px,
+    case: capitalize,
+    line-height: 22px,
+    letter-spacing: 0.48px,
+  ),
+  caption: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 400,
+    size: 12px,
+    case: capitalize,
+    line-height: 20px,
+    letter-spacing: 0.57px,
+  ),
+  button: (
+    typeface: Roboto,
+    font: 500,
+    size: 14px,
+    case: uppercase,
+    line-height: 120%,
+    letter-spacing: 1.25px,
+  ),
+  overline: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 500,
+    size: 14px,
+    case: capitalize,
+    line-height: 19px,
+    letter-spacing: 0px,
+  ),
+  icon: (
+    typeface: Material Icons,
+    font: 400,
+    size: 16px,
+    line-height: 99%,
+  ),
+) !default;
