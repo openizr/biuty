@@ -6,19 +6,23 @@
  *
  */
 
+import Vue from 'vue';
 import 'styles/main.scss';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import Buttons from 'scripts/Buttons';
+import Buttons from 'scripts/Buttons.vue';
 
-// Webpaczak HMR interface.
+// Webpack HMR interface.
 interface ExtendedNodeModule extends NodeModule {
   hot: { accept: () => void };
 }
 
 function main(): void {
-  ReactDOM.render(<Buttons />,
-    document.querySelector('#root'));
+  // eslint-disable-next-line no-new
+  new Vue({
+    el: '#root',
+    components: { Buttons },
+    render: (h) => h(Buttons, { props: {} }),
+  });
+  Vue.config.devtools = process.env.NODE_ENV !== 'production';
 }
 
 // Ensures DOM is fully loaded before running app's main logic.

@@ -1,6 +1,6 @@
 {
   "name": "sonar-ui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A framework-agnostic components and styling library",
   "repository": "https://github.com/openizr/sonar-ui",
   "bugs": "https://github.com/openizr/sonar-ui/issues",
@@ -31,7 +31,7 @@
   "dependencies": {},
   "peerDependencies": {
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^16.9.55",
+    "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
@@ -42,7 +42,8 @@
     "target": "node",
     "entry": {
       "main": "./scripts/main.ts",
-      "react": "./scripts/react/index.ts"
+      "react": "./scripts/react/index.ts",
+      "vuejs": "./scripts/vuejs/index.ts"
     },
     "runInDev": false,
     "srcPath": "src",
@@ -56,7 +57,7 @@
   "scripts": {
     "init": "node_modules/typescript-dev-kit/scripts/init.sh",
     "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
-    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build && cd ../.. && cp -r src/styles/* ./dist && sed -i 's#module/scripts/react/index#sonar-ui/react#g' ./dist/types.d.ts && cp ./dist/types.d.ts ./dist/react.d.ts",
+    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build && cd ../.. && cp -r src/styles/* ./dist && sed -i 's#module/scripts/react/index#sonar-ui/react#g' ./dist/types.d.ts && sed -i 's#module/scripts/vuejs/index#sonar-ui/vuejs#g' ./dist/types.d.ts && cp ./dist/types.d.ts ./dist/react.d.ts && cp ./dist/types.d.ts ./dist/vuejs.d.ts",
     "test": "cd node_modules/typescript-dev-kit/ && node scripts/test",
     "doc": "node_modules/.bin/typedoc --out ./doc/ src/ --exclude \"**/__+(tests|mocks)__/**\"",
     "postinstall": "test -n \"$POSTINSTALLED\" || POSTINSTALLED=1 yarn add --peer @types/prop-types @types/react @types/react-dom prop-types react react-dom vue"

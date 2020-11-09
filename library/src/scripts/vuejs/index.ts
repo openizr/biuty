@@ -6,4 +6,7 @@
  *
  */
 
-export default {};
+import UIButton from 'scripts/vuejs/Button.vue';
+
+// eslint-disable-next-line import/prefer-default-export
+export { UIButton };
