@@ -54,6 +54,7 @@ Syntax
   modifiers?="small"
   clearIcon?="close"
   defaultOptions?={['option1']}
+  onChange?={console.log}
 />
 ```
 
@@ -67,6 +68,19 @@ Syntax
   ratio="1:1"
   modifiers?="small"
   itemProp?="image"
+/>
+```
+
+#### UILink
+
+Syntax
+```html
+<UILink
+  id?="my-id"
+  href="/"
+  label="link"
+  onClick?={console.log}
+  modifiers?="small"
 />
 ```
 
@@ -100,6 +114,16 @@ Syntax
   icon?="star"
   label?="Input"
   helper?="Additional info"
+  onChange?={console.log}
+  onBlur?={console.log}
+  value?="initial value"
+  readonly?
+  maxlength?={30}
+  size?={3}
+  min?={0}
+  max?={10}
+  step?={5}
+  type?="email"
   placeholder?="Enter your name here..."
   iconPosition?="right"
   modifiers="small"
