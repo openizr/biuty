@@ -1,0 +1,50 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.ui-button-group {
+  // @include ui-margins(2gp);
+  // & .ui-button--contained {
+  //   @include ui-margins(0gp);
+  //   @each $color in primary secondary warning error {
+  //     &.ui-button--#{$color} {
+  //       @include ui-borders($left: none, $right: 1px solid darken(ui-color($color), 15%), $radius: 0gp);
+  //     }
+  //   }
+  //   &:first-child {
+  //     @include ui-borders(none, $radius: $cornerRadiuss 0gp $cornerRadiuss 0gp);
+  //   }
+  //   &:last-child {
+  //     @include ui-borders(none, $radius: 0gp $cornerRadiuss 0gp $cornerRadiuss);
+  //   }
+  // }
+  // & .ui-button--outlined {
+  //   @include ui-margins(0gp);
+  //   margin-left: -1px;
+  //   @include ui-borders(1px solid #bebebe, $radius: 0gp);
+  //   &:first-child {
+  //     @include ui-borders(1px solid #bebebe, $radius: $cornerRadiuss 0gp $cornerRadiuss 0gp);
+  //   }
+  //   &:last-child {
+  //     @include ui-borders(1px solid #bebebe, $radius: 0gp $cornerRadiuss 0gp $cornerRadiuss);
+  //   }
+  // }
+  // & .ui-button--text {
+  //   @include ui-margins(0gp);
+  //   @each $color in primary secondary warning error {
+  //     &.ui-button--#{$color} {
+  //       @include ui-borders(none, 1px solid ui-color($color), none, none, 0gp);
+  //       &:first-child {
+  //         @include ui-borders($right: 1px solid ui-color($color), $left: none, $radius: $cornerRadiuss 0gp $cornerRadiuss 0gp);
+  //       }
+  //       &:last-child {
+  //         @include ui-borders($left: 0px solid transparent, $radius: 0gp $cornerRadiuss 0gp $cornerRadiuss);
+  //       }
+  //     }
+  //   }
+  // }
+}

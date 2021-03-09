@@ -1,0 +1,263 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+ $colors: (
+  primary: #2ea44f,
+  secondary: #24292e,
+  error: #cb2431,
+  warning: #fbbd08,
+) !default;
+
+$onColors: (
+  primary: #ffffff,
+  secondary: #fafbfc,
+  error: #ffffff,
+  warning: #ffffff,
+) !default;
+
+$umbraValues: (
+  0: 0px 0px 0px 0px #1b1f231a,
+  1: 0px 1px 0px 0px #1b1f231a,
+  2: 0px 1px 0px 0px #1b1f231a,
+  3: 0px 1px 0px 0px #1b1f231a,
+  4: 0px 1px 0px 0px #1b1f231a,
+  5: 0px 1px 0px 0px #1b1f231a,
+  6: 0px 1px 0px 0px #1b1f231a,
+  7: 0px 1px 0px 0px #1b1f231a,
+  8: 0px 1px 0px 0px #1b1f231a,
+  9: 0px 1px 0px 0px #1b1f231a,
+  10: 0px 1px 0px 0px #1b1f231a,
+  11: 0px 1px 0px 0px #1b1f231a,
+  12: 0px 1px 0px 0px #1b1f231a,
+  13: 0px 1px 0px 0px #1b1f231a,
+  14: 0px 1px 0px 0px #1b1f231a,
+  15: 0px 1px 0px 0px #1b1f231a,
+  16: 0px 1px 0px 0px #1b1f231a,
+  17: 0px 1px 0px 0px #1b1f231a,
+  18: 0px 1px 0px 0px #1b1f231a,
+  19: 0px 1px 0px 0px #1b1f231a,
+  20: 0px 1px 0px 0px #1b1f231a,
+  21: 0px 1px 0px 0px #1b1f231a,
+  22: 0px 1px 0px 0px #1b1f231a,
+  23: 0px 1px 0px 0px #1b1f231a,
+  24: 0px 1px 0px 0px #1b1f231a,
+);
+
+$penumbraValues: (
+  0: 0px 0px 0px 0px #000000,
+  1: 0px 0px 0px 0px #000000,
+  2: 0px 0px 0px 0px #000000,
+  3: 0px 0px 0px 0px #000000,
+  4: 0px 0px 0px 0px #000000,
+  5: 0px 0px 0px 0px #000000,
+  6: 0px 0px 0px 0px #000000,
+  7: 0px 0px 0px 0px #000000,
+  8: 0px 0px 0px 0px #000000,
+  9: 0px 0px 0px 0px #000000,
+  10: 0px 0px 0px 0px #000000,
+  11: 0px 0px 0px 0px #000000,
+  12: 0px 0px 0px 0px #000000,
+  13: 0px 0px 0px 0px #000000,
+  14: 0px 0px 0px 0px #000000,
+  15: 0px 0px 0px 0px #000000,
+  16: 0px 0px 0px 0px #000000,
+  17: 0px 0px 0px 0px #000000,
+  18: 0px 0px 0px 0px #000000,
+  19: 0px 0px 0px 0px #000000,
+  20: 0px 0px 0px 0px #000000,
+  21: 0px 0px 0px 0px #000000,
+  22: 0px 0px 0px 0px #000000,
+  23: 0px 0px 0px 0px #000000,
+  24: 0px 0px 0px 0px #000000,
+);
+
+$ambiantValues: (
+  0: 0px 0px 0px 0px #ffffff08 inset,
+  1: 0px 1px 0px 0px #ffffff08 inset,
+  2: 0px 1px 0px 0px #ffffff08 inset,
+  3: 0px 1px 0px 0px #ffffff08 inset,
+  4: 0px 1px 0px 0px #ffffff08 inset,
+  5: 0px 1px 0px 0px #ffffff08 inset,
+  6: 0px 1px 0px 0px #ffffff08 inset,
+  7: 0px 1px 0px 0px #ffffff08 inset,
+  8: 0px 1px 0px 0px #ffffff08 inset,
+  9: 0px 1px 0px 0px #ffffff08 inset,
+  10: 0px 1px 0px 0px #ffffff08 inset,
+  11: 0px 1px 0px 0px #ffffff08 inset,
+  12: 0px 1px 0px 0px #ffffff08 inset,
+  13: 0px 1px 0px 0px #ffffff08 inset,
+  14: 0px 1px 0px 0px #ffffff08 inset,
+  15: 0px 1px 0px 0px #ffffff08 inset,
+  16: 0px 1px 0px 0px #ffffff08 inset,
+  17: 0px 1px 0px 0px #ffffff08 inset,
+  18: 0px 1px 0px 0px #ffffff08 inset,
+  19: 0px 1px 0px 0px #ffffff08 inset,
+  20: 0px 1px 0px 0px #ffffff08 inset,
+  21: 0px 1px 0px 0px #ffffff08 inset,
+  22: 0px 1px 0px 0px #ffffff08 inset,
+  23: 0px 1px 0px 0px #ffffff08 inset,
+  24: 0px 1px 0px 0px #ffffff08 inset,
+);
+
+$cornerRadius: 2gp;
+
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@font-face {
+  font-family: 'Icons';
+  src: url(https://fonts.gstatic.com/s/materialicons/v50/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2)
+    format('woff2');
+}
+
+$typeScale: (
+  headline1: (
+    typeface: (
+      Roboto,
+      sans-serif,
+    ),
+    font: 500,
+    size: 30px,
+    case: capitalize,
+    line-height: 49px,
+    letter-spacing: 0px,
+  ),
+  headline2: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 100,
+    size: 28px,
+    case: capitalize,
+    line-height: 45px,
+    letter-spacing: 0px,
+  ),
+  headline3: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 500,
+    size: 22px,
+    case: capitalize,
+    line-height: 36px,
+    letter-spacing: 0px,
+  ),
+  headline4: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 100,
+    size: 20px,
+    case: capitalize,
+    line-height: 32px,
+    letter-spacing: 0px,
+  ),
+  headline5: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 400,
+    size: 15px,
+    case: uppercase,
+    line-height: 24px,
+    letter-spacing: 0.3px,
+  ),
+  headline6: (
+    typeface: (
+      inbentaMontserrat,
+      sans-serif,
+    ),
+    font: 400,
+    size: 12px,
+    case: uppercase,
+    line-height: 19px,
+    letter-spacing: 0.3px,
+  ),
+  subtitle1: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 500,
+    size: 14px,
+    case: capitalize,
+    line-height: 24px,
+    letter-spacing: 0.4px,
+  ),
+  subtitle2: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 500,
+    size: 13px,
+    case: capitalize,
+    line-height: 22px,
+    letter-spacing: 0.4px,
+  ),
+  body1: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 400,
+    size: 15px,
+    case: capitalize,
+    line-height: 24px,
+    letter-spacing: 0.4px,
+  ),
+  body2: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 400,
+    size: 13.5px,
+    case: capitalize,
+    line-height: 22px,
+    letter-spacing: 0.48px,
+  ),
+  caption: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 400,
+    size: 12px,
+    case: capitalize,
+    line-height: 20px,
+    letter-spacing: 0.57px,
+  ),
+  button: (
+    typeface: Helvetica,
+    font: 500,
+    size: 0.875em,
+    case: none,
+    line-height: 20px,
+    letter-spacing: 0px,
+  ),
+  overline: (
+    typeface: (
+      inbentaOpenSans,
+      sans-serif,
+    ),
+    font: 500,
+    size: 14px,
+    case: capitalize,
+    line-height: 19px,
+    letter-spacing: 0px,
+  ),
+  icon: (
+    typeface: Icons,
+    font: 400,
+    size: 1em,
+    line-height: 99%,
+  ),
+) !default;

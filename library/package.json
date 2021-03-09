@@ -1,6 +1,6 @@
 {
   "name": "sonar-ui",
-  "version": "0.0.3",
+  "version": "0.0.16",
   "description": "A framework-agnostic components and styling library",
   "repository": "https://github.com/openizr/sonar-ui",
   "bugs": "https://github.com/openizr/sonar-ui/issues",
@@ -21,7 +21,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "typescript-dev-kit": "^2.3.2"
+    "typescript-dev-kit": "^2.3.3"
   },
   "eslintConfig": {
     "extends": [
@@ -31,8 +31,8 @@
   "dependencies": {},
   "peerDependencies": {
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^16.9.56",
-    "@types/react-dom": "^16.9.9",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -41,9 +41,9 @@
   "tsDevKitConfig": {
     "target": "node",
     "entry": {
-      "main": "./scripts/main.ts",
-      "react": "./scripts/react/index.ts",
-      "vuejs": "./scripts/vuejs/index.ts"
+      "main": "./sonar-ui/main.ts",
+      "react": "./sonar-ui/react/index.ts",
+      "vuejs": "./sonar-ui/vuejs/index.ts"
     },
     "runInDev": false,
     "srcPath": "src",

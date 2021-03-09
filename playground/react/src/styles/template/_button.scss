@@ -1,0 +1,52 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+// Buttons's classes hierarchy is:
+// .ui-button
+//   --primary
+//   --secondary
+//   --warning
+//   --error
+//   --disabled
+//   --contained
+//   --outlined
+//   --text
+//   --large
+//   --small
+//   __label
+//   __icon
+//
+// Hint: to apply styling to a list of modifiers's children:
+// &--[modifier1]#{&}--[modifier2]...#{&} & {
+//   &__child {
+//      ...
+//   }
+// }
+
+
+.ui-button {
+  font-size: 1em;
+  overflow: hidden;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  pointer-events: all;
+
+  &__label {
+    @include ui-font(button);
+  }
+
+  &--icon {
+    box-sizing: border-box;
+  }
+  &--icon &__icon {
+    margin: auto;
+  }
+}

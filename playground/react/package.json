@@ -1,0 +1,68 @@
+{
+  "name": "@sonar-ui/react-playground",
+  "version": "0.0.1",
+  "description": "sonar-ui React playground",
+  "repository": "https://github.com/openizr/sonar-ui",
+  "bugs": "https://github.com/openizr/sonar-ui/issues",
+  "keywords": [
+    "sonar-ui",
+    "react",
+    "js",
+    "playground"
+  ],
+  "contributors": [
+    {
+      "name": "Matthieu Jabbour",
+      "email": "matthieu.jabbour@gmail.com",
+      "homepage": "https://github.com/matthieujabbour"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "typescript-dev-kit": "^2.3.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/typescript-dev-kit/main.js"
+    ]
+  },
+  "dependencies": {
+    "basx": "^1.0.0",
+    "diox": "^2.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "tsDevKitConfig": {
+    "target": "web",
+    "entry": {
+      "main": "./scripts/main.tsx"
+    },
+    "devServer": {
+      "ip": "0.0.0.0",
+      "port": 5002
+    },
+    "splitChunks": false,
+    "srcPath": "src",
+    "distPath": "public",
+    "banner": "/**\n * Copyright (c) Matthieu Jabbour. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
+    "env": {
+      "development": {
+        "NODE_ENV": "\"development\""
+      },
+      "production": {
+        "NODE_ENV": "\"production\""
+      }
+    }
+  },
+  "scripts": {
+    "init": "node_modules/typescript-dev-kit/scripts/init.sh",
+    "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
+    "build": "cd node_modules/typescript-dev-kit/ && node scripts/build",
+    "test": "cd node_modules/typescript-dev-kit/ && node scripts/test",
+    "doc": "node_modules/.bin/typedoc --out ./doc/ src/ --exclude \"**/__+(tests|mocks)__/**\""
+  }
+}

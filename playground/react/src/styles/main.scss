@@ -1,0 +1,43 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+@import "./template/_variables";
+@import "sonar-ui/core";
+@import "./template";
+
+@include init();
+
+.grid-container {
+  display: grid;
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+  grid-auto-flow: row;
+  grid-auto-rows: 50px;
+  grid-auto-columns: 50px;
+}
+
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+.item[data-style-x]{
+  grid-row: attr(data-style-x) / 3;
+}
+.item[data-style-y]{
+  grid-column: attr(data-style-y) / 3;
+}
+
+body {
+  font-size: 16px;
+  // font-size: 1.3333 * ;
+}
