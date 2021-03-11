@@ -53,7 +53,8 @@
     }
 
     &__list {
-      display: none;
+      max-height: 0;
+      overflow: hidden;
       position: absolute;
       list-style: none;
       pointer-events: none;
@@ -61,6 +62,7 @@
       z-index: 1;
 
       @include ui-modifier(expanded) {
+        max-height: none;
         pointer-events: all;
         display: block;
       }

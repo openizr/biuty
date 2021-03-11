@@ -14,7 +14,7 @@ export default {
   // '/images': () => import('scripts/pages/Images'),
   '/dropdowns': () => import('scripts/pages/Dropdowns'),
   '/textfields': () => import('scripts/pages/Textfields'),
-  // '/file-uploads': () => import('scripts/pages/FileUploads'),
+  '/file-uploaders': () => import('scripts/pages/FileUploaders'),
   '/textareas': () => import('scripts/pages/Textareas'),
   // '/radios': () => import('scripts/pages/Radios'),
   '/checkboxes': () => import('scripts/pages/Checkboxes'),

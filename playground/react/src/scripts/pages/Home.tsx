@@ -11,6 +11,7 @@ import * as React from 'react';
 export default function Home(): JSX.Element {
   return (
     <div className="vgap-5">
+      <input type="file" multiple readOnly />
       <main className="ui-page ui-block cols-3 hgap-3 vgap-5">
         <a href="/typography" className="cols-3">TYPOGRAPHY</a>
         <a href="/images" className="cols-3">IMAGES</a>
@@ -19,7 +20,7 @@ export default function Home(): JSX.Element {
         <a href="/dropdowns" className="cols-3">DROPDOWNS</a>
         <a href="/textfields" className="cols-3">TEXTFIELDS</a>
         <a href="/textareas" className="cols-3">TEXTAREAS</a>
-        <a href="/file-uploads" className="cols-3">FILE UPLOADS</a>
+        <a href="/file-uploaders" className="cols-3">FILE UPLOADERS</a>
         <a href="/radios" className="cols-3">RADIOS</a>
         <a href="/checkboxes" className="cols-3">CHECKBOXES</a>
         <a href="/icons" className="cols-3">ICONS</a>

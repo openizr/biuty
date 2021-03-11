@@ -57,7 +57,7 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   // eslint-disable-next-line object-curly-newline
   const { options, id, modifiers, multiple, label, helper, icon, name, onChange, value } = props;
   const ulRef = React.useRef<HTMLUListElement>(null);
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const [randomId] = React.useState(generateRandomId());
   const [mounted, setMounted] = React.useState(false);
   const [position, setPosition] = React.useState('bottom');
@@ -90,8 +90,8 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   };
 
   const displayList = (): void => {
-    if (buttonRef.current !== null) {
-      const relativeOffsetTop = buttonRef.current.getBoundingClientRect().top;
+    if (inputRef.current !== null) {
+      const relativeOffsetTop = inputRef.current.getBoundingClientRect().top;
       setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
       setIsDisplayed(true);
     }
@@ -133,20 +133,25 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   const navigate = (event: React.KeyboardEvent<HTMLElement>): void => {
     if (ulRef.current !== null) {
       const { key } = event;
+      // `event.preventDefault` is not called globally to avoid preventing tabs.
       switch (key) {
         case 'ArrowUp':
           focusOption(findSiblingOption(focusedOption, -1) || focusedOption);
+          event.preventDefault();
           break;
         case 'ArrowDown':
           focusOption(findSiblingOption(focusedOption, +1) || focusedOption);
+          event.preventDefault();
           break;
         case 'PageUp':
         case 'Home':
           focusOption(findSiblingOption(0, +1) || 0);
+          event.preventDefault();
           break;
         case 'End':
         case 'PageDown':
           focusOption(findSiblingOption(options.length, -1) || options.length);
+          event.preventDefault();
           break;
         case ' ':
         case 'Enter':
@@ -155,14 +160,15 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
           } else {
             selectOption(focusedOption)();
           }
+          event.preventDefault();
           break;
         case 'Escape':
           hideList(true)(null);
+          event.preventDefault();
           break;
         default:
           break;
       }
-      event.preventDefault();
     }
   };
 
@@ -186,8 +192,8 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   React.useEffect(() => {
     if (ulRef.current !== null && isDisplayed === true) {
       focusOption((focusedOption >= 0) ? focusedOption : findSiblingOption(0, +1) || 0);
-    } else if (isDisplayed === false && buttonRef.current !== null && mounted === true) {
-      buttonRef.current.focus();
+    } else if (isDisplayed === false && inputRef.current !== null && mounted === true) {
+      inputRef.current.focus();
     }
   }, [isDisplayed]);
 
@@ -198,20 +204,20 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
     >
       {(label !== null) ? <label className="ui-dropdown__label" htmlFor={randomId}>{label}</label> : null}
       <div className="ui-dropdown__wrapper">
-        <button
+        <input
+          readOnly
           name={name}
-          type="button"
+          type="text"
           id={randomId}
-          ref={buttonRef}
+          ref={inputRef}
           onKeyDown={navigate}
           aria-haspopup="listbox"
           onMouseDown={displayList}
           className="ui-dropdown__wrapper__field"
           aria-labelledby={`${randomId} ${randomId}`}
+          value={currentValue.map((option) => mapping[option]).join(', ')}
           tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
-        >
-          {currentValue.map((option) => mapping[option]).join(', ')}
-        </button>
+        />
         {(icon !== null)
           ? (
             <button
