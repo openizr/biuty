@@ -20,111 +20,73 @@ const optionType = {
 
 const propTypes = {
   id: PropTypes.string,
-  multiple: PropTypes.bool,
-  helper: PropTypes.string,
-  options: PropTypes.arrayOf(PropTypes.shape(optionType).isRequired).isRequired,
+  icon: PropTypes.string,
   label: PropTypes.string,
-  modifiers: PropTypes.string,
-  clearIcon: PropTypes.string,
-  defaultOptions: PropTypes.arrayOf(PropTypes.string.isRequired),
+  multiple: PropTypes.bool,
   onChange: PropTypes.func,
+  helper: PropTypes.string,
+  modifiers: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.arrayOf(PropTypes.string.isRequired),
+  options: PropTypes.arrayOf(PropTypes.shape(optionType).isRequired).isRequired,
 };
 
 const defaultProps = {
   id: null,
+  value: [],
+  icon: null,
   label: null,
   helper: null,
+  modifiers: '',
+  onChange: null,
   multiple: false,
-  clearIcon: null,
-  defaultOptions: [],
-  modifiers: 'contained',
-  onChange: (): null => null,
 };
 
-type options = InferProps<typeof optionType>[];
-
-const findSiblingOption = (
-  options: options,
-  currentIndex: number,
-  direction: number,
-  lastOption: (number | null) = null,
-): number => {
-  const nextIndex = currentIndex + direction;
-  if (nextIndex < 0 || nextIndex >= options.length) {
-    return lastOption || currentIndex;
-  }
-  const option = options[nextIndex];
-  return (option.value !== undefined && option.disabled !== true)
-    ? nextIndex
-    : findSiblingOption(options, nextIndex, direction, lastOption || currentIndex);
-};
+type Mapping = Record<string, string>;
+type Option = InferProps<typeof optionType>;
+const generateMapping = (mapping: Mapping, option: Option): Mapping => (
+  (option.value !== undefined && option.label !== undefined)
+    ? ({ ...mapping, [option.value as string]: option.label as string })
+    : mapping
+);
 
 /**
  * Dropdown.
  */
 export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Element {
-  // TODO WE DON'T WANT TO TRIGGER ONCHANGE WHEN DEFAULT OPTION IS UPDATED AND NO OPTION IS SELECTED
   // eslint-disable-next-line object-curly-newline
-  const { options, id, modifiers, defaultOptions, multiple, label, helper, clearIcon,
-    onChange,
-  } = props;
+  const { options, id, modifiers, multiple, label, helper, icon, name, onChange, value } = props;
+  const ulRef = React.useRef<HTMLUListElement>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
   const [randomId] = React.useState(generateRandomId());
+  const [mounted, setMounted] = React.useState(false);
   const [position, setPosition] = React.useState('bottom');
+  const [mapping, setMapping] = React.useState({} as Mapping);
   const [isDisplayed, setIsDisplayed] = React.useState(false);
   const [focusedOption, setFocusedOption] = React.useState(-1);
-  const [mapping, setMapping] = React.useState({} as Record<string, string>);
-  const [selectedOptions, setSelectedOptions] = React.useState(defaultOptions as string[]);
-  const classes = buildClass('ui-dropdown', (modifiers as string).split(' '));
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const ulRef = React.useRef<HTMLUListElement>(null);
-  const initial = React.useRef(false);
-
-  // Avoids having to pass through the entire options array at each rendering.
-  React.useEffect(() => {
-    setMapping(options.reduce((finalMapping, option) => {
-      if (option.value !== undefined) {
-        return { ...finalMapping, [option.value as string]: option.label };
-      }
-      return finalMapping;
-    }, {}));
-  }, [options]);
-
-  React.useEffect(() => {
-    (onChange as any)(selectedOptions);
-  }, [selectedOptions]);
-
-  React.useEffect(() => {
-    if (
-      selectedOptions.length === 0
-      && JSON.stringify(selectedOptions) !== JSON.stringify(defaultOptions)) {
-      setSelectedOptions(defaultOptions as string[]);
-    }
-  }, [defaultOptions]);
-
-  // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
-  // be displayed before actually focusing it.
-  React.useEffect(() => {
-    if (ulRef.current !== null && isDisplayed === true) {
-      const focusedIndex = (focusedOption >= 0) ? focusedOption : findSiblingOption(options, 0, +1);
-      (ulRef.current.childNodes[focusedIndex] as HTMLElement).focus();
-      setFocusedOption(focusedIndex);
-    } else if (isDisplayed === false && buttonRef.current !== null && initial.current === true) {
-      buttonRef.current.focus();
-    }
-  }, [isDisplayed]);
-
-  React.useEffect(() => {
-    if (ulRef.current !== null && focusedOption >= 0 && isDisplayed === true) {
-      (ulRef.current.childNodes[focusedOption] as HTMLElement).focus();
-    }
-  }, [focusedOption]);
-
-  React.useEffect(() => {
-    initial.current = true;
-  }, []);
+  const [currentValue, setCurrentValue] = React.useState(value as string[]);
+  const className = buildClass('ui-dropdown', (modifiers as string).split(' '));
 
   const clearOptions = (): void => {
-    setSelectedOptions([options[findSiblingOption(options, 0, +1)].value as string]);
+    setCurrentValue([]);
+  };
+
+  const focusOption = (optionIndex: number): void => {
+    if (ulRef.current !== null) {
+      (ulRef.current.childNodes[optionIndex] as HTMLElement).focus();
+    }
+    setFocusedOption(optionIndex);
+  };
+
+  const findSiblingOption = (startIndex: number, direction: number): (number | null) => {
+    const nextIndex = startIndex + direction;
+    if (nextIndex < 0 || nextIndex >= options.length) {
+      return null;
+    }
+    const option = options[nextIndex];
+    return (option.value !== undefined && option.disabled !== true)
+      ? nextIndex
+      : findSiblingOption(nextIndex, direction);
   };
 
   const displayList = (): void => {
@@ -146,19 +108,24 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   };
 
   const toggleOption = (optionIndex: number) => (): void => {
-    const selectedOption = options[optionIndex].value as string;
+    let newValue;
+    const selectedValue = options[optionIndex].value as string;
     if (multiple === false) {
-      setSelectedOptions([selectedOption]);
+      newValue = [selectedValue];
     } else {
-      const selectedIndex = selectedOptions.indexOf(selectedOption);
-      setSelectedOptions((selectedIndex >= 0)
-        ? selectedOptions.slice(0, selectedIndex).concat(selectedOptions.slice(selectedIndex + 1))
-        : selectedOptions.concat([selectedOption]));
+      const selectedIndex = currentValue.indexOf(selectedValue);
+      newValue = (selectedIndex >= 0)
+        ? currentValue.slice(0, selectedIndex).concat(currentValue.slice(selectedIndex + 1))
+        : currentValue.concat([selectedValue]);
+    }
+    setCurrentValue(newValue);
+    if (onChange !== undefined && onChange !== null) {
+      onChange(newValue);
     }
   };
 
-  const clickOnOption = (optionIndex: number) => (): void => {
-    setFocusedOption(optionIndex);
+  const selectOption = (optionIndex: number) => (): void => {
+    focusOption(optionIndex);
     toggleOption(optionIndex)();
     hideList()(null);
   };
@@ -168,30 +135,25 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
       const { key } = event;
       switch (key) {
         case 'ArrowUp':
-          setFocusedOption(findSiblingOption(options, focusedOption, -1));
-          event.preventDefault();
+          focusOption(findSiblingOption(focusedOption, -1) || focusedOption);
           break;
         case 'ArrowDown':
-          setFocusedOption(findSiblingOption(options, focusedOption, +1));
-          event.preventDefault();
+          focusOption(findSiblingOption(focusedOption, +1) || focusedOption);
           break;
         case 'PageUp':
         case 'Home':
-          setFocusedOption(findSiblingOption(options, 0, +1));
-          event.preventDefault();
+          focusOption(findSiblingOption(0, +1) || 0);
           break;
         case 'End':
         case 'PageDown':
-          setFocusedOption(findSiblingOption(options, options.length, -1));
-          event.preventDefault();
+          focusOption(findSiblingOption(options.length, -1) || options.length);
           break;
         case ' ':
         case 'Enter':
           if (isDisplayed === false) {
             setIsDisplayed(true);
           } else {
-            toggleOption(focusedOption)();
-            hideList()(null);
+            selectOption(focusedOption)();
           }
           break;
         case 'Escape':
@@ -200,21 +162,44 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
         default:
           break;
       }
+      event.preventDefault();
     }
   };
 
-  const listModifiers = ['', position].concat((isDisplayed === true) ? ['expanded'] : []);
+  // Prevents focusing the dropdown at component mount.
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Updates current value each time the `value` property is changed.
+  React.useEffect(() => {
+    setCurrentValue(value as string[]);
+  }, [value]);
+
+  // Avoids having to pass through the entire options array at each rendering.
+  React.useEffect(() => {
+    setMapping(options.reduce(generateMapping, {}));
+  }, [options]);
+
+  // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
+  // be displayed before actually focusing it.
+  React.useEffect(() => {
+    if (ulRef.current !== null && isDisplayed === true) {
+      focusOption((focusedOption >= 0) ? focusedOption : findSiblingOption(0, +1) || 0);
+    } else if (isDisplayed === false && buttonRef.current !== null && mounted === true) {
+      buttonRef.current.focus();
+    }
+  }, [isDisplayed]);
+
   return (
     <div
       id={id as string}
-      className={classes}
+      className={className}
     >
-      {(label !== null)
-        ? <label className="ui-dropdown__label" htmlFor={randomId}>{label}</label>
-        : null}
+      {(label !== null) ? <label className="ui-dropdown__label" htmlFor={randomId}>{label}</label> : null}
       <div className="ui-dropdown__wrapper">
-
         <button
+          name={name}
           type="button"
           id={randomId}
           ref={buttonRef}
@@ -225,19 +210,19 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
           aria-labelledby={`${randomId} ${randomId}`}
           tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
         >
-          {selectedOptions.map((value) => mapping[value]).join(', ')}
+          {currentValue.map((option) => mapping[option]).join(', ')}
         </button>
-        {(clearIcon !== null)
+        {(icon !== null)
           ? (
             <button
               type="button"
-              id={`${randomId}c`}
+              id={`${randomId}icon`}
               onClick={clearOptions}
               className="ui-dropdown__wrapper__clear-button"
-              aria-labelledby={`${randomId} ${randomId}c`}
+              aria-labelledby={`${randomId} ${randomId}icon`}
               tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
             >
-              <i className="ui-dropdown__wrapper__clear-button__icon">{clearIcon}</i>
+              <i className="ui-dropdown__wrapper__clear-button__icon">{icon}</i>
             </button>
           )
           : null}
@@ -250,40 +235,23 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
           aria-labelledby={randomId}
           aria-expanded={isDisplayed}
           aria-activedescendant={`${randomId}${focusedOption}`}
-          className={buildClass('ui-dropdown__wrapper__list', listModifiers)}
+          className={buildClass('ui-dropdown__wrapper__list', (isDisplayed === true) ? [position, 'expanded'] : [position])}
         >
           {options.map((option, index) => {
-            const key = randomId + index;
-            // Divider...
-            if (option.type === 'divider') {
-              return <li key={key} className="ui-dropdown__wrapper__list__divider" />;
+            const key = `${randomId}${index}`;
+            const optionModifiers = (option.disabled === true) ? ['disabled'] : [];
+            if (currentValue.includes(option.value as string)) {
+              optionModifiers.push('selected');
             }
-            // Group's header...
-            if (option.type === 'header') {
-              return <li key={key} className="ui-dropdown__wrapper__list__header">{option.label}</li>;
-            }
-            // Disabled option...
-            if (option.disabled === true) {
-              return (
-                <li
-                  key={key}
-                  className="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--disabled"
-                >
-                  {option.label}
-                </li>
-              );
-            }
-            // Classic option...
-            const optionModifiers = selectedOptions.includes(option.value as string) ? ['selected'] : [];
             return (
               <li
                 id={key}
                 key={key}
-                role="option"
                 tabIndex={-1}
-                onMouseDown={clickOnOption(index)}
                 aria-selected={focusedOption === index}
-                className={buildClass('ui-dropdown__wrapper__list__option', optionModifiers)}
+                role={(option.type === 'option') ? 'option' : undefined}
+                onMouseDown={(option.type === 'option') ? selectOption(index) : undefined}
+                className={buildClass(`ui-dropdown__wrapper__list__${option.type}`, optionModifiers)}
               >
                 {option.label}
               </li>
@@ -291,7 +259,7 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
           })}
         </ul>
       </div>
-      {(helper !== null) ? <p className="ui-dropdown__wrapper__helper">{helper}</p> : null}
+      {(helper !== null) ? <span className="ui-dropdown__wrapper__helper">{helper}</span> : null}
     </div>
   );
 }

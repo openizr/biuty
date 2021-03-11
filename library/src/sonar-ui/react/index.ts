@@ -13,7 +13,9 @@ import UIImage from 'sonar-ui/react/Image';
 import UISubtitle from 'sonar-ui/react/Subtitle';
 import UIButton from 'sonar-ui/react/Button';
 import UIDropdown from 'sonar-ui/react/Dropdown';
-import UITextField from 'sonar-ui/react/TextField';
+import UITextfield from 'sonar-ui/react/Textfield';
+import UITextarea from 'sonar-ui/react/Textarea';
+import UICheckbox from 'sonar-ui/react/Checkbox';
 import md from 'sonar-ui/helpers/md';
 import buildClass from 'sonar-ui/helpers/buildClass';
 import generateRandomId from 'sonar-ui/helpers/generateRandomId';
@@ -27,7 +29,9 @@ export {
   UISubtitle,
   UIDropdown,
   UITitle,
-  UITextField,
+  UITextfield,
+  UITextarea,
+  UICheckbox,
   md,
   buildClass,
   generateRandomId,

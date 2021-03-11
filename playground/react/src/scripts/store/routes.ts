@@ -7,16 +7,16 @@
  */
 
 export default {
-  // '/': () => import('scripts/pages/Home'),
+  '/': () => import('scripts/pages/Home'),
   '/buttons': () => import('scripts/pages/Buttons'),
   // '/typography': () => import('scripts/pages/Typography'),
   // '/markdown': () => import('scripts/pages/Markdown'),
   // '/images': () => import('scripts/pages/Images'),
   '/dropdowns': () => import('scripts/pages/Dropdowns'),
-  // '/textfields': () => import('scripts/pages/TextFields'),
+  '/textfields': () => import('scripts/pages/Textfields'),
   // '/file-uploads': () => import('scripts/pages/FileUploads'),
-  // '/textareas': () => import('scripts/pages/Textareas'),
+  '/textareas': () => import('scripts/pages/Textareas'),
   // '/radios': () => import('scripts/pages/Radios'),
-  // '/checkboxes': () => import('scripts/pages/Checkboxes'),
+  '/checkboxes': () => import('scripts/pages/Checkboxes'),
   // '/icons': () => import('scripts/pages/Icons'),
 } as Record<string, unknown>;

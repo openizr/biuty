@@ -16,6 +16,7 @@ const propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
   modifiers: PropTypes.string,
+  type: PropTypes.oneOf(['button', 'submit']),
   iconPosition: PropTypes.oneOf(['left', 'right']),
 };
 
@@ -23,9 +24,10 @@ const defaultProps = {
   id: null,
   icon: null,
   label: null,
+  modifiers: '',
+  type: 'button',
   onClick: undefined,
   iconPosition: 'left',
-  modifiers: 'contained',
 };
 
 /**
@@ -33,7 +35,7 @@ const defaultProps = {
  */
 export default function UIButton(props: InferProps<typeof propTypes>): JSX.Element {
   // eslint-disable-next-line object-curly-newline
-  const { label, icon, iconPosition, onClick, id, modifiers } = props;
+  const { label, icon, iconPosition, onClick, id, modifiers, type } = props;
   const className = buildClass('ui-button', (modifiers as string).split(' '));
   const children = [
     (icon !== null) ? <i key="icon" className="ui-button__icon">{icon}</i> : null,
@@ -42,8 +44,8 @@ export default function UIButton(props: InferProps<typeof propTypes>): JSX.Eleme
   return (
     <button
       id={id as string}
-      type="button"
       onClick={onClick as undefined}
+      type={(type === 'submit') ? 'submit' : 'button'}
       className={`${className}${(icon !== null && label === null) ? ' ui-button--icon' : ''}`}
       tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
     >

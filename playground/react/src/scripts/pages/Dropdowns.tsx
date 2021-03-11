@@ -11,6 +11,10 @@ import { UIDropdown } from 'sonar-ui/react';
 
 const options = [
   {
+    label: 'Group 1',
+    type: 'header',
+  },
+  {
     label: 'Option 1',
     value: 'option1',
     disabled: false,
@@ -60,32 +64,30 @@ const options2 = [
   },
 ];
 
-const defaultOptions = ['option1'];
+const onChange = (value: string[]): void => {
+  console.log('Changed!', value); // eslint-disable-line no-console
+};
 
 /**
  * Dropdowns page.
  */
 export default function Dropdowns(): JSX.Element {
+  const [newValue, setNewValue] = React.useState(['option1']);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setNewValue(['option2']);
+    }, 3000);
+  }, []);
+
   return (
     <div className="vgap-5">
       <main className="ui-page ui-block cols-12 cols-l-12 hgap-3 vgap-5">
         <a href="/" className="cols-12 cols-l-12">GO BACK</a>
-
-        <div className="cols-12 cols-l-6">
-          <UIDropdown options={options} defaultOptions={defaultOptions} label="UIDropdown" />
-        </div>
-
-        <div className="cols-12 cols-l-6">
-          <UIDropdown options={options} defaultOptions={defaultOptions} modifiers="disabled" label="UIDropdown disabled" />
-        </div>
-
-        <div className="cols-12 cols-l-6">
-          <UIDropdown options={options2} defaultOptions={defaultOptions} modifiers="large" label="UIDropdown large" />
-        </div>
-
-        <div className="cols-12 cols-l-6">
-          <UIDropdown options={options} defaultOptions={defaultOptions} modifiers="large" label="UIDropdown large disabled" />
-        </div>
+        <UIDropdown name="dropdown1" options={options} value={['option1']} label="UIDropdown" onChange={onChange} />
+        <UIDropdown name="dropdown2" options={options} value={['option1']} label="UIDropdown disabled" />
+        <UIDropdown name="dropdown3" options={options2} value={['option1']} label="UIDropdown large" />
+        <UIDropdown name="dropdown4" options={options} value={newValue} label="UIDropdown large disabled" onChange={onChange} />
       </main>
     </div>
   );
