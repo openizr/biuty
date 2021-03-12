@@ -25,9 +25,9 @@ const propTypes = {
 
 const defaultProps = {
   id: null,
+  icon: null,
   label: null,
   helper: null,
-  icon: null,
   multiple: false,
   iconPosition: 'left',
   modifiers: 'contained',

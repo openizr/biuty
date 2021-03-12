@@ -9,19 +9,39 @@
 import * as React from 'react';
 import { UICheckbox } from 'sonar-ui/react';
 
-const onChange = (value: boolean): void => {
+const onChange = (value: string[]): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
 };
+
+const options = [
+  {
+    label: 'Option 1',
+    value: 'option1',
+  },
+  {
+    label: 'Option 2',
+    value: 'option2',
+  },
+  {
+    label: 'Option 3',
+    value: 'option3',
+  },
+  {
+    label: 'Option 4',
+    value: 'option4',
+    disabled: true,
+  },
+];
 
 /**
  * Checkboxes page.
  */
 export default function Checkboxes(): JSX.Element {
-  const [newValue, setNewValue] = React.useState(false);
+  const [newValue, setNewValue] = React.useState(['option3']);
 
   React.useEffect(() => {
     setTimeout(() => {
-      setNewValue(true);
+      setNewValue(['option2']);
     }, 3000);
   }, []);
 
@@ -29,13 +49,12 @@ export default function Checkboxes(): JSX.Element {
     <div className="vgap-5">
       <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
         <a href="/" className="cols-l-3">GO BACK</a>
-        <UICheckbox name="checkbox1" />
-        <UICheckbox name="checkbox2" label="ui-checkbox" />
-        <UICheckbox name="checkbox3" label="ui-checkbox readonly" readonly />
-        <UICheckbox name="checkbox4" label="ui-checkbox with value" value={newValue} />
-        <UICheckbox name="checkbox5" label="ui-checkbox with helper" helper="helper" />
-        <UICheckbox name="checkbox6" label="ui-checkbox with listener" onChange={onChange} />
-        <UICheckbox name="checkbox7" label="ui-checkbox disabled" modifiers="disabled" />
+        <UICheckbox name="checkbox1" options={options} />
+        <UICheckbox name="checkbox2" options={options} label="ui-checkbox" />
+        <UICheckbox name="checkbox3" options={options} label="ui-checkbox with value" value={newValue} />
+        <UICheckbox name="checkbox4" options={options} label="ui-checkbox with helper" helper="helper" />
+        <UICheckbox name="checkbox5" options={options} label="ui-checkbox with listener" onChange={onChange} />
+        <UICheckbox name="checkbox6" options={options} label="ui-checkbox disabled" modifiers="disabled" />
       </main>
     </div>
   );

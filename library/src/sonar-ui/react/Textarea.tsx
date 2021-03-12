@@ -31,7 +31,7 @@ const defaultProps = {
   id: null,
   cols: null,
   rows: null,
-  value: '',
+  value: null,
   label: null,
   helper: null,
   modifiers: '',

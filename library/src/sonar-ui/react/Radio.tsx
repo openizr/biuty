@@ -6,28 +6,32 @@
 import * as React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'sonar-ui/helpers/buildClass';
+import generateRandomId from 'sonar-ui/helpers/generateRandomId';
+
+const optionType = {
+  value: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+};
 
 const propTypes = {
   id: PropTypes.string,
   value: PropTypes.string,
-  selected: PropTypes.string,
   label: PropTypes.string,
   helper: PropTypes.string,
   onChange: PropTypes.func,
-  readonly: PropTypes.bool,
   modifiers: PropTypes.string,
   name: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape(optionType).isRequired).isRequired,
 };
 
 const defaultProps = {
   id: null,
   label: null,
   helper: null,
-  value: '',
-  selected: '',
+  value: null,
   modifiers: '',
   onChange: null,
-  readonly: false,
 };
 
 /**
@@ -35,19 +39,20 @@ const defaultProps = {
  */
 export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Element {
   // eslint-disable-next-line object-curly-newline
-  const { id, modifiers, label, helper, onChange, value, name, readonly, selected } = props;
-  const [currentValue, setCurrentValue] = React.useState(selected);
+  const { id, modifiers, label, helper, value, name, options } = props;
+  const [randomId] = React.useState(generateRandomId());
+  const [currentValue, setCurrentValue] = React.useState(value);
   const className = buildClass('ui-radio', (modifiers as string).split(' '));
 
   // Updates current value each time the `value` property is changed.
   React.useEffect(() => {
-    setCurrentValue(selected);
-  }, [selected]);
-
-  const changeValue = (): void => {
     setCurrentValue(value);
-    if (onChange !== undefined && onChange !== null) {
-      onChange(value);
+  }, [value]);
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setCurrentValue(event.target.value);
+    if (props.onChange !== undefined && props.onChange !== null) {
+      props.onChange(event.target.value);
     }
   };
 
@@ -56,19 +61,24 @@ export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Elemen
       id={id as string}
       className={className}
     >
-      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-      <label className="ui-radio__wrapper">
-        <input
-          name={name}
-          type="radio"
-          value={value as string}
-          checked={currentValue === value}
-          className="ui-radio__wrapper__field"
-          onChange={(readonly === false) ? changeValue : undefined}
-          tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
-        />
-        {(label !== null) ? <span className="ui-radio__wrapper__label">{label}</span> : null}
-      </label>
+      {(label !== null) ? <label className="ui-radio__label" htmlFor={randomId}>{label}</label> : null}
+      <div className="ui-radio__wrapper">
+        {options.map((option) => (
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
+          <label key={option.value} className="ui-radio__wrapper__option">
+            <input
+              name={name}
+              type="radio"
+              value={option.value}
+              readOnly={option.disabled === true}
+              checked={currentValue === option.value}
+              onChange={(option.disabled === true) ? undefined : onChange}
+              className={buildClass('ui-radio__wrapper__option__radio', [(option.disabled === true) ? 'disabled' : ''])}
+            />
+            {option.label}
+          </label>
+        ))}
+      </div>
       {(helper !== null) ? <span className="ui-radio__wrapper__helper">{helper}</span> : null}
     </div>
   );

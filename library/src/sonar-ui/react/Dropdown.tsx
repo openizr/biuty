@@ -265,7 +265,7 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
           })}
         </ul>
       </div>
-      {(helper !== null) ? <span className="ui-dropdown__wrapper__helper">{helper}</span> : null}
+      {(helper !== null) ? <span className="ui-dropdown__helper">{helper}</span> : null}
     </div>
   );
 }
