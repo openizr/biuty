@@ -16,6 +16,7 @@ import UISubtitle from 'sonar-ui/react/Subtitle';
 import UIDropdown from 'sonar-ui/react/Dropdown';
 import UITextarea from 'sonar-ui/react/Textarea';
 import UICheckbox from 'sonar-ui/react/Checkbox';
+import UIRadio from 'sonar-ui/react/Radio';
 import UITextfield from 'sonar-ui/react/Textfield';
 import buildClass from 'sonar-ui/helpers/buildClass';
 import UIFileUploader from 'sonar-ui/react/FileUploader';
@@ -33,6 +34,7 @@ export {
   UITextfield,
   UITextarea,
   UICheckbox,
+  UIRadio,
   UIFileUploader,
   md,
   buildClass,

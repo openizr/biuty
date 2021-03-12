@@ -15,6 +15,7 @@ export default function Home(): JSX.Element {
       <main className="ui-page ui-block cols-3 hgap-3 vgap-5">
         <a href="/typography" className="cols-3">TYPOGRAPHY</a>
         <a href="/images" className="cols-3">IMAGES</a>
+        <a href="/radios" className="cols-3">RADIOS</a>
         <a href="/buttons" className="cols-3">BUTTONS</a>
         <a href="/markdown" className="cols-3">MARKDOWN</a>
         <a href="/dropdowns" className="cols-3">DROPDOWNS</a>

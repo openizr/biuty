@@ -16,7 +16,7 @@ export default {
   '/textfields': () => import('scripts/pages/Textfields'),
   '/file-uploaders': () => import('scripts/pages/FileUploaders'),
   '/textareas': () => import('scripts/pages/Textareas'),
-  // '/radios': () => import('scripts/pages/Radios'),
+  '/radios': () => import('scripts/pages/Radios'),
   '/checkboxes': () => import('scripts/pages/Checkboxes'),
   // '/icons': () => import('scripts/pages/Icons'),
 } as Record<string, unknown>;
