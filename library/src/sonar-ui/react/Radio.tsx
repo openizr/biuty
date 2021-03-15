@@ -27,9 +27,9 @@ const propTypes = {
 
 const defaultProps = {
   id: null,
+  value: '',
   label: null,
   helper: null,
-  value: null,
   modifiers: '',
   onChange: null,
 };

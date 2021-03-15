@@ -29,13 +29,13 @@ const propTypes = {
 
 const defaultProps = {
   id: null,
+  value: '',
   cols: null,
   rows: null,
-  value: null,
   label: null,
   helper: null,
-  modifiers: '',
   onBlur: null,
+  modifiers: '',
   onChange: null,
   readonly: false,
   maxlength: null,

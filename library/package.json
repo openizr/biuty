@@ -1,6 +1,6 @@
 {
   "name": "sonar-ui",
-  "version": "0.0.18",
+  "version": "0.0.20",
   "description": "A framework-agnostic components and styling library",
   "repository": "https://github.com/openizr/sonar-ui",
   "bugs": "https://github.com/openizr/sonar-ui/issues",

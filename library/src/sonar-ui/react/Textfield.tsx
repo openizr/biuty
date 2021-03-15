@@ -26,6 +26,7 @@ const propTypes = {
   readonly: PropTypes.bool,
   maxlength: PropTypes.number,
   modifiers: PropTypes.string,
+  onIconClick: PropTypes.func,
   placeholder: PropTypes.string,
   name: PropTypes.string.isRequired,
   iconPosition: PropTypes.oneOf(['left', 'right']),
@@ -39,7 +40,7 @@ const defaultProps = {
   step: null,
   size: null,
   icon: null,
-  value: null,
+  value: '',
   label: null,
   helper: null,
   type: 'text',
@@ -50,6 +51,7 @@ const defaultProps = {
   maxlength: null,
   placeholder: null,
   iconPosition: 'left',
+  onIconClick: undefined,
 };
 
 /**
@@ -57,7 +59,7 @@ const defaultProps = {
  */
 export default function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
   const {
-    id, modifiers, label, helper, onChange, value, name, readonly, step,
+    id, modifiers, label, helper, onChange, value, name, readonly, step, onIconClick,
     placeholder, iconPosition, icon, onBlur, type, size, max, min, maxlength,
   } = props;
   const [randomId] = React.useState(generateRandomId());
@@ -83,7 +85,10 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
   };
 
   const children = [
-    (icon !== null) ? <i key="icon" className="ui-textfield__icon">{icon}</i> : null,
+    (icon !== null)
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+      ? <i key="icon" role="button" tabIndex={0} className="ui-textfield__icon" onClick={onIconClick || undefined}>{icon}</i>
+      : null,
     <input
       key="input"
       name={name}
