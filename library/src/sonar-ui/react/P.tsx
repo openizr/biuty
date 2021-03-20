@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react';
-import md from 'sonar-ui/helpers/md';
+import markdown from 'sonar-ui/helpers/markdown';
 import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'sonar-ui/helpers/buildClass';
 
@@ -20,7 +20,7 @@ const propTypes = {
 
 const defaultProps = {
   id: null,
-  modifiers: 'contained',
+  modifiers: '',
   itemProp: undefined,
 };
 
@@ -38,7 +38,7 @@ export default function UIP(props: InferProps<typeof propTypes>): JSX.Element {
       className={className}
       itemProp={itemProp as string}
       // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: md(label) }}
+      dangerouslySetInnerHTML={{ __html: markdown(label) }}
     />
   );
 }

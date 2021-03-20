@@ -11,7 +11,6 @@ import * as React from 'react';
 export default function Home(): JSX.Element {
   return (
     <div className="vgap-5">
-      <input type="file" multiple readOnly />
       <main className="ui-page ui-block cols-3 hgap-3 vgap-5">
         <a href="/typography" className="cols-3">TYPOGRAPHY</a>
         <a href="/images" className="cols-3">IMAGES</a>

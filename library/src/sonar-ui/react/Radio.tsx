@@ -63,21 +63,25 @@ export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Elemen
     >
       {(label !== null) ? <label className="ui-radio__label" htmlFor={randomId}>{label}</label> : null}
       <div className="ui-radio__wrapper">
-        {options.map((option) => (
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
-          <label key={option.value} className="ui-radio__wrapper__option">
-            <input
-              name={name}
-              type="radio"
-              value={option.value}
-              readOnly={option.disabled === true}
-              checked={currentValue === option.value}
-              onChange={(option.disabled === true) ? undefined : onChange}
-              className={buildClass('ui-radio__wrapper__option__radio', [(option.disabled === true) ? 'disabled' : ''])}
-            />
-            {option.label}
-          </label>
-        ))}
+        {options.map((option) => {
+          const isChecked = currentValue === option.value;
+          const optionClassName = buildClass('ui-radio__wrapper__option', [isChecked ? 'checked' : '']);
+          return (
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control
+            <label key={option.value} className={optionClassName}>
+              <input
+                name={name}
+                type="radio"
+                checked={isChecked}
+                value={option.value}
+                readOnly={option.disabled === true}
+                onChange={(option.disabled === true) ? undefined : onChange}
+                className={buildClass('ui-radio__wrapper__option__radio', [(option.disabled === true) ? 'disabled' : ''])}
+              />
+              <span className="ui-radio__wrapper__option__label">{option.label}</span>
+            </label>
+          );
+        })}
       </div>
       {(helper !== null) ? <span className="ui-radio__wrapper__helper">{helper}</span> : null}
     </div>

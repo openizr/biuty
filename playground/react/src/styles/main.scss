@@ -58,3 +58,35 @@ body {
   }
   // &__wrapper__list
 }
+
+.ui-image {
+  position: relative;
+  overflow: hidden;
+  line-height: 1;
+
+  > img {
+    display: block;
+    width: 100%;
+  }
+
+  &[class*='ui-image--'] {
+    > img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    &:before {
+      content: '';
+      display: block;
+    }
+
+    @include ui-modifier(square) {
+      &:before {
+        padding-top: 100%;
+      }
+    }
+  }
+}

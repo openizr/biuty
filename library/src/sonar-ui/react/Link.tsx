@@ -7,7 +7,6 @@
  */
 
 import * as React from 'react';
-import md from 'sonar-ui/helpers/md';
 import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'sonar-ui/helpers/buildClass';
 
@@ -33,15 +32,14 @@ export default function UILink(props: InferProps<typeof propTypes>): JSX.Element
   const { id, href, label, onClick, modifiers } = props;
 
   return (
-    // eslint-disable-next-line jsx-a11y/control-has-associated-label
     <a
       id={id as string}
       href={href}
       onClick={onClick as () => null}
       className={buildClass('ui-link', (modifiers as string).split(' '))}
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: md(label) }}
-    />
+    >
+      {label}
+    </a>
   );
 }
 

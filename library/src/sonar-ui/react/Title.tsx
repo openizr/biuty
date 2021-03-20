@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react';
-import md from 'sonar-ui/helpers/md';
+import markdown from 'sonar-ui/helpers/markdown';
 import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'sonar-ui/helpers/buildClass';
 
@@ -46,7 +46,7 @@ export default function UITitle(props: InferProps<typeof propTypes>): JSX.Elemen
     id,
     itemProp,
     className: buildClass('ui-title', modifiersList),
-    dangerouslySetInnerHTML: { __html: md(label) },
+    dangerouslySetInnerHTML: { __html: markdown(label) },
   });
 }
 

@@ -25,14 +25,14 @@ const getDimensions = (ratio: string): { width: number; height: number; } => {
   switch (ratio) {
     case 'square':
       return { width: 1, height: 1 };
-    case 'portait':
+    case 'portrait':
       return { width: 2, height: 3 };
     case 'landscape':
       return { width: 3, height: 2 };
     case 'panoramic':
       return { width: 16, height: 9 };
     default:
-      dimensions = ratio.split(':').map(parseInt);
+      dimensions = ratio.split(':').map((value) => parseInt(value, 10));
       return { width: dimensions[0], height: dimensions[1] };
   }
 };

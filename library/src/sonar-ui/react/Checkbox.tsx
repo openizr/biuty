@@ -67,22 +67,26 @@ export default function UICheckbox(props: InferProps<typeof propTypes>): JSX.Ele
     >
       {(label !== null) ? <label className="ui-checkbox__label" htmlFor={randomId}>{label}</label> : null}
       <div className="ui-checkbox__wrapper">
-        {options.map((option) => (
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
-          <label key={option.value} className="ui-checkbox__wrapper__option">
-            <input
-              name={name}
-              type="checkbox"
-              value={option.value}
-              readOnly={option.disabled === true}
-              checked={currentValue.includes(option.value)}
-              onChange={(option.disabled === true) ? undefined : onChange}
-              tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
-              className={buildClass('ui-checkbox__wrapper__option__checkbox', [(option.disabled === true) ? 'disabled' : ''])}
-            />
-            {option.label}
-          </label>
-        ))}
+        {options.map((option) => {
+          const isChecked = currentValue.includes(option.value);
+          const optionClassName = buildClass('ui-checkbox__wrapper__option', [isChecked ? 'checked' : '']);
+          return (
+            // eslint-disable-next-line jsx-a11y/label-has-associated-control
+            <label key={option.value} className={optionClassName}>
+              <input
+                name={name}
+                type="checkbox"
+                checked={isChecked}
+                value={option.value}
+                readOnly={option.disabled === true}
+                onChange={(option.disabled === true) ? undefined : onChange}
+                tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
+                className={buildClass('ui-checkbox__wrapper__option__checkbox', [(option.disabled === true) ? 'disabled' : ''])}
+              />
+              <span className="ui-checkbox__wrapper__option__label">{option.label}</span>
+            </label>
+          );
+        })}
       </div>
       {(helper !== null) ? <span className="ui-checkbox__wrapper__helper">{helper}</span> : null}
     </div>

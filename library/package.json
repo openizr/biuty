@@ -1,6 +1,6 @@
 {
   "name": "sonar-ui",
-  "version": "0.0.20",
+  "version": "0.0.26",
   "description": "A framework-agnostic components and styling library",
   "repository": "https://github.com/openizr/sonar-ui",
   "bugs": "https://github.com/openizr/sonar-ui/issues",
@@ -48,7 +48,7 @@
     "runInDev": false,
     "srcPath": "src",
     "distPath": "dist",
-    "banner": "/**\n * Copyright (c) Matthieu Jabbour. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
+    "banner": "/*!\n * Copyright (c) Matthieu Jabbour. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
     "env": {
       "development": {},
       "production": {}

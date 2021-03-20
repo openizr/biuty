@@ -11,7 +11,7 @@ export default {
   '/buttons': () => import('scripts/pages/Buttons'),
   // '/typography': () => import('scripts/pages/Typography'),
   // '/markdown': () => import('scripts/pages/Markdown'),
-  // '/images': () => import('scripts/pages/Images'),
+  '/images': () => import('scripts/pages/Images'),
   '/dropdowns': () => import('scripts/pages/Dropdowns'),
   '/textfields': () => import('scripts/pages/Textfields'),
   '/file-uploaders': () => import('scripts/pages/FileUploaders'),
