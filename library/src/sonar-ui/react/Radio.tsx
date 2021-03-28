@@ -18,6 +18,7 @@ const propTypes = {
   id: PropTypes.string,
   value: PropTypes.string,
   label: PropTypes.string,
+  onFocus: PropTypes.func,
   helper: PropTypes.string,
   onChange: PropTypes.func,
   modifiers: PropTypes.string,
@@ -30,6 +31,7 @@ const defaultProps = {
   value: '',
   label: null,
   helper: null,
+  onFocus: null,
   modifiers: '',
   onChange: null,
 };
@@ -39,8 +41,8 @@ const defaultProps = {
  */
 export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Element {
   // eslint-disable-next-line object-curly-newline
-  const { id, modifiers, label, helper, value, name, options } = props;
-  const [randomId] = React.useState(generateRandomId());
+  const { id, modifiers, label, helper, value, name, options, onFocus } = props;
+  const [randomId] = React.useState(generateRandomId);
   const [currentValue, setCurrentValue] = React.useState(value);
   const className = buildClass('ui-radio', (modifiers as string).split(' '));
 
@@ -56,6 +58,12 @@ export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Elemen
     }
   };
 
+  const focusField = (focusedValue: string) => (): void => {
+    if (onFocus !== undefined && onFocus !== null) {
+      onFocus(focusedValue);
+    }
+  };
+
   return (
     <div
       id={id as string}
@@ -65,7 +73,8 @@ export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Elemen
       <div className="ui-radio__wrapper">
         {options.map((option) => {
           const isChecked = currentValue === option.value;
-          const optionClassName = buildClass('ui-radio__wrapper__option', [isChecked ? 'checked' : '']);
+          const isDisabled = option.disabled === true;
+          const optionClassName = buildClass('ui-radio__wrapper__option', [isChecked ? 'checked' : '', isDisabled ? 'disabled' : '']);
           return (
             // eslint-disable-next-line jsx-a11y/label-has-associated-control
             <label key={option.value} className={optionClassName}>
@@ -74,9 +83,10 @@ export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Elemen
                 type="radio"
                 checked={isChecked}
                 value={option.value}
-                readOnly={option.disabled === true}
-                onChange={(option.disabled === true) ? undefined : onChange}
-                className={buildClass('ui-radio__wrapper__option__radio', [(option.disabled === true) ? 'disabled' : ''])}
+                readOnly={isDisabled}
+                onFocus={focusField(option.value)}
+                onChange={isDisabled ? undefined : onChange}
+                className="ui-radio__wrapper__option__radio"
               />
               <span className="ui-radio__wrapper__option__label">{option.label}</span>
             </label>

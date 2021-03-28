@@ -12,7 +12,6 @@ import UITitle from 'sonar-ui/react/Title';
 import UIImage from 'sonar-ui/react/Image';
 import UIButton from 'sonar-ui/react/Button';
 import markdown from 'sonar-ui/helpers/markdown';
-import UISubtitle from 'sonar-ui/react/Subtitle';
 import UIDropdown from 'sonar-ui/react/Dropdown';
 import UITextarea from 'sonar-ui/react/Textarea';
 import UICheckbox from 'sonar-ui/react/Checkbox';
@@ -28,7 +27,6 @@ export {
   UILink,
   UIButton,
   UIImage,
-  UISubtitle,
   UIDropdown,
   UITitle,
   UITextfield,

@@ -22,6 +22,7 @@ const propTypes = {
   id: PropTypes.string,
   icon: PropTypes.string,
   label: PropTypes.string,
+  onFocus: PropTypes.func,
   multiple: PropTypes.bool,
   onChange: PropTypes.func,
   helper: PropTypes.string,
@@ -37,6 +38,7 @@ const defaultProps = {
   icon: null,
   label: null,
   helper: null,
+  onFocus: null,
   modifiers: '',
   onChange: null,
   multiple: false,
@@ -44,6 +46,9 @@ const defaultProps = {
 
 type Mapping = Record<string, string>;
 type Option = InferProps<typeof optionType>;
+const findOption = (value: string) => (options: Option[]): number => (
+  options.findIndex((option) => value === option.value)
+);
 const generateMapping = (mapping: Mapping, option: Option): Mapping => (
   (option.value !== undefined && option.label !== undefined)
     ? ({ ...mapping, [option.value as string]: option.label as string })
@@ -54,21 +59,28 @@ const generateMapping = (mapping: Mapping, option: Option): Mapping => (
  * Dropdown.
  */
 export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Element {
-  // eslint-disable-next-line object-curly-newline
-  const { options, id, modifiers, multiple, label, helper, icon, name, onChange, value } = props;
+  const {
+    options, id, modifiers, multiple, label, helper, icon, name, onChange, value, onFocus,
+  } = props;
   const ulRef = React.useRef<HTMLUListElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [randomId] = React.useState(generateRandomId());
+  const [randomId] = React.useState(generateRandomId);
   const [mounted, setMounted] = React.useState(false);
   const [position, setPosition] = React.useState('bottom');
   const [mapping, setMapping] = React.useState({} as Mapping);
   const [isDisplayed, setIsDisplayed] = React.useState(false);
-  const [focusedOption, setFocusedOption] = React.useState(-1);
   const [currentValue, setCurrentValue] = React.useState(value as string[]);
+  const [focusedOption, setFocusedOption] = React.useState(findOption(currentValue[0])(options));
   const className = buildClass('ui-dropdown', (modifiers as string).split(' '));
 
   const clearOptions = (): void => {
     setCurrentValue([]);
+  };
+
+  const focusField = (focusedValue?: string) => (): void => {
+    if (onFocus !== undefined && onFocus !== null) {
+      onFocus(focusedValue);
+    }
   };
 
   const focusOption = (optionIndex: number): void => {
@@ -76,6 +88,7 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
       (ulRef.current.childNodes[optionIndex] as HTMLElement).focus();
     }
     setFocusedOption(optionIndex);
+    focusField(options[optionIndex].value as string)();
   };
 
   const findSiblingOption = (startIndex: number, direction: number): (number | null) => {
@@ -211,6 +224,7 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
           id={randomId}
           ref={inputRef}
           onKeyDown={navigate}
+          onFocus={focusField()}
           aria-haspopup="listbox"
           onMouseDown={displayList}
           className="ui-dropdown__wrapper__field"

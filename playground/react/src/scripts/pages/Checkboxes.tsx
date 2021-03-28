@@ -13,6 +13,10 @@ const onChange = (value: string[]): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
 };
 
+const onFocus = (value: string): void => {
+  console.log('Focused!', value); // eslint-disable-line no-console
+};
+
 const options = [
   {
     label: 'Option 1',
@@ -55,6 +59,7 @@ export default function Checkboxes(): JSX.Element {
         <UICheckbox name="checkbox4" options={options} label="ui-checkbox with helper" helper="helper" />
         <UICheckbox name="checkbox5" options={options} label="ui-checkbox with listener" onChange={onChange} />
         <UICheckbox name="checkbox6" options={options} label="ui-checkbox disabled" modifiers="disabled" />
+        <UICheckbox name="checkbox7" options={options} label="ui-checkbox with focus listener" onFocus={onFocus} />
       </main>
     </div>
   );

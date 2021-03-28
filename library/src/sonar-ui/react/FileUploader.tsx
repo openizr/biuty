@@ -15,6 +15,7 @@ const propTypes = {
   id: PropTypes.string,
   icon: PropTypes.string,
   label: PropTypes.string,
+  onFocus: PropTypes.func,
   helper: PropTypes.string,
   onChange: PropTypes.func,
   multiple: PropTypes.bool,
@@ -29,6 +30,7 @@ const defaultProps = {
   icon: null,
   label: null,
   helper: null,
+  onFocus: null,
   modifiers: '',
   multiple: false,
   placeholder: null,
@@ -42,9 +44,9 @@ const defaultProps = {
 export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX.Element {
   const {
     id, modifiers, label, helper, iconPosition, icon,
-    onChange, multiple, name, placeholder,
+    onChange, multiple, name, placeholder, onFocus,
   } = props;
-  const [randomId] = React.useState(generateRandomId());
+  const [randomId] = React.useState(generateRandomId);
   const [currentValue, setCurrentValue] = React.useState([] as string[]);
   const className = buildClass('ui-file-uploader', (modifiers as string).split(' '));
 
@@ -60,6 +62,12 @@ export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX
     }
   };
 
+  const focusField = (): void => {
+    if (onFocus !== undefined && onFocus !== null) {
+      onFocus();
+    }
+  };
+
   const children = [
     (icon !== null) ? <i key="icon" className="ui-button__icon">{icon}</i> : null,
     <input
@@ -67,6 +75,7 @@ export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX
       name={name}
       id={randomId}
       key={randomId}
+      onFocus={focusField}
       onChange={changeValue}
       multiple={multiple as boolean}
       className="ui-file-uploader__field"

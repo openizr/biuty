@@ -19,6 +19,7 @@ const propTypes = {
   onBlur: PropTypes.func,
   icon: PropTypes.string,
   size: PropTypes.number,
+  onFocus: PropTypes.func,
   value: PropTypes.string,
   label: PropTypes.string,
   helper: PropTypes.string,
@@ -46,6 +47,7 @@ const defaultProps = {
   type: 'text',
   modifiers: '',
   onBlur: null,
+  onFocus: null,
   onChange: null,
   readonly: false,
   maxlength: null,
@@ -60,9 +62,9 @@ const defaultProps = {
 export default function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
   const {
     id, modifiers, label, helper, onChange, value, name, readonly, step, onIconClick,
-    placeholder, iconPosition, icon, onBlur, type, size, max, min, maxlength,
+    placeholder, iconPosition, icon, onBlur, type, size, max, min, maxlength, onFocus,
   } = props;
-  const [randomId] = React.useState(generateRandomId());
+  const [randomId] = React.useState(generateRandomId);
   const [currentValue, setCurrentValue] = React.useState(value);
   const className = buildClass('ui-textfield', (modifiers as string).split(' '));
 
@@ -84,16 +86,23 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
     }
   };
 
+  const focusField = (): void => {
+    if (onFocus !== undefined && onFocus !== null) {
+      onFocus();
+    }
+  };
+
   const children = [
     (icon !== null)
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-      ? <i key="icon" role="button" tabIndex={0} className="ui-textfield__icon" onClick={onIconClick || undefined}>{icon}</i>
+      ? <i key="icon" role="button" tabIndex={0} className="ui-textfield__wrapper__icon" onClick={onIconClick || undefined}>{icon}</i>
       : null,
     <input
       key="input"
       name={name}
       id={randomId}
       onBlur={blurField}
+      onFocus={focusField}
       max={max as number}
       min={min as number}
       step={step as number}
@@ -102,7 +111,7 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       value={currentValue as string}
       readOnly={readonly as boolean}
       maxLength={maxlength as number}
-      className="ui-textfield__field"
+      className="ui-textfield__wrapper_field"
       placeholder={placeholder as string}
       onChange={(readonly === false) ? changeValue : undefined}
       tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
@@ -115,7 +124,9 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       className={className}
     >
       {(label !== null) ? <label className="ui-textfield__label" htmlFor={randomId}>{label}</label> : null}
-      {(iconPosition === 'left') ? children : children.reverse()}
+      <div className="ui-textfield__wrapper">
+        {(iconPosition === 'left') ? children : children.reverse()}
+      </div>
       {(helper !== null) ? <span className="ui-textfield__helper">{helper}</span> : null}
     </div>
   );

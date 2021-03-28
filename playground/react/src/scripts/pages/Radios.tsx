@@ -13,6 +13,10 @@ const onChange = (value: string): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
 };
 
+const onFocus = (value: string): void => {
+  console.log('Focused!', value); // eslint-disable-line no-console
+};
+
 const options = [
   {
     label: 'Option 1',
@@ -55,6 +59,7 @@ export default function Radios(): JSX.Element {
         <UIRadio name="radio4" value="option3" label="ui-radio with helper" helper="helper" options={options} />
         <UIRadio name="radio5" value="option3" label="ui-radio with listener" onChange={onChange} options={options} />
         <UIRadio name="radio6" value="option3" label="ui-radio disabled" modifiers="disabled" options={options} />
+        <UIRadio name="radio7" value="option3" label="ui-radio with focus listener" onFocus={onFocus} options={options} />
       </main>
     </div>
   );
