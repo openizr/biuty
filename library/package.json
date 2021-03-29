@@ -1,6 +1,6 @@
 {
   "name": "sonar-ui",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "A framework-agnostic components and styling library",
   "repository": "https://github.com/openizr/sonar-ui",
   "bugs": "https://github.com/openizr/sonar-ui/issues",
@@ -21,6 +21,9 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
     "typescript-dev-kit": "^2.3.3"
   },
   "eslintConfig": {
@@ -30,9 +33,6 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@types/prop-types": "^15.7.3",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

@@ -49,7 +49,7 @@
     "splitChunks": false,
     "srcPath": "src",
     "distPath": "public",
-    "banner": "/**\n * Copyright (c) Matthieu Jabbour. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
+    "banner": "/*!\n * Copyright (c) Matthieu Jabbour. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
     "env": {
       "development": {
         "NODE_ENV": "\"development\""

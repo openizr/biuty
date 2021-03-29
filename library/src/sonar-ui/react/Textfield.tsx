@@ -111,7 +111,7 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       value={currentValue as string}
       readOnly={readonly as boolean}
       maxLength={maxlength as number}
-      className="ui-textfield__wrapper_field"
+      className="ui-textfield__wrapper__field"
       placeholder={placeholder as string}
       onChange={(readonly === false) ? changeValue : undefined}
       tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
