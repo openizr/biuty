@@ -6,7 +6,7 @@ services:
     image: openizer/node:1.1.0-dev
     env_file:
       - .env
-    command: sh -c "yarn && dsync src/styles/core/ dist/core/ & yarn run dev"
+    command: sh -c "yarn && yarn run dev & dsync src/styles/core/ dist/core/"
     volumes:
       - ./library:/var/www/html
     restart: on-failure
@@ -18,7 +18,7 @@ services:
     ports:
       - "127.0.0.1:${PLAYGROUND_PORT}:${PLAYGROUND_PORT}"
     working_dir: /var/www/html/react
-    command: sh -c "yarn && dsync /sonar-ui/dist/ node_modules/sonar-ui/ & yarn run dev"
+    command: sh -c "yarn && yarn run dev & dsync /sonar-ui/dist/ node_modules/sonar-ui/"
     volumes:
       - ./playground:/var/www/html
       - ./library:/sonar-ui
