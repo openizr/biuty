@@ -16,6 +16,7 @@ const propTypes = {
   cols: PropTypes.number,
   rows: PropTypes.number,
   onBlur: PropTypes.func,
+  onFocus: PropTypes.func,
   value: PropTypes.string,
   label: PropTypes.string,
   helper: PropTypes.string,
@@ -29,13 +30,14 @@ const propTypes = {
 
 const defaultProps = {
   id: null,
+  value: '',
   cols: null,
   rows: null,
-  value: null,
   label: null,
   helper: null,
-  modifiers: '',
   onBlur: null,
+  onFocus: null,
+  modifiers: '',
   onChange: null,
   readonly: false,
   maxlength: null,
@@ -47,10 +49,10 @@ const defaultProps = {
  */
 export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   const {
-    id, modifiers, label, helper, onChange, value, name,
+    id, modifiers, label, helper, onChange, value, name, onFocus,
     placeholder, readonly, rows, cols, onBlur, maxlength,
   } = props;
-  const [randomId] = React.useState(generateRandomId());
+  const [randomId] = React.useState(generateRandomId);
   const [currentValue, setCurrentValue] = React.useState(value);
   const className = buildClass('ui-textarea', (modifiers as string).split(' '));
 
@@ -72,26 +74,35 @@ export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Ele
     }
   };
 
+  const focusField = (): void => {
+    if (onFocus !== undefined && onFocus !== null) {
+      onFocus();
+    }
+  };
+
   return (
     <div
       id={id as string}
       className={className}
     >
       {(label !== null) ? <label className="ui-textarea__label" htmlFor={randomId}>{label}</label> : null}
-      <textarea
-        name={name}
-        id={randomId}
-        onBlur={blurField}
-        cols={cols as number}
-        rows={rows as number}
-        className="ui-textarea__field"
-        value={currentValue as string}
-        readOnly={readonly as boolean}
-        maxLength={maxlength as number}
-        placeholder={placeholder as string}
-        onChange={(readonly === false) ? changeValue : undefined}
-        tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
-      />
+      <div className="ui-textarea__wrapper">
+        <textarea
+          name={name}
+          id={randomId}
+          onBlur={blurField}
+          onFocus={focusField}
+          cols={cols as number}
+          rows={rows as number}
+          className="ui-textarea__wrapper__field"
+          value={currentValue as string}
+          readOnly={readonly as boolean}
+          maxLength={maxlength as number}
+          placeholder={placeholder as string}
+          onChange={(readonly === false) ? changeValue : undefined}
+          tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
+        />
+      </div>
       {(helper !== null) ? <span className="ui-textarea__helper">{helper}</span> : null}
     </div>
   );

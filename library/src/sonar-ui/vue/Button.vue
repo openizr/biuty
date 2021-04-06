@@ -71,7 +71,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     modifiers: {
       type: String,
-      default: 'contained',
+      default: '',
       required: false,
     },
     iconPosition: {

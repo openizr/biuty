@@ -68,6 +68,10 @@ const onChange = (value: string[]): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
 };
 
+const onFocus = (value: string): void => {
+  console.log('Focused!', value); // eslint-disable-line no-console
+};
+
 /**
  * Dropdowns page.
  */
@@ -87,7 +91,8 @@ export default function Dropdowns(): JSX.Element {
         <UIDropdown name="dropdown1" options={options} value={['option1']} label="UIDropdown" onChange={onChange} />
         <UIDropdown name="dropdown2" options={options} value={['option1']} label="UIDropdown disabled" />
         <UIDropdown name="dropdown3" options={options2} value={['option1']} label="UIDropdown large" />
-        <UIDropdown name="dropdown4" options={options} value={newValue} label="UIDropdown large disabled" onChange={onChange} />
+        <UIDropdown name="dropdown4" options={options} value={newValue} label="UIDropdown large disabled" />
+        <UIDropdown name="dropdown5" options={options} value={['option1']} label="UIDropdown with focus listener" onFocus={onFocus} />
       </main>
     </div>
   );

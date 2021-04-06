@@ -3,26 +3,25 @@ version: "3.6"
 services:
   library:
     container_name: ${PROJECT_NAME}_library
-    image: openizer/node:1.0.1-dev
+    image: openizer/node:1.1.0-dev
     env_file:
       - .env
-    command: sh -c "yarn && tail -f /dev/null"
+    command: sh -c "yarn && yarn run dev & dsync src/styles/core/ dist/core/"
     volumes:
       - ./library:/var/www/html
     restart: on-failure
   playground:
     container_name: ${PROJECT_NAME}_playground
-    image: openizer/node:1.0.1-dev
+    image: openizer/node:1.1.0-dev
     env_file:
       - .env
     ports:
       - "127.0.0.1:${PLAYGROUND_PORT}:${PLAYGROUND_PORT}"
-    command: sh -c "cd react && yarn && yarn run dev"
+    working_dir: /var/www/html/react
+    command: sh -c "yarn && yarn run dev & dsync /sonar-ui/dist/ node_modules/sonar-ui/"
     volumes:
       - ./playground:/var/www/html
-      - ./library/src/sonar-ui/react:/var/www/html/react/src/sonar-ui/react
-      - ./library/src/sonar-ui/helpers:/var/www/html/react/src/sonar-ui/helpers
-      - ./library/src/sonar-ui/core:/var/www/html/react/src/sonar-ui/core
+      - ./library:/sonar-ui
     restart: on-failure
 networks:
   default:

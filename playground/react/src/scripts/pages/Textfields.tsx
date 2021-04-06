@@ -17,6 +17,14 @@ const onBlur = (value: string): void => {
   console.log('Blurred!', value); // eslint-disable-line no-console
 };
 
+const onFocus = (): void => {
+  console.log('Focused!'); // eslint-disable-line no-console
+};
+
+const onIconClick = (): void => {
+  console.log('Clicked!'); // eslint-disable-line no-console
+};
+
 /**
  * Textfields page.
  */
@@ -46,6 +54,8 @@ export default function Textfields(): JSX.Element {
         <UITextfield name="textfield11" label="ui-textfield disabled" modifiers="disabled" />
         <UITextfield name="textfield12" label="ui-textfield icon left" icon="star" />
         <UITextfield name="textfield13" label="ui-textfield icon right" icon="star" iconPosition="right" />
+        <UITextfield name="textfield14" label="ui-textfield icon with listener" icon="star" onIconClick={onIconClick} />
+        <UITextfield name="textfield15" label="ui-textfield with focus listener" onFocus={onFocus} />
       </main>
     </div>
   );

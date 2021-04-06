@@ -17,6 +17,10 @@ const onBlur = (value: string): void => {
   console.log('Blurred!', value); // eslint-disable-line no-console
 };
 
+const onFocus = (): void => {
+  console.log('Focused!'); // eslint-disable-line no-console
+};
+
 /**
  * Textareas page.
  */
@@ -44,6 +48,7 @@ export default function Textareas(): JSX.Element {
         <UITextarea name="textarea9" label="ui-textarea with placeholder" placeholder="placeholder" />
         <UITextarea name="textarea10" label="ui-textarea with rows and cols" rows={10} cols={10} />
         <UITextarea name="textarea11" label="ui-textarea disabled" modifiers="disabled" />
+        <UITextarea name="textarea12" label="ui-textarea with focus listener" onFocus={onFocus} />
       </main>
     </div>
   );
