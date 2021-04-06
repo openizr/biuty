@@ -6,7 +6,7 @@
  *
  */
 
-import UIButton from 'sonar-ui/vuejs/Button.vue';
+import UIButton from 'sonar-ui/vue/Button.vue';
 
 // eslint-disable-next-line import/prefer-default-export
 export { UIButton };
