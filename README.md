@@ -30,7 +30,7 @@ yarn add sonar-ui
 
 ## Features
 
-- A complete list of HTML specs for reusable components, using BEM conventions, performance, SEO and accessibility optimized
+- A complete list of HTML specs for reusable components, using BEM conventions, performance, accessibility friendly and SEO optimized
 - An implementation of those components in popular frontend frameworks (React, VueJS)
 - A SASS library containing a small set of useful and essential mixins and classes to build awesome UIs
 - A pack of SASS templates for easily implementing your own design system for reusable components, using those mixins
