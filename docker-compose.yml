@@ -3,29 +3,33 @@ version: "3.6"
 services:
   library:
     container_name: ${PROJECT_NAME}_library
-    image: openizer/node:1.1.0-dev
+    image: openizr/node:2.0.0-dev
     env_file:
       - .env
-    command: sh -c "yarn && yarn run dev & dsync src/styles/core/ dist/core/"
+    command: sh -c "yarn && (sleep 10 && dsync src/scripts/types.d.ts dist/types.d.ts & dsync src/scripts/types.d.ts dist/react.d.ts & dsync src/scripts/types.d.ts dist/vue.d.ts & yarn run dev)"
     volumes:
       - ./library:/var/www/html
-    restart: on-failure
+      - ./:/mount
+    restart: unless-stopped
   playground:
     container_name: ${PROJECT_NAME}_playground
-    image: openizer/node:1.1.0-dev
+    image: openizr/node:2.0.0-dev
     env_file:
       - .env
     ports:
       - "127.0.0.1:${PLAYGROUND_PORT}:${PLAYGROUND_PORT}"
-    working_dir: /var/www/html/react
-    command: sh -c "yarn && yarn run dev & dsync /sonar-ui/dist/ node_modules/sonar-ui/"
+    command: sh -c "yarn && (dsync /library/dist/ node_modules/sonar-ui/ & cp /library/src/scripts/types.d.ts node_modules/sonar-ui/ && cp /library/src/scripts/types.d.ts node_modules/sonar-ui/react.d.ts && cp /library/src/scripts/types.d.ts node_modules/sonar-ui/vue.d.ts && yarn run dev)"
+    working_dir: /var/www/html
     volumes:
+      - ./library:/library
       - ./playground:/var/www/html
-      - ./library:/sonar-ui
-    restart: on-failure
+      - ./library/src/styles/core:/var/www/html/src/sonar-ui/core
+    restart: unless-stopped
+
+# For people that use a VPN
 networks:
   default:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.16.1.0/24
+        - subnet: 172.16.57.0/24

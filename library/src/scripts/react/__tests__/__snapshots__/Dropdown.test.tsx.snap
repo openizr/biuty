@@ -1,0 +1,1247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react/UIDropdown correctly handles keyboard navigation 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value="Option 1"
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad40"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="true"
+          class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - basic 1`] = `
+<div>
+  <div
+    class="ui-dropdown ui-dropdown--large"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value="Option 1"
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad40"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="true"
+          class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - disabled 1`] = `
+<div>
+  <div
+    class="ui-dropdown ui-dropdown--disabled"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="-1"
+        type="text"
+        value=""
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad4-1"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - disabled with icon 1`] = `
+<div>
+  <div
+    class="ui-dropdown ui-dropdown--disabled"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="-1"
+        type="text"
+        value=""
+      />
+      <button
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4icon"
+        class="ui-dropdown__wrapper__clear-button"
+        id="z8a8d7a5zad4icon"
+        tabindex="-1"
+        type="button"
+      >
+        <i
+          class="ui-dropdown__wrapper__clear-button__icon"
+        >
+          star
+        </i>
+      </button>
+      <ul
+        aria-activedescendant="z8a8d7a5zad4-1"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - expanded 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value=""
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad42"
+        aria-expanded="true"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom--expanded"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="true"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - expanded with no option and small viewport 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value=""
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad40"
+        aria-expanded="true"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--top--expanded"
+        role="listbox"
+        tabindex="-1"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - expanded with value 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value="Option 1"
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad40"
+        aria-expanded="true"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom--expanded"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="true"
+          class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - multiple 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value=""
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad4-1"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - multiple with listeners 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value="Option 2"
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad40"
+        aria-expanded="true"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom--expanded"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="true"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - with helper 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value=""
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad4-1"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+    <span
+      class="ui-dropdown__helper"
+    >
+      test
+    </span>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - with icon 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value=""
+      />
+      <button
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4icon"
+        class="ui-dropdown__wrapper__clear-button"
+        id="z8a8d7a5zad4icon"
+        tabindex="0"
+        type="button"
+      >
+        <i
+          class="ui-dropdown__wrapper__clear-button__icon"
+        >
+          star
+        </i>
+      </button>
+      <ul
+        aria-activedescendant="z8a8d7a5zad40"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="true"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - with id 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+    id="test"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value=""
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad4-1"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - with label 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <label
+      class="ui-dropdown__label"
+      for="z8a8d7a5zad4"
+    >
+      test
+    </label>
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value=""
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad4-1"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - with listeners 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value="Option 1"
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad40"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="true"
+          class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - with option disabled 1`] = `
+<div>
+  <div
+    class="ui-dropdown ui-dropdown--disabled"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="-1"
+        type="text"
+        value=""
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad4-1"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--disabled"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 5
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UIDropdown renders correctly - with value 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <input
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        readonly=""
+        tabindex="0"
+        type="text"
+        value="Option 1, Option 3"
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad40"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      >
+        <li
+          aria-selected="true"
+          class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected"
+          id="z8a8d7a5zad40"
+          role="option"
+          tabindex="-1"
+        >
+          Option 1
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__divider"
+          id="z8a8d7a5zad41"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad42"
+          role="option"
+          tabindex="-1"
+        >
+          Option 2
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected"
+          id="z8a8d7a5zad43"
+          role="option"
+          tabindex="-1"
+        >
+          Option 3
+        </li>
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__header"
+          id="z8a8d7a5zad44"
+          tabindex="-1"
+        />
+        <li
+          aria-selected="false"
+          class="ui-dropdown__wrapper__list__option"
+          id="z8a8d7a5zad45"
+          role="option"
+          tabindex="-1"
+        >
+          Option 4
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;

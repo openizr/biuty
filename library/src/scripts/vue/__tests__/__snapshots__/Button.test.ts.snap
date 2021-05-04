@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue/UIButton renders correctly - basic 1`] = `
+"<button type=\\"button\\" tabindex=\\"0\\" class=\\"ui-button ui-button--large\\">
+  <!----> <span class=\\"ui-button__label\\">Test</span>
+  <!----></button>"
+`;
+
+exports[`vue/UIButton renders correctly - disabled 1`] = `
+"<button type=\\"button\\" tabindex=\\"-1\\" class=\\"ui-button ui-button--disabled\\">
+  <!---->
+  <!---->
+  <!----></button>"
+`;
+
+exports[`vue/UIButton renders correctly - icon only 1`] = `
+"<button type=\\"button\\" tabindex=\\"0\\" class=\\"ui-button ui-button--icon\\"><i class=\\"ui-button__icon\\">star</i>
+  <!---->
+  <!----></button>"
+`;
+
+exports[`vue/UIButton renders correctly - label with icon 1`] = `
+"<button type=\\"button\\" tabindex=\\"0\\" class=\\"ui-button\\"><i class=\\"ui-button__icon\\">star</i> <span class=\\"ui-button__label\\">Test</span>
+  <!----></button>"
+`;
+
+exports[`vue/UIButton renders correctly - no label 1`] = `
+"<button type=\\"button\\" tabindex=\\"0\\" class=\\"ui-button\\">
+  <!---->
+  <!---->
+  <!----></button>"
+`;
+
+exports[`vue/UIButton renders correctly - right icon 1`] = `
+"<button type=\\"button\\" tabindex=\\"0\\" class=\\"ui-button ui-button--icon\\">
+  <!---->
+  <!----> <i class=\\"ui-button__icon\\">star</i></button>"
+`;
+
+exports[`vue/UIButton renders correctly - type submit 1`] = `
+"<button type=\\"submit\\" tabindex=\\"0\\" class=\\"ui-button\\">
+  <!----> <span class=\\"ui-button__label\\">Test</span>
+  <!----></button>"
+`;
+
+exports[`vue/UIButton renders correctly - with id and listeners 1`] = `
+"<button id=\\"test\\" type=\\"button\\" tabindex=\\"0\\" class=\\"ui-button ui-button--large\\">
+  <!----> <span class=\\"ui-button__label\\">Test</span>
+  <!----></button>"
+`;

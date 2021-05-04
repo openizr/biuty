@@ -12,42 +12,55 @@
   }
 }
 
-@mixin ui-font($level) {
-  @if (not map-has-key($typographies, $level)) {
-    @error ("Typography '#{$level}' does not exist.");
+@mixin ui-resp-modifier($modifier) {
+  @include ui-modifier($modifier) {
+    @content;
   }
-
-  $style: map-get($typographies, $level);
-  $fontFamily: if(map-has-key($style, typeface), map-get($style, typeface), 'inherit');
-  $fontWeight: map-get($style, font);
-  $fontSize: map-get($style, size);
-  $lineHeight: map-get($style, line-height);
-  $letterSpacing: map-get($style, letter-spacing);
-  $case: map-get($style, case);
-
-  @if ($fontWeight != null and $fontSize != null and $lineHeight != null) {
-    font: normal normal $fontWeight $fontSize unquote('/') $lineHeight $fontFamily;
-  } @else {
-    @if ($fontFamily != null) {
-      font-family: $fontFamily;
+  @each $key, $size in $breakpoints {
+    @include resp($key) {
+      @include ui-modifier(-#{$key}#{$modifier}) {
+        @content;
+      }
     }
-    @if ($fontWeight != null) {
-      font-weight: $fontWeight;
-    }
-    @if ($fontSize != null) {
-      font-size: $fontSize;
-    }
-    @if ($lineHeight != null) {
-      line-height: $lineHeight;
-    }
-  }
-  @if ($letterSpacing != null) {
-    letter-spacing: $letterSpacing;
-  }
-  @if ($case != null) {
-    text-transform: $case;
   }
 }
+
+// @mixin ui-font($level) {
+//   @if (not map-has-key($typographies, $level)) {
+//     @error ("Typography '#{$level}' does not exist.");
+//   }
+
+//   $style: map-get($typographies, $level);
+//   $fontFamily: if(map-has-key($style, typeface), map-get($style, typeface), 'inherit');
+//   $fontWeight: map-get($style, font);
+//   $fontSize: map-get($style, size);
+//   $lineHeight: map-get($style, line-height);
+//   $letterSpacing: map-get($style, letter-spacing);
+//   $case: map-get($style, case);
+
+//   @if ($fontWeight != null and $fontSize != null and $lineHeight != null) {
+//     font: normal normal $fontWeight $fontSize unquote('/') $lineHeight $fontFamily;
+//   } @else {
+//     @if ($fontFamily != null) {
+//       font-family: $fontFamily;
+//     }
+//     @if ($fontWeight != null) {
+//       font-weight: $fontWeight;
+//     }
+//     @if ($fontSize != null) {
+//       font-size: $fontSize;
+//     }
+//     @if ($lineHeight != null) {
+//       line-height: $lineHeight;
+//     }
+//   }
+//   @if ($letterSpacing != null) {
+//     letter-spacing: $letterSpacing;
+//   }
+//   @if ($case != null) {
+//     text-transform: $case;
+//   }
+// }
 
 /**
 * Build a media query, mobile firstly.
@@ -67,9 +80,13 @@
     // This is just an indication.
     @if map-has-key($breakpoints, $breakpoint) == false {
       @if index(map-values($breakpoints), $breakpoint) == null {
-        @debug 'Breakpoint absolute value used ( #{$breakpoint} ). Register it if widely used.';
+        @if ($verbose == true) {
+          @debug 'Breakpoint absolute value used ( #{$breakpoint} ). Register it if widely used.';
+        }
       } @else {
-        @debug 'Duplicate breakpoint : absolute value "#{$breakpoint}" is also available with mapped breakpoints.';
+        @if ($verbose == true) {
+          @debug 'Duplicate breakpoint : absolute value "#{$breakpoint}" is also available with mapped breakpoints.';
+        }
       }
     }
     // Type validation and find highest value
@@ -147,16 +164,20 @@
       }
       @for $i from 1 to $grid-columns-number + 1 {
         @if ($init == all or index($init, '.cols#{$selector}-#{$i}') != null) {
-          @debug ('Including grid CSS declaration for selector ', '.cols#{$selector}-#{$i}');
+          @if ($verbose == true) {
+            @debug ('Including grid CSS declaration for selector ', '.cols#{$selector}-#{$i}');
+          }
           .cols#{$selector}-#{$i}:not(.#{$root}-block) {
             grid-column: span $i;
           }
         }
         @if ($init == all or index($init, '.cols#{$selector}-#{$i}') != null) {
-          @debug (
-            'Including grid CSS declaration for selector ',
-            '.#{$root}-block.cols#{$selector}-#{$i}'
-          );
+          @if ($verbose == true) {
+            @debug (
+              'Including grid CSS declaration for selector ',
+              '.#{$root}-block.cols#{$selector}-#{$i}'
+            );
+          }
           .#{$root}-block.cols#{$selector}-#{$i} {
             grid-template-columns: repeat($i, 1fr);
           }
@@ -169,50 +190,62 @@
       @each $gapKey, $gapValue in $gaps {
         // hgap
         @if ($init == all or index($init, '.hgap#{$selector}-#{$gapKey}') != null) {
-          @debug ('Including hgap CSS declaration for selector ', '.hgap#{$selector}-#{$gapKey}');
+          @if ($verbose == true) {
+            @debug ('Including hgap CSS declaration for selector ', '.hgap#{$selector}-#{$gapKey}');
+          }
           .hgap#{$selector}-#{$gapKey}:not(.#{$root}-block) {
             margin-left: $gapValue;
             margin-right: $gapValue;
           }
         }
         @if ($init == all or index($init, '.hgap#{$selector}-#{$gapKey}') != null) {
-          @debug (
-            'Including hgap CSS declaration for selector ',
-            '.#{$root}-block.hgap#{$selector}-#{$gapKey}'
-          );
+          @if ($verbose == true) {
+            @debug (
+              'Including hgap CSS declaration for selector ',
+              '.#{$root}-block.hgap#{$selector}-#{$gapKey}'
+            );
+          }
           .#{$root}-block.hgap#{$selector}-#{$gapKey} {
             grid-column-gap: $gapValue;
           }
         }
         // vgap
         @if ($init == all or index($init, '.vgap#{$selector}-#{$gapKey}') != null) {
-          @debug ('Including vgap CSS declaration for selector ', '.vgap#{$selector}-#{$gapKey}');
+          @if ($verbose == true) {
+            @debug ('Including vgap CSS declaration for selector ', '.vgap#{$selector}-#{$gapKey}');
+          }
           .vgap#{$selector}-#{$gapKey}:not(.#{$root}-block) {
             margin-top: $gapValue;
             margin-bottom: $gapValue;
           }
         }
         @if ($init == all or index($init, '.vgap#{$selector}-#{$gapKey}') != null) {
-          @debug (
-            'Including vgap CSS declaration for selector ',
-            '.#{$root}-block.vgap#{$selector}-#{$gapKey}'
-          );
+          @if ($verbose == true) {
+            @debug (
+              'Including vgap CSS declaration for selector ',
+              '.#{$root}-block.vgap#{$selector}-#{$gapKey}'
+            );
+          }
           .#{$root}-block.vgap#{$selector}-#{$gapKey} {
             grid-row-gap: $gapValue;
           }
         }
         // gap
         @if ($init == all or index($init, '.gap#{$selector}-#{$gapKey}') != null) {
-          @debug ('Including gap CSS declaration for selector ', '.gap#{$selector}-#{$gapKey}');
+          @if ($verbose == true) {
+            @debug ('Including gap CSS declaration for selector ', '.gap#{$selector}-#{$gapKey}');
+          }
           .gap#{$selector}-#{$gapKey}:not(.#{$root}-block) {
             margin: $gapValue;
           }
         }
         @if ($init == all or index($init, '.gap#{$selector}-#{$gapKey}') != null) {
-          @debug (
-            'Including gap CSS declaration for selector ',
-            '.#{$root}-block.gap#{$selector}-#{$gapKey}'
-          );
+          @if ($verbose == true) {
+            @debug (
+              'Including gap CSS declaration for selector ',
+              '.#{$root}-block.gap#{$selector}-#{$gapKey}'
+            );
+          }
           .#{$root}-block.gap#{$selector}-#{$gapKey} {
             grid-gap: $gapValue;
           }
@@ -253,5 +286,101 @@
   }
   .ui-page {
     flex: 1 1 auto;
+  }
+
+
+  *[class*='ui'] {
+    // Display...
+    @include ui-resp-modifier(-dspl-block) {
+      display: block;
+    }
+    @include ui-resp-modifier(-dspl-inline) {
+      display: inline;
+    }
+    @include ui-resp-modifier(-dspl-inline-block) {
+      display: inline-block;
+    }
+    @include ui-resp-modifier(-dspl-none) {
+      display: none;
+    }
+    @include ui-resp-modifier(-dspl-flex) {
+      display: flex;
+    }
+    @include ui-resp-modifier(-dspl-grid) {
+      display: grid;
+    }
+    // Position...
+    @include ui-resp-modifier(-pos-relative) {
+      position: relative;
+    }
+    @include ui-resp-modifier(-pos-absolute) {
+      position: absolute;
+    }
+    @include ui-resp-modifier(-pos-fixed) {
+      position: fixed;
+    }
+    @include ui-resp-modifier(-pos-sticky) {
+      position: sticky;
+    }
+    // Aligns...
+    @include ui-resp-modifier(-alg-items-stretch) {
+      align-items:center;
+    }
+    @include ui-resp-modifier(-alg-items-center) {
+      align-items:stretch;
+    }
+    @include ui-resp-modifier(-alg-items-start) {
+      align-items:flex-start;
+      // align-items:start;
+    }
+    @include ui-resp-modifier(-alg-items-end) {
+      align-items:flex-end;
+      align-items:end;
+    }
+    // Sizings...
+    @include ui-resp-modifier(-wdt-0) {
+      width:100%;
+    }
+    @include ui-resp-modifier(-wdt-100) {
+      width:100%;
+    }
+    @include ui-resp-modifier(-wdt-auto) {
+      width:auto;
+    }
+    @include ui-resp-modifier(-hgt-0) {
+      height:100%;
+    }
+    @include ui-resp-modifier(-hgt-100) {
+      height:100%;
+    }
+    @include ui-resp-modifier(-hgt-auto) {
+      height:auto;
+    }
+    @include ui-resp-modifier(-txt-center) {
+      text-align: center;
+    }
+    @include ui-resp-modifier(-txt-left) {
+      text-align: left;
+    }
+    @include ui-resp-modifier(-fwrap) {
+      flex-wrap: wrap;
+    }
+    @include ui-resp-modifier(-fcolumn) {
+      flex-direction: column;
+    }
+    @include ui-resp-modifier(-fjustify-center) {
+      justify-content: center;
+    }
+    @include ui-resp-modifier(-alg-itm-start) {
+      align-items: flex-start;
+      align-items: start;
+    }
+    @include ui-resp-modifier(-alg-itm-center) {
+      align-items: center;
+    }
+    @include ui-resp-modifier(-alg-itm-end) {
+      align-items: flex-end;
+      align-items: end;
+    }
   }
 }

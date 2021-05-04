@@ -37,3 +37,7 @@
 @function ui-shape($shape) {
   @return map-get($shapes, $shape);
 }
+
+@function ui-font($font) {
+  @return map-get($map: $font-families, $key: $font);
+}
