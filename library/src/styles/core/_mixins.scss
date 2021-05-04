@@ -1,0 +1,386 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+@mixin ui-modifier($modifier) {
+  &[class*='--#{$modifier}'] {
+    @content;
+  }
+}
+
+@mixin ui-resp-modifier($modifier) {
+  @include ui-modifier($modifier) {
+    @content;
+  }
+  @each $key, $size in $breakpoints {
+    @include resp($key) {
+      @include ui-modifier(-#{$key}#{$modifier}) {
+        @content;
+      }
+    }
+  }
+}
+
+// @mixin ui-font($level) {
+//   @if (not map-has-key($typographies, $level)) {
+//     @error ("Typography '#{$level}' does not exist.");
+//   }
+
+//   $style: map-get($typographies, $level);
+//   $fontFamily: if(map-has-key($style, typeface), map-get($style, typeface), 'inherit');
+//   $fontWeight: map-get($style, font);
+//   $fontSize: map-get($style, size);
+//   $lineHeight: map-get($style, line-height);
+//   $letterSpacing: map-get($style, letter-spacing);
+//   $case: map-get($style, case);
+
+//   @if ($fontWeight != null and $fontSize != null and $lineHeight != null) {
+//     font: normal normal $fontWeight $fontSize unquote('/') $lineHeight $fontFamily;
+//   } @else {
+//     @if ($fontFamily != null) {
+//       font-family: $fontFamily;
+//     }
+//     @if ($fontWeight != null) {
+//       font-weight: $fontWeight;
+//     }
+//     @if ($fontSize != null) {
+//       font-size: $fontSize;
+//     }
+//     @if ($lineHeight != null) {
+//       line-height: $lineHeight;
+//     }
+//   }
+//   @if ($letterSpacing != null) {
+//     letter-spacing: $letterSpacing;
+//   }
+//   @if ($case != null) {
+//     text-transform: $case;
+//   }
+// }
+
+/**
+* Build a media query, mobile firstly.
+* Requires at least one breakpoint value to work.
+* You can use registered breakpoints (s) or absolute values (1300px).
+* Highest breakpoint value will be considered as a max-width, while the other one will be min-width.
+* ex. : @include resp(s) => @media screen and (max-width:620px)
+* ex. : @include resp(m s) => @media screen and (max-width:768px) and (min-width:620px)
+*/
+@mixin resp($bps) {
+  $max: 0px;
+  @if length($bps) > 2 {
+    @error "Maximum 2 breakpoints values are allowed to build a media query.";
+  }
+  @each $breakpoint in $bps {
+    // If an absolute value is used, check if that value is registered or not in breakpoints map.
+    // This is just an indication.
+    @if map-has-key($breakpoints, $breakpoint) == false {
+      @if index(map-values($breakpoints), $breakpoint) == null {
+        @if ($verbose == true) {
+          @debug 'Breakpoint absolute value used ( #{$breakpoint} ). Register it if widely used.';
+        }
+      } @else {
+        @if ($verbose == true) {
+          @debug 'Duplicate breakpoint : absolute value "#{$breakpoint}" is also available with mapped breakpoints.';
+        }
+      }
+    }
+    // Type validation and find highest value
+    @if (type-of($breakpoint) != 'number') and (type-of($breakpoint) != 'string') {
+      @error "Type error : #{$breakpoint}";
+    }
+    // Retrieve the real value in px
+    $value: if(type-of($breakpoint) == 'string', map-get($breakpoints, $breakpoint), $breakpoint);
+    @if ($value > $max) {
+      $max: $value;
+    }
+  }
+  // Build the media query string from $bps
+  $str: '';
+  @each $breakpoint in $bps {
+    // Retrieve the real value in px
+    $value: if(type-of($breakpoint) == 'string', map-get($breakpoints, $breakpoint), $breakpoint);
+    // Build a max-width if needed
+    @if $max == $value and (length($bps) > 1) {
+      $str: '#{$str} and (max-width:#{$value})';
+    } @else if $value == 0px and length($bps) == 1 {
+      // For '0px' breakpoint, we don't need to write a media query. The @content code is rendered.
+      @content;
+    } @else {
+      // Otherwise, build a min-width media query
+      @if type-of($breakpoint) == 'string' {
+        $value: $value + 1;
+      }
+      $str: '#{$str} and (min-width:#{$value})';
+    }
+  }
+  @if $str != '' {
+    @media screen#{$str} {
+      @content;
+    }
+  }
+}
+
+// https://kodex.pierrelebedel.fr/scss/face-mixin-scss/
+@mixin fontface($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf) {
+  $src: null;
+  $extmods: (
+    eot: '?',
+  );
+  $formats: (
+    otf: 'opentype',
+    ttf: 'truetype',
+  );
+  @each $ext in $exts {
+    $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+    $src: append($src, url(quote($path + '.' + $extmod)) format(quote($format)), comma);
+  }
+  @font-face {
+    font-family: quote($name);
+    font-style: $style;
+    font-weight: $weight;
+    src: $src;
+    font-display: swap;
+  }
+}
+
+@mixin init() {
+  @each $key, $value in $breakpoints {
+    @include resp($key) {
+      $selector: if($key == xxs, '', -#{$key});
+      // cols
+      *[class*='cols#{$selector}-']:not(.#{$root}-block),
+      .#{$root}-block[class*='cols#{$selector}-'] > * {
+        display: block;
+      }
+      *[class*='cols#{$selector}-0']:not(.#{$root}-block),
+      .#{$root}-block[class*='cols#{$selector}-0'] > * {
+        display: none;
+      }
+      @for $i from 1 to $grid-columns-number + 1 {
+        @if ($init == all or index($init, '.cols#{$selector}-#{$i}') != null) {
+          @if ($verbose == true) {
+            @debug ('Including grid CSS declaration for selector ', '.cols#{$selector}-#{$i}');
+          }
+          .cols#{$selector}-#{$i}:not(.#{$root}-block) {
+            grid-column: span $i;
+          }
+        }
+        @if ($init == all or index($init, '.cols#{$selector}-#{$i}') != null) {
+          @if ($verbose == true) {
+            @debug (
+              'Including grid CSS declaration for selector ',
+              '.#{$root}-block.cols#{$selector}-#{$i}'
+            );
+          }
+          .#{$root}-block.cols#{$selector}-#{$i} {
+            grid-template-columns: repeat($i, 1fr);
+          }
+        }
+      }
+      // .hgap#{$selector}-auto:not(.#{$root}-block),
+      // .#{$root}-block.hgap#{$selector}-auto > * {
+      //   margin-left: auto;
+      // }
+      @each $gapKey, $gapValue in $gaps {
+        // hgap
+        @if ($init == all or index($init, '.hgap#{$selector}-#{$gapKey}') != null) {
+          @if ($verbose == true) {
+            @debug ('Including hgap CSS declaration for selector ', '.hgap#{$selector}-#{$gapKey}');
+          }
+          .hgap#{$selector}-#{$gapKey}:not(.#{$root}-block) {
+            margin-left: $gapValue;
+            margin-right: $gapValue;
+          }
+        }
+        @if ($init == all or index($init, '.hgap#{$selector}-#{$gapKey}') != null) {
+          @if ($verbose == true) {
+            @debug (
+              'Including hgap CSS declaration for selector ',
+              '.#{$root}-block.hgap#{$selector}-#{$gapKey}'
+            );
+          }
+          .#{$root}-block.hgap#{$selector}-#{$gapKey} {
+            grid-column-gap: $gapValue;
+          }
+        }
+        // vgap
+        @if ($init == all or index($init, '.vgap#{$selector}-#{$gapKey}') != null) {
+          @if ($verbose == true) {
+            @debug ('Including vgap CSS declaration for selector ', '.vgap#{$selector}-#{$gapKey}');
+          }
+          .vgap#{$selector}-#{$gapKey}:not(.#{$root}-block) {
+            margin-top: $gapValue;
+            margin-bottom: $gapValue;
+          }
+        }
+        @if ($init == all or index($init, '.vgap#{$selector}-#{$gapKey}') != null) {
+          @if ($verbose == true) {
+            @debug (
+              'Including vgap CSS declaration for selector ',
+              '.#{$root}-block.vgap#{$selector}-#{$gapKey}'
+            );
+          }
+          .#{$root}-block.vgap#{$selector}-#{$gapKey} {
+            grid-row-gap: $gapValue;
+          }
+        }
+        // gap
+        @if ($init == all or index($init, '.gap#{$selector}-#{$gapKey}') != null) {
+          @if ($verbose == true) {
+            @debug ('Including gap CSS declaration for selector ', '.gap#{$selector}-#{$gapKey}');
+          }
+          .gap#{$selector}-#{$gapKey}:not(.#{$root}-block) {
+            margin: $gapValue;
+          }
+        }
+        @if ($init == all or index($init, '.gap#{$selector}-#{$gapKey}') != null) {
+          @if ($verbose == true) {
+            @debug (
+              'Including gap CSS declaration for selector ',
+              '.#{$root}-block.gap#{$selector}-#{$gapKey}'
+            );
+          }
+          .#{$root}-block.gap#{$selector}-#{$gapKey} {
+            grid-gap: $gapValue;
+          }
+        }
+      }
+    }
+  }
+
+  .wdt-100:not(.ui-block),
+  .wdt-100.ui-block > * {
+    width: 100%;
+  }
+
+  .wdt-auto:not(.ui-block),
+  .wdt-auto.ui-block > * {
+    width: auto;
+  }
+
+  .ui-block[class*='alg-cnt'] {
+    align-items: center !important;
+  }
+  .alg-cnt:not(.ui-block) {
+    align-self: center !important;
+  }
+
+  .ui-block[class*='cols-'] {
+    align-items: stretch;
+  }
+
+  .#{$root}-block {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .#{$root}-block[class*='cols-'] {
+    display: grid;
+  }
+  .ui-page {
+    flex: 1 1 auto;
+  }
+
+
+  *[class*='ui'] {
+    // Display...
+    @include ui-resp-modifier(-dspl-block) {
+      display: block;
+    }
+    @include ui-resp-modifier(-dspl-inline) {
+      display: inline;
+    }
+    @include ui-resp-modifier(-dspl-inline-block) {
+      display: inline-block;
+    }
+    @include ui-resp-modifier(-dspl-none) {
+      display: none;
+    }
+    @include ui-resp-modifier(-dspl-flex) {
+      display: flex;
+    }
+    @include ui-resp-modifier(-dspl-grid) {
+      display: grid;
+    }
+    // Position...
+    @include ui-resp-modifier(-pos-relative) {
+      position: relative;
+    }
+    @include ui-resp-modifier(-pos-absolute) {
+      position: absolute;
+    }
+    @include ui-resp-modifier(-pos-fixed) {
+      position: fixed;
+    }
+    @include ui-resp-modifier(-pos-sticky) {
+      position: sticky;
+    }
+    // Aligns...
+    @include ui-resp-modifier(-alg-items-stretch) {
+      align-items:center;
+    }
+    @include ui-resp-modifier(-alg-items-center) {
+      align-items:stretch;
+    }
+    @include ui-resp-modifier(-alg-items-start) {
+      align-items:flex-start;
+      // align-items:start;
+    }
+    @include ui-resp-modifier(-alg-items-end) {
+      align-items:flex-end;
+      align-items:end;
+    }
+    // Sizings...
+    @include ui-resp-modifier(-wdt-0) {
+      width:100%;
+    }
+    @include ui-resp-modifier(-wdt-100) {
+      width:100%;
+    }
+    @include ui-resp-modifier(-wdt-auto) {
+      width:auto;
+    }
+    @include ui-resp-modifier(-hgt-0) {
+      height:100%;
+    }
+    @include ui-resp-modifier(-hgt-100) {
+      height:100%;
+    }
+    @include ui-resp-modifier(-hgt-auto) {
+      height:auto;
+    }
+    @include ui-resp-modifier(-txt-center) {
+      text-align: center;
+    }
+    @include ui-resp-modifier(-txt-left) {
+      text-align: left;
+    }
+    @include ui-resp-modifier(-fwrap) {
+      flex-wrap: wrap;
+    }
+    @include ui-resp-modifier(-fcolumn) {
+      flex-direction: column;
+    }
+    @include ui-resp-modifier(-fjustify-center) {
+      justify-content: center;
+    }
+    @include ui-resp-modifier(-alg-itm-start) {
+      align-items: flex-start;
+      align-items: start;
+    }
+    @include ui-resp-modifier(-alg-itm-center) {
+      align-items: center;
+    }
+    @include ui-resp-modifier(-alg-itm-end) {
+      align-items: flex-end;
+      align-items: end;
+    }
+  }
+}

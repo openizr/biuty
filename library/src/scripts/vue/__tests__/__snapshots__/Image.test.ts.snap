@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vue/UIImage renders correctly - basic 1`] = `"<div class=\\"ui-image ui-image--square--large\\"><img src=\\"https://test.com/a.jpg\\" alt=\\"test\\" loading=\\"lazy\\" width=\\"1\\" height=\\"1\\"></div>"`;
+
+exports[`vue/UIImage renders correctly - custom ratio 1`] = `"<img src=\\"https://test.com/a.jpg\\" alt=\\"test\\" loading=\\"lazy\\" width=\\"25\\" height=\\"32\\" class=\\"ui-image ui-image--25x32\\">"`;
+
+exports[`vue/UIImage renders correctly - custom ratio with itemprop 1`] = `"<img src=\\"https://test.com/a.jpg\\" alt=\\"test\\" loading=\\"lazy\\" width=\\"1\\" height=\\"5\\" itemprop=\\"image\\" class=\\"ui-image ui-image--1x5\\">"`;
+
+exports[`vue/UIImage renders correctly - standard ratio with itemprop 1`] = `"<div class=\\"ui-image ui-image--landscape\\"><img src=\\"https://test.com/a.jpg\\" alt=\\"test\\" loading=\\"lazy\\" itemprop=\\"image\\" width=\\"3\\" height=\\"2\\"></div>"`;
+
+exports[`vue/UIImage renders correctly - with id 1`] = `"<div class=\\"ui-image ui-image--portrait\\"><img src=\\"https://test.com/a.jpg\\" alt=\\"test\\" loading=\\"lazy\\" width=\\"2\\" height=\\"3\\"></div>"`;
+
+exports[`vue/UIImage renders correctly - with panoramic ratio 1`] = `"<div class=\\"ui-image ui-image--panoramic\\"><img src=\\"https://test.com/a.jpg\\" alt=\\"test\\" loading=\\"lazy\\" width=\\"16\\" height=\\"9\\"></div>"`;

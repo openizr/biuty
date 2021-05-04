@@ -1,0 +1,39 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+// Headline 3's classes hierarchy is:
+// .ui-h3
+//   --primary
+//   --secondary
+//   --warning
+//   --error
+//   --disabled
+//   --contained
+//   --outlined
+//   --text
+//   --large
+//   --small
+//
+// Hint: to apply styling to a list of modifiers's children:
+// &--[modifier1]#{&}--[modifier2]...#{&} & {
+//   &__child {
+//      ...
+//   }
+// }
+
+.ui-h3 {
+  @include ui-font('headline3');
+
+  &--large {
+    font-size: 1.2em;
+  }
+
+  &--small {
+    font-size: 0.8em;
+  }
+}

@@ -1,1 +1,0 @@
-# sonar-ui React example

@@ -1,0 +1,53 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+ .ui-button-group {
+  @include ui-margins(2gp);
+  @each $color in primary secondary warning error {
+    // Common to all buttons.
+    & .ui-button {
+      @include ui-margins(0gp);
+      @include ui-borders($radius: 0gp);
+      &:first-child {
+        @include ui-borders($radius: $cornerRadius 0gp $cornerRadius 0gp);
+      }
+      &:last-child {
+        @include ui-borders($radius: 0gp $cornerRadius 0gp $cornerRadius);
+      }
+    }
+    // For contained buttons only.
+    & .ui-button--contained.ui-button--#{$color} {
+      border-right: 1px solid darken(map-get($colors, $color), 15%);
+    }
+    // For outlined buttons only.
+    & .ui-button--outlined.ui-button--#{$color} {
+      margin-left: -1px;
+      border: 1px solid map-get($colors, $color);
+      &:first-child {
+        border: 1px solid map-get($colors, $color);
+      }
+      &:last-child {
+        border: 1px solid map-get($colors, $color);
+        @include ui-borders(1px solid #bebebe, $radius: 0gp $cornerRadius 0gp $cornerRadius);
+      }
+    }
+    & .ui-button--outlined.ui-button--disabled:last-child {
+      border: 1px solid grey;
+    }
+    // For text buttons only.
+    & .ui-button--text.ui-button--#{$color} {
+      @include ui-borders(none, 1px solid map-get($colors, $color), none, none);
+      &:first-child {
+        border-right: 1px solid map-get($colors, $color);
+      }
+      &:last-child {
+        @include ui-borders($left: 0px solid transparent);
+      }
+    }
+  }
+}

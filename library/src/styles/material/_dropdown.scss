@@ -1,0 +1,220 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+ .ui-dropdown {
+  font-size: 1em;
+  padding: 1.125em 0 0 0;
+  height: 4.5em;
+  position: relative;
+  box-sizing: border-box;
+  user-select: none;
+  pointer-events: all;
+  color: #949494;
+
+  &__field {
+    @include ui-font(body1);
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 0 2em 0 0;
+    text-align: left;
+    color: #212121;
+    height: 2em;
+    &:after {
+      position: absolute;
+      right: 0.3em;
+      @include ui-font(icon);
+      font-size: 1.5em;
+      line-height: 1.3;
+      content: "arrow_drop_down";
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    @include ui-font(caption);
+  }
+
+  &__helper {
+    margin: 0.2em 0;
+    @include ui-font(caption);
+  }
+
+  &__list {
+    position: absolute;
+    margin: 0;
+    border-radius: ui-shape(border);
+    padding: 0;
+    width: 100%;
+    min-width: 5em;
+    max-height: 300px;
+    opacity: 0;
+    overflow: auto;
+    list-style: none;
+    pointer-events: none;
+    transform-origin: 0;
+    transform: scale(0.5);
+    background: white;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    @include ui-elevation(8);
+
+    &--expanded {
+      opacity: 1;
+      z-index: 8;
+      transform: scale(1);
+      pointer-events: all;
+    }
+    &--top {
+      bottom: 0;
+    }
+    &--bottom {
+      top: 0;
+    }
+    &__divider {
+      margin: 1em;
+      border-top: 1px solid grey;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    &__header {
+      padding: 0.250em 1em;
+      @include ui-font(caption);
+      font-weight: 500;
+      color: grey;
+    }
+    &__option {
+      cursor: pointer;
+      padding: 0.250em 1em;
+      @include ui-font(body1);
+      color: black;
+      transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      &--disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      &:focus, &:hover {
+        background: #0000000a;
+      }
+      &--selected {
+        &, &:focus, &:hover {
+          font-weight: 500;
+          background: #00000014;
+        }
+      }
+    }
+  }
+
+  &--large {
+    font-size: 1.2em;
+  }
+
+  &--small {
+    font-size: 0.8em;
+  }
+
+  &--disabled &__field {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &--contained#{&} {
+    padding: 0;
+  }
+  &--contained#{&} & {
+    &__label {
+      left: 0.75em;
+      top: 0.5em;
+      padding: 0 0.5em;
+    }
+    &__field {
+      height: 3.5em;
+      padding: 0 0 0 1em;
+      background: #00000014;
+      border-bottom: 1px solid #949494;
+      border-radius: ui-shape(dropdown) ui-shape(dropdown) 0 0;
+      line-height: 4.5;
+      &:after {
+        line-height: 2.5;
+      }
+      &:hover {
+        border-bottom: 1px solid #212121;
+      }
+      &:focus {
+        background: #00000014;
+      }
+    }
+  }
+
+  &--outlined#{&} {
+    padding: 0;
+  }
+  &--outlined#{&} & {
+    &__label {
+      background: white;
+      left: 0.75em;
+      top: -0.75em;
+      padding: 0 0.5em;
+    }
+    &__field {
+      height: 3.5em;
+      padding: 0 0 0 1em;
+      border: 1px solid #949494;
+      border-radius: ui-shape(dropdown);
+      &:hover {
+        border: 1px solid #212121;
+      }
+      &:focus {
+        background: #0000000a;
+      }
+    }
+  }
+
+  &--text#{&} & {
+    &__field {
+      border-bottom: 1px solid #949494;
+      &:hover {
+        border-bottom: 1px solid #212121;
+      }
+      &:focus {
+        background: #0000000a;
+        border-radius: ui-shape(dropdown) ui-shape(dropdown) 0 0;
+      }
+    }
+  }
+
+  @each $color in map-keys($colors) {
+    &--text#{&}--#{$color} & {
+      &__field:focus {
+        border-bottom: 2px solid ui-color($color);
+      }
+    }
+    &--text#{&}--#{$color}#{&}:focus-within &__label {
+      color: ui-color($color);
+    }
+    &--outlined#{&}--#{$color} & {
+      &__field:focus {
+        border: 2px solid ui-color($color);
+      }
+    }
+    &--outlined#{&}--#{$color}#{&}:focus-within &__label {
+      color: ui-color($color);
+    }
+    &--contained#{&}--#{$color} & {
+      &__field:focus {
+        border-bottom: 2px solid ui-color($color);
+      }
+    }
+    &--contained#{&}--#{$color}#{&}:focus-within &__label {
+      color: ui-color($color);
+    }
+  }
+}

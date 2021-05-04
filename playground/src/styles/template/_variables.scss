@@ -1,0 +1,346 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+ $colors: (
+  primary: (
+    main: #7ec89c,
+    on: #fefefe,
+  ),
+  secondary: (
+    main: #fe6b5f,
+    on: #fefefe,
+  ),
+  thirdary: (
+    main: #7788f4,
+    on: #fefefe,
+  ),
+  warning: (
+    main: orange,
+    on: #fefefe,
+  ),
+  error: (
+    main: #e6261f,
+    on: #fefefe,
+  ),
+  background: (
+    main: #fefefe,
+    on: #191c32,
+  ),
+  black: (
+    main: #191c32,
+    on: #fefefe,
+  ),
+  gray: (
+    main: #73767d,
+    on: #fefefe,
+  ),
+  border: (
+    main: #e6e6e6,
+    on: #191c32,
+  ),
+  white: (
+    main: #fefefe,
+    on: #191c32,
+  ),
+  primary-dark-1: (
+    main: #5ea37a,
+    on: #fefefe,
+  ),
+  primary-dark-2: (
+    main: #3c7754,
+    on: #fefefe,
+  ),
+  secondary-light-1: (
+    main: #feaba1,
+    on: #fefefe,
+  ),
+  secondary-light-2: (
+    main: #fff9f8,
+    on: #fe6b5f,
+  ),
+  thirdary-dark-1: (
+    main: #242e58,
+    on: #fefefe,
+  ),
+);
+
+$breakpoints: (
+  xxs: 0px,
+  // xs: 375px,
+  s: 575px,
+  m: 767px,
+  l: 991px,
+  xl: 1199px,
+);
+
+$elevations: (
+  0: (
+    umbra: 0px 0px 0px 0px #00000034,
+    penumbra: 0px 0px 0px 0px #00000024,
+    ambiant: 0px 0px 0px 0px #0000001f,
+  ),
+  1: (
+    umbra: 0px 2px 1px -1px #00000034,
+    penumbra: 0px 1px 1px 0px #00000024,
+    ambiant: 0px 1px 3px 0px #0000001f,
+  ),
+  2: (
+    umbra: 0px 3px 1px -2px #00000034,
+    penumbra: 0px 2px 2px 0px #00000024,
+    ambiant: 0px 1px 5px 0px #0000001f,
+  ),
+  3: (
+    umbra: 0px 3px 3px -2px #00000034,
+    penumbra: 0px 3px 4px 0px #00000024,
+    ambiant: 0px 1px 8px 0px #0000001f,
+  ),
+  4: (
+    umbra: 0px 2px 4px -1px #00000034,
+    penumbra: 0px 4px 5px 0px #00000024,
+    ambiant: 0px 1px 10px 0px #0000001f,
+  ),
+  5: (
+    umbra: 0px 3px 5px -1px #00000034,
+    penumbra: 0px 5px 8px 0px #00000024,
+    ambiant: 0px 1px 14px 0px #0000001f,
+    //xs: 1 8px,,,,,,,,,,,,,
+  ),
+  6: (
+    umbra: 0px 3px 5px -1px #00000034,
+    penumbra: 0px 6px 10px 0px #00000024,
+    ambiant: 0px 1px 18px 0px #0000001f,
+  ),
+  7: (
+    umbra: 0px 4px 5px -2px #00000034,
+    penumbra: 0px 7px 10px 1px #00000024,
+    ambiant: 0px 2px 16px 1px #0000001f,
+  ),
+  8: (
+    umbra: 0px 5px 5px -3px #00000034,
+    penumbra: 0px 8px 10px 1px #00000024,
+    ambiant: 0px 3px 14px 2px #0000001f,
+  ),
+  9: (
+    umbra: 0px 5px 6px -3px #00000034,
+    penumbra: 0px 9px 12px 1px #00000024,
+    ambiant: 0px 3px 16px 2px #0000001f,
+  ),
+  10: (
+    umbra: 0px 6px 6px -3px #00000034,
+    penumbra: 0px 10px 14px 1px #00000024,
+    ambiant: 0px 4px 18px 3px #0000001f,
+  ),
+  11: (
+    umbra: 0px 6px 7px -4px #00000034,
+    penumbra: 0px 11px 15px 1px #00000024,
+    ambiant: 0px 4px 20px 3px #0000001f,
+  ),
+  12: (
+    umbra: 0px 7px 8px -4px #00000034,
+    penumbra: 0px 12px 17px 2px #00000024,
+    ambiant: 0px 5px 22px 4px #0000001f,
+  ),
+  13: (
+    umbra: 0px 7px 8px -4px #00000034,
+    penumbra: 0px 13px 19px 2px #00000024,
+    ambiant: 0px 5px 24px 4px #0000001f,
+  ),
+  14: (
+    umbra: 0px 7px 9px -4px #00000034,
+    penumbra: 0px 14px 21px 2px #00000024,
+    ambiant: 0px 5px 26px 4px #0000001f,
+  ),
+  15: (
+    umbra: 0px 8px 9px -5px #00000034,
+    penumbra: 0px 15px 22px 2px #00000024,
+    ambiant: 0px 6px 28px 5px #0000001f,
+  ),
+  16: (
+    umbra: 0px 8px 10px -5px #00000034,
+    penumbra: 0px 16px 24px 2px #00000024,
+    ambiant: 0px 6px 30px 5px #0000001f,
+  ),
+  17: (
+    umbra: 0px 8px 11px -5px #00000034,
+    penumbra: 0px 17px 26px 2px #00000024,
+    ambiant: 0px 6px 32px 5px #0000001f,
+  ),
+  18: (
+    umbra: 0px 9px 11px -5px #00000034,
+    penumbra: 0px 18px 28px 2px #00000024,
+    ambiant: 0px 7px 34px 6px #0000001f,
+  ),
+  19: (
+    umbra: 0px 9px 12px -6px #00000034,
+    penumbra: 0px 19px 29px 2px #00000024,
+    ambiant: 0px 7px 36px 6px #0000001f,
+  ),
+  20: (
+    umbra: 0px 10px 13px -6px #00000034,
+    penumbra: 0px 20px 31px 3px #00000024,
+    ambiant: 0px 8px 38px 7px #0000001f,
+  ),
+  21: (
+    umbra: 0px 10px 13px -6px #00000034,
+    penumbra: 0px 21px 33px 3px #00000024,
+    ambiant: 0px 8px 40px 7px #0000001f,
+  ),
+  22: (
+    umbra: 0px 10px 14px -6px #00000034,
+    penumbra: 0px 22px 35px 3px #00000024,
+    ambiant: 0px 8px 42px 7px #0000001f,
+  ),
+  23: (
+    umbra: 0px 11px 14px -7px #00000034,
+    penumbra: 0px 23px 36px 3px #00000024,
+    ambiant: 0px 9px 44px 8px #0000001f,
+  ),
+  24: (
+    umbra: 0px 11px 15px -7px #00000034,
+    penumbra: 0px 24px 38px 3px #00000024,
+    ambiant: 0px 9px 46px 8px #0000001f,
+  ),
+);
+
+$shapes: (
+  button: 4px,
+  smallImage: 4px,
+  largeImage: 8px,
+  dropdown: 23px,
+  textField: 32px,
+  tile: 8px,
+);
+
+$gaps: (
+  0: 0px,
+  1: 4px,
+  2: 8px,
+  2.5: 12px,
+  3: 16px,
+  4: 24px,
+  5: 32px,
+  6: 64px,
+  7: 94px,
+);
+
+$typographies: (
+  headline1: (
+    typeface: (
+      'Cabernet JF',
+      serif,
+    ),
+    font: 900,
+    size: 1.5em,
+    case: none,
+    line-height: 0.9,
+    letter-spacing: -0.74px,
+  ),
+  headline2: (
+    typeface: (
+      'Lato',
+      sans-serif,
+    ),
+    font: 600,
+    size: 1.125em,
+    case: none,
+    line-height: 1.375,
+    letter-spacing: 0,
+  ),
+  headline3: (
+    typeface: (
+      'Lato',
+      sans-serif,
+    ),
+    font: 700,
+    size: 1.25em,
+    case: none,
+    line-height: 1.2,
+    letter-spacing: 0,
+  ),
+  headline4: (
+    typeface: (
+      'Lato',
+      sans-serif,
+    ),
+    font: 700,
+    size: 24px,
+    case: none,
+    line-height: 0.83,
+    letter-spacing: 0,
+  ),
+  headline5: (
+    typeface: (
+      'Lato',
+      sans-serif,
+    ),
+    font: 700,
+    size: 22px,
+    case: none,
+    line-height: 26px,
+    letter-spacing: 0,
+  ),
+  headline6: (
+    typeface: (
+      'Lato',
+      sans-serif,
+    ),
+    font: 700,
+    size: 1.2em,
+    case: none,
+    line-height: 1.375,
+    letter-spacing: 0,
+  ),
+  subtitle1: (
+    typeface: (
+      'Lato',
+      sans-serif,
+    ),
+    font: 300,
+    size: 1em,
+    case: none,
+    line-height: 1.2,
+    letter-spacing: 0,
+  ),
+  subtitle2: (),
+  body1: (
+    typeface: (
+      'Lato',
+      sans-serif,
+    ),
+    font: 400,
+    size: 1em,
+    case: none,
+    line-height: 1.375,
+    letter-spacing: 0,
+  ),
+  body2: (),
+  caption: (),
+  button: (
+    typeface: (
+      'Lato',
+      sans-serif,
+    ),
+    font: 600,
+    size: 1em,
+    case: none,
+    line-height: 1.2,
+    letter-spacing: 0,
+  ),
+  overline: (
+    typeface: (
+      'Raleway',
+      sans-serif,
+    ),
+    font: 600,
+    size: 20px,
+    case: none,
+    line-height: 24px,
+    letter-spacing: 0,
+  ),
+  icon: (),
+);

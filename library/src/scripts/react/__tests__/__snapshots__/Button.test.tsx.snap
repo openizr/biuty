@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react/UIButton renders correctly - basic 1`] = `
+<div>
+  <button
+    class="ui-button ui-button--large"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="ui-button__label"
+    >
+      Test
+    </span>
+  </button>
+</div>
+`;
+
+exports[`react/UIButton renders correctly - disabled 1`] = `
+<div>
+  <button
+    class="ui-button ui-button--disabled"
+    tabindex="-1"
+    type="button"
+  />
+</div>
+`;
+
+exports[`react/UIButton renders correctly - icon only 1`] = `
+<div>
+  <button
+    class="ui-button ui-button--icon"
+    tabindex="0"
+    type="button"
+  >
+    <i
+      class="ui-button__icon"
+    >
+      star
+    </i>
+  </button>
+</div>
+`;
+
+exports[`react/UIButton renders correctly - label with icon 1`] = `
+<div>
+  <button
+    class="ui-button"
+    tabindex="0"
+    type="button"
+  >
+    <i
+      class="ui-button__icon"
+    >
+      star
+    </i>
+    <span
+      class="ui-button__label"
+    >
+      Test
+    </span>
+  </button>
+</div>
+`;
+
+exports[`react/UIButton renders correctly - no label 1`] = `
+<div>
+  <button
+    class="ui-button"
+    tabindex="0"
+    type="button"
+  />
+</div>
+`;
+
+exports[`react/UIButton renders correctly - right icon 1`] = `
+<div>
+  <button
+    class="ui-button ui-button--icon"
+    tabindex="0"
+    type="button"
+  >
+    <i
+      class="ui-button__icon"
+    >
+      star
+    </i>
+  </button>
+</div>
+`;
+
+exports[`react/UIButton renders correctly - type submit 1`] = `
+<div>
+  <button
+    class="ui-button"
+    tabindex="0"
+    type="submit"
+  >
+    <span
+      class="ui-button__label"
+    >
+      Test
+    </span>
+  </button>
+</div>
+`;
+
+exports[`react/UIButton renders correctly - with id and listeners 1`] = `
+<div>
+  <button
+    class="ui-button ui-button--large"
+    id="test"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="ui-button__label"
+    >
+      Test
+    </span>
+  </button>
+</div>
+`;

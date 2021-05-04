@@ -1,0 +1,107 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+// Dropdown's classes hierarchy is:
+// .ui-dropdown
+//   --primary
+//   --secondary
+//   --warning
+//   --error
+//   --disabled
+//   --contained
+//   --outlined
+//   --text
+//   --large
+//   --small
+//   __wrapper
+//     __field
+//     __clear-button
+//       __icon
+//     __label
+//     __helper
+//     __list
+//       --top
+//       --bottom
+//       --expanded
+//       __option
+//         __option--disabled
+//         __option--selected
+//       __divider
+//       __header
+
+/**
+ * Dropdown.
+ */
+.ui-dropdown {
+  font-size: 1em;
+  position: relative;
+  user-select: none;
+  pointer-events: all;
+  box-sizing: border-box;
+
+  &__wrapper {
+    &__field {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    &__list {
+      max-height: 0;
+      overflow: hidden;
+      position: absolute;
+      list-style: none;
+      pointer-events: none;
+      background: white;
+      z-index: 1;
+
+      @include ui-modifier(expanded) {
+        max-height: none;
+        pointer-events: all;
+        display: block;
+      }
+
+      @include ui-modifier(top) {
+        bottom: 0;
+      }
+
+      @include ui-modifier(bottom) {
+        top: 0;
+      }
+
+      &__divider {
+        content: "-----";
+        pointer-events: none;
+      }
+
+      &__option {
+        cursor: pointer;
+
+        &--disabled {
+          pointer-events: none;
+        }
+      }
+    }
+
+    @include ui-modifier(large) {
+      font-size: 1.2em;
+    }
+
+    @include ui-modifier(small) {
+      font-size: 0.8em;
+    }
+
+    @include ui-modifier(disabled) {
+      &__field {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    }
+  }
+}

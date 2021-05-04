@@ -6,4 +6,14 @@
  *
  */
 
-export default {};
+/* istanbul ignore file */
+
+import markdown from 'scripts/helpers/markdown';
+import buildClass from 'scripts/helpers/buildClass';
+import generateRandomId from 'scripts/helpers/generateRandomId';
+
+export {
+  markdown,
+  buildClass,
+  generateRandomId,
+};

@@ -2,8 +2,34 @@
 
 A framework-agnostic components and styling library.
 
+[![Build Status](https://travis-ci.org/openizr/sonar-ui.svg?branch=master)](https://travis-ci.org/openizr/sonar-ui)
+[![Coverage Status](https://coveralls.io/repos/github/openizr/sonar-ui/badge.svg)](https://coveralls.io/github/openizr/sonar-ui)
+[![npm](https://img.shields.io/npm/v/sonar-ui.svg)](https://www.npmjs.com/package/sonar-ui)
+[![node](https://img.shields.io/node/v/sonar-ui.svg)](https://nodejs.org)
+[![Downloads](https://img.shields.io/npm/dm/sonar-ui.svg)](https://www.npmjs.com/package/sonar-ui)
 
-## What's in the box
+
+## Table of Contents
+
+1. [Installation](#Installation)
+2. [Features](#Features)
+3. [Advantages](#Advantages)
+4. [Documentation](#Documentation)
+5. [Contributing](#Contributing)
+6. [Sponsor](#Sponsor)
+7. [Maintainers](#Maintainers)
+8. [License](#License)
+
+
+## Installation
+
+```bash
+yarn add sonar-ui
+```
+
+
+## Features
+
 - A complete list of HTML specs for reusable components, using BEM conventions, performance, SEO and accessibility optimized
 - An implementation of those components in popular frontend frameworks (React, VueJS)
 - A SASS library containing a small set of useful and essential mixins and classes to build awesome UIs
@@ -22,157 +48,40 @@ A framework-agnostic components and styling library.
 - Best practices compliant
 
 
-## Components
+## Documentation
 
-### Atomic
-
-Those components are atomic in the way that they can't contain children, and can be configured only using options. Most basic components of any UI.
-
-#### UIButton
-
-Syntax
-```html
-<UIButton
-  id?="my-id"
-  icon?="star"
-  label?="My Button"
-  onClick?={() => console.log('clicked!')}
-  modifiers?="small"
-  iconPosition?="left"
-/>
-```
-
-#### UIDropdown
-
-Syntax
-```html
-<UIDropdown
-  id?="my-id"
-  multiple?={true}
-  helper?="Additional info"
-  options={[{ label: 'Option 1', value: 'option1', disabled: false, type: 'option' }]}
-  modifiers?="small"
-  clearIcon?="close"
-  defaultOptions?={['option1']}
-  onChange?={console.log}
-/>
-```
-
-#### UIImage
-
-Syntax
-```html
-<UIImage
-  src="/path/to/image"
-  alt="My image"
-  ratio="1:1"
-  modifiers?="small"
-  itemProp?="image"
-/>
-```
-
-#### UILink
-
-Syntax
-```html
-<UILink
-  id?="my-id"
-  href="/"
-  label="link"
-  onClick?={console.log}
-  modifiers?="small"
-/>
-```
-
-#### UIP
-
-Syntax
-```html
-<UIP modifiers?="small" label="Hello World!" id?="my-id" itemProp?="description" />
-```
-
-#### UITitle
-
-Syntax
-```html
-<UITitle level?="1" modifiers?="small" label="Hello" itemProp?="name" />
-```
-
-#### UISubtitle
-
-Syntax
-```html
-<UISubtitle level?="1" modifiers?="small" label="Hello" itemProp?="name" />
-```
-
-#### UITextField
-
-Syntax
-```html
-<UITextField
-  id?="my-id"
-  icon?="star"
-  label?="Input"
-  helper?="Additional info"
-  onChange?={console.log}
-  onBlur?={console.log}
-  value?="initial value"
-  readonly?
-  maxlength?={30}
-  size?={3}
-  min?={0}
-  max?={10}
-  step?={5}
-  type?="email"
-  placeholder?="Enter your name here..."
-  iconPosition?="right"
-  modifiers="small"
-/>
-```
-
-## Concepts
-
-- Sonar is mobile-first
-- BEM+ => modifiers will be written like `ui-element ui-element--modifier1--modifier2...` instead of  `ui-element ui-element--modifier1 ui-element--modifier2...`
-- Some values are predefined and can be configured in a `variables` file: gaps, colors, typographies, elevations, shapes (border-radiuses), breakpoints
-- `ui-block` = isolated, new scope
+The complete documentation is available [here](https://matthieu-jabbour.gitbook.io/sonar-ui/)
 
 
-## Layout system - available classes
+## Contributing
 
-- `ui-block`: applies a flex behaviour to children
-- `ui-block cols...`: applies a grid behaviour to children
-- `cols-[N]`: when applied to a block, makes all its children align on a N-columns grid (each child taking one column by default)
-- `cols-[N]`: when applied to a non-block, makes this specific element take N-columns wide on the grid
-- `hgap-[N]`: when applied to a block, applies a horizontal gap of X pixels (X being the value related to `N` in `$gaps` variable) between each column
-- `hgap-[N]`: when applied to a non-block, applies a X pixels horizontal gap (X being the value related to `N` in `$gaps` variable) to this specific element
-- `vgap-[N]`: when applied to a block, applies a vertical gap of X pixels (X being the value related to `N` in `$gaps` variable) between each row
-- `hgap-[N]`: when applied to a non-block, applies a X pixels vertical gap (X being the value related to `N` in `$gaps` variable) to this specific element
-- `gap-[N]`: when applied to a block, applies a gap of X pixels (X being the value related to `N` in `$gaps` variable) between each row and column
-- `gap-[N]`: when applied to a non-block, applies a X pixels gap (X being the value related to `N` in `$gaps` variable) to this specific element
-- `wdt-100`: when applied to a block, applies a 100% width to all its children
-- `wdt-100`: when applied to a non-block, applies a 100% width to this specific element
-- `wdt-auto`: when applied to a block, applies an auto width to all its children
-- `wdt-auto`: when applied to a non-block, applies an auto width to this specific element
-- `alg-cnt`: when applied to a block, vertically centers all its children
-- `alg-cnt`: when applied to a non-block, vertically centers this specific element
-- `ui-page`: indicates that the element is the main body content (not a navbar nor a footer)
-
-*If no breakpoint is specified, the properties will be applied by default to all breakpoints. If you wish to define a specific breakpoint to apply your properties from, just write something like `cols-[BREAKPOINT]-[N]`.*
+You're free to contribute to this project by submitting [issues](https://github.com/openizr/sonar-ui/issues) and/or [pull requests](https://github.com/sonar-ui/sonar-ui/pulls). For more information, please read the [Contribution guide](https://github.com/openizr/sonar-ui/blob/master/CONTRIBUTING.md).
 
 
-## Useful functions (all values are retrieved from variables)
+## Sponsor
 
-- `ui-gap($gap)`
-- `ui-elevation($level)`
-- `ui-color($color, $opacity = 1)`
-- `ui-on-color($color, $opacity = 1)`
-- `ui-shape($shape)`
+Love this project and want to support it? You can [buy me a coffee](https://www.buymeacoffee.com/matthieujabbour) :)
+
+Or just sending me a quick message saying "Thanks" is also very gratifying, and keeps me motivated to maintain open-source projects I work on!
 
 
-## Useful mixins (all values are retrieved from variables)
+## Maintainers
 
-- `fontface($name, $path, $weight = null, $style = null, $exts = eot woff2 woff ttf)`
-- `resp($breakpoint1 $breakpoint2...)`
-- `ui-font($level)`
-- `ui-modifier$(modifier)`
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <img width="150" height="150" src="https://avatars.githubusercontent.com/u/29428247?v=4&s=150">
+        </br>
+        <a href="https://github.com/matthieujabbour">Matthieu Jabbour</a>
+      </td>
+    </tr>
+  <tbody>
+</table>
+
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright (c) Matthieu Jabbour. All Rights Reserved.

@@ -8,21 +8,28 @@
 
 import * as React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
+import buildClass from 'scripts/helpers/buildClass';
 
 const propTypes = {
   id: PropTypes.string,
   icon: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,
+  onFocus: PropTypes.func,
   modifiers: PropTypes.string,
+  type: PropTypes.oneOf(['button', 'submit']),
+  iconPosition: PropTypes.oneOf(['left', 'right']),
 };
 
 const defaultProps = {
   id: null,
   icon: null,
   label: null,
-  modifiers: 'contained',
+  onFocus: null,
+  modifiers: '',
+  type: 'button',
   onClick: undefined,
+  iconPosition: 'left',
 };
 
 /**
@@ -30,20 +37,29 @@ const defaultProps = {
  */
 export default function UIButton(props: InferProps<typeof propTypes>): JSX.Element {
   // eslint-disable-next-line object-curly-newline
-  const { label, icon, onClick, id } = props;
-  // eslint-disable-next-line react/destructuring-assignment
-  const modifiers = (props.modifiers as string).split(' ');
-  const classes = ['ui-button'].concat(modifiers.map((modifier) => `ui-button--${modifier}`));
+  const { label, icon, iconPosition, onClick, id, modifiers, type, onFocus } = props;
+  const className = buildClass('ui-button', (modifiers as string).split(' '));
+  const children = [
+    (icon !== null) ? <i key="icon" className="ui-button__icon">{icon}</i> : null,
+    (label !== null) ? <span key="label" className="ui-button__label">{label}</span> : null,
+  ];
+
+  const focusField = (): void => {
+    if (onFocus !== undefined && onFocus !== null) {
+      onFocus();
+    }
+  };
+
   return (
     <button
       id={id as string}
-      type="button"
+      onFocus={focusField}
       onClick={onClick as undefined}
-      className={classes.join(' ')}
-      tabIndex={(modifiers.includes('disabled') ? -1 : 0)}
+      type={(type === 'submit') ? 'submit' : 'button'}
+      className={`${className}${(icon !== null && label === null) ? ' ui-button--icon' : ''}`}
+      tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
     >
-      {(icon !== null) ? <i className="ui-button__icon">{icon}</i> : null}
-      {(label !== null) ? <span className="ui-button__label">{label}</span> : null}
+      {(iconPosition === 'left') ? children : children.reverse()}
     </button>
   );
 }
