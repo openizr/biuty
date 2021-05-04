@@ -2,8 +2,11 @@
   <!-- eslint-disable vue/no-v-html -->
   <a
     :id="id"
+    :rel="rel"
     :href="href"
+    :title="title"
     :class="className"
+    :target="target"
     v-on="(onClick !== undefined) ? { click: onClick } : {}"
     v-html="parsedLabel"
   />
@@ -25,8 +28,11 @@ import buildClass from 'scripts/helpers/buildClass';
 
 interface Props {
   id: string;
+  rel: string;
   href: string;
+  title: string;
   label: string;
+  target: string;
   modifiers: string;
   onClick: () => void;
 }
@@ -45,6 +51,21 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     href: {
       type: String,
       required: true,
+    },
+    title: {
+      type: String,
+      default: null,
+      required: false,
+    },
+    rel: {
+      type: String,
+      default: null,
+      required: false,
+    },
+    target: {
+      type: String,
+      default: null,
+      required: false,
     },
     label: {
       type: String,

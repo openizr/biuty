@@ -75,13 +75,17 @@ function sanitize(str: string): string {
 }
 
 /**
- * markdown parser
+ * Parses the given markdown-flavored string into HTML.
  *
- * @param  {string} markdown
- * @return {string}
+ * @param {string} text Markdown to parse into HTML.
+ *
+ * @param {boolean} [light = true] Wether to parse complexe tags (images, blockquotes, ...).
+ *
+ * @return {string} Generated HTML.
+ *
  */
-export default function markdown(str: string, light = true): string {
-  let newStr = sanitize(str);
+export default function markdown(text: string, light = true): string {
+  let newStr = sanitize(text);
   const maxIndex = (light === false) ? parsers.length : parsers.length - 1;
   for (let i = 0; i < maxIndex; i += 1) {
     if ((light === true && i !== 5 && i !== 8 && i !== 9 && i !== 15) || light === false) {

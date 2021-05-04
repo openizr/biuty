@@ -13,5 +13,6 @@ declare module '*.vue' {
 }
 
 declare module 'scripts/types' {
-  export type Generic = Record<string, unknown>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export type Generic = Record<string, any>;
 }

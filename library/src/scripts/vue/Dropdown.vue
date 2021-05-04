@@ -94,14 +94,14 @@ interface Option {
 }
 
 interface Props {
-  id?: string;
-  icon?: string;
-  label?: string;
-  multiple?: boolean;
-  helper?: string;
-  modifiers?: string;
+  id: string;
+  icon: string;
+  label: string;
+  multiple: boolean;
+  helper: string;
+  modifiers: string;
   name: string;
-  value?: string[];
+  value: string[];
   options: Option[];
 }
 
@@ -179,7 +179,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   },
   computed: {
     fieldValue(): string {
-      return this.currentValue.map((option) => this.mapping[option]).join(', ');
+      return this.currentValue.map((option: string) => this.mapping[option]).join(', ');
     },
     className(): string {
       return buildClass('ui-dropdown', this.modifiers.split(' '));
@@ -202,7 +202,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
             : this.findSiblingOption(0, +1) || 0);
         }, 50);
       } else {
-        this.$refs.inputRef.focus();
+        (this.$refs.inputRef as HTMLElement).focus();
       }
     },
   },
@@ -217,14 +217,14 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       this.$emit('focus', focusedValue);
     },
     displayList(): void {
-      const relativeOffsetTop = this.$refs.inputRef.getBoundingClientRect().top;
+      const relativeOffsetTop = (this.$refs.inputRef as HTMLElement).getBoundingClientRect().top;
       this.position = (relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom';
       this.isDisplayed = true;
     },
     hideList(force = false, event: MouseEvent | null): void {
       // We first ensure that the newly focused element is not an option of the list.
       const focusIsOutsideList = (event !== null)
-        ? !this.$refs.ulRef.contains(event.relatedTarget as Node)
+        ? !(this.$refs.ulRef as Node).contains(event.relatedTarget as Node)
         : true;
       if (focusIsOutsideList && (force === true || this.multiple === false)) {
         this.isDisplayed = false;
@@ -253,8 +253,8 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       };
     },
     focusOption(optionIndex: number): void {
-      if (this.$refs.ulRef.childNodes.length > 0) {
-        this.$refs.ulRef.childNodes[optionIndex].focus();
+      if ((this.$refs.ulRef as Node).childNodes.length > 0) {
+        ((this.$refs.ulRef as Node).childNodes[optionIndex] as HTMLElement).focus();
       }
       this.focusedOption = optionIndex;
       this.focusField((this.options[optionIndex] || {}).value);

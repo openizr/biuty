@@ -1301,10 +1301,19 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.3":
+"@types/react@*":
   version "17.0.3"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.3.tgz#ba6e215368501ac3826951eef2904574c262cc79"
   integrity sha512-wYOUxIgs2HZZ0ACNiIayItyluADNbONl7kt8lkLjVK8IitMH5QMyAh75Fwhmo37r1m7L2JaFj03sIfxBVDvRAg==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^17.0.4":
+  version "17.0.4"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.4.tgz#a67c6f7a460d2660e950d9ccc1c2f18525c28220"
+  integrity sha512-onz2BqScSFMoTRdJUZUDD/7xrusM8hBA2Fktk2qgaTYPCgPvWnDEgkrOs8hhPUf2jfcIXkJ5yK6VfYormJS3Jw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -1435,10 +1444,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/test-utils@^1.1.3":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.1.4.tgz#a9acb32ea1fa4535b2e1ce5ca100bceb4fade2db"
-  integrity sha512-9BeL8IqGvJKy553lq/07rhYURQkpS/k+j19rJ/4eDpGJk7z872M0YrBWFhjS14yMKlvYVYOCfWnVIXyrAx0xNw==
+"@vue/test-utils@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-1.2.0.tgz#3bc8c17ed549157275f0aec6b95da40887f7297f"
+  integrity sha512-poBTLqeJYNq1TXVhtVfnY8vELUVOFdJY8KZZoUuaAkIqPTWsxonU1M8nMWpZT+xEMrM+49+YcuEqtMHVD9Q9gw==
   dependencies:
     dom-event-types "^1.0.0"
     lodash "^4.17.15"
@@ -7550,10 +7559,10 @@ typedoc@^0.20.35:
     shiki "^0.9.3"
     typedoc-default-themes "^0.12.10"
 
-typescript-dev-kit@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/typescript-dev-kit/-/typescript-dev-kit-3.0.5.tgz#e6f242a05769c1afe413bf1d3b550e90b082dd73"
-  integrity sha512-mzUcOrtcVgTMR6qURqNXLmg5Sl8x8wGzKqKXNM3ceiju1yMfOhKB/AIx17kcYWqt+oPp0vkK1+LldZAtXSlyRQ==
+typescript-dev-kit@^3.0.8:
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/typescript-dev-kit/-/typescript-dev-kit-3.0.8.tgz#0cd929b9b8e5ce1e3778c6e6a5628b387bc61fb9"
+  integrity sha512-6fNG9RjUsf+cTiD2Y2Ex5Mx/SgqkcRdASnCYeqst97DJGrUzEMRQYobXgbiw5K6rNgIyFa8svOBU9OfQg3NMUQ==
   dependencies:
     "@babel/core" "^7.13.15"
     "@babel/plugin-syntax-dynamic-import" "^7.8.3"

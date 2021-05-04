@@ -29,6 +29,27 @@ describe('vue/UILink', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
+  test('renders correctly - with target', () => {
+    const wrapper = mount(UILink, {
+      propsData: { label: 'Test', href: 'https://test.com', target: '_blank' },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  test('renders correctly - with rel', () => {
+    const wrapper = mount(UILink, {
+      propsData: { label: 'Test', href: 'https://test.com', rel: 'no referrer' },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  test('renders correctly - with title', () => {
+    const wrapper = mount(UILink, {
+      propsData: { label: 'Test', href: 'https://test.com', title: 'test' },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   test('renders correctly - with listener', () => {
     const onClick = jest.fn();
     const wrapper = mount(UILink, {

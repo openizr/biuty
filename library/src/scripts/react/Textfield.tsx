@@ -60,7 +60,6 @@ const defaultProps = {
 
 /**
  * Textfield.
- * @augments {Component<Props, State>}
  */
 export default function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
   const {

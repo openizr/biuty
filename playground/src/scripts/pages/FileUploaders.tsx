@@ -9,7 +9,7 @@
 import * as React from 'react';
 import { UIFileUploader } from 'sonar-ui/react';
 
-const onChange = (value: string): void => {
+const onChange = (value: File[]): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
 };
 

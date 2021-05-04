@@ -44,6 +44,27 @@ describe('react/UILink', () => {
     expect(container).toMatchSnapshot();
   });
 
+  test('renders correctly - with target', () => {
+    act(() => {
+      render(<UILink target="_blank" label="Test" href="https://test.com" />, container);
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('renders correctly - with rel', () => {
+    act(() => {
+      render(<UILink rel="no referrer" label="Test" href="https://test.com" />, container);
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('renders correctly - with title', () => {
+    act(() => {
+      render(<UILink title="test" label="Test" href="https://test.com" />, container);
+    });
+    expect(container).toMatchSnapshot();
+  });
+
   test('renders correctly - with listener', () => {
     const onClick = jest.fn();
     act(() => {

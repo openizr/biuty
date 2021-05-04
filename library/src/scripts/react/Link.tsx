@@ -13,6 +13,9 @@ import buildClass from 'scripts/helpers/buildClass';
 const propTypes = {
   id: PropTypes.string,
   onClick: PropTypes.func,
+  rel: PropTypes.string,
+  title: PropTypes.string,
+  target: PropTypes.string,
   modifiers: PropTypes.string,
   href: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
@@ -21,6 +24,9 @@ const propTypes = {
 const defaultProps = {
   id: null,
   modifiers: '',
+  rel: undefined,
+  title: undefined,
+  target: undefined,
   onClick: (): null => null,
 };
 
@@ -29,12 +35,15 @@ const defaultProps = {
  */
 export default function UILink(props: InferProps<typeof propTypes>): JSX.Element {
   // eslint-disable-next-line object-curly-newline
-  const { id, href, label, onClick, modifiers } = props;
+  const { id, href, label, onClick, modifiers, target, rel, title } = props;
 
   return (
     <a
       id={id as string}
       href={href}
+      rel={rel as string}
+      title={title as string}
+      target={target as string}
       onClick={onClick as () => null}
       className={buildClass('ui-link', (modifiers as string).split(' '))}
     >
