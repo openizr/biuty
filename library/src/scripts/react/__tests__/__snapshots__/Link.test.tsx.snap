@@ -33,3 +33,39 @@ exports[`react/UILink renders correctly - with listener 1`] = `
   </a>
 </div>
 `;
+
+exports[`react/UILink renders correctly - with rel 1`] = `
+<div>
+  <a
+    class="ui-link"
+    href="https://test.com"
+    rel="no referrer"
+  >
+    Test
+  </a>
+</div>
+`;
+
+exports[`react/UILink renders correctly - with target 1`] = `
+<div>
+  <a
+    class="ui-link"
+    href="https://test.com"
+    target="_blank"
+  >
+    Test
+  </a>
+</div>
+`;
+
+exports[`react/UILink renders correctly - with title 1`] = `
+<div>
+  <a
+    class="ui-link"
+    href="https://test.com"
+    title="test"
+  >
+    Test
+  </a>
+</div>
+`;

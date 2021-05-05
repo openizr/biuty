@@ -5,3 +5,9 @@ exports[`vue/UILink renders correctly - basic 1`] = `"<a href=\\"https://test.co
 exports[`vue/UILink renders correctly - with id 1`] = `"<a id=\\"test\\" href=\\"https://test.com\\" class=\\"ui-link\\">Test</a>"`;
 
 exports[`vue/UILink renders correctly - with listener 1`] = `"<a href=\\"https://test.com\\" class=\\"ui-link\\">Test</a>"`;
+
+exports[`vue/UILink renders correctly - with rel 1`] = `"<a rel=\\"no referrer\\" href=\\"https://test.com\\" class=\\"ui-link\\">Test</a>"`;
+
+exports[`vue/UILink renders correctly - with target 1`] = `"<a href=\\"https://test.com\\" target=\\"_blank\\" class=\\"ui-link\\">Test</a>"`;
+
+exports[`vue/UILink renders correctly - with title 1`] = `"<a href=\\"https://test.com\\" title=\\"test\\" class=\\"ui-link\\">Test</a>"`;
