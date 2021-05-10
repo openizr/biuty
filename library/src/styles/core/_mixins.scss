@@ -323,10 +323,10 @@
       position: sticky;
     }
     // Aligns...
-    @include ui-resp-modifier(-alg-items-stretch) {
+    @include ui-resp-modifier(-alg-items-center) {
       align-items:center;
     }
-    @include ui-resp-modifier(-alg-items-center) {
+    @include ui-resp-modifier(-alg-items-stretch) {
       align-items:stretch;
     }
     @include ui-resp-modifier(-alg-items-start) {
