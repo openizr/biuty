@@ -6,7 +6,7 @@ services:
     image: openizr/node:2.0.0-dev
     env_file:
       - .env
-    command: sh -c "yarn && (sleep 10 && dsync src/scripts/types.d.ts dist/types.d.ts & dsync src/scripts/types.d.ts dist/react.d.ts & dsync src/scripts/types.d.ts dist/vue.d.ts & yarn run dev)"
+    command: sh -c "yarn && yarn run dev"
     volumes:
       - ./library:/var/www/html
       - ./:/mount
