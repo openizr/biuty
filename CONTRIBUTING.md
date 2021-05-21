@@ -69,41 +69,41 @@ issue you open, you must assign it exactly one label of each group, and update t
 issue's lifecycle as it evolves.
 
 ### Type
- - ![#fbca04](https://placehold.it/15/fbca04/000000?text=+) **[type: breaking change](https://github.com/openizr/sonar-ui/labels/type%3A%20breaking%20change)**:
+ - ![#fbca04](https://place-hold.it/15/fbca04/000000?text=+) **[type: breaking change](https://github.com/openizr/sonar-ui/labels/type%3A%20breaking%20change)**:
 suggestion for a breaking change, that should be part of a next major release.
- - ![#b60205](https://placehold.it/15/b60205/000000?text=+) **[type: bug](https://github.com/openizr/sonar-ui/labels/type%3A%20bug)**:
+ - ![#b60205](https://place-hold.it/15/b60205/000000?text=+) **[type: bug](https://github.com/openizr/sonar-ui/labels/type%3A%20bug)**:
  bug reporting, that should be fixed in the next patch.
- - ![#d93f0b](https://placehold.it/15/d93f0b/000000?text=+) **[type: regression](https://github.com/openizr/sonar-ui/labels/type%3A%20regression)**:
+ - ![#d93f0b](https://place-hold.it/15/d93f0b/000000?text=+) **[type: regression](https://github.com/openizr/sonar-ui/labels/type%3A%20regression)**:
  just like bug, except it just showed up in the last release, and must be fixed in the next patch.
- - ![#0052cc](https://placehold.it/15/0052cc/000000?text=+) **[type: enhancement](https://github.com/openizr/sonar-ui/labels/type%3A%20enhancement)**:
+ - ![#0052cc](https://place-hold.it/15/0052cc/000000?text=+) **[type: enhancement](https://github.com/openizr/sonar-ui/labels/type%3A%20enhancement)**:
  improvement that should be implemented in the next patch.
- - ![#5319e7](https://placehold.it/15/5319e7/000000?text=+) **[type: feature](https://github.com/openizr/sonar-ui/labels/type%3A%20feature)**:
+ - ![#5319e7](https://place-hold.it/15/5319e7/000000?text=+) **[type: feature](https://github.com/openizr/sonar-ui/labels/type%3A%20feature)**:
  request for a new feature, that should be added in the next minor release.
- - ![#0e8a16](https://placehold.it/15/0e8a16/000000?text=+) **[type: question](https://github.com/openizr/sonar-ui/labels/type%3A%20question)**:
+ - ![#0e8a16](https://place-hold.it/15/0e8a16/000000?text=+) **[type: question](https://github.com/openizr/sonar-ui/labels/type%3A%20question)**:
  question or request for information, which can also help us to improve the documentation.
-  - ![#006b75](https://placehold.it/15/006b75/000000?text=+) **[type: discussion](https://github.com/openizr/sonar-ui/labels/type%3A%20discussion)**:
+  - ![#006b75](https://place-hold.it/15/006b75/000000?text=+) **[type: discussion](https://github.com/openizr/sonar-ui/labels/type%3A%20discussion)**:
   everything else you want to discuss regarding the project.
 
 ### Status
- - ![#d4c5f9](https://placehold.it/15/d4c5f9/000000?text=+) **[status: duplicate](https://github.com/openizr/sonar-ui/labels/status%3A%20duplicate)**:
+ - ![#d4c5f9](https://place-hold.it/15/d4c5f9/000000?text=+) **[status: duplicate](https://github.com/openizr/sonar-ui/labels/status%3A%20duplicate)**:
  another existing issue is treating about the same topic, and should be considered instead.
- - ![#c2e0c6](https://placehold.it/15/c2e0c6/000000?text=+) **[status: in progress](https://github.com/openizr/sonar-ui/labels/status%3A%20in%20progress)**:
+ - ![#c2e0c6](https://place-hold.it/15/c2e0c6/000000?text=+) **[status: in progress](https://github.com/openizr/sonar-ui/labels/status%3A%20in%20progress)**:
  somebody is currently working on this issue, and should (hopefully) perform a PR soon!
- - ![#e99695](https://placehold.it/15/e99695/000000?text=+) **[status: invalid](https://github.com/openizr/sonar-ui/labels/status%3A%20invalid)**:
+ - ![#e99695](https://place-hold.it/15/e99695/000000?text=+) **[status: invalid](https://github.com/openizr/sonar-ui/labels/status%3A%20invalid)**:
  issue is either dead, not reproductible, or does not follow the process, and will be closed soon.
- - ![#f9d0c4](https://placehold.it/15/f9d0c4/000000?text=+) **[status: need more information](https://github.com/openizr/sonar-ui/labels/status%3A%20need%20more%20information)**:
+ - ![#f9d0c4](https://place-hold.it/15/f9d0c4/000000?text=+) **[status: need more information](https://github.com/openizr/sonar-ui/labels/status%3A%20need%20more%20information)**:
  issue is too vague and cannot be managed without further information.
- - ![#c5def5](https://placehold.it/15/c5def5/000000?text=+) **[status: new](https://github.com/openizr/sonar-ui/labels/status%3A%20new)**:
+ - ![#c5def5](https://place-hold.it/15/c5def5/000000?text=+) **[status: new](https://github.com/openizr/sonar-ui/labels/status%3A%20new)**:
  issue was just submitted, and should be assigned to someone ASAP.
- - ![#fef2c0](https://placehold.it/15/fef2c0/000000?text=+) **[status: unconfirmed](https://github.com/openizr/sonar-ui/labels/status%3A%20unconfirmed)**:
+ - ![#fef2c0](https://place-hold.it/15/fef2c0/000000?text=+) **[status: unconfirmed](https://github.com/openizr/sonar-ui/labels/status%3A%20unconfirmed)**:
  issue should be considered carefully to determine either it is a real issue or anything else.
 
 ### Difficulty
- - ![#3ddb42](https://placehold.it/15/3ddb42/000000?text=+) **[difficulty: starter](https://github.com/openizr/sonar-ui/labels/difficulty%3A%starter)**:
+ - ![#3ddb42](https://place-hold.it/15/3ddb42/000000?text=+) **[difficulty: starter](https://github.com/openizr/sonar-ui/labels/difficulty%3A%starter)**:
  issue is pretty straightforward, and can be fixed by anyone (good first issue).
- - ![#ea6641](https://placehold.it/15/ea6641/000000?text=+) **[difficulty: medium](https://github.com/openizr/sonar-ui/labels/difficulty%3A%medium)**:
+ - ![#ea6641](https://place-hold.it/15/ea6641/000000?text=+) **[difficulty: medium](https://github.com/openizr/sonar-ui/labels/difficulty%3A%medium)**:
  issue is a bit complex, and requires some knowledge about the project.
- - ![#c13c5b](https://placehold.it/15/c13c5b/000000?text=+) **[difficulty: challenging](https://github.com/openizr/sonar-ui/labels/difficulty%3A%20challenging)**:
+ - ![#c13c5b](https://place-hold.it/15/c13c5b/000000?text=+) **[difficulty: challenging](https://github.com/openizr/sonar-ui/labels/difficulty%3A%20challenging)**:
  issue is very complex, and requires both good skills and a deep knowledge of the project.
 
 
@@ -149,74 +149,37 @@ the pull request description.
 To technically contribute to this project, here are the software you will need:
  * A UNIX terminal and an IDE ;)
  * [git](https://git-scm.com/)
- * [yarn](https://yarnpkg.com/fr)
- * [nodeJS](https://nodejs.org/en)
- * [npm](https://www.npmjs.com)
+ * [docker](https://docs.docker.com/get-docker/)
+ * [docker-compose](https://docs.docker.com/compose/install/)
 
 
 ## Development workflow and tools
 
-```bash
-git clone git@github.com:openizr/sonar-ui.git
-cd sonar-ui
-yarn install
-yarn run dev      # Compile your changes in real time
-yarn run test -w  # Run an interactive test watcher
-yarn run doc      # Generate documentation
-```
+1. `git clone git@github.com:openizr/sonar-ui.git`
+2. `cd sonar-ui`
+3. `cp .env.example .env`
+4. Fill or change environment variables in your `.env` file if necessary
+5. `docker-compose up`
+
+This will run the project locally and allow you to develop and see changes in real-time.
 
 
 # Maintenance
 
-In order to keep this package up-to-date, dependencies updates should be checked and updated regularily, using the `yarn outdated` and `yarn upgrade-interactive --latest` commands. Here is the list of repositories changelogs to watch for updates:
+In order to keep this package up-to-date, dependencies updates should be checked and updated regularily,
+using the `yarn outdated` and `yarn upgrade-interactive --latest` commands. Here is the list of repositories
+changelogs to watch for updates:
 
-- [@babel/core](https://github.com/babel/babel/releases)
-- [@babel/node](https://github.com/babel/babel/releases)
-- [@babel/preset-env](https://github.com/babel/babel/releases)
-- [@babel/preset-react](https://github.com/facebook/jest/releases)
-- [@babel/plugin-syntax-dynamic-import](https://github.com/babel/babel/releases)
-- [@types/jest](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
-- [@types/source-map-support](https://github.com/DefinitelyTyped/DefinitelyTyped/releases)
-- [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/releases)
-- [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint/releases)
-- [autoprefixer](https://github.com/postcss/autoprefixer/releases)
-- [babel-core](https://github.com/babel/babel/releases)
-- [babel-jest](https://github.com/babel/babel-loader/releases)
-- [babel-loader](https://github.com/babel/babel/releases)
-- [css-loader](https://github.com/webpack-contrib/css-loader/releases)
-- [dts-generator](https://github.com/SitePen/dts-generator/releases)
-- [eslint](https://github.com/eslint/eslint/releases)
-- [eslint-config-airbnb-base](https://github.com/airbnb/javascript/releases)
-- [eslint-loader](https://github.com/webpack-contrib/eslint-loader/releases)
-- [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import/releases)
-- [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y/releases)
-- [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react/releases)
-- [eslint-plugin-react-hooks](https://github.com/facebook/react/releases)
-- [eslint-plugin-vue](https://github.com/vuejs/eslint-plugin-vue/releases)
-- [express](https://github.com/expressjs/express/releases)
-- [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin/releases)
-- [file-loader](https://github.com/webpack-contrib/file-loader/releases)
-- [fs-extra](https://github.com/jprichardson/node-fs-extra/releases)
-- [jest](https://github.com/facebook/jest/releases)
-- [node-sass](https://github.com/sass/node-sass/releases)
-- [optimize-css-assets-webpack-plugin](https://github.com/NMFR/optimize-css-assets-webpack-plugin/releases)
-- [postcss](https://github.com/postcss/postcss/releases)
-- [postcss-loader](https://github.com/postcss/postcss-loader/releases)
-- [sass-loader](https://github.com/webpack-contrib/sass-loader/releases)
-- [style-loader](https://github.com/webpack-contrib/style-loader/releases)
-- [ts-jest](https://github.com/kulshekhar/ts-jest/releases)
-- [ts-loader](https://github.com/TypeStrong/ts-loader/releases)
-- [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin/releases)
-- [typedoc](https://github.com/TypeStrong/typedoc/releases)
-- [typescript](https://github.com/microsoft/TypeScript/releases)
-- [uglifyjs-webpack-plugin](https://github.com/webpack-contrib/uglifyjs-webpack-plugin/releases)
-- [url-loader](https://github.com/webpack-contrib/url-loader/releases)
-- [vue-jest](https://github.com/vuejs/vue-jest/releases)
-- [vue-loader](https://github.com/vuejs/vue-loader/releases)
-- [vue-template-compiler](https://github.com/vuejs/vue/releases)
-- [webpack](https://github.com/webpack/webpack/releases)
-- [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware/releases)
-- [webpack-hot-middleware](https://github.com/webpack-contrib/webpack-hot-middleware/releases)
+- [@types/prop-types](https://github.com/DefinitelyTyped/DefinitelyTyped#readme)
+- [@types/react](https://github.com/DefinitelyTyped/DefinitelyTyped#readme)
+- [@types/react-dom](https://github.com/DefinitelyTyped/DefinitelyTyped#readme)
+- [@vue/test-utils](https://github.com/vuejs/vue-test-utils/releases)
+- [coveralls](https://github.com/nickmerwin/node-coveralls/releases)
+- [prop-types](https://github.com/facebook/prop-types/blob/master/CHANGELOG.md)
+- [react](https://github.com/facebook/react/releases)
+- [react-dom](https://github.com/facebook/react/releases)
+- [typescript-dev-kit](https://github.com/openizr/typescript-dev-kit/releases)
+- [vue](https://github.com/vuejs/vue/releases)
 
 
 ## Build & Deployment
@@ -225,8 +188,8 @@ You don't have to worry about deploying the code and publishing it on `npm`, the
 it for you (using TravisCI). Each time a new release is created on the `master` branch, TravisCI
 will automatically build and deploy this release on `npm` with the version you specified in your
 release name. Of course, all tests must pass otherwise code won't be deployed. However, if you want
-to get an preview of the distributed package, you can run `yarn run build`. Assets will be compiled
-into a `dist` directory at the project's root.
+to get an preview of the distributed package, you can run `docker exec <PROJECT_NAME>_library yarn run build`.
+Assets will be compiled into the `dist` directory in `library`.
 
 
 ## Guidelines
@@ -244,9 +207,9 @@ To provide good and clear git commit messages, you should follow [these guidelin
 ## Project structure
 
 Project is structured as follow:
-- **`/docs`:** contains the complete documentation generated from code comments
-- **`/scripts`:** contains utility scripts related project's lifecycle (initialization, ...)
-- **`/src`:** contains the actual codebase and unit tests
+- **`/docs`:** contains the documentation automatically generated from code
+- **`library`:** contains the actual library codebase
+- **`playground`:** contains a bunch of code samples and allows you to play with the library in real-time while developing it
 
 
 ## License
