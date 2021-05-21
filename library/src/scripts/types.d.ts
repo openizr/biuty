@@ -238,6 +238,7 @@ declare module 'sonar-ui/vue' {
 }
 
 declare module 'sonar-ui/react' {
+  import { MouseEvent } from 'react';
   import * as PropTypes from 'prop-types';
 
   /**
@@ -358,14 +359,14 @@ declare module 'sonar-ui/react' {
    * Link.
    */
   export function UILink(props: PropTypes.InferProps<{
-    rel: PropTypes.Validator<string>;
+    rel: PropTypes.Requireable<string>;
     id: PropTypes.Requireable<string>;
-    title: PropTypes.Validator<string>;
-    onClick: PropTypes.Requireable<() => void>;
+    title: PropTypes.Requireable<string>;
+    onClick: PropTypes.Requireable<(event: MouseEvent<HTMLAnchorElement>) => void>;
     modifiers: PropTypes.Requireable<string>;
     href: PropTypes.Validator<string>;
     label: PropTypes.Validator<string>;
-    target: PropTypes.Validator<string>;
+    target: PropTypes.Requireable<string>;
   }>): JSX.Element;
 
   /**
