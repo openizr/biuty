@@ -67,7 +67,7 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   const [randomId] = React.useState(generateRandomId);
   const [mounted, setMounted] = React.useState(false);
   const [position, setPosition] = React.useState('bottom');
-  const [mapping, setMapping] = React.useState({} as Mapping);
+  const [mapping, setMapping] = React.useState(options.reduce(generateMapping, {}));
   const [isDisplayed, setIsDisplayed] = React.useState(false);
   const [currentValue, setCurrentValue] = React.useState(value as string[]);
   const [focusedOption, setFocusedOption] = React.useState(findOption(currentValue[0])(options));
