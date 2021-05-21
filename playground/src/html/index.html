@@ -8,9 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
   <base href="/" />
-  <!-- Switch following lines to either test React or VueJS. -->
-  <!-- <script async src="./assets/scripts/react.js"></script> -->
-  <script async src="./assets/scripts/vue.js"></script>
+
+  <% for (var filePath in htmlWebpackPlugin.files.js) { %>
+    <script async src="<%= htmlWebpackPlugin.files.js[filePath] %>"></script>
+  <% } %>
 </head>
 
 <body>
