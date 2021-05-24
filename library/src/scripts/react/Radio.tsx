@@ -7,9 +7,9 @@
  */
 
 import * as React from 'react';
+import markdown from 'scripts/helpers/markdown';
 import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
-import generateRandomId from 'scripts/helpers/generateRandomId';
 
 const optionType = {
   value: PropTypes.string.isRequired,
@@ -45,7 +45,6 @@ const defaultProps = {
 export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Element {
   // eslint-disable-next-line object-curly-newline
   const { id, modifiers, label, helper, value, name, options, onFocus } = props;
-  const [randomId] = React.useState(generateRandomId);
   const [currentValue, setCurrentValue] = React.useState(value);
   const className = buildClass('ui-radio', (modifiers as string).split(' '));
 
@@ -72,7 +71,10 @@ export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Elemen
       id={id as string}
       className={className}
     >
-      {(label !== null) ? <label className="ui-radio__label" htmlFor={randomId}>{label}</label> : null}
+      {(label !== null && label !== undefined)
+        // eslint-disable-next-line react/no-danger, jsx-a11y/label-has-associated-control
+        ? <label className="ui-radio__label" dangerouslySetInnerHTML={{ __html: markdown(label) }} />
+        : null}
       <div className="ui-radio__wrapper">
         {options.map((option) => {
           const isChecked = currentValue === option.value;
@@ -92,7 +94,11 @@ export default function UIRadio(props: InferProps<typeof propTypes>): JSX.Elemen
                 className="ui-radio__wrapper__option__radio"
                 tabIndex={((modifiers as string).includes('disabled') || isDisabled ? -1 : 0)}
               />
-              <span className="ui-radio__wrapper__option__label">{option.label}</span>
+              <span
+                className="ui-radio__wrapper__option__label"
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: markdown(option.label) }}
+              />
             </label>
           );
         })}

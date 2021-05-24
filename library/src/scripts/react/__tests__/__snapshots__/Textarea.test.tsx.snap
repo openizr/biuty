@@ -154,7 +154,9 @@ exports[`react/UITextarea renders correctly - with label 1`] = `
       class="ui-textarea__label"
       for="z8a8d7a5zad4"
     >
-      test
+      <strong>
+        test
+      </strong>
     </label>
     <div
       class="ui-textarea__wrapper"

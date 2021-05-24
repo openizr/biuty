@@ -12,7 +12,7 @@
       <UICheckbox
         name="checkbox2"
         :options="options"
-        label="ui-checkbox"
+        label="*ui-checkbox*"
       />
       <UICheckbox
         name="checkbox3"
@@ -84,7 +84,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       newValue: ['option1'],
       options: [
         {
-          label: 'Option 1',
+          label: '*Option* _1_',
           value: 'option1',
         },
         {

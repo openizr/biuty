@@ -38,7 +38,7 @@ export default function Textareas(): JSX.Element {
       <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
         <a href="/" className="cols-l-3">GO BACK</a>
         <UITextarea name="textarea1" />
-        <UITextarea name="textarea2" label="ui-textarea" />
+        <UITextarea name="textarea2" label="*ui-textarea*" />
         <UITextarea name="textarea3" label="ui-textarea readonly" readonly />
         <UITextarea name="textarea4" label="ui-textarea with value" value={newValue} />
         <UITextarea name="textarea5" label="ui-textarea with helper" helper="helper" />

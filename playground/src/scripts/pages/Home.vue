@@ -5,46 +5,57 @@
         href="/typography"
         class="cols-3"
       >TYPOGRAPHY</a>
+      <br>
       <a
         href="/images"
         class="cols-3"
       >IMAGES</a>
+      <br>
       <a
         href="/radios"
         class="cols-3"
       >RADIOS</a>
+      <br>
       <a
         href="/buttons"
         class="cols-3"
       >BUTTONS</a>
+      <br>
       <a
         href="/markdown"
         class="cols-3"
       >MARKDOWN</a>
+      <br>
       <a
         href="/dropdowns"
         class="cols-3"
       >DROPDOWNS</a>
+      <br>
       <a
         href="/textfields"
         class="cols-3"
       >TEXTFIELDS</a>
+      <br>
       <a
         href="/textareas"
         class="cols-3"
       >TEXTAREAS</a>
+      <br>
       <a
         href="/file-uploaders"
         class="cols-3"
       >FILE UPLOADERS</a>
+      <br>
       <a
         href="/radios"
         class="cols-3"
       >RADIOS</a>
+      <br>
       <a
         href="/checkboxes"
         class="cols-3"
       >CHECKBOXES</a>
+      <br>
       <a
         href="/icons"
         class="cols-3"

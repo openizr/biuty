@@ -11,7 +11,7 @@ import { UIDropdown } from 'sonar-ui/react';
 
 const options = [
   {
-    label: 'Group 1',
+    label: '*Group 1*',
     type: 'header',
   },
   {
@@ -88,7 +88,7 @@ export default function Dropdowns(): JSX.Element {
     <div className="vgap-5">
       <main className="ui-page ui-block cols-12 cols-l-12 hgap-3 vgap-5">
         <a href="/" className="cols-12 cols-l-12">GO BACK</a>
-        <UIDropdown name="dropdown1" options={options} value={['option1']} label="UIDropdown" onChange={onChange} />
+        <UIDropdown name="dropdown1" options={options} value={['option1']} label="*UIDropdown*" onChange={onChange} />
         <UIDropdown name="dropdown2" options={options} value={['option1']} label="UIDropdown disabled" />
         <UIDropdown name="dropdown3" options={options2} value={['option1']} label="UIDropdown large" />
         <UIDropdown name="dropdown4" options={options} value={newValue} label="UIDropdown large disabled" />

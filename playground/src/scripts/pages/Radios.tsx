@@ -19,7 +19,7 @@ const onFocus = (value: string): void => {
 
 const options = [
   {
-    label: 'Option 1',
+    label: '*Option 1*',
     value: 'option1',
   },
   {
@@ -54,7 +54,7 @@ export default function Radios(): JSX.Element {
       <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
         <a href="/" className="cols-l-3">GO BACK</a>
         <UIRadio name="radio1" value="option3" options={options} />
-        <UIRadio name="radio2" value="option3" label="ui-radio" options={options} />
+        <UIRadio name="radio2" value="option3" label="*ui-radio*" options={options} />
         <UIRadio name="radio3" value={newValue} label="ui-radio with value" options={options} />
         <UIRadio name="radio4" value="option3" label="ui-radio with helper" helper="helper" options={options} />
         <UIRadio name="radio5" value="option3" label="ui-radio with listener" onChange={onChange} options={options} />

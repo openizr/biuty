@@ -13,7 +13,7 @@
       <UIRadio
         name="radio2"
         value="option3"
-        label="ui-radio"
+        label="*ui-radio*"
         :options="options"
       />
       <UIRadio
@@ -90,7 +90,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       newValue: 'option3',
       options: [
         {
-          label: 'Option 1',
+          label: '*Option 1*',
           value: 'option1',
         },
         {

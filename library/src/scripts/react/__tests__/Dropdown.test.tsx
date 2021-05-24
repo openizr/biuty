@@ -12,6 +12,7 @@ import { act, Simulate } from 'react-dom/test-utils';
 import { render, unmountComponentAtNode } from 'react-dom';
 
 let container = document.createElement('div');
+jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
 const options: { type: string; value?: string; label?: string; disabled?: boolean; }[] = [
   { type: 'option', value: 'option1', label: 'Option 1' },

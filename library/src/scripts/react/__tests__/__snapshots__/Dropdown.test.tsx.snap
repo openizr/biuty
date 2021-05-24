@@ -17,7 +17,7 @@ exports[`react/UIDropdown correctly handles keyboard navigation 1`] = `
         readonly=""
         tabindex="0"
         type="text"
-        value="Option 1"
+        value="<strong>Option 1</strong>"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad40"
@@ -34,14 +34,18 @@ exports[`react/UIDropdown correctly handles keyboard navigation 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -49,7 +53,9 @@ exports[`react/UIDropdown correctly handles keyboard navigation 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -58,14 +64,18 @@ exports[`react/UIDropdown correctly handles keyboard navigation 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -73,7 +83,9 @@ exports[`react/UIDropdown correctly handles keyboard navigation 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -98,7 +110,7 @@ exports[`react/UIDropdown renders correctly - basic 1`] = `
         readonly=""
         tabindex="0"
         type="text"
-        value="Option 1"
+        value="<strong>Option 1</strong>"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad40"
@@ -115,14 +127,18 @@ exports[`react/UIDropdown renders correctly - basic 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -130,7 +146,9 @@ exports[`react/UIDropdown renders correctly - basic 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -139,14 +157,18 @@ exports[`react/UIDropdown renders correctly - basic 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -154,7 +176,9 @@ exports[`react/UIDropdown renders correctly - basic 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -196,14 +220,18 @@ exports[`react/UIDropdown renders correctly - disabled 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -211,7 +239,9 @@ exports[`react/UIDropdown renders correctly - disabled 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -220,14 +250,18 @@ exports[`react/UIDropdown renders correctly - disabled 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -235,7 +269,9 @@ exports[`react/UIDropdown renders correctly - disabled 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -290,14 +326,18 @@ exports[`react/UIDropdown renders correctly - disabled with icon 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -305,7 +345,9 @@ exports[`react/UIDropdown renders correctly - disabled with icon 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -314,14 +356,18 @@ exports[`react/UIDropdown renders correctly - disabled with icon 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -329,7 +375,9 @@ exports[`react/UIDropdown renders correctly - disabled with icon 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -371,14 +419,18 @@ exports[`react/UIDropdown renders correctly - expanded 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="true"
           class="ui-dropdown__wrapper__list__option"
@@ -386,7 +438,9 @@ exports[`react/UIDropdown renders correctly - expanded 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -395,14 +449,18 @@ exports[`react/UIDropdown renders correctly - expanded 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -410,7 +468,9 @@ exports[`react/UIDropdown renders correctly - expanded 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -467,7 +527,7 @@ exports[`react/UIDropdown renders correctly - expanded with value 1`] = `
         readonly=""
         tabindex="0"
         type="text"
-        value="Option 1"
+        value="<strong>Option 1</strong>"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad40"
@@ -484,14 +544,18 @@ exports[`react/UIDropdown renders correctly - expanded with value 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -499,7 +563,9 @@ exports[`react/UIDropdown renders correctly - expanded with value 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -508,14 +574,18 @@ exports[`react/UIDropdown renders correctly - expanded with value 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -523,7 +593,9 @@ exports[`react/UIDropdown renders correctly - expanded with value 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -565,14 +637,18 @@ exports[`react/UIDropdown renders correctly - multiple 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -580,7 +656,9 @@ exports[`react/UIDropdown renders correctly - multiple 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -589,14 +667,18 @@ exports[`react/UIDropdown renders correctly - multiple 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -604,7 +686,9 @@ exports[`react/UIDropdown renders correctly - multiple 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -629,7 +713,7 @@ exports[`react/UIDropdown renders correctly - multiple with listeners 1`] = `
         readonly=""
         tabindex="0"
         type="text"
-        value="Option 2"
+        value="<strong>Option 2</strong>"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad40"
@@ -646,14 +730,18 @@ exports[`react/UIDropdown renders correctly - multiple with listeners 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected"
@@ -661,7 +749,9 @@ exports[`react/UIDropdown renders correctly - multiple with listeners 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -670,14 +760,18 @@ exports[`react/UIDropdown renders correctly - multiple with listeners 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -685,7 +779,9 @@ exports[`react/UIDropdown renders correctly - multiple with listeners 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -727,14 +823,18 @@ exports[`react/UIDropdown renders correctly - with helper 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -742,7 +842,9 @@ exports[`react/UIDropdown renders correctly - with helper 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -751,14 +853,18 @@ exports[`react/UIDropdown renders correctly - with helper 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -766,7 +872,9 @@ exports[`react/UIDropdown renders correctly - with helper 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -826,14 +934,18 @@ exports[`react/UIDropdown renders correctly - with icon 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -841,7 +953,9 @@ exports[`react/UIDropdown renders correctly - with icon 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -850,14 +964,18 @@ exports[`react/UIDropdown renders correctly - with icon 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -865,7 +983,9 @@ exports[`react/UIDropdown renders correctly - with icon 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -908,14 +1028,18 @@ exports[`react/UIDropdown renders correctly - with id 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -923,7 +1047,9 @@ exports[`react/UIDropdown renders correctly - with id 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -932,14 +1058,18 @@ exports[`react/UIDropdown renders correctly - with id 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -947,7 +1077,9 @@ exports[`react/UIDropdown renders correctly - with id 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -964,7 +1096,9 @@ exports[`react/UIDropdown renders correctly - with label 1`] = `
       class="ui-dropdown__label"
       for="z8a8d7a5zad4"
     >
-      test
+      <strong>
+        test
+      </strong>
     </label>
     <div
       class="ui-dropdown__wrapper"
@@ -995,14 +1129,18 @@ exports[`react/UIDropdown renders correctly - with label 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -1010,7 +1148,9 @@ exports[`react/UIDropdown renders correctly - with label 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -1019,14 +1159,18 @@ exports[`react/UIDropdown renders correctly - with label 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -1034,7 +1178,9 @@ exports[`react/UIDropdown renders correctly - with label 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -1059,7 +1205,7 @@ exports[`react/UIDropdown renders correctly - with listeners 1`] = `
         readonly=""
         tabindex="0"
         type="text"
-        value="Option 1"
+        value="<strong>Option 1</strong>"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad40"
@@ -1076,14 +1222,18 @@ exports[`react/UIDropdown renders correctly - with listeners 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -1091,7 +1241,9 @@ exports[`react/UIDropdown renders correctly - with listeners 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -1100,14 +1252,18 @@ exports[`react/UIDropdown renders correctly - with listeners 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -1115,7 +1271,9 @@ exports[`react/UIDropdown renders correctly - with listeners 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>
@@ -1157,7 +1315,9 @@ exports[`react/UIDropdown renders correctly - with option disabled 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 5
+          <strong>
+            Option 5
+          </strong>
         </li>
       </ul>
     </div>
@@ -1182,7 +1342,7 @@ exports[`react/UIDropdown renders correctly - with value 1`] = `
         readonly=""
         tabindex="0"
         type="text"
-        value="Option 1, Option 3"
+        value="<strong>Option 1</strong>, <strong>Option 3</strong>"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad40"
@@ -1199,14 +1359,18 @@ exports[`react/UIDropdown renders correctly - with value 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__divider"
           id="z8a8d7a5zad41"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -1214,7 +1378,9 @@ exports[`react/UIDropdown renders correctly - with value 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </li>
         <li
           aria-selected="false"
@@ -1223,14 +1389,18 @@ exports[`react/UIDropdown renders correctly - with value 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__header"
           id="z8a8d7a5zad44"
           tabindex="-1"
-        />
+        >
+          <strong />
+        </li>
         <li
           aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
@@ -1238,7 +1408,9 @@ exports[`react/UIDropdown renders correctly - with value 1`] = `
           role="option"
           tabindex="-1"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </li>
       </ul>
     </div>

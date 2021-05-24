@@ -6,24 +6,12 @@ exports[`vue/UIDropdown correctly handles keyboard navigation 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad40\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\" aria-selected=\\"true\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\" aria-selected=\\"true\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -36,24 +24,12 @@ exports[`vue/UIDropdown renders correctly - basic 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -66,24 +42,12 @@ exports[`vue/UIDropdown renders correctly - disabled 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -95,24 +59,12 @@ exports[`vue/UIDropdown renders correctly - disabled with icon 1`] = `
   <!---->
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\"> <button id=\\"z8a8d7a5zad4icon\\" type=\\"button\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4icon\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__clear-button\\"><i class=\\"ui-dropdown__wrapper__clear-button__icon\\">star</i></button>
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -125,24 +77,12 @@ exports[`vue/UIDropdown renders correctly - expanded 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad42\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom--expanded\\" aria-expanded=\\"true\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\" aria-selected=\\"true\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\" aria-selected=\\"true\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -166,24 +106,12 @@ exports[`vue/UIDropdown renders correctly - expanded with value 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad40\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" aria-selected=\\"true\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" aria-selected=\\"true\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -196,24 +124,12 @@ exports[`vue/UIDropdown renders correctly - multiple 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -226,24 +142,12 @@ exports[`vue/UIDropdown renders correctly - multiple with listeners 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad40\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom--expanded\\" aria-expanded=\\"true\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\" aria-selected=\\"true\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\" aria-selected=\\"true\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -256,24 +160,12 @@ exports[`vue/UIDropdown renders correctly - multiple with listeners 2`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad40\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom--expanded\\" aria-expanded=\\"true\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\" aria-selected=\\"true\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\" aria-selected=\\"true\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -286,24 +178,12 @@ exports[`vue/UIDropdown renders correctly - with helper 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div> <span classname=\\"ui-dropdown__helper\\">test</span>
 </div>"
@@ -314,24 +194,12 @@ exports[`vue/UIDropdown renders correctly - with icon 1`] = `
   <!---->
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\"> <button id=\\"z8a8d7a5zad4icon\\" type=\\"button\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4icon\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__clear-button\\"><i class=\\"ui-dropdown__wrapper__clear-button__icon\\">star</i></button>
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -343,24 +211,12 @@ exports[`vue/UIDropdown renders correctly - with icon 2`] = `
   <!---->
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\"> <button id=\\"z8a8d7a5zad4icon\\" type=\\"button\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4icon\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__clear-button\\"><i class=\\"ui-dropdown__wrapper__clear-button__icon\\">star</i></button>
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -373,24 +229,12 @@ exports[`vue/UIDropdown renders correctly - with id 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -398,28 +242,16 @@ exports[`vue/UIDropdown renders correctly - with id 1`] = `
 `;
 
 exports[`vue/UIDropdown renders correctly - with label 1`] = `
-"<div class=\\"ui-dropdown\\"><label for=\\"z8a8d7a5zad4\\" class=\\"ui-dropdown__label\\">test</label>
+"<div class=\\"ui-dropdown\\"><label for=\\"z8a8d7a5zad4\\" class=\\"ui-dropdown__label\\"><strong>test</strong></label>
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -432,24 +264,12 @@ exports[`vue/UIDropdown renders correctly - with listeners 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad40\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" aria-selected=\\"true\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" aria-selected=\\"true\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->
@@ -462,9 +282,7 @@ exports[`vue/UIDropdown renders correctly - with option disabled 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad4-1\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--disabled\\">
-        Option 5
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--disabled\\"><strong>Option 5</strong></li>
     </ul>
   </div>
   <!---->
@@ -477,24 +295,12 @@ exports[`vue/UIDropdown renders correctly - with value 1`] = `
   <div classname=\\"ui-dropdown__wrapper\\"><input id=\\"z8a8d7a5zad4\\" readonly=\\"readonly\\" name=\\"test\\" type=\\"text\\" aria-haspopup=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4 z8a8d7a5zad4\\" tabindex=\\"0\\" class=\\"ui-dropdown__wrapper__field\\">
     <!---->
     <ul tabindex=\\"-1\\" role=\\"listbox\\" aria-labelledby=\\"z8a8d7a5zad4\\" aria-activedescendant=\\"z8a8d7a5zad40\\" class=\\"ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom\\">
-      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" aria-selected=\\"true\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\">
-        Option 1
-      </li>
-      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 2
-      </li>
-      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\">
-        Option 3
-      </li>
-      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\">
-
-      </li>
-      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\">
-        Option 4
-      </li>
+      <li id=\\"z8a8d7a5zad40\\" tabindex=\\"-1\\" aria-selected=\\"true\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\"><strong>Option 1</strong></li>
+      <li id=\\"z8a8d7a5zad41\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__divider\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad42\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 2</strong></li>
+      <li id=\\"z8a8d7a5zad43\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option ui-dropdown__wrapper__list__option--selected\\"><strong>Option 3</strong></li>
+      <li id=\\"z8a8d7a5zad44\\" tabindex=\\"-1\\" class=\\"ui-dropdown__wrapper__list__header\\"><strong></strong></li>
+      <li id=\\"z8a8d7a5zad45\\" tabindex=\\"-1\\" role=\\"option\\" class=\\"ui-dropdown__wrapper__list__option\\"><strong>Option 4</strong></li>
     </ul>
   </div>
   <!---->

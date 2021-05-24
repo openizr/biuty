@@ -8,7 +8,7 @@
       <UIFileUploader name="file-uploader1" />
       <UIFileUploader
         name="file-uploader2"
-        label="ui-file-uploader"
+        label="*ui-file-uploader*"
       />
       <UIFileUploader
         name="file-uploader5"

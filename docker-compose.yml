@@ -18,7 +18,7 @@ services:
       - .env
     ports:
       - "127.0.0.1:${PLAYGROUND_PORT}:${PLAYGROUND_PORT}"
-    command: sh -c "yarn && yarn run dev"
+    command: sh -c "yarn && (dsync /library/dist/ node_modules/sonar-ui/ & yarn run dev)"
     working_dir: /var/www/html
     volumes:
       - ./library:/library

@@ -11,6 +11,7 @@ import UITextarea from 'scripts/vue/Textarea.vue';
 
 type component = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
+jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
 
 describe('vue/UITextarea', () => {

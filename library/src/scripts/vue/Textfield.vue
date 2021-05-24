@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div
     :id="id"
     :class="className"
@@ -7,7 +8,8 @@
       v-if="label !== null"
       class="ui-textfield__label"
       :for="randomId"
-    >{{ label }}</label>
+      v-html="markdown(label)"
+    />
     <div class="ui-textfield__wrapper">
       <i
         v-if="icon !== null && iconPosition === 'left'"
@@ -62,6 +64,7 @@
 
 import Vue from 'vue';
 import { Generic } from 'scripts/types';
+import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
@@ -205,6 +208,9 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     clickIcon(): void {
       this.$emit('iconClick');
+    },
+    markdown(label: string): string {
+      return markdown(label);
     },
   },
 });

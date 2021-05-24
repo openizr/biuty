@@ -88,7 +88,9 @@ exports[`react/UIFileUploader renders correctly - with label 1`] = `
       class="ui-file-uploader__label"
       for="z8a8d7a5zad4"
     >
-      test
+      <strong>
+        test
+      </strong>
     </label>
     <input
       class="ui-file-uploader__field"
@@ -112,7 +114,9 @@ exports[`react/UIFileUploader renders correctly - with left icon 1`] = `
       class="ui-file-uploader__label"
       for="z8a8d7a5zad4"
     >
-      test
+      <strong>
+        test
+      </strong>
     </label>
     <i
       class="ui-button__icon"
@@ -179,7 +183,9 @@ exports[`react/UIFileUploader renders correctly - with right icon 1`] = `
       class="ui-file-uploader__label"
       for="z8a8d7a5zad4"
     >
-      test
+      <strong>
+        test
+      </strong>
     </label>
     <input
       class="ui-file-uploader__field"

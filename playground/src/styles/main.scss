@@ -7,7 +7,7 @@
  */
 
 // @import './template/_variables';
-// @import 'sonar-ui/core';
+@import 'sonar-ui/core';
 // @import './template';
 
 // @include init();
@@ -202,5 +202,14 @@ margin-top: 1000px;
   &--disabled &__field {
     opacity: 0.5;
     pointer-events: none;
+  }
+}
+
+.ui-markdown {
+  &--emphasis {
+    font-weight: bold;
+  }
+  &--underline {
+    text-decoration: underline;
   }
 }

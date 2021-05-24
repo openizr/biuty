@@ -42,7 +42,7 @@ export default function Textfields(): JSX.Element {
       <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
         <a href="/" className="cols-l-3">GO BACK</a>
         <UITextfield name="textfield1" />
-        <UITextfield name="textfield2" label="ui-textfield" />
+        <UITextfield name="textfield2" label="*ui-textfield*" />
         <UITextfield name="textfield3" label="ui-textfield readonly" readonly />
         <UITextfield name="textfield4" label="ui-textfield with value" value={newValue} />
         <UITextfield name="textfield5" label="ui-textfield with helper" helper="helper" />

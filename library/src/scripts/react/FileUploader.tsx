@@ -7,6 +7,7 @@
  */
 
 import * as React from 'react';
+import markdown from 'scripts/helpers/markdown';
 import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
@@ -86,8 +87,9 @@ export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX
       id={id as string}
       className={className}
     >
-      {(label !== null)
-        ? <label className="ui-file-uploader__label" htmlFor={randomId}>{label}</label>
+      {(label !== null && label !== undefined)
+        // eslint-disable-next-line react/no-danger, jsx-a11y/label-has-associated-control
+        ? <label className="ui-file-uploader__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
         : null}
       {(iconPosition === 'left') ? children : children.reverse()}
       <span className="ui-file-uploader__files-list">{(currentValue.length === 0) ? placeholder : currentValue.join(', ')}</span>

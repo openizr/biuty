@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div
     :id="id"
     :class="className"
@@ -7,7 +8,8 @@
       v-if="label !== null"
       class="ui-checkbox__label"
       :for="randomId"
-    >{{ label }}</label>
+      v-html="markdown(label)"
+    />
     <div class="ui-checkbox__wrapper">
       <label
         v-for="option in options"
@@ -28,7 +30,10 @@
           @focus="focusField(option.value)"
           @change="changeField"
         >
-        <span className="ui-checkbox__wrapper__option__label">{{ option.label }}</span>
+        <span
+          className="ui-checkbox__wrapper__option__label"
+          v-html="markdown(option.label)"
+        />
       </label>
     </div>
     <span
@@ -49,6 +54,7 @@
 
 import Vue from 'vue';
 import { Generic } from 'scripts/types';
+import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
@@ -129,6 +135,9 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     focusField(focusedValue: string): void {
       this.$emit('focus', focusedValue);
+    },
+    markdown(label: string): string {
+      return markdown(label);
     },
   },
 });

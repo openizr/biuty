@@ -14,6 +14,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 type Target = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 let container = document.createElement('div');
+jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
 
 describe('react/UITextfield', () => {

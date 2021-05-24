@@ -26,7 +26,7 @@ export default function FileUploaders(): JSX.Element {
       <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
         <a href="/" className="cols-l-3">GO BACK</a>
         <UIFileUploader name="file-uploader1" />
-        <UIFileUploader name="file-uploader2" label="ui-file-uploader" />
+        <UIFileUploader name="file-uploader2" label="*ui-file-uploader*" />
         <UIFileUploader name="file-uploader5" label="ui-file-uploader multiple" multiple />
         <UIFileUploader name="file-uploader5" label="ui-file-uploader with helper" helper="helper" />
         <UIFileUploader name="file-uploader6" label="ui-file-uploader with listener" onChange={onChange} />

@@ -66,7 +66,7 @@ exports[`vue/UITextfield renders correctly - with id 1`] = `
 `;
 
 exports[`vue/UITextfield renders correctly - with label 1`] = `
-"<div class=\\"ui-textfield\\"><label for=\\"z8a8d7a5zad4\\" class=\\"ui-textfield__label\\">Text</label>
+"<div class=\\"ui-textfield\\"><label for=\\"z8a8d7a5zad4\\" class=\\"ui-textfield__label\\"><strong>Text</strong></label>
   <div class=\\"ui-textfield__wrapper\\">
     <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->

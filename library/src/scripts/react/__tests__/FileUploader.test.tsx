@@ -12,6 +12,7 @@ import UIFileUploader from 'scripts/react/FileUploader';
 import { render, unmountComponentAtNode } from 'react-dom';
 
 let container = document.createElement('div');
+jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
 
 describe('react/UIFileUploader', () => {

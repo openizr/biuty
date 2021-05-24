@@ -47,7 +47,7 @@ exports[`vue/UIFileUploader renders correctly - with id 1`] = `
 `;
 
 exports[`vue/UIFileUploader renders correctly - with label 1`] = `
-"<div class=\\"ui-file-uploader\\"><label for=\\"z8a8d7a5zad4\\" class=\\"ui-file-uploader__label\\">Text</label>
+"<div class=\\"ui-file-uploader\\"><label for=\\"z8a8d7a5zad4\\" class=\\"ui-file-uploader__label\\"><strong>Text</strong></label>
   <!----> <input id=\\"z8a8d7a5zad4\\" type=\\"file\\" name=\\"test\\" class=\\"ui-file-uploader__field\\">
   <!----> <span class=\\"ui-file-uploader__files-list\\">
 

@@ -7,6 +7,7 @@
  */
 
 import * as React from 'react';
+import markdown from 'scripts/helpers/markdown';
 import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
@@ -51,7 +52,7 @@ const findOption = (value: string) => (options: Option[]): number => (
 );
 const generateMapping = (mapping: Mapping, option: Option): Mapping => (
   (option.value !== undefined && option.label !== undefined)
-    ? ({ ...mapping, [option.value as string]: option.label as string })
+    ? ({ ...mapping, [option.value as string]: markdown(option.label as string) })
     : mapping
 );
 
@@ -211,7 +212,10 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
       id={id as string}
       className={className}
     >
-      {(label !== null) ? <label className="ui-dropdown__label" htmlFor={randomId}>{label}</label> : null}
+      {(label !== null && label !== undefined)
+        // eslint-disable-next-line react/no-danger, jsx-a11y/label-has-associated-control
+        ? <label className="ui-dropdown__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
+        : null}
       <div className="ui-dropdown__wrapper">
         <input
           readOnly
@@ -266,11 +270,11 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
                 tabIndex={-1}
                 aria-selected={focusedOption === index}
                 role={(option.type === 'option') ? 'option' : undefined}
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: markdown(option.label || '') }}
                 onMouseDown={(option.type === 'option') ? selectOption(index) : undefined}
                 className={buildClass(`ui-dropdown__wrapper__list__${option.type}`, optionModifiers)}
-              >
-                {option.label}
-              </li>
+              />
             );
           })}
         </ul>

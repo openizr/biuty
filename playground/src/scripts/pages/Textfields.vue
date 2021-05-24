@@ -8,7 +8,7 @@
       <UITextfield name="textfield1" />
       <UITextfield
         name="textfield2"
-        label="ui-textfield"
+        label="*ui-textfield*"
       />
       <UITextfield
         name="textfield3"

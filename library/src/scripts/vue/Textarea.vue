@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div
     :id="id"
     :class="className"
@@ -7,7 +8,8 @@
       v-if="label !== null"
       class="ui-textarea__label"
       :for="randomId"
-    > {{ label }}</label>
+      v-html="markdown(label)"
+    />
     <div class="ui-textarea__wrapper">
       <textarea
         :id="randomId"
@@ -44,6 +46,7 @@
 
 import Vue from 'vue';
 import { Generic } from 'scripts/types';
+import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
@@ -154,6 +157,9 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     focusField(): void {
       this.$emit('focus', this.currentValue);
+    },
+    markdown(label: string): string {
+      return markdown(label);
     },
   },
 });

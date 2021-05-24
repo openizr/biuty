@@ -21,7 +21,9 @@ exports[`react/UICheckbox renders correctly - basic 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </span>
       </label>
       <label
@@ -37,7 +39,9 @@ exports[`react/UICheckbox renders correctly - basic 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </span>
       </label>
       <label
@@ -53,7 +57,9 @@ exports[`react/UICheckbox renders correctly - basic 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </span>
       </label>
       <label
@@ -69,7 +75,9 @@ exports[`react/UICheckbox renders correctly - basic 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </span>
       </label>
     </div>
@@ -98,7 +106,9 @@ exports[`react/UICheckbox renders correctly - disabled 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </span>
       </label>
       <label
@@ -114,7 +124,9 @@ exports[`react/UICheckbox renders correctly - disabled 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </span>
       </label>
       <label
@@ -130,7 +142,9 @@ exports[`react/UICheckbox renders correctly - disabled 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </span>
       </label>
       <label
@@ -146,7 +160,9 @@ exports[`react/UICheckbox renders correctly - disabled 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </span>
       </label>
     </div>
@@ -175,7 +191,9 @@ exports[`react/UICheckbox renders correctly - with helper 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </span>
       </label>
       <label
@@ -191,7 +209,9 @@ exports[`react/UICheckbox renders correctly - with helper 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </span>
       </label>
       <label
@@ -207,7 +227,9 @@ exports[`react/UICheckbox renders correctly - with helper 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </span>
       </label>
       <label
@@ -223,7 +245,9 @@ exports[`react/UICheckbox renders correctly - with helper 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </span>
       </label>
     </div>
@@ -258,7 +282,9 @@ exports[`react/UICheckbox renders correctly - with id 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </span>
       </label>
       <label
@@ -274,7 +300,9 @@ exports[`react/UICheckbox renders correctly - with id 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </span>
       </label>
       <label
@@ -290,7 +318,9 @@ exports[`react/UICheckbox renders correctly - with id 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </span>
       </label>
       <label
@@ -306,7 +336,9 @@ exports[`react/UICheckbox renders correctly - with id 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </span>
       </label>
     </div>
@@ -321,9 +353,10 @@ exports[`react/UICheckbox renders correctly - with label 1`] = `
   >
     <label
       class="ui-checkbox__label"
-      for="z8a8d7a5zad4"
     >
-      test
+      <strong>
+        test
+      </strong>
     </label>
     <div
       class="ui-checkbox__wrapper"
@@ -341,7 +374,9 @@ exports[`react/UICheckbox renders correctly - with label 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </span>
       </label>
       <label
@@ -357,7 +392,9 @@ exports[`react/UICheckbox renders correctly - with label 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </span>
       </label>
       <label
@@ -373,7 +410,9 @@ exports[`react/UICheckbox renders correctly - with label 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </span>
       </label>
       <label
@@ -389,7 +428,9 @@ exports[`react/UICheckbox renders correctly - with label 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </span>
       </label>
     </div>
@@ -418,7 +459,9 @@ exports[`react/UICheckbox renders correctly - with listeners 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </span>
       </label>
       <label
@@ -435,7 +478,9 @@ exports[`react/UICheckbox renders correctly - with listeners 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </span>
       </label>
       <label
@@ -451,7 +496,9 @@ exports[`react/UICheckbox renders correctly - with listeners 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </span>
       </label>
       <label
@@ -467,7 +514,9 @@ exports[`react/UICheckbox renders correctly - with listeners 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </span>
       </label>
     </div>
@@ -497,7 +546,9 @@ exports[`react/UICheckbox renders correctly - with option disabled 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 5
+          <strong>
+            Option 5
+          </strong>
         </span>
       </label>
     </div>
@@ -527,7 +578,9 @@ exports[`react/UICheckbox renders correctly - with value 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 1
+          <strong>
+            Option 1
+          </strong>
         </span>
       </label>
       <label
@@ -543,7 +596,9 @@ exports[`react/UICheckbox renders correctly - with value 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 2
+          <strong>
+            Option 2
+          </strong>
         </span>
       </label>
       <label
@@ -560,7 +615,9 @@ exports[`react/UICheckbox renders correctly - with value 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 3
+          <strong>
+            Option 3
+          </strong>
         </span>
       </label>
       <label
@@ -576,7 +633,9 @@ exports[`react/UICheckbox renders correctly - with value 1`] = `
         <span
           class="ui-checkbox__wrapper__option__label"
         >
-          Option 4
+          <strong>
+            Option 4
+          </strong>
         </span>
       </label>
     </div>

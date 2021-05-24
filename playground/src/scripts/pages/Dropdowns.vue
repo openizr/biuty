@@ -9,7 +9,7 @@
         name="dropdown1"
         :options="options"
         :value="['option1']"
-        label="UIDropdown"
+        label="*UIDropdown*"
         @change="onChange"
       />
       <!-- <UIDropdown
@@ -85,7 +85,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       newValue: ['option1'],
       options: [
         {
-          label: 'Group 1',
+          label: '*Group 1*',
           type: 'header',
         },
         {

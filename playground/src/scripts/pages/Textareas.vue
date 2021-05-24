@@ -8,7 +8,7 @@
       <UITextarea name="textarea1" />
       <UITextarea
         name="textarea2"
-        label="ui-textarea"
+        label="*ui-textarea*"
       />
       <UITextarea
         name="textarea3"

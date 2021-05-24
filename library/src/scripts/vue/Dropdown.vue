@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div
     :id="id"
     :class="className"
@@ -7,7 +8,8 @@
       v-if="label !== null"
       class="ui-dropdown__label"
       :for="randomId"
-    >{{ label }}</label>
+      v-html="markdown(label)"
+    />
     <div className="ui-dropdown__wrapper">
       <input
         :id="randomId"
@@ -60,9 +62,8 @@
                                (currentValue.includes(option.value) ? ['selected'] : [])))"
           v-on="(option.type==='option') ? { mousedown: selectOption(index) } : {}"
           @blur="hideList(true, $event)"
-        >
-          {{ option.label }}
-        </li>
+          v-html="markdown(option.label || '')"
+        />
       </ul>
     </div>
     <span
@@ -83,6 +84,7 @@
 
 import Vue from 'vue';
 import { Generic } from 'scripts/types';
+import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
@@ -308,6 +310,9 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       return (option.value !== undefined && option.disabled !== true)
         ? nextIndex
         : this.findSiblingOption(nextIndex, direction);
+    },
+    markdown(label: string): string {
+      return markdown(label);
     },
   },
 });
