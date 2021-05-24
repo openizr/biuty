@@ -25,6 +25,11 @@ ul {
   list-style: none;
 }
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 body {
   display: flex;
   flex-direction: column;
