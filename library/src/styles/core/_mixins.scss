@@ -362,6 +362,9 @@
     @include ui-resp-modifier(-txt-left) {
       text-align: left;
     }
+    @include ui-resp-modifier(-txt-right) {
+      text-align: right;
+    }
     @include ui-resp-modifier(-fwrap) {
       flex-wrap: wrap;
     }
