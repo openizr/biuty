@@ -7,7 +7,7 @@
     :title="title"
     :class="className"
     :target="target"
-    v-on="(onClick !== undefined) ? { click: onClick } : {}"
+    @click="onClick"
     v-html="parsedLabel"
   />
 </template>
@@ -34,7 +34,6 @@ interface Props {
   label: string;
   target: string;
   modifiers: string;
-  onClick: () => void;
 }
 
 /**
@@ -72,11 +71,6 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       default: null,
       required: false,
     },
-    onClick: {
-      type: Function,
-      default: undefined,
-      required: false,
-    },
     modifiers: {
       type: String,
       default: '',
@@ -89,6 +83,11 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     parsedLabel(): string {
       return markdown(this.label);
+    },
+  },
+  methods: {
+    onClick(event: MouseEvent): void {
+      this.$emit('click', event);
     },
   },
 });

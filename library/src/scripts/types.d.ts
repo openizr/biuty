@@ -158,7 +158,6 @@ declare module 'sonar-ui/vue' {
     label: string;
     target: string;
     modifiers: string;
-    onClick: () => void;
   }>;
 
   /**
@@ -278,8 +277,8 @@ declare module 'sonar-ui/react' {
     id: PropTypes.Requireable<string>;
     icon: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
-    onClick: PropTypes.Requireable<(...args: string[]) => void>;
-    onFocus: PropTypes.Requireable<(...args: string[]) => void>;
+    onClick: PropTypes.Requireable<(event: React.MouseEvent<HTMLButtonElement>) => void>;
+    onFocus: PropTypes.Requireable<(event: React.MouseEvent<HTMLAnchorElement>) => void>;
     modifiers: PropTypes.Requireable<string>;
     type: PropTypes.Requireable<string>;
     iconPosition: PropTypes.Requireable<string>;
@@ -292,8 +291,8 @@ declare module 'sonar-ui/react' {
     id: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
     helper: PropTypes.Requireable<string>;
-    onChange: PropTypes.Requireable<(...args: string[][]) => void>;
-    onFocus: PropTypes.Requireable<(...args: string[]) => void>;
+    onChange: PropTypes.Requireable<(value: string[]) => void>;
+    onFocus: PropTypes.Requireable<(value: string) => void>;
     modifiers: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
     value: PropTypes.Requireable<string[]>;
@@ -311,9 +310,9 @@ declare module 'sonar-ui/react' {
     id: PropTypes.Requireable<string>;
     icon: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
-    onFocus: PropTypes.Requireable<(...args: string[]) => void>;
+    onFocus: PropTypes.Requireable<(value?: string) => void>;
     multiple: PropTypes.Requireable<boolean>;
-    onChange: PropTypes.Requireable<(...args: string[][]) => void>;
+    onChange: PropTypes.Requireable<(value: string[]) => void>;
     helper: PropTypes.Requireable<string>;
     modifiers: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
@@ -333,9 +332,9 @@ declare module 'sonar-ui/react' {
     id: PropTypes.Requireable<string>;
     icon: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
-    onFocus: PropTypes.Requireable<(...args: string[]) => void>;
+    onFocus: PropTypes.Requireable<(value: string[]) => void>;
     helper: PropTypes.Requireable<string>;
-    onChange: PropTypes.Requireable<(...args: File[][]) => void>;
+    onChange: PropTypes.Requireable<(value: File[]) => void>;
     multiple: PropTypes.Requireable<boolean>;
     modifiers: PropTypes.Requireable<string>;
     placeholder: PropTypes.Requireable<string>;
@@ -386,9 +385,9 @@ declare module 'sonar-ui/react' {
     id: PropTypes.Requireable<string>;
     value: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
-    onFocus: PropTypes.Requireable<(...args: string[]) => void>;
+    onFocus: PropTypes.Requireable<(value: string) => void>;
     helper: PropTypes.Requireable<string>;
-    onChange: PropTypes.Requireable<(...args: string[]) => void>;
+    onChange: PropTypes.Requireable<(value: string) => void>;
     modifiers: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
     options: PropTypes.InferProps<{
@@ -405,9 +404,9 @@ declare module 'sonar-ui/react' {
     id: PropTypes.Requireable<string>;
     cols: PropTypes.Requireable<number>;
     rows: PropTypes.Requireable<number>;
-    onBlur: PropTypes.Requireable<(...args: string[]) => void>;
-    onFocus: PropTypes.Requireable<(...args: string[]) => void>;
-    onChange: PropTypes.Requireable<(...args: string[]) => void>;
+    onBlur: PropTypes.Requireable<(value: string) => void>;
+    onFocus: PropTypes.Requireable<(value: string) => void>;
+    onChange: PropTypes.Requireable<(value: string) => void>;
     value: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
     helper: PropTypes.Requireable<string>;
@@ -427,14 +426,14 @@ declare module 'sonar-ui/react' {
     min: PropTypes.Requireable<number>;
     max: PropTypes.Requireable<number>;
     step: PropTypes.Requireable<number>;
-    onBlur: PropTypes.Requireable<(...args: string[]) => void>;
+    onBlur: PropTypes.Requireable<(value: string) => void>;
     icon: PropTypes.Requireable<string>;
     size: PropTypes.Requireable<number>;
-    onFocus: PropTypes.Requireable<(...args: string[]) => void>;
+    onFocus: PropTypes.Requireable<(value: string) => void>;
     value: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
     helper: PropTypes.Requireable<string>;
-    onChange: PropTypes.Requireable<(...args: string[]) => void>;
+    onChange: PropTypes.Requireable<(value: string) => void>;
     readonly: PropTypes.Requireable<boolean>;
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;

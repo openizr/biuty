@@ -9,8 +9,6 @@
 import { mount } from '@vue/test-utils';
 import UIButton from 'scripts/vue/Button.vue';
 
-type component = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-
 describe('vue/UIButton', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23,10 +21,15 @@ describe('vue/UIButton', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  test('renders correctly - with id and listeners', async () => {
+  test('renders correctly - with id and listeners', () => {
+    // See https://vue-test-utils.vuejs.org/api/wrapper/trigger.html.
+    const div = document.createElement('div');
+    div.id = 'root';
+    document.body.appendChild(div);
     const onClick = jest.fn();
     const onFocus = jest.fn();
     const wrapper = mount(UIButton, {
+      attachTo: '#root',
       propsData: {
         id: 'test', label: 'Test', modifiers: 'large',
       },
@@ -35,7 +38,7 @@ describe('vue/UIButton', () => {
         click: onClick,
       },
     });
-    await (wrapper.vm as component).focusButton();
+    wrapper.find('button').trigger('focus');
     wrapper.find('button').trigger('click');
     expect(wrapper.html()).toMatchSnapshot();
     expect(onClick).toHaveBeenCalledTimes(1);

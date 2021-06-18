@@ -4,8 +4,8 @@
     :type="type"
     :class="`${className}${(icon !== null && label === null) ? ' ui-button--icon' : ''}`"
     :tabIndex="(modifiers.includes('disabled') ? -1 : 0)"
-    @click="clickButton"
-    @focus="focusButton"
+    @click="onClick"
+    @focus="onFocus"
   >
     <i
       v-if="icon !== null && iconPosition === 'left'"
@@ -87,11 +87,11 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
   },
   methods: {
-    clickButton(): void {
-      this.$emit('click');
+    onClick(event: MouseEvent): void {
+      this.$emit('click', event);
     },
-    focusButton(): void {
-      this.$emit('focus');
+    onFocus(event: MouseEvent): void {
+      this.$emit('focus', event);
     },
   },
 });
