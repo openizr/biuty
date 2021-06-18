@@ -68,7 +68,7 @@ const onChange = (value: string[]): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
 };
 
-const onFocus = (value: string): void => {
+const onFocus = (value?: string): void => {
   console.log('Focused!', value); // eslint-disable-line no-console
 };
 

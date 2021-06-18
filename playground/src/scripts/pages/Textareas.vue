@@ -26,8 +26,19 @@
         helper="helper"
       />
       <UITextarea
+        name="textarea15"
+        label="ui-textarea with transform"
+        :transform="(value) => value.toUpperCase()"
+      />
+      <UITextarea
         name="textarea6"
         label="ui-textarea with listener"
+        @change="onChange"
+      />
+      <UITextarea
+        name="textarea16"
+        label="ui-textarea with debounce"
+        :debounce-timeout="250"
         @change="onChange"
       />
       <UITextarea

@@ -26,12 +26,14 @@ const propTypes = {
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
   readonly: PropTypes.bool,
+  transform: PropTypes.func,
   maxlength: PropTypes.number,
   modifiers: PropTypes.string,
   onIconClick: PropTypes.func,
   placeholder: PropTypes.string,
   autocomplete: PropTypes.string,
   name: PropTypes.string.isRequired,
+  debounceTimeout: PropTypes.number,
   iconPosition: PropTypes.oneOf(['left', 'right']),
   type: PropTypes.oneOf(['text', 'email', 'number', 'password', 'search', 'tel', 'url']),
 };
@@ -57,6 +59,8 @@ const defaultProps = {
   autocomplete: 'on',
   iconPosition: 'left',
   onIconClick: undefined,
+  debounceTimeout: null,
+  transform: (value: string): string => value,
 };
 
 /**
@@ -66,21 +70,36 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
   const {
     id, modifiers, label, helper, onChange, value, name, readonly, step, onIconClick, autocomplete,
     placeholder, iconPosition, icon, onBlur, type, size, max, min, maxlength, onFocus,
+    debounceTimeout,
   } = props;
   const [randomId] = React.useState(generateRandomId);
-  const [currentValue, setCurrentValue] = React.useState(value);
+  const { transform } = (props as { transform: (value?: string | null) => string });
+  const [currentValue, setCurrentValue] = React.useState(transform(value));
   const isDisabled = (modifiers as string).includes('disabled');
   const className = buildClass('ui-textfield', (modifiers as string).split(' '));
 
   // Updates current value each time the `value` property is changed.
   React.useEffect(() => {
-    setCurrentValue(value);
+    setCurrentValue(transform(value));
   }, [value]);
 
+  React.useEffect(() => {
+    // This debounce system prevents triggering `onChange` hooks too many times when user is
+    // still typing to save performance and make the UI more reactive on low-perfomance devices.
+    if (onChange !== undefined && onChange !== null && debounceTimeout !== null) {
+      const timeout = window.setTimeout(() => {
+        onChange(currentValue);
+      }, debounceTimeout);
+      return (): void => window.clearTimeout(timeout);
+    }
+    return undefined;
+  }, [currentValue]);
+
   const changeValue = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setCurrentValue(event.target.value);
-    if (onChange !== undefined && onChange !== null) {
-      onChange(event.target.value);
+    const newValue = transform(event.target.value);
+    setCurrentValue(newValue);
+    if (onChange !== undefined && onChange !== null && debounceTimeout === null) {
+      onChange(newValue);
     }
   };
 

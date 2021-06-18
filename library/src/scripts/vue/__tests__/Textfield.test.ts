@@ -11,6 +11,7 @@ import UITextfield from 'scripts/vue/Textfield.vue';
 
 type component = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
+jest.useFakeTimers();
 jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
 
@@ -63,6 +64,16 @@ describe('vue/UITextfield', () => {
       propsData: { name: 'test', helper: 'Text' },
     });
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  test('renders correctly - with transform', async () => {
+    const transform = jest.fn((value) => value.toUpperCase());
+    const wrapper = mount(UITextfield, {
+      propsData: { name: 'test', maxlength: 10, transform },
+    });
+    await wrapper.find('input').setValue('new test');
+    expect(wrapper.html()).toMatchSnapshot();
+    expect(transform).toHaveBeenCalledWith('new test');
   });
 
   test('renders correctly - with label', () => {
@@ -143,5 +154,21 @@ describe('vue/UITextfield', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
     expect(onIconClick).toHaveBeenCalledTimes(1);
+  });
+
+  test('renders correctly - with listener and debounce', async () => {
+    const onChange = jest.fn();
+    const wrapper = mount(UITextfield, {
+      propsData: {
+        name: 'test', value: 'test', debounceTimeout: 250,
+      },
+      listeners: {
+        change: onChange,
+      },
+    });
+    await wrapper.find('input').setValue('new test');
+    jest.runAllTimers();
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith('new test');
   });
 });

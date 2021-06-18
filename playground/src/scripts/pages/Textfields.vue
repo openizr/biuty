@@ -26,8 +26,19 @@
         helper="helper"
       />
       <UITextfield
+        name="textfield15"
+        label="ui-textfield with transform"
+        :transform="(value) => value.toUpperCase()"
+      />
+      <UITextfield
         name="textfield6"
         label="ui-textfield with listener"
+        @change="onChange"
+      />
+      <UITextfield
+        name="textfield16"
+        label="ui-textfield with debounce"
+        :debounce-timeout="250"
         @change="onChange"
       />
       <UITextfield

@@ -14,6 +14,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 type Target = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
 let container = document.createElement('div');
+jest.useFakeTimers();
 jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
 
@@ -110,6 +111,18 @@ describe('react/UITextfield', () => {
     expect(container).toMatchSnapshot();
   });
 
+  test('renders correctly - with transform', () => {
+    const transform = (value: string): string => value.toUpperCase();
+    act(() => {
+      render(<UITextfield name="test" transform={transform} />, container);
+    });
+    const input = document.querySelector('input') as HTMLInputElement;
+    act(() => {
+      Simulate.change(input, { target: { value: 'new test' } as Target });
+    });
+    expect(container).toMatchSnapshot();
+  });
+
   test('renders correctly - disabled', () => {
     act(() => {
       render(<UITextfield name="test" modifiers="disabled" />, container);
@@ -178,5 +191,29 @@ describe('react/UITextfield', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
     expect(onIconClick).toHaveBeenCalledTimes(1);
+  });
+
+  test('renders correctly - with listener and debounce', () => {
+    const onChange = jest.fn();
+    act(() => {
+      render(
+        <UITextfield
+          name="test"
+          icon="star"
+          value="test"
+          onChange={onChange}
+          debounceTimeout={250}
+        />,
+        container,
+      );
+    });
+    const input = document.querySelector('input') as HTMLInputElement;
+    act(() => {
+      Simulate.change(input, { target: { value: 'new test' } as Target });
+    });
+    jest.runAllTimers();
+    expect(container).toMatchSnapshot();
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith('new test');
   });
 });

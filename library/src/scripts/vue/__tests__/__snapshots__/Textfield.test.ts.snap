@@ -4,7 +4,7 @@ exports[`vue/UITextfield renders correctly - autocomplete off 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"off\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"off\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -15,7 +15,7 @@ exports[`vue/UITextfield renders correctly - basic 1`] = `
 "<div class=\\"ui-textfield ui-textfield--large\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -26,7 +26,7 @@ exports[`vue/UITextfield renders correctly - disabled 1`] = `
 "<div class=\\"ui-textfield ui-textfield--disabled\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" disabled=\\"disabled\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" disabled=\\"disabled\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -37,7 +37,7 @@ exports[`vue/UITextfield renders correctly - readonly 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" readonly=\\"readonly\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" readonly=\\"readonly\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -48,7 +48,7 @@ exports[`vue/UITextfield renders correctly - with helper 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div> <span class=\\"ui-textfield__helper\\">Text</span>
 </div>"
@@ -58,7 +58,7 @@ exports[`vue/UITextfield renders correctly - with id 1`] = `
 "<div id=\\"test\\" class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -68,7 +68,7 @@ exports[`vue/UITextfield renders correctly - with id 1`] = `
 exports[`vue/UITextfield renders correctly - with label 1`] = `
 "<div class=\\"ui-textfield\\"><label for=\\"z8a8d7a5zad4\\" class=\\"ui-textfield__label\\"><strong>Text</strong></label>
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -78,7 +78,7 @@ exports[`vue/UITextfield renders correctly - with label 1`] = `
 exports[`vue/UITextfield renders correctly - with left icon 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
-  <div class=\\"ui-textfield__wrapper\\"><i role=\\"button\\" tabindex=\\"0\\" class=\\"ui-textfield__wrapper__icon\\">star</i> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+  <div class=\\"ui-textfield__wrapper\\"><i role=\\"button\\" tabindex=\\"0\\" class=\\"ui-textfield__wrapper__icon\\">star</i> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -88,7 +88,7 @@ exports[`vue/UITextfield renders correctly - with left icon 1`] = `
 exports[`vue/UITextfield renders correctly - with listeners 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
-  <div class=\\"ui-textfield__wrapper\\"><i role=\\"button\\" tabindex=\\"0\\" class=\\"ui-textfield__wrapper__icon\\">star</i> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+  <div class=\\"ui-textfield__wrapper\\"><i role=\\"button\\" tabindex=\\"0\\" class=\\"ui-textfield__wrapper__icon\\">star</i> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -99,7 +99,7 @@ exports[`vue/UITextfield renders correctly - with placeholder 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" placeholder=\\"text\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" placeholder=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -110,7 +110,18 @@ exports[`vue/UITextfield renders correctly - with right icon 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\"> <i role=\\"button\\" tabindex=\\"0\\" class=\\"ui-textfield__wrapper__icon\\">star</i></div>
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\"> <i role=\\"button\\" tabindex=\\"0\\" class=\\"ui-textfield__wrapper__icon\\">star</i></div>
+  <!---->
+</div>"
+`;
+
+exports[`vue/UITextfield renders correctly - with transform 1`] = `
+"<div class=\\"ui-textfield\\">
+  <!---->
+  <div class=\\"ui-textfield__wrapper\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" maxlength=\\"10\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
+    <!---->
+  </div>
   <!---->
 </div>"
 `;
@@ -119,7 +130,7 @@ exports[`vue/UITextfield renders correctly - with type number 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" max=\\"30\\" min=\\"0\\" step=\\"10\\" autocomplete=\\"on\\" type=\\"number\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" max=\\"30\\" min=\\"0\\" step=\\"10\\" type=\\"number\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -130,7 +141,7 @@ exports[`vue/UITextfield renders correctly - with type text 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" size=\\"10\\" maxlength=\\"10\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" size=\\"10\\" maxlength=\\"10\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->
@@ -141,7 +152,7 @@ exports[`vue/UITextfield renders correctly - with value 1`] = `
 "<div class=\\"ui-textfield\\">
   <!---->
   <div class=\\"ui-textfield__wrapper\\">
-    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" type=\\"text\\" class=\\"ui-textfield__wrapper__field\\">
+    <!----> <input id=\\"z8a8d7a5zad4\\" name=\\"test\\" type=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textfield__wrapper__field\\">
     <!---->
   </div>
   <!---->

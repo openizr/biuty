@@ -199,6 +199,8 @@ declare module 'sonar-ui/vue' {
     readonly: boolean;
     placeholder: string;
     autocomplete: string;
+    debounceTimeout: number;
+    transform: (value: string) => string;
   }>;
 
   /**
@@ -220,7 +222,9 @@ declare module 'sonar-ui/vue' {
     readonly: boolean;
     placeholder: string;
     autocomplete: string;
+    debounceTimeout: number;
     iconPosition: 'left' | 'right';
+    transform: (value: string) => string;
     type: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url';
   }>;
 
@@ -416,6 +420,8 @@ declare module 'sonar-ui/react' {
     placeholder: PropTypes.Requireable<string>;
     autocomplete: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
+    debounceTimeout: PropTypes.Requireable<number>;
+    transform: PropTypes.Requireable<(value: string) => string>;
   }>): JSX.Element;
 
   /**
@@ -443,6 +449,8 @@ declare module 'sonar-ui/react' {
     name: PropTypes.Validator<string>;
     iconPosition: PropTypes.Requireable<string>;
     type: PropTypes.Requireable<string>;
+    debounceTimeout: PropTypes.Requireable<number>;
+    transform: PropTypes.Requireable<(value: string) => string>;
   }>): JSX.Element;
 
   /**

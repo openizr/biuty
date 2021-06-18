@@ -86,6 +86,14 @@ exports[`vue/UITextarea renders correctly - with placeholder 1`] = `
 </div>"
 `;
 
+exports[`vue/UITextarea renders correctly - with transform 1`] = `
+"<div class=\\"ui-textarea\\">
+  <!---->
+  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" maxlength=\\"10\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
+  <!---->
+</div>"
+`;
+
 exports[`vue/UITextarea renders correctly - with value 1`] = `
 "<div class=\\"ui-textarea\\">
   <!---->

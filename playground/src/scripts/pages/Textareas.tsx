@@ -21,6 +21,8 @@ const onFocus = (): void => {
   console.log('Focused!'); // eslint-disable-line no-console
 };
 
+const transform = (value: string): string => value.toUpperCase();
+
 /**
  * Textareas page.
  */
@@ -42,7 +44,9 @@ export default function Textareas(): JSX.Element {
         <UITextarea name="textarea3" label="ui-textarea readonly" readonly />
         <UITextarea name="textarea4" label="ui-textarea with value" value={newValue} />
         <UITextarea name="textarea5" label="ui-textarea with helper" helper="helper" />
+        <UITextarea name="textarea5" label="ui-textarea with transform" transform={transform} />
         <UITextarea name="textarea6" label="ui-textarea with listener" onChange={onChange} />
+        <UITextarea name="textarea6" label="ui-textarea with debounce" onChange={onChange} debounceTimeout={250} />
         <UITextarea name="textarea7" label="ui-textarea with blur listener" onBlur={onBlur} />
         <UITextarea name="textarea8" label="ui-textarea with maxlength" maxlength={10} />
         <UITextarea name="textarea9" label="ui-textarea with placeholder" placeholder="placeholder" />
