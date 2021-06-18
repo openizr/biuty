@@ -11,21 +11,20 @@
       v-html="markdown(label)"
     />
     <div className="ui-dropdown__wrapper">
-      <input
+      <button
         :id="randomId"
-        ref="inputRef"
-        readonly
+        ref="buttonRef"
         :name="name"
-        type="text"
+        type="button"
         aria-haspopup="listbox"
         class="ui-dropdown__wrapper__field"
         :aria-labelledby="`${randomId} ${randomId}`"
-        :value="fieldValue"
         :tabindex="(modifiers.includes('disabled') ? -1 : 0)"
         @keydown="navigate"
         @focus="focusField"
         @mousedown="displayList"
-      >
+        v-html="fieldValue"
+      />
       <button
         v-if="icon !== null"
         :id="`${randomId}icon`"
@@ -115,7 +114,7 @@ const findOption = (value: string) => (options: Option[]): number => (
 
 const generateMapping = (mapping: Mapping, option: Option): Mapping => (
   (option.value !== undefined && option.label !== undefined)
-    ? ({ ...mapping, [option.value as string]: option.label as string })
+    ? ({ ...mapping, [option.value as string]: markdown(option.label as string) })
     : mapping
 );
 
@@ -191,20 +190,24 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     value() {
       // Updates current value each time the `value` property is changed.
       this.currentValue = this.value;
+      this.focusedOption = findOption(this.value[0])(this.options);
+    },
+    options() {
       // Avoids having to pass through the entire options array at each rendering.
       this.mapping = this.options.reduce(generateMapping, {});
+      if (this.focusedOption >= this.options.length) {
+        this.focusedOption = Math.min(0, this.findSiblingOption(this.options.length, -1));
+      }
     },
     isDisplayed() {
       // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML
       // list to be displayed before actually focusing it.
       if (this.isDisplayed === true) {
         setTimeout(() => {
-          this.focusOption((this.focusedOption >= 0)
-            ? this.focusedOption
-            : this.findSiblingOption(0, +1) || 0);
+          this.focusOption(Math.max(0, this.focusedOption));
         }, 50);
       } else {
-        (this.$refs.inputRef as HTMLElement).focus();
+        (this.$refs.buttonRef as HTMLElement).focus();
       }
     },
   },
@@ -219,7 +222,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       this.$emit('focus', focusedValue);
     },
     displayList(): void {
-      const relativeOffsetTop = (this.$refs.inputRef as HTMLElement).getBoundingClientRect().top;
+      const relativeOffsetTop = (this.$refs.buttonRef as HTMLElement).getBoundingClientRect().top;
       this.position = (relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom';
       this.isDisplayed = true;
     },
@@ -266,22 +269,22 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       // `event.preventDefault` is not called globally to avoid preventing tabs.
       switch (key) {
         case 'ArrowUp':
-          this.focusOption(this.findSiblingOption(this.focusedOption, -1) || this.focusedOption);
+          this.focusOption(this.findSiblingOption(this.focusedOption, -1));
           event.preventDefault();
           break;
         case 'ArrowDown':
-          this.focusOption(this.findSiblingOption(this.focusedOption, +1) || this.focusedOption);
+          this.focusOption(this.findSiblingOption(this.focusedOption, +1));
           event.preventDefault();
           break;
         case 'PageUp':
         case 'Home':
-          this.focusOption(this.findSiblingOption(0, -1) || 0);
+          this.focusOption(Math.max(0, this.findSiblingOption(-1, +1)));
           event.preventDefault();
           break;
         case 'End':
         case 'PageDown':
-          this.focusOption(this.findSiblingOption(this.options.length, +1)
-            || this.options.length - 1);
+          this.focusOption(Math.min(this.options.length - 1,
+            this.findSiblingOption(this.options.length, -1)));
           event.preventDefault();
           break;
         case ' ':
@@ -301,15 +304,15 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
           break;
       }
     },
-    findSiblingOption(startIndex: number, direction: number): (number | null) {
-      const nextIndex = startIndex + direction;
+    findSiblingOption(startIndex: number, direction: number, offset = 1): number {
+      const nextIndex = startIndex + direction * offset;
       if (nextIndex < 0 || nextIndex >= this.options.length) {
-        return null;
+        return startIndex;
       }
       const option = this.options[nextIndex];
       return (option.value !== undefined && option.disabled !== true)
         ? nextIndex
-        : this.findSiblingOption(nextIndex, direction);
+        : this.findSiblingOption(startIndex, direction, offset + 1);
     },
     markdown(label: string): string {
       return markdown(label);

@@ -15,7 +15,7 @@ const options = [
     type: 'header',
   },
   {
-    label: 'Option 1',
+    label: '**Option** & 1',
     value: 'option1',
     disabled: false,
     type: 'option',

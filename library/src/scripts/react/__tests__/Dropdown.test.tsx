@@ -40,10 +40,10 @@ describe('react/UIDropdown', () => {
     act(() => {
       render(<UIDropdown name="test" modifiers="large" options={options} />, container);
     });
-    const input = document.querySelector('input') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     const li = document.querySelector('li') as HTMLLIElement;
     act(() => {
-      Simulate.mouseDown(input);
+      Simulate.mouseDown(button);
     });
     act(() => {
       Simulate.mouseDown(li);
@@ -126,9 +126,9 @@ describe('react/UIDropdown', () => {
         container,
       );
     });
-    const input = document.querySelector('input') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     act(() => {
-      Simulate.change(input);
+      Simulate.change(button);
     });
     expect(container).toMatchSnapshot();
     expect(onChange).toHaveBeenCalledTimes(0);
@@ -138,9 +138,23 @@ describe('react/UIDropdown', () => {
     act(() => {
       render(<UIDropdown name="test" options={options} />, container);
     });
-    const input = document.querySelector('input') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     act(() => {
-      Simulate.mouseDown(input);
+      Simulate.mouseDown(button);
+    });
+    expect(container).toMatchSnapshot();
+  });
+
+  test('renders correctly - changing options', () => {
+    act(() => {
+      render(<UIDropdown name="test" options={options} />, container);
+    });
+    const button = document.querySelector('button') as HTMLButtonElement;
+    act(() => {
+      Simulate.keyDown(button, { key: 'End' });
+    });
+    act(() => {
+      render(<UIDropdown name="test" options={[]} />, container);
     });
     expect(container).toMatchSnapshot();
   });
@@ -150,9 +164,9 @@ describe('react/UIDropdown', () => {
     act(() => {
       render(<UIDropdown name="test" options={[]} />, container);
     });
-    const input = document.querySelector('input') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     act(() => {
-      Simulate.mouseDown(input);
+      Simulate.mouseDown(button);
     });
     expect(container).toMatchSnapshot();
     window = Object.assign(window, { innerHeight: 768 }); // eslint-disable-line no-global-assign
@@ -162,9 +176,9 @@ describe('react/UIDropdown', () => {
     act(() => {
       render(<UIDropdown name="test" options={options} value={['option1']} />, container);
     });
-    const input = document.querySelector('input') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     act(() => {
-      Simulate.mouseDown(input);
+      Simulate.mouseDown(button);
     });
     expect(container).toMatchSnapshot();
   });
@@ -173,26 +187,26 @@ describe('react/UIDropdown', () => {
     act(() => {
       render(<UIDropdown name="test" options={options} value={['option1']} />, container);
     });
-    const input = document.querySelector('input') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     act(() => {
-      Simulate.keyDown(input, { key: 'ArrowUp' });
-      Simulate.keyDown(input, { key: 'ArrowDown' });
-      Simulate.keyDown(input, { key: 'ArrowUp' });
-      Simulate.keyDown(input, { key: 'PageDown' });
-      Simulate.keyDown(input, { key: 'End' });
+      Simulate.keyDown(button, { key: 'ArrowUp' });
+      Simulate.keyDown(button, { key: 'ArrowDown' });
+      Simulate.keyDown(button, { key: 'ArrowUp' });
+      Simulate.keyDown(button, { key: 'PageDown' });
+      Simulate.keyDown(button, { key: 'End' });
     });
     act(() => {
-      Simulate.keyDown(input, { key: 'ArrowDown' });
-      Simulate.keyDown(input, { key: 'PageUp' });
-      Simulate.keyDown(input, { key: 'Home' });
-      Simulate.keyDown(input, { key: ' ' });
-      Simulate.keyDown(input, { key: 'Enter' });
-      Simulate.keyDown(input, { key: 'Escape' });
-      Simulate.keyDown(input, { key: 'Enter' });
+      Simulate.keyDown(button, { key: 'ArrowDown' });
+      Simulate.keyDown(button, { key: 'PageUp' });
+      Simulate.keyDown(button, { key: 'Home' });
+      Simulate.keyDown(button, { key: ' ' });
+      Simulate.keyDown(button, { key: 'Enter' });
+      Simulate.keyDown(button, { key: 'Escape' });
+      Simulate.keyDown(button, { key: 'Enter' });
     });
     act(() => {
-      Simulate.keyDown(input, { key: 'A' });
-      Simulate.keyDown(input, { key: 'Enter' });
+      Simulate.keyDown(button, { key: 'A' });
+      Simulate.keyDown(button, { key: 'Enter' });
     });
     expect(container).toMatchSnapshot();
   });
@@ -212,10 +226,10 @@ describe('react/UIDropdown', () => {
         container,
       );
     });
-    const input = document.querySelector('input') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     const li = document.querySelector('li') as HTMLLIElement;
     act(() => {
-      Simulate.mouseDown(input);
+      Simulate.mouseDown(button);
     });
     act(() => {
       Simulate.mouseDown(li);
@@ -245,10 +259,10 @@ describe('react/UIDropdown', () => {
         container,
       );
     });
-    const input = document.querySelector('input') as HTMLInputElement;
+    const button = document.querySelector('button') as HTMLButtonElement;
     const li = document.querySelector('li') as HTMLLIElement;
     act(() => {
-      Simulate.mouseDown(input);
+      Simulate.mouseDown(button);
     });
     act(() => {
       Simulate.mouseDown(li);

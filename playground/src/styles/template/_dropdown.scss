@@ -83,7 +83,7 @@
       &__option {
         cursor: pointer;
 
-        &--disabled {
+        @include ui-modifier(disabled) {
           pointer-events: none;
         }
       }

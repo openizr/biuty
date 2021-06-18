@@ -8,17 +8,19 @@ exports[`react/UIDropdown correctly handles keyboard navigation 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value="<strong>Option 1</strong>"
-      />
+        type="button"
+      >
+        <strong>
+          Option 1
+        </strong>
+      </button>
       <ul
         aria-activedescendant="z8a8d7a5zad40"
         aria-expanded="false"
@@ -101,17 +103,19 @@ exports[`react/UIDropdown renders correctly - basic 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value="<strong>Option 1</strong>"
-      />
+        type="button"
+      >
+        <strong>
+          Option 1
+        </strong>
+      </button>
       <ul
         aria-activedescendant="z8a8d7a5zad40"
         aria-expanded="false"
@@ -186,6 +190,36 @@ exports[`react/UIDropdown renders correctly - basic 1`] = `
 </div>
 `;
 
+exports[`react/UIDropdown renders correctly - changing options 1`] = `
+<div>
+  <div
+    class="ui-dropdown"
+  >
+    <div
+      class="ui-dropdown__wrapper"
+    >
+      <button
+        aria-haspopup="listbox"
+        aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        tabindex="0"
+        type="button"
+      />
+      <ul
+        aria-activedescendant="z8a8d7a5zad4-1"
+        aria-expanded="false"
+        aria-labelledby="z8a8d7a5zad4"
+        class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom"
+        role="listbox"
+        tabindex="-1"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`react/UIDropdown renders correctly - disabled 1`] = `
 <div>
   <div
@@ -194,16 +228,14 @@ exports[`react/UIDropdown renders correctly - disabled 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="-1"
-        type="text"
-        value=""
+        type="button"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad4-1"
@@ -287,16 +319,14 @@ exports[`react/UIDropdown renders correctly - disabled with icon 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="-1"
-        type="text"
-        value=""
+        type="button"
       />
       <button
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4icon"
@@ -393,19 +423,17 @@ exports[`react/UIDropdown renders correctly - expanded 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value=""
+        type="button"
       />
       <ul
-        aria-activedescendant="z8a8d7a5zad42"
+        aria-activedescendant="z8a8d7a5zad40"
         aria-expanded="true"
         aria-labelledby="z8a8d7a5zad4"
         class="ui-dropdown__wrapper__list ui-dropdown__wrapper__list--bottom--expanded"
@@ -413,7 +441,7 @@ exports[`react/UIDropdown renders correctly - expanded 1`] = `
         tabindex="-1"
       >
         <li
-          aria-selected="false"
+          aria-selected="true"
           class="ui-dropdown__wrapper__list__option"
           id="z8a8d7a5zad40"
           role="option"
@@ -432,7 +460,7 @@ exports[`react/UIDropdown renders correctly - expanded 1`] = `
           <strong />
         </li>
         <li
-          aria-selected="true"
+          aria-selected="false"
           class="ui-dropdown__wrapper__list__option"
           id="z8a8d7a5zad42"
           role="option"
@@ -486,16 +514,14 @@ exports[`react/UIDropdown renders correctly - expanded with no option and small 
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value=""
+        type="button"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad40"
@@ -518,17 +544,19 @@ exports[`react/UIDropdown renders correctly - expanded with value 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value="<strong>Option 1</strong>"
-      />
+        type="button"
+      >
+        <strong>
+          Option 1
+        </strong>
+      </button>
       <ul
         aria-activedescendant="z8a8d7a5zad40"
         aria-expanded="true"
@@ -611,16 +639,14 @@ exports[`react/UIDropdown renders correctly - multiple 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value=""
+        type="button"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad4-1"
@@ -704,17 +730,19 @@ exports[`react/UIDropdown renders correctly - multiple with listeners 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value="<strong>Option 2</strong>"
-      />
+        type="button"
+      >
+        <strong>
+          Option 2
+        </strong>
+      </button>
       <ul
         aria-activedescendant="z8a8d7a5zad40"
         aria-expanded="true"
@@ -797,16 +825,14 @@ exports[`react/UIDropdown renders correctly - with helper 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value=""
+        type="button"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad4-1"
@@ -895,16 +921,14 @@ exports[`react/UIDropdown renders correctly - with icon 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value=""
+        type="button"
       />
       <button
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4icon"
@@ -1002,16 +1026,14 @@ exports[`react/UIDropdown renders correctly - with id 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value=""
+        type="button"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad4-1"
@@ -1103,16 +1125,14 @@ exports[`react/UIDropdown renders correctly - with label 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value=""
+        type="button"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad4-1"
@@ -1196,17 +1216,19 @@ exports[`react/UIDropdown renders correctly - with listeners 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value="<strong>Option 1</strong>"
-      />
+        type="button"
+      >
+        <strong>
+          Option 1
+        </strong>
+      </button>
       <ul
         aria-activedescendant="z8a8d7a5zad40"
         aria-expanded="false"
@@ -1289,16 +1311,14 @@ exports[`react/UIDropdown renders correctly - with option disabled 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="-1"
-        type="text"
-        value=""
+        type="button"
       />
       <ul
         aria-activedescendant="z8a8d7a5zad4-1"
@@ -1333,17 +1353,23 @@ exports[`react/UIDropdown renders correctly - with value 1`] = `
     <div
       class="ui-dropdown__wrapper"
     >
-      <input
+      <button
         aria-haspopup="listbox"
         aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
         class="ui-dropdown__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
-        readonly=""
         tabindex="0"
-        type="text"
-        value="<strong>Option 1</strong>, <strong>Option 3</strong>"
-      />
+        type="button"
+      >
+        <strong>
+          Option 1
+        </strong>
+        , 
+        <strong>
+          Option 3
+        </strong>
+      </button>
       <ul
         aria-activedescendant="z8a8d7a5zad40"
         aria-expanded="false"
