@@ -12,7 +12,8 @@ jobs:
         - sed -i "s/\.\.\/\.\.\///g" coverage/lcov.info
 
 before_deploy:
-  - yarn run doc
+  # TODO re-enable with new TypeDoc release
+  #   - yarn run doc
   - touch ../docs/.nojekyll
   - npm config set '//registry.npmjs.org/:_authToken' "${NPM_AUTH_TOKEN}"
 
@@ -25,14 +26,13 @@ deploy:
     on:
       tags: true
   # Generates documentation
-  # TODO re-enable with new TypeDoc release
-  # - provider: pages
-  #   skip_cleanup: true
-  #   keep_history: true
-  #   target_branch: master
-  #   github_token: $GITHUB_TOKEN
-  #   on:
-  #     tags: true
+  - provider: pages
+    skip_cleanup: true
+    keep_history: true
+    target_branch: master
+    github_token: $GITHUB_TOKEN
+    on:
+      tags: true
 
 # Coveralls is executed at the very end to prevent it from making deployment fail in case of error
 after_success:
