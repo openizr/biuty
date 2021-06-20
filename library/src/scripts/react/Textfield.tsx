@@ -73,8 +73,10 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
     debounceTimeout,
   } = props;
   const [randomId] = React.useState(generateRandomId);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const { transform } = (props as { transform: (value?: string | null) => string });
   const [currentValue, setCurrentValue] = React.useState(transform(value));
+  const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
   const isDisabled = (modifiers as string).includes('disabled');
   const className = buildClass('ui-textfield', (modifiers as string).split(' '));
 
@@ -92,12 +94,18 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       }, debounceTimeout);
       return (): void => window.clearTimeout(timeout);
     }
+    // Re-positions cursor at the right place when using transform function.
+    if (/^(url|text|tel|search|password)$/.test(type as string)) {
+      (inputRef.current as HTMLInputElement).selectionStart = cursorPosition;
+      (inputRef.current as HTMLInputElement).selectionEnd = cursorPosition;
+    }
     return undefined;
   }, [currentValue]);
 
   const changeValue = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const newValue = transform(event.target.value);
     setCurrentValue(newValue);
+    setCursorPosition(event.target.selectionStart);
     if (onChange !== undefined && onChange !== null && debounceTimeout === null) {
       onChange(newValue);
     }
@@ -124,6 +132,7 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       key="input"
       name={name}
       id={randomId}
+      ref={inputRef}
       onBlur={blurField}
       onFocus={focusField}
       max={max as number}

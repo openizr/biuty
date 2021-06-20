@@ -20,6 +20,7 @@
       >{{ icon }}</i>
       <input
         :id="randomId"
+        ref="inputRef"
         :value="currentValue"
         :name="name"
         :max="max"
@@ -193,6 +194,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   data() {
     return {
       timeout: null,
+      cursorPosition: null,
       randomId: generateRandomId(),
       currentValue: this.transform(this.value),
     };
@@ -208,8 +210,15 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       this.currentValue = this.transform(this.value);
     },
   },
+  updated(): void {
+    if (/^(url|tel|search|text|password)$/.test(this.type)) {
+      (this.$refs.inputRef as HTMLInputElement).selectionEnd = this.cursorPosition;
+      (this.$refs.inputRef as HTMLInputElement).selectionStart = this.cursorPosition;
+    }
+  },
   methods: {
     changeField(event: Event): void {
+      this.cursorPosition = (event.target as HTMLInputElement).selectionStart;
       this.currentValue = this.transform((event.target as HTMLInputElement).value);
       if (this.debounceTimeout !== null) {
         window.clearTimeout(this.timeout);

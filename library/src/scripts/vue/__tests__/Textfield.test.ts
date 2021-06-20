@@ -34,12 +34,13 @@ describe('vue/UITextfield', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  test('renders correctly - with type number', () => {
+  test('renders correctly - with type number', async () => {
     const wrapper = mount(UITextfield, {
       propsData: {
         name: 'test', type: 'number', min: 0, max: 30, step: 10,
       },
     });
+    await wrapper.find('input').setValue('0');
     expect(wrapper.html()).toMatchSnapshot();
   });
 

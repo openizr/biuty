@@ -13,6 +13,7 @@
     <div class="ui-textarea__wrapper">
       <textarea
         :id="randomId"
+        ref="textareaRef"
         :value="currentValue"
         :name="name"
         :cols="cols"
@@ -146,6 +147,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   data() {
     return {
       timeout: null,
+      cursorPosition: 0,
       randomId: generateRandomId(),
       currentValue: this.transform(this.value),
     };
@@ -161,9 +163,14 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       this.currentValue = this.transform(this.value);
     },
   },
+  updated(): void {
+    (this.$refs.textareaRef as HTMLTextAreaElement).selectionEnd = this.cursorPosition;
+    (this.$refs.textareaRef as HTMLTextAreaElement).selectionStart = this.cursorPosition;
+  },
   methods: {
     changeField(event: Event): void {
-      this.currentValue = this.transform((event.target as HTMLInputElement).value);
+      this.cursorPosition = (event.target as HTMLTextAreaElement).selectionStart;
+      this.currentValue = this.transform((event.target as HTMLTextAreaElement).value);
       if (this.debounceTimeout !== null) {
         window.clearTimeout(this.timeout);
         this.timeout = window.setTimeout(() => {
