@@ -178,23 +178,21 @@ margin-top: 1000px;
       font-weight: 500;
       color: grey;
     }
-    &__wrapper__option {
+    &__option {
       cursor: pointer;
       padding: 0.250em 1em;
       color: black;
       transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
-      &--disabled {
-        opacity: 0.5;
+      @include ui-modifier(disabled) {
         pointer-events: none;
       }
       &:focus, &:hover {
         background: #0000000a;
       }
-      &--selected {
-        &, &:focus, &:hover {
+      @include ui-modifier(selected) {
           font-weight: 500;
-          background: #00000014;
-        }
+          background: red;
+        // }
       }
     }
   }

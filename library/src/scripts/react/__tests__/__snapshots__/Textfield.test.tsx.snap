@@ -191,6 +191,34 @@ exports[`react/UITextfield renders correctly - with left icon 1`] = `
 </div>
 `;
 
+exports[`react/UITextfield renders correctly - with listener and debounce 1`] = `
+<div>
+  <div
+    class="ui-textfield"
+  >
+    <div
+      class="ui-textfield__wrapper"
+    >
+      <i
+        class="ui-textfield__wrapper__icon"
+        role="button"
+        tabindex="0"
+      >
+        star
+      </i>
+      <input
+        autocomplete="on"
+        class="ui-textfield__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        type="text"
+        value="new test"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`react/UITextfield renders correctly - with listeners 1`] = `
 <div>
   <div
@@ -264,6 +292,27 @@ exports[`react/UITextfield renders correctly - with right icon 1`] = `
       >
         star
       </i>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`react/UITextfield renders correctly - with transform 1`] = `
+<div>
+  <div
+    class="ui-textfield"
+  >
+    <div
+      class="ui-textfield__wrapper"
+    >
+      <input
+        autocomplete="on"
+        class="ui-textfield__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        type="text"
+        value="NEW TEST"
+      />
     </div>
   </div>
 </div>

@@ -71,7 +71,7 @@ describe('vue/UIDropdown', () => {
     wrapper.setProps({ value: ['option1'] });
     await wrapper.vm.$nextTick();
     expect(wrapper.html()).toMatchSnapshot();
-    await wrapper.find('button').trigger('click');
+    await wrapper.find('.ui-dropdown__wrapper__clear-button').trigger('click');
     await wrapper.vm.$nextTick();
     expect(wrapper.html()).toMatchSnapshot();
   });
@@ -117,11 +117,23 @@ describe('vue/UIDropdown', () => {
     expect(onChange).toHaveBeenCalledTimes(0);
   });
 
+  test('renders correctly - changing options', async () => {
+    const wrapper = mount(UIDropdown, {
+      propsData: { name: 'test', options },
+    });
+    wrapper.setProps({ options: [...options] });
+    await wrapper.vm.$nextTick();
+    (wrapper.vm as component).navigate({ preventDefault: jest.fn(), key: 'End' });
+    wrapper.setProps({ options: [] });
+    await wrapper.vm.$nextTick();
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   test('renders correctly - expanded', async () => {
     const wrapper = mount(UIDropdown, {
       propsData: { name: 'test', options },
     });
-    await wrapper.find('input').trigger('mousedown');
+    await wrapper.find('button').trigger('mousedown');
     await new Promise((resolve) => setTimeout(resolve, 100));
     expect(wrapper.html()).toMatchSnapshot();
   });
@@ -131,7 +143,7 @@ describe('vue/UIDropdown', () => {
     const wrapper = mount(UIDropdown, {
       propsData: { name: 'test', options: [] },
     });
-    await wrapper.find('input').trigger('mousedown');
+    await wrapper.find('button').trigger('mousedown');
     await new Promise((resolve) => setTimeout(resolve, 100));
     expect(wrapper.html()).toMatchSnapshot();
     window = Object.assign(window, { innerHeight: 768 }); // eslint-disable-line no-global-assign
@@ -141,7 +153,7 @@ describe('vue/UIDropdown', () => {
     const wrapper = mount(UIDropdown, {
       propsData: { name: 'test', options, value: ['option1'] },
     });
-    await wrapper.find('input').trigger('mousedown');
+    await wrapper.find('button').trigger('mousedown');
     await new Promise((resolve) => setTimeout(resolve, 100));
     await wrapper.find('li').trigger('blur', {});
     expect(wrapper.html()).toMatchSnapshot();
@@ -182,7 +194,7 @@ describe('vue/UIDropdown', () => {
         iconClick: onIconClick,
       },
     });
-    await wrapper.find('input').trigger('mousedown');
+    await wrapper.find('button').trigger('mousedown');
     await wrapper.find('li').trigger('mousedown');
     await wrapper.vm.$nextTick();
     expect(wrapper.html()).toMatchSnapshot();
@@ -204,7 +216,7 @@ describe('vue/UIDropdown', () => {
         change: onChange,
       },
     });
-    await wrapper.find('input').trigger('mousedown');
+    await wrapper.find('button').trigger('mousedown');
     await wrapper.find('li').trigger('mousedown');
     await wrapper.vm.$nextTick();
     expect(wrapper.html()).toMatchSnapshot();

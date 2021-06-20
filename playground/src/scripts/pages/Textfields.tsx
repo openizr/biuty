@@ -25,6 +25,8 @@ const onIconClick = (): void => {
   console.log('Clicked!'); // eslint-disable-line no-console
 };
 
+const transform = (value: string): string => value.toUpperCase();
+
 /**
  * Textfields page.
  */
@@ -56,6 +58,9 @@ export default function Textfields(): JSX.Element {
         <UITextfield name="textfield13" label="ui-textfield icon right" icon="star" iconPosition="right" />
         <UITextfield name="textfield14" label="ui-textfield icon with listener" icon="star" onIconClick={onIconClick} />
         <UITextfield name="textfield15" label="ui-textfield with focus listener" onFocus={onFocus} />
+        <UITextfield name="textfield16" label="ui-textfield with transform" transform={transform} />
+        <UITextfield name="textfield17" label="ui-textfield with debounce" onChange={onChange} debounceTimeout={250} />
+        <UITextfield name="textfield18" label="ui-textfield with type number" type="number" min={0} max={30} step={5} />
       </main>
     </div>
   );

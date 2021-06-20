@@ -15,7 +15,7 @@ const options = [
     type: 'header',
   },
   {
-    label: 'Option 1',
+    label: '**Option** & 1',
     value: 'option1',
     disabled: false,
     type: 'option',
@@ -68,7 +68,7 @@ const onChange = (value: string[]): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
 };
 
-const onFocus = (value: string): void => {
+const onFocus = (value?: string): void => {
   console.log('Focused!', value); // eslint-disable-line no-console
 };
 

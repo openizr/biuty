@@ -25,9 +25,9 @@ const defaultProps = {
   id: null,
   icon: null,
   label: null,
-  onFocus: null,
   modifiers: '',
   type: 'button',
+  onFocus: undefined,
   onClick: undefined,
   iconPosition: 'left',
 };
@@ -44,16 +44,10 @@ export default function UIButton(props: InferProps<typeof propTypes>): JSX.Eleme
     (label !== null) ? <span key="label" className="ui-button__label">{label}</span> : null,
   ];
 
-  const focusField = (): void => {
-    if (onFocus !== undefined && onFocus !== null) {
-      onFocus();
-    }
-  };
-
   return (
     <button
       id={id as string}
-      onFocus={focusField}
+      onFocus={onFocus as undefined}
       onClick={onClick as undefined}
       type={(type === 'submit') ? 'submit' : 'button'}
       className={`${className}${(icon !== null && label === null) ? ' ui-button--icon' : ''}`}

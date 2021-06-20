@@ -26,12 +26,14 @@ const propTypes = {
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
   readonly: PropTypes.bool,
+  transform: PropTypes.func,
   maxlength: PropTypes.number,
   modifiers: PropTypes.string,
   onIconClick: PropTypes.func,
   placeholder: PropTypes.string,
   autocomplete: PropTypes.string,
   name: PropTypes.string.isRequired,
+  debounceTimeout: PropTypes.number,
   iconPosition: PropTypes.oneOf(['left', 'right']),
   type: PropTypes.oneOf(['text', 'email', 'number', 'password', 'search', 'tel', 'url']),
 };
@@ -57,6 +59,8 @@ const defaultProps = {
   autocomplete: 'on',
   iconPosition: 'left',
   onIconClick: undefined,
+  debounceTimeout: null,
+  transform: (value: string): string => value,
 };
 
 /**
@@ -66,21 +70,44 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
   const {
     id, modifiers, label, helper, onChange, value, name, readonly, step, onIconClick, autocomplete,
     placeholder, iconPosition, icon, onBlur, type, size, max, min, maxlength, onFocus,
+    debounceTimeout,
   } = props;
   const [randomId] = React.useState(generateRandomId);
-  const [currentValue, setCurrentValue] = React.useState(value);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const { transform } = (props as { transform: (value?: string | null) => string });
+  const [currentValue, setCurrentValue] = React.useState(transform(value));
+  const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
   const isDisabled = (modifiers as string).includes('disabled');
   const className = buildClass('ui-textfield', (modifiers as string).split(' '));
 
   // Updates current value each time the `value` property is changed.
   React.useEffect(() => {
-    setCurrentValue(value);
+    setCurrentValue(transform(value));
   }, [value]);
 
+  React.useEffect(() => {
+    // This debounce system prevents triggering `onChange` hooks too many times when user is
+    // still typing to save performance and make the UI more reactive on low-perfomance devices.
+    if (onChange !== undefined && onChange !== null && debounceTimeout !== null) {
+      const timeout = window.setTimeout(() => {
+        onChange(currentValue);
+      }, debounceTimeout);
+      return (): void => window.clearTimeout(timeout);
+    }
+    // Re-positions cursor at the right place when using transform function.
+    if (/^(url|text|tel|search|password)$/.test(type as string)) {
+      (inputRef.current as HTMLInputElement).selectionStart = cursorPosition;
+      (inputRef.current as HTMLInputElement).selectionEnd = cursorPosition;
+    }
+    return undefined;
+  }, [currentValue]);
+
   const changeValue = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setCurrentValue(event.target.value);
-    if (onChange !== undefined && onChange !== null) {
-      onChange(event.target.value);
+    const newValue = transform(event.target.value);
+    setCurrentValue(newValue);
+    setCursorPosition(event.target.selectionStart);
+    if (onChange !== undefined && onChange !== null && debounceTimeout === null) {
+      onChange(newValue);
     }
   };
 
@@ -105,6 +132,7 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       key="input"
       name={name}
       id={randomId}
+      ref={inputRef}
       onBlur={blurField}
       onFocus={focusField}
       max={max as number}

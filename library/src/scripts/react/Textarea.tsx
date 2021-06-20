@@ -23,10 +23,12 @@ const propTypes = {
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
   readonly: PropTypes.bool,
+  transform: PropTypes.func,
   maxlength: PropTypes.number,
   modifiers: PropTypes.string,
   placeholder: PropTypes.string,
   autocomplete: PropTypes.string,
+  debounceTimeout: PropTypes.number,
   name: PropTypes.string.isRequired,
 };
 
@@ -45,6 +47,8 @@ const defaultProps = {
   maxlength: null,
   placeholder: null,
   autocomplete: 'on',
+  debounceTimeout: null,
+  transform: (value: string): string => value,
 };
 
 /**
@@ -52,23 +56,43 @@ const defaultProps = {
  */
 export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   const {
-    id, modifiers, label, helper, onChange, value, name, onFocus,
+    id, modifiers, label, helper, onChange, value, name, onFocus, debounceTimeout,
     placeholder, readonly, rows, cols, onBlur, maxlength, autocomplete,
   } = props;
+  const { transform } = (props as { transform: (value?: string | null) => string });
   const [randomId] = React.useState(generateRandomId);
-  const [currentValue, setCurrentValue] = React.useState(value);
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  const [currentValue, setCurrentValue] = React.useState(transform(value));
+  const [cursorPosition, setCursorPosition] = React.useState<number>(0);
   const isDisabled = (modifiers as string).includes('disabled');
   const className = buildClass('ui-textarea', (modifiers as string).split(' '));
 
   // Updates current value each time the `value` property is changed.
   React.useEffect(() => {
-    setCurrentValue(value);
+    setCurrentValue(transform(value));
   }, [value]);
 
+  React.useEffect(() => {
+    // This debounce system prevents triggering `onChange` hooks too many times when user is
+    // still typing to save performance and make the UI more reactive on low-perfomance devices.
+    if (onChange !== undefined && onChange !== null && debounceTimeout !== null) {
+      const timeout = window.setTimeout(() => {
+        onChange(currentValue);
+      }, debounceTimeout);
+      return (): void => window.clearTimeout(timeout);
+    }
+    // Re-positions cursor at the right place when using transform function.
+    (textareaRef.current as HTMLTextAreaElement).selectionStart = cursorPosition;
+    (textareaRef.current as HTMLTextAreaElement).selectionEnd = cursorPosition;
+    return undefined;
+  }, [currentValue]);
+
   const changeValue = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    setCurrentValue(event.target.value);
-    if (onChange !== undefined && onChange !== null) {
-      onChange(event.target.value);
+    const newValue = transform(event.target.value);
+    setCurrentValue(newValue);
+    setCursorPosition(event.target.selectionStart);
+    if (onChange !== undefined && onChange !== null && debounceTimeout === null) {
+      onChange(newValue);
     }
   };
 
@@ -97,6 +121,7 @@ export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Ele
         <textarea
           name={name}
           id={randomId}
+          ref={textareaRef}
           onBlur={blurField}
           onFocus={focusField}
           cols={cols as number}

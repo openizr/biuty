@@ -27,7 +27,7 @@ const defaultProps = {
   rel: undefined,
   title: undefined,
   target: undefined,
-  onClick: (): null => null,
+  onClick: undefined,
 };
 
 /**
@@ -44,7 +44,7 @@ export default function UILink(props: InferProps<typeof propTypes>): JSX.Element
       rel={rel as string}
       title={title as string}
       target={target as string}
-      onClick={onClick as () => null}
+      onClick={onClick as undefined}
       className={buildClass('ui-link', (modifiers as string).split(' '))}
     >
       {label}

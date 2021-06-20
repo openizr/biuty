@@ -13,7 +13,8 @@
     <div class="ui-textarea__wrapper">
       <textarea
         :id="randomId"
-        v-model="currentValue"
+        ref="textareaRef"
+        :value="currentValue"
         :name="name"
         :cols="cols"
         :rows="rows"
@@ -63,6 +64,8 @@ interface Props {
   readonly: boolean;
   placeholder: string;
   autocomplete: string;
+  debounceTimeout: number;
+  transform: (value: string) => string;
 }
 
 /**
@@ -130,11 +133,23 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       default: 'on',
       required: false,
     },
+    debounceTimeout: {
+      type: Number,
+      default: null,
+      required: false,
+    },
+    transform: {
+      type: Function,
+      default: (value: string) => value,
+      required: false,
+    },
   },
   data() {
     return {
+      timeout: null,
+      cursorPosition: 0,
       randomId: generateRandomId(),
-      currentValue: this.value,
+      currentValue: this.transform(this.value),
     };
   },
   computed: {
@@ -145,12 +160,25 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   watch: {
     value(): void {
       // Updates current value each time the `value` property is changed.
-      this.currentValue = this.value;
+      this.currentValue = this.transform(this.value);
     },
   },
+  updated(): void {
+    (this.$refs.textareaRef as HTMLTextAreaElement).selectionEnd = this.cursorPosition;
+    (this.$refs.textareaRef as HTMLTextAreaElement).selectionStart = this.cursorPosition;
+  },
   methods: {
-    changeField(): void {
-      this.$emit('change', this.currentValue);
+    changeField(event: Event): void {
+      this.cursorPosition = (event.target as HTMLTextAreaElement).selectionStart;
+      this.currentValue = this.transform((event.target as HTMLTextAreaElement).value);
+      if (this.debounceTimeout !== null) {
+        window.clearTimeout(this.timeout);
+        this.timeout = window.setTimeout(() => {
+          this.$emit('change', this.currentValue);
+        }, this.debounceTimeout);
+      } else {
+        this.$emit('change', this.currentValue);
+      }
     },
     blurField(): void {
       this.$emit('blur', this.currentValue);

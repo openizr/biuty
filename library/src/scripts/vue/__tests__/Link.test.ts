@@ -53,7 +53,8 @@ describe('vue/UILink', () => {
   test('renders correctly - with listener', () => {
     const onClick = jest.fn();
     const wrapper = mount(UILink, {
-      propsData: { label: 'Test', href: 'https://test.com', onClick },
+      propsData: { label: 'Test', href: 'https://test.com' },
+      listeners: { click: onClick },
     });
     wrapper.trigger('click');
     expect(wrapper.html()).toMatchSnapshot();

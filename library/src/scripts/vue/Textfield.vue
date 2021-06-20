@@ -20,14 +20,14 @@
       >{{ icon }}</i>
       <input
         :id="randomId"
-        v-model="currentValue"
+        ref="inputRef"
+        :value="currentValue"
         :name="name"
         :max="max"
         :min="min"
         :step="step"
         :type="type"
         :size="size"
-        :value="currentValue"
         :readonly="readonly"
         :maxlength="maxlength"
         class="ui-textfield__wrapper__field"
@@ -84,7 +84,9 @@ interface Props {
   readonly: boolean;
   placeholder: string;
   autocomplete: string;
+  debounceTimeout: number;
   iconPosition: 'left' | 'right';
+  transform: (value: string) => string;
   type: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url';
 }
 
@@ -178,11 +180,23 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       default: 'on',
       required: false,
     },
+    debounceTimeout: {
+      type: Number,
+      default: null,
+      required: false,
+    },
+    transform: {
+      type: Function,
+      default: (value: string) => value,
+      required: false,
+    },
   },
   data() {
     return {
+      timeout: null,
+      cursorPosition: null,
       randomId: generateRandomId(),
-      currentValue: this.value,
+      currentValue: this.transform(this.value),
     };
   },
   computed: {
@@ -193,18 +207,33 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   watch: {
     value(): void {
       // Updates current value each time the `value` property is changed.
-      this.currentValue = this.value;
+      this.currentValue = this.transform(this.value);
     },
   },
+  updated(): void {
+    if (/^(url|tel|search|text|password)$/.test(this.type)) {
+      (this.$refs.inputRef as HTMLInputElement).selectionEnd = this.cursorPosition;
+      (this.$refs.inputRef as HTMLInputElement).selectionStart = this.cursorPosition;
+    }
+  },
   methods: {
-    changeField(event: KeyboardEvent): void {
-      this.$emit('change', (event.target as HTMLInputElement).value);
+    changeField(event: Event): void {
+      this.cursorPosition = (event.target as HTMLInputElement).selectionStart;
+      this.currentValue = this.transform((event.target as HTMLInputElement).value);
+      if (this.debounceTimeout !== null) {
+        window.clearTimeout(this.timeout);
+        this.timeout = window.setTimeout(() => {
+          this.$emit('change', this.currentValue);
+        }, this.debounceTimeout);
+      } else {
+        this.$emit('change', this.currentValue);
+      }
     },
     blurField(): void {
-      this.$emit('blur', this.currentValue as string);
+      this.$emit('blur', this.currentValue);
     },
     focusField(): void {
-      this.$emit('focus', this.currentValue as string);
+      this.$emit('focus', this.currentValue);
     },
     clickIcon(): void {
       this.$emit('iconClick');

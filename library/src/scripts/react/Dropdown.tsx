@@ -63,8 +63,20 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   const {
     options, id, modifiers, multiple, label, helper, icon, name, onChange, value, onFocus,
   } = props;
+
+  const findSiblingOption = (startIndex: number, direction: number, offset = 1): number => {
+    const nextIndex = startIndex + direction * offset;
+    if (nextIndex < 0 || nextIndex >= options.length) {
+      return startIndex;
+    }
+    const option = options[nextIndex];
+    return (option.value !== undefined && option.disabled !== true)
+      ? nextIndex
+      : findSiblingOption(startIndex, direction, offset + 1);
+  };
+
   const ulRef = React.useRef<HTMLUListElement>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
   const [randomId] = React.useState(generateRandomId);
   const [mounted, setMounted] = React.useState(false);
   const [position, setPosition] = React.useState('bottom');
@@ -92,19 +104,8 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
     focusField((options[optionIndex] || {}).value as string)();
   };
 
-  const findSiblingOption = (startIndex: number, direction: number): (number | null) => {
-    const nextIndex = startIndex + direction;
-    if (nextIndex < 0 || nextIndex >= options.length) {
-      return null;
-    }
-    const option = options[nextIndex];
-    return (option.value !== undefined && option.disabled !== true)
-      ? nextIndex
-      : findSiblingOption(nextIndex, direction);
-  };
-
   const displayList = (): void => {
-    const relativeOffsetTop = (inputRef.current as HTMLInputElement).getBoundingClientRect().top;
+    const relativeOffsetTop = (buttonRef.current as HTMLInputElement).getBoundingClientRect().top;
     setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
     setIsDisplayed(true);
   };
@@ -147,21 +148,21 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
     // `event.preventDefault` is not called globally to avoid preventing tabs.
     switch (key) {
       case 'ArrowUp':
-        focusOption(findSiblingOption(focusedOption, -1) || focusedOption);
+        focusOption(findSiblingOption(focusedOption, -1));
         event.preventDefault();
         break;
       case 'ArrowDown':
-        focusOption(findSiblingOption(focusedOption, +1) || focusedOption);
+        focusOption(findSiblingOption(focusedOption, +1));
         event.preventDefault();
         break;
       case 'PageUp':
       case 'Home':
-        focusOption(findSiblingOption(0, -1) || 0);
+        focusOption(Math.max(0, findSiblingOption(-1, +1)));
         event.preventDefault();
         break;
       case 'End':
       case 'PageDown':
-        focusOption(findSiblingOption(options.length, +1) || options.length - 1);
+        focusOption(Math.min(options.length - 1, findSiblingOption(options.length, -1)));
         event.preventDefault();
         break;
       case ' ':
@@ -190,20 +191,24 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   // Updates current value each time the `value` property is changed.
   React.useEffect(() => {
     setCurrentValue(value as string[]);
+    setFocusedOption(findOption((value as string[])[0])(options));
   }, [value]);
 
   // Avoids having to pass through the entire options array at each rendering.
   React.useEffect(() => {
     setMapping(options.reduce(generateMapping, {}));
+    if (focusedOption >= options.length) {
+      setFocusedOption(Math.min(0, findSiblingOption(options.length - 1, -1)));
+    }
   }, [options]);
 
   // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
   // be displayed before actually focusing it.
   React.useEffect(() => {
     if (ulRef.current !== null && isDisplayed === true) {
-      focusOption((focusedOption >= 0) ? focusedOption : findSiblingOption(0, +1) || 0);
-    } else if (isDisplayed === false && inputRef.current !== null && mounted === true) {
-      inputRef.current.focus();
+      focusOption(Math.max(0, focusedOption));
+    } else if (isDisplayed === false && buttonRef.current !== null && mounted === true) {
+      buttonRef.current.focus();
     }
   }, [isDisplayed]);
 
@@ -217,20 +222,20 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
         ? <label className="ui-dropdown__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
         : null}
       <div className="ui-dropdown__wrapper">
-        <input
-          readOnly
+        <button
           name={name}
-          type="text"
+          type="button"
           id={randomId}
-          ref={inputRef}
+          ref={buttonRef}
           onKeyDown={navigate}
           onFocus={focusField()}
           aria-haspopup="listbox"
           onMouseDown={displayList}
           className="ui-dropdown__wrapper__field"
           aria-labelledby={`${randomId} ${randomId}`}
-          value={currentValue.map((option) => mapping[option]).join(', ')}
           tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: currentValue.map((option) => mapping[option]).join(', ') }}
         />
         {(icon !== null)
           ? (

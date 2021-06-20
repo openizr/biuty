@@ -13,6 +13,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 
 type Target = any; // eslint-disable-line @typescript-eslint/no-explicit-any
 let container = document.createElement('div');
+jest.useFakeTimers();
 jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
 
@@ -95,6 +96,18 @@ describe('react/UITextarea', () => {
     expect(container).toMatchSnapshot();
   });
 
+  test('renders correctly - with transform', () => {
+    const transform = (value: string): string => value.toUpperCase();
+    act(() => {
+      render(<UITextarea name="test" transform={transform} />, container);
+    });
+    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+    act(() => {
+      Simulate.change(textarea, { target: { value: 'new test' } as Target });
+    });
+    expect(container).toMatchSnapshot();
+  });
+
   test('renders correctly - disabled', () => {
     act(() => {
       render(<UITextarea name="test" modifiers="disabled" />, container);
@@ -155,5 +168,28 @@ describe('react/UITextarea', () => {
     expect(onChange).toHaveBeenCalledWith('new test');
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
+  });
+
+  test('renders correctly - with listener and debounce', () => {
+    const onChange = jest.fn();
+    act(() => {
+      render(
+        <UITextarea
+          name="test"
+          value="test"
+          onChange={onChange}
+          debounceTimeout={250}
+        />,
+        container,
+      );
+    });
+    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+    act(() => {
+      Simulate.change(textarea, { target: { value: 'new test' } as Target });
+    });
+    jest.runAllTimers();
+    expect(container).toMatchSnapshot();
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith('new test');
   });
 });
