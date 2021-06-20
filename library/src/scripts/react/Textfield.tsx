@@ -74,6 +74,7 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
   } = props;
   const [randomId] = React.useState(generateRandomId);
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const [mounted, setMounted] = React.useState(false);
   const { transform } = (props as { transform: (value?: string | null) => string });
   const [currentValue, setCurrentValue] = React.useState(transform(value));
   const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
@@ -85,10 +86,15 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
     setCurrentValue(transform(value));
   }, [value]);
 
+  // We don't want to fire `onChange` when `currentValue` is initialized for the first time.
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   React.useEffect(() => {
     // This debounce system prevents triggering `onChange` hooks too many times when user is
     // still typing to save performance and make the UI more reactive on low-perfomance devices.
-    if (onChange !== undefined && onChange !== null && debounceTimeout !== null) {
+    if (onChange !== undefined && onChange !== null && debounceTimeout !== null && mounted) {
       const timeout = window.setTimeout(() => {
         onChange(currentValue);
       }, debounceTimeout);
