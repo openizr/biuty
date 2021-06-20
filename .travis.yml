@@ -25,13 +25,14 @@ deploy:
     on:
       tags: true
   # Generates documentation
-  - provider: pages
-    skip_cleanup: true
-    keep_history: true
-    target_branch: master
-    github_token: $GITHUB_TOKEN
-    on:
-      tags: true
+  # TODO re-enable with new TypeDoc release
+  # - provider: pages
+  #   skip_cleanup: true
+  #   keep_history: true
+  #   target_branch: master
+  #   github_token: $GITHUB_TOKEN
+  #   on:
+  #     tags: true
 
 # Coveralls is executed at the very end to prevent it from making deployment fail in case of error
 after_success:
