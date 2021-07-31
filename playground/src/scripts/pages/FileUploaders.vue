@@ -51,6 +51,11 @@
         label="ui-file-uploader with accept"
         accept="image/*"
       />
+      <UIFileUploader
+        name="file-uploader15"
+        label="ui-file-uploader with value"
+        :value="[new File([], 'test.png')]"
+      />
     </main>
   </div>
 </template>

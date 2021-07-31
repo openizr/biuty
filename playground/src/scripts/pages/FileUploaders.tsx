@@ -35,6 +35,7 @@ export default function FileUploaders(): JSX.Element {
         <UIFileUploader name="file-uploader13" label="ui-file-uploader icon right" icon="star" iconPosition="right" />
         <UIFileUploader name="file-uploader14" label="ui-file-uploader with focus listener" onFocus={onFocus} />
         <UIFileUploader name="file-uploader15" label="ui-file-uploader with accept" accept="image/*" />
+        <UIFileUploader name="file-uploader16" label="ui-file-uploader with value" value={[new File([], 'test.png')]} />
       </main>
     </div>
   );

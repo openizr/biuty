@@ -78,7 +78,7 @@ exports[`vue/UIFileUploader renders correctly - with left icon 1`] = `
 `;
 
 exports[`vue/UIFileUploader renders correctly - with listeners 1`] = `
-"<div class=\\"ui-file-uploader\\" value=\\"test\\">
+"<div class=\\"ui-file-uploader\\">
   <!----> <i class=\\"ui-button__icon\\">star</i> <input id=\\"z8a8d7a5zad4\\" type=\\"file\\" name=\\"test\\" class=\\"ui-file-uploader__field\\">
   <!----> <span class=\\"ui-file-uploader__files-list\\">
     /path/to/file1.png
@@ -102,6 +102,17 @@ exports[`vue/UIFileUploader renders correctly - with right icon 1`] = `
 "<div class=\\"ui-file-uploader\\">
   <!---->
   <!----> <input id=\\"z8a8d7a5zad4\\" type=\\"file\\" name=\\"test\\" class=\\"ui-file-uploader__field\\"> <i class=\\"ui-button__icon\\">star</i> <span class=\\"ui-file-uploader__files-list\\">
+
+  </span>
+  <!---->
+</div>"
+`;
+
+exports[`vue/UIFileUploader renders correctly - with value 1`] = `
+"<div class=\\"ui-file-uploader\\">
+  <!---->
+  <!----> <input id=\\"z8a8d7a5zad4\\" type=\\"file\\" name=\\"test\\" class=\\"ui-file-uploader__field\\">
+  <!----> <span class=\\"ui-file-uploader__files-list\\">
 
   </span>
   <!---->

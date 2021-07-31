@@ -29,7 +29,9 @@
       class="ui-button__icon"
     >{{ icon }}</i>
     <span class="ui-file-uploader__files-list">
-      {{ (currentValue.length === 0) ? placeholder : currentValue.join(', ') }}
+      {{ (currentValue.length === 0)
+        ? placeholder
+        : currentValue.map((file) => file.name).join(', ') }}
     </span>
     <p
       v-if="helper !== null"
@@ -61,6 +63,7 @@ interface Props {
   icon: string;
   label: string;
   accept: string;
+  value: File[];
   helper: string;
   modifiers: string;
   multiple: boolean;
@@ -113,6 +116,11 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       default: '',
       required: false,
     },
+    value: {
+      type: Array,
+      default: () => [],
+      required: false,
+    },
     iconPosition: {
       validator: (value) => value === 'left' || value === 'right',
       default: 'left',
@@ -135,6 +143,12 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       return buildClass('ui-file-uploader', this.modifiers.split(' '));
     },
   },
+  watch: {
+    value(): void {
+      // Updates current value each time the `value` property is changed.
+      this.currentValue = this.value;
+    },
+  },
   methods: {
     changeField(event: Event): void {
       const files = [];
@@ -142,7 +156,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       for (let index = 0; index < numberOfFiles; index += 1) {
         files.push(((event.target as HTMLInputElement).files as FileList)[index]);
       }
-      this.currentValue = files.map((file) => file.name);
+      this.currentValue = files;
       this.$emit('change', files);
     },
     focusField(): void {

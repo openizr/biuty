@@ -63,6 +63,14 @@ describe('vue/UIFileUploader', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
+  test('renders correctly - with value', async () => {
+    const wrapper = mount(UIFileUploader, {
+      propsData: { name: 'test', value: [] },
+    });
+    await wrapper.setProps({ value: [] });
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   test('renders correctly - with left icon', () => {
     const wrapper = mount(UIFileUploader, {
       propsData: { name: 'test', icon: 'star' },
@@ -89,7 +97,7 @@ describe('vue/UIFileUploader', () => {
     const onChange = jest.fn();
     const wrapper = mount(UIFileUploader, {
       propsData: {
-        name: 'test', icon: 'star', value: 'test',
+        name: 'test', icon: 'star',
       },
       listeners: {
         focus: onFocus,
@@ -104,9 +112,7 @@ describe('vue/UIFileUploader', () => {
     await wrapper.vm.$nextTick();
     await (wrapper.vm as component).focusField();
     expect(wrapper.html()).toMatchSnapshot();
-    expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith([{ name: '/path/to/file1.png' }]);
-    expect(onFocus).toHaveBeenCalledTimes(1);
-    expect(onFocus).toHaveBeenCalledWith(['/path/to/file1.png']);
+    expect(onFocus).toHaveBeenCalledWith([{ name: '/path/to/file1.png' }]);
   });
 });

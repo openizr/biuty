@@ -25,10 +25,12 @@ const propTypes = {
   placeholder: PropTypes.string,
   name: PropTypes.string.isRequired,
   iconPosition: PropTypes.oneOf(['left', 'right']),
+  value: PropTypes.arrayOf(PropTypes.instanceOf(File).isRequired),
 };
 
 const defaultProps = {
   id: null,
+  value: [],
   icon: null,
   label: null,
   helper: null,
@@ -45,13 +47,19 @@ const defaultProps = {
  * File uploader.
  */
 export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX.Element {
+  const { value } = props;
   const { accept, id, modifiers } = props;
   const { icon, onChange, multiple } = props;
   const { name, placeholder, onFocus } = props;
   const { label, helper, iconPosition } = props;
   const [randomId] = React.useState(generateRandomId);
-  const [currentValue, setCurrentValue] = React.useState([] as string[]);
+  const [currentValue, setCurrentValue] = React.useState<File[]>(value as File[]);
   const className = buildClass('ui-file-uploader', (modifiers as string).split(' '));
+
+  // Updates current value each time the `value` property is changed.
+  React.useEffect(() => {
+    setCurrentValue(value as File[]);
+  }, [value]);
 
   const changeValue = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const files = [];
@@ -59,7 +67,7 @@ export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX
     for (let index = 0; index < numberOfFiles; index += 1) {
       files.push((event.target.files as FileList)[index]);
     }
-    setCurrentValue(files.map((file) => file.name));
+    setCurrentValue(files);
     if (onChange !== undefined && onChange !== null) {
       onChange(files);
     }
@@ -95,7 +103,7 @@ export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX
         ? <label className="ui-file-uploader__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
         : null}
       {(iconPosition === 'left') ? children : children.reverse()}
-      <span className="ui-file-uploader__files-list">{(currentValue.length === 0) ? placeholder : currentValue.join(', ')}</span>
+      <span className="ui-file-uploader__files-list">{(currentValue.length === 0) ? placeholder : currentValue.map((file) => file.name).join(', ')}</span>
       {(helper !== null) ? <p className="ui-file-uploader__helper">{helper}</p> : null}
     </div>
   );
