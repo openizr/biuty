@@ -37,7 +37,7 @@
  */
 
 import Vue from 'vue';
-import { Generic } from 'scripts/types';
+import { Generic } from 'scripts/vue/types';
 import buildClass from 'scripts/helpers/buildClass';
 
 interface Props {

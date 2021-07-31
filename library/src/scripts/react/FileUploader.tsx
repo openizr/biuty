@@ -20,6 +20,7 @@ const propTypes = {
   helper: PropTypes.string,
   onChange: PropTypes.func,
   multiple: PropTypes.bool,
+  accept: PropTypes.string,
   modifiers: PropTypes.string,
   placeholder: PropTypes.string,
   name: PropTypes.string.isRequired,
@@ -31,6 +32,7 @@ const defaultProps = {
   icon: null,
   label: null,
   helper: null,
+  accept: null,
   onFocus: null,
   modifiers: '',
   multiple: false,
@@ -43,10 +45,10 @@ const defaultProps = {
  * File uploader.
  */
 export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX.Element {
-  const {
-    id, modifiers, label, helper, iconPosition, icon,
-    onChange, multiple, name, placeholder, onFocus,
-  } = props;
+  const { accept, id, modifiers } = props;
+  const { icon, onChange, multiple } = props;
+  const { name, placeholder, onFocus } = props;
+  const { label, helper, iconPosition } = props;
   const [randomId] = React.useState(generateRandomId);
   const [currentValue, setCurrentValue] = React.useState([] as string[]);
   const className = buildClass('ui-file-uploader', (modifiers as string).split(' '));
@@ -78,6 +80,7 @@ export default function UIFileUploader(props: InferProps<typeof propTypes>): JSX
       key={randomId}
       onFocus={focusField}
       onChange={changeValue}
+      accept={accept as string}
       multiple={multiple as boolean}
       className="ui-file-uploader__field"
     />,

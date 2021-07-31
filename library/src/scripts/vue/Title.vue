@@ -19,7 +19,7 @@
  */
 
 import Vue from 'vue';
-import { Generic } from 'scripts/types';
+import { Generic } from 'scripts/vue/types';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 

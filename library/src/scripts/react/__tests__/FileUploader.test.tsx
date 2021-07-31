@@ -92,6 +92,13 @@ describe('react/UIFileUploader', () => {
     expect(container).toMatchSnapshot();
   });
 
+  test('renders correctly - with accept', () => {
+    act(() => {
+      render(<UIFileUploader name="test" accept="image/*" />, container);
+    });
+    expect(container).toMatchSnapshot();
+  });
+
   test('renders correctly - with listeners', () => {
     const onChange = jest.fn();
     const onFocus = jest.fn();

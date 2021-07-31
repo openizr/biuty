@@ -22,6 +22,17 @@ exports[`vue/UIFileUploader renders correctly - multiple 1`] = `
 </div>"
 `;
 
+exports[`vue/UIFileUploader renders correctly - with accept 1`] = `
+"<div class=\\"ui-file-uploader\\">
+  <!---->
+  <!----> <input id=\\"z8a8d7a5zad4\\" type=\\"file\\" name=\\"test\\" accept=\\"image/*\\" class=\\"ui-file-uploader__field\\">
+  <!----> <span class=\\"ui-file-uploader__files-list\\">
+
+  </span>
+  <!---->
+</div>"
+`;
+
 exports[`vue/UIFileUploader renders correctly - with helper 1`] = `
 "<div class=\\"ui-file-uploader\\">
   <!---->

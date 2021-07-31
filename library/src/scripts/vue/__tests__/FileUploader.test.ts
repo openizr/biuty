@@ -42,6 +42,13 @@ describe('vue/UIFileUploader', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
+  test('renders correctly - with accept', () => {
+    const wrapper = mount(UIFileUploader, {
+      propsData: { name: 'test', accept: 'image/*' },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   test('renders correctly - with helper', () => {
     const wrapper = mount(UIFileUploader, {
       propsData: { name: 'test', helper: 'Text' },

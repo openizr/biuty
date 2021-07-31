@@ -46,6 +46,11 @@
         label="ui-file-uploader with focus listener"
         @focus="onFocus"
       />
+      <UIFileUploader
+        name="file-uploader15"
+        label="ui-file-uploader with accept"
+        accept="image/*"
+      />
     </main>
   </div>
 </template>

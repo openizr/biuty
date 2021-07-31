@@ -18,6 +18,7 @@
       :id="randomId"
       type="file"
       :name="name"
+      :accept="accept"
       :multiple="multiple"
       class="ui-file-uploader__field"
       @focus="focusField"
@@ -49,7 +50,7 @@
  */
 
 import Vue from 'vue';
-import { Generic } from 'scripts/types';
+import { Generic } from 'scripts/vue/types';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
@@ -59,6 +60,7 @@ interface Props {
   name: string;
   icon: string;
   label: string;
+  accept: string;
   helper: string;
   modifiers: string;
   multiple: boolean;
@@ -97,6 +99,11 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       required: false,
     },
     placeholder: {
+      type: String,
+      default: null,
+      required: false,
+    },
+    accept: {
       type: String,
       default: null,
       required: false,

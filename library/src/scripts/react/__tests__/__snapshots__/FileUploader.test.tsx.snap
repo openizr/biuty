@@ -37,6 +37,25 @@ exports[`react/UIFileUploader renders correctly - multiple 1`] = `
 </div>
 `;
 
+exports[`react/UIFileUploader renders correctly - with accept 1`] = `
+<div>
+  <div
+    class="ui-file-uploader"
+  >
+    <input
+      accept="image/*"
+      class="ui-file-uploader__field"
+      id="z8a8d7a5zad4"
+      name="test"
+      type="file"
+    />
+    <span
+      class="ui-file-uploader__files-list"
+    />
+  </div>
+</div>
+`;
+
 exports[`react/UIFileUploader renders correctly - with helper 1`] = `
 <div>
   <div
