@@ -147,6 +147,7 @@ describe('vue/UITextfield', () => {
     await (wrapper.vm as component).focusField();
     await wrapper.find('input').setValue('new test');
     await wrapper.find('input').trigger('blur');
+    jest.runAllTimers();
     expect(wrapper.html()).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('test');

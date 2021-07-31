@@ -127,6 +127,7 @@ describe('vue/UITextarea', () => {
     await (wrapper.vm as component).focusField();
     await wrapper.find('textarea').setValue('new test');
     await wrapper.find('textarea').trigger('blur');
+    jest.runAllTimers();
     expect(wrapper.html()).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('test');

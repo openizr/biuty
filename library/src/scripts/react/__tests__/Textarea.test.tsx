@@ -161,6 +161,7 @@ describe('react/UITextarea', () => {
     act(() => {
       Simulate.blur(textarea);
     });
+    jest.runAllTimers();
     expect(container).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('test');

@@ -46,7 +46,7 @@ export default function Textfields(): JSX.Element {
         <UITextfield name="textfield1" />
         <UITextfield name="textfield2" label="*ui-textfield*" />
         <UITextfield name="textfield3" label="ui-textfield readonly" readonly />
-        <UITextfield name="textfield4" label="ui-textfield with value" value={newValue} />
+        <UITextfield name="textfield4" label="ui-textfield with value" debounceTimeout={250} value={newValue} onChange={onChange} />
         <UITextfield name="textfield5" label="ui-textfield with helper" helper="helper" />
         <UITextfield name="textfield6" label="ui-textfield with listener" onChange={onChange} />
         <UITextfield name="textfield7" label="ui-textfield with blur listener" onBlur={onBlur} />

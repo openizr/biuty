@@ -61,8 +61,8 @@ export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Ele
   } = props;
   const { transform } = (props as { transform: (value?: string | null) => string });
   const [randomId] = React.useState(generateRandomId);
-  const [mounted, setMounted] = React.useState(false);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+  const [timeout, setTimeout] = React.useState<number | null>(null);
   const [currentValue, setCurrentValue] = React.useState(transform(value));
   const [cursorPosition, setCursorPosition] = React.useState<number>(0);
   const isDisabled = (modifiers as string).includes('disabled');
@@ -73,32 +73,23 @@ export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Ele
     setCurrentValue(transform(value));
   }, [value]);
 
-  // We don't want to fire `onChange` when `currentValue` is initialized for the first time.
   React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  React.useEffect(() => {
-    // This debounce system prevents triggering `onChange` hooks too many times when user is
-    // still typing to save performance and make the UI more reactive on low-perfomance devices.
-    if (onChange !== undefined && onChange !== null && debounceTimeout !== null && mounted) {
-      const timeout = window.setTimeout(() => {
-        onChange(currentValue);
-      }, debounceTimeout);
-      return (): void => window.clearTimeout(timeout);
-    }
     // Re-positions cursor at the right place when using transform function.
     (textareaRef.current as HTMLTextAreaElement).selectionStart = cursorPosition;
     (textareaRef.current as HTMLTextAreaElement).selectionEnd = cursorPosition;
-    return undefined;
   }, [currentValue]);
 
   const changeValue = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     const newValue = transform(event.target.value);
     setCurrentValue(newValue);
     setCursorPosition(event.target.selectionStart);
-    if (onChange !== undefined && onChange !== null && debounceTimeout === null) {
-      onChange(newValue);
+    if (onChange !== undefined && onChange !== null) {
+      window.clearTimeout(timeout as number);
+      // This debounce system prevents triggering `onChange` hooks too many times when user is
+      // still typing to save performance and make the UI more reactive on low-perfomance devices.
+      setTimeout(window.setTimeout(() => {
+        onChange(newValue);
+      }, debounceTimeout || 0));
     }
   };
 

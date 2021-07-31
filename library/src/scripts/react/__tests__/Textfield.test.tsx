@@ -183,6 +183,7 @@ describe('react/UITextfield', () => {
     act(() => {
       Simulate.click(icon);
     });
+    jest.runAllTimers();
     expect(container).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('test');

@@ -171,14 +171,10 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     changeField(event: Event): void {
       this.cursorPosition = (event.target as HTMLTextAreaElement).selectionStart;
       this.currentValue = this.transform((event.target as HTMLTextAreaElement).value);
-      if (this.debounceTimeout !== null) {
-        window.clearTimeout(this.timeout);
-        this.timeout = window.setTimeout(() => {
-          this.$emit('change', this.currentValue);
-        }, this.debounceTimeout);
-      } else {
+      window.clearTimeout(this.timeout);
+      this.timeout = window.setTimeout(() => {
         this.$emit('change', this.currentValue);
-      }
+      }, this.debounceTimeout || 0);
     },
     blurField(): void {
       this.$emit('blur', this.currentValue);
