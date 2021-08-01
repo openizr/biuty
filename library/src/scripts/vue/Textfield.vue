@@ -37,6 +37,8 @@
         @input="changeField"
         @blur="blurField"
         @focus="focusField"
+        @paste="handlePaste"
+        @keydown="handleKeyDown"
       >
       <i
         v-if="icon !== null && iconPosition === 'right'"
@@ -230,6 +232,12 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     focusField(): void {
       this.$emit('focus', this.currentValue);
+    },
+    handlePaste(event: Event): void {
+      this.$emit('paste', event);
+    },
+    handleKeyDown(event: Event): void {
+      this.$emit('keyDown', event);
     },
     clickIcon(): void {
       this.$emit('iconClick');

@@ -97,6 +97,16 @@
         max="30"
         step="5"
       />
+      <UITextfield
+        name="textfield19"
+        label="ui-textfield with paste listener"
+        @paste="onPaste"
+      />
+      <UITextfield
+        name="textfield20"
+        label="ui-textfield with keyDown listener"
+        @keyDown="onKeyDown"
+      />
     </main>
   </div>
 </template>
@@ -154,6 +164,12 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     onIconClick(): void {
       console.log('Clicked!'); // eslint-disable-line no-console
+    },
+    onPaste(): void {
+      console.log('Pasted!'); // eslint-disable-line no-console
+    },
+    onKeyDown(): void {
+      console.log('Keyed down!'); // eslint-disable-line no-console
     },
   },
 });

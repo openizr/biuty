@@ -27,6 +27,8 @@
         @blur="blurField"
         @input="changeField"
         @focus="focusField"
+        @paste="handlePaste"
+        @keydown="handleKeyDown"
       />
     </div>
     <span
@@ -178,6 +180,12 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     blurField(): void {
       this.$emit('blur', this.currentValue);
+    },
+    handlePaste(event: Event): void {
+      this.$emit('paste', event);
+    },
+    handleKeyDown(event: Event): void {
+      this.$emit('keyDown', event);
     },
     focusField(): void {
       this.$emit('focus', this.currentValue);

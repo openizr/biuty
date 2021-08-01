@@ -25,6 +25,8 @@ const propTypes = {
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
+  onPaste: PropTypes.func,
+  onKeyDown: PropTypes.func,
   readonly: PropTypes.bool,
   transform: PropTypes.func,
   maxlength: PropTypes.number,
@@ -53,6 +55,8 @@ const defaultProps = {
   onBlur: null,
   onFocus: null,
   onChange: null,
+  onPaste: null,
+  onKeyDown: null,
   readonly: false,
   maxlength: null,
   placeholder: null,
@@ -70,7 +74,7 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
   const {
     id, modifiers, label, helper, onChange, value, name, readonly, step, onIconClick, autocomplete,
     placeholder, iconPosition, icon, onBlur, type, size, max, min, maxlength, onFocus,
-    debounceTimeout,
+    debounceTimeout, onPaste, onKeyDown,
   } = props;
   const [randomId] = React.useState(generateRandomId);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -145,6 +149,8 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       className="ui-textfield__wrapper__field"
       placeholder={placeholder as string}
       onChange={(readonly === false && !isDisabled) ? changeValue : undefined}
+      onPaste={onPaste as (event: React.ClipboardEvent<HTMLInputElement>) => void}
+      onKeyDown={onKeyDown as (event: React.KeyboardEvent<HTMLInputElement>) => void}
     />,
   ];
 

@@ -128,6 +128,8 @@ declare module 'sonar-ui/vue' {
     name: string;
     icon: string;
     label: string;
+    accept: string;
+    value: File[];
     helper: string;
     modifiers: string;
     multiple: boolean;
@@ -338,6 +340,8 @@ declare module 'sonar-ui/react' {
     label: PropTypes.Requireable<string>;
     onFocus: PropTypes.Requireable<(value: string[]) => void>;
     helper: PropTypes.Requireable<string>;
+    accept: PropTypes.Requireable<string>;
+    value: PropTypes.Requireable<File[]>;
     onChange: PropTypes.Requireable<(value: File[]) => void>;
     multiple: PropTypes.Requireable<boolean>;
     modifiers: PropTypes.Requireable<string>;
@@ -411,6 +415,8 @@ declare module 'sonar-ui/react' {
     onBlur: PropTypes.Requireable<(value: string) => void>;
     onFocus: PropTypes.Requireable<(value: string) => void>;
     onChange: PropTypes.Requireable<(value: string) => void>;
+    onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLTextAreaElement>) => void>;
+    onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLTextAreaElement>) => void>;
     value: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
     helper: PropTypes.Requireable<string>;
@@ -440,6 +446,8 @@ declare module 'sonar-ui/react' {
     label: PropTypes.Requireable<string>;
     helper: PropTypes.Requireable<string>;
     onChange: PropTypes.Requireable<(value: string) => void>;
+    onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLInputElement>) => void>;
+    onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLInputElement>) => void>;
     readonly: PropTypes.Requireable<boolean>;
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;

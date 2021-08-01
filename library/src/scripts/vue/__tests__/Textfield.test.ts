@@ -132,6 +132,8 @@ describe('vue/UITextfield', () => {
     const onBlur = jest.fn();
     const onChange = jest.fn();
     const onIconClick = jest.fn();
+    const onPaste = jest.fn();
+    const onKeyDown = jest.fn();
     const wrapper = mount(UITextfield, {
       propsData: {
         name: 'test', icon: 'star', value: 'test',
@@ -141,12 +143,16 @@ describe('vue/UITextfield', () => {
         blur: onBlur,
         iconClick: onIconClick,
         change: onChange,
+        paste: onPaste,
+        keyDown: onKeyDown,
       },
     });
     await wrapper.find('i').trigger('click');
     await (wrapper.vm as component).focusField();
     await wrapper.find('input').setValue('new test');
     await wrapper.find('input').trigger('blur');
+    await wrapper.find('input').trigger('paste');
+    await wrapper.find('input').trigger('keydown');
     jest.runAllTimers();
     expect(wrapper.html()).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
@@ -156,6 +162,8 @@ describe('vue/UITextfield', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
     expect(onIconClick).toHaveBeenCalledTimes(1);
+    expect(onPaste).toHaveBeenCalledTimes(1);
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   test('renders correctly - with listener and debounce', async () => {

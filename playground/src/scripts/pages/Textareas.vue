@@ -72,6 +72,16 @@
         label="ui-textarea with focus listener"
         @focus="onFocus"
       />
+      <UITextarea
+        name="textarea13"
+        label="ui-textarea with paste listener"
+        @paste="onPaste"
+      />
+      <UITextarea
+        name="textarea14"
+        label="ui-textarea with keyDown listener"
+        @keyDown="onKeyDown"
+      />
     </main>
   </div>
 </template>
@@ -126,6 +136,12 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     onFocus(): void {
       console.log('Focused!'); // eslint-disable-line no-console
+    },
+    onPaste(): void {
+      console.log('Pasted!'); // eslint-disable-line no-console
+    },
+    onKeyDown(): void {
+      console.log('Keyed down!'); // eslint-disable-line no-console
     },
   },
 });

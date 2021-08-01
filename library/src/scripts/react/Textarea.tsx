@@ -22,6 +22,8 @@ const propTypes = {
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
+  onPaste: PropTypes.func,
+  onKeyDown: PropTypes.func,
   readonly: PropTypes.bool,
   transform: PropTypes.func,
   maxlength: PropTypes.number,
@@ -41,6 +43,8 @@ const defaultProps = {
   helper: null,
   onBlur: null,
   onFocus: null,
+  onPaste: null,
+  onKeyDown: null,
   modifiers: '',
   onChange: null,
   readonly: false,
@@ -56,8 +60,8 @@ const defaultProps = {
  */
 export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   const {
-    id, modifiers, label, helper, onChange, value, name, onFocus, debounceTimeout,
-    placeholder, readonly, rows, cols, onBlur, maxlength, autocomplete,
+    onPaste, onKeyDown, id, modifiers, label, helper, onChange, value, name,
+    onFocus, debounceTimeout, placeholder, readonly, rows, cols, onBlur, maxlength, autocomplete,
   } = props;
   const { transform } = (props as { transform: (value?: string | null) => string });
   const [randomId] = React.useState(generateRandomId);
@@ -131,6 +135,8 @@ export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Ele
           placeholder={placeholder as string}
           autoComplete={autocomplete as string}
           onChange={(readonly === false && !isDisabled) ? changeValue : undefined}
+          onPaste={onPaste as (event: React.ClipboardEvent<HTMLTextAreaElement>) => void}
+          onKeyDown={onKeyDown as (event: React.KeyboardEvent<HTMLTextAreaElement>) => void}
         />
       </div>
       {(helper !== null) ? <span className="ui-textarea__helper">{helper}</span> : null}

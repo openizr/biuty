@@ -139,6 +139,8 @@ describe('react/UITextarea', () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
     const onChange = jest.fn();
+    const onPaste = jest.fn();
+    const onKeyDown = jest.fn();
     act(() => {
       render(
         <UITextarea
@@ -146,6 +148,8 @@ describe('react/UITextarea', () => {
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
+          onPaste={onPaste}
+          onKeyDown={onKeyDown}
           value="test"
         />,
         container,
@@ -161,6 +165,12 @@ describe('react/UITextarea', () => {
     act(() => {
       Simulate.blur(textarea);
     });
+    act(() => {
+      Simulate.paste(textarea);
+    });
+    act(() => {
+      Simulate.keyDown(textarea);
+    });
     jest.runAllTimers();
     expect(container).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
@@ -169,6 +179,8 @@ describe('react/UITextarea', () => {
     expect(onChange).toHaveBeenCalledWith('new test');
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
+    expect(onPaste).toHaveBeenCalledTimes(1);
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   test('renders correctly - with listener and debounce', () => {
