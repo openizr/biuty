@@ -201,7 +201,7 @@ describe('vue/UIDropdown', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('option1');
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(['option1']);
+    expect(onChange).toHaveBeenCalledWith('option1');
   });
 
   test('renders correctly - multiple with listeners', async () => {
@@ -209,7 +209,7 @@ describe('vue/UIDropdown', () => {
     const onFocus = jest.fn();
     const wrapper = mount(UIDropdown, {
       propsData: {
-        name: 'test', options, value: ['option2'], multiple: true,
+        name: 'test', options, value: 'option2', multiple: true,
       },
       listeners: {
         focus: onFocus,

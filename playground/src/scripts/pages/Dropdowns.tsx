@@ -64,7 +64,7 @@ const options2 = [
   },
 ];
 
-const onChange = (value: string[]): void => {
+const onChange = (value: string | string[]): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
 };
 

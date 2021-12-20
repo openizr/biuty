@@ -144,7 +144,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     }, 3000);
   },
   methods: {
-    onChange(value: string[]): void {
+    onChange(value: string | string[]): void {
       console.log('Changed!', value); // eslint-disable-line no-console
     },
     onFocus(value: string): void {

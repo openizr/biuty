@@ -29,7 +29,10 @@ const propTypes = {
   helper: PropTypes.string,
   modifiers: PropTypes.string,
   name: PropTypes.string.isRequired,
-  value: PropTypes.arrayOf(PropTypes.string.isRequired),
+  value: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  ]),
   options: PropTypes.arrayOf(PropTypes.shape(optionType).isRequired).isRequired,
 };
 
@@ -50,6 +53,7 @@ type Option = InferProps<typeof optionType>;
 const findOption = (value: string) => (options: Option[]): number => (
   options.findIndex((option) => value === option.value && option.value !== undefined)
 );
+const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
 const generateMapping = (mapping: Mapping, option: Option): Mapping => (
   (option.value !== undefined && option.label !== undefined)
     ? ({ ...mapping, [option.value as string]: markdown(option.label as string) })
@@ -82,7 +86,7 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
   const [position, setPosition] = React.useState('bottom');
   const [mapping, setMapping] = React.useState(options.reduce(generateMapping, {}));
   const [isDisplayed, setIsDisplayed] = React.useState(false);
-  const [currentValue, setCurrentValue] = React.useState(value as string[]);
+  const [currentValue, setCurrentValue] = React.useState(toArray(value as unknown as string));
   const [focusedOption, setFocusedOption] = React.useState(findOption(currentValue[0])(options));
   const className = buildClass('ui-dropdown', (modifiers as string).split(' '));
 
@@ -133,7 +137,7 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
     }
     setCurrentValue(newValue);
     if (onChange !== undefined && onChange !== null) {
-      onChange(newValue);
+      onChange(multiple ? newValue : newValue[0]);
     }
   };
 
@@ -190,8 +194,9 @@ export default function UIDropdown(props: InferProps<typeof propTypes>): JSX.Ele
 
   // Updates current value each time the `value` property is changed.
   React.useEffect(() => {
-    setCurrentValue(value as string[]);
-    setFocusedOption(findOption((value as string[])[0])(options));
+    const newValue = toArray(value as unknown as string);
+    setCurrentValue(newValue);
+    setFocusedOption(findOption(newValue[0])(options));
   }, [value]);
 
   // Avoids having to pass through the entire options array at each rendering.

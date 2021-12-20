@@ -240,7 +240,7 @@ describe('react/UIDropdown', () => {
     expect(onFocus).toHaveBeenNthCalledWith(2, 'option1');
     expect(onFocus).toHaveBeenNthCalledWith(3, undefined);
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(['option1']);
+    expect(onChange).toHaveBeenCalledWith('option1');
   });
 
   test('renders correctly - multiple with listeners', () => {
@@ -250,7 +250,7 @@ describe('react/UIDropdown', () => {
       render(
         <UIDropdown
           name="test"
-          value={['option2']}
+          value="option2"
           options={options}
           onChange={onChange}
           onFocus={onFocus}

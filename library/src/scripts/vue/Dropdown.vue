@@ -102,7 +102,7 @@ interface Props {
   helper: string;
   modifiers: string;
   name: string;
-  value: string[];
+  value: string | string[];
   options: Option[];
 }
 
@@ -111,6 +111,8 @@ type Mapping = Record<string, string>;
 const findOption = (value: string) => (options: Option[]): number => (
   options.findIndex((option) => value === option.value && option.value !== undefined)
 );
+
+const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
 
 const generateMapping = (mapping: Mapping, option: Option): Mapping => (
   (option.value !== undefined && option.label !== undefined)
@@ -155,7 +157,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       required: false,
     },
     value: {
-      type: Array,
+      type: [String, Array],
       default: () => [],
       required: false,
     },
@@ -172,7 +174,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     return {
       isDisplayed: false,
       position: 'bottom',
-      currentValue: this.value,
+      currentValue: toArray(this.value),
       randomId: generateRandomId(),
       mapping: this.options.reduce(generateMapping, {}),
       focusedOption: findOption(this.value[0])(this.options),
@@ -189,7 +191,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   watch: {
     value() {
       // Updates current value each time the `value` property is changed.
-      this.currentValue = this.value;
+      this.currentValue = toArray(this.value);
       this.focusedOption = findOption(this.value[0])(this.options);
     },
     options() {
@@ -248,7 +250,7 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
           : this.currentValue.concat([selectedValue]);
       }
       this.currentValue = newValue;
-      this.$emit('change', newValue);
+      this.$emit('change', this.multiple ? newValue : newValue[0]);
     },
     selectOption(optionIndex: number): () => void {
       return () => {

@@ -86,7 +86,7 @@ declare module 'sonar-ui/vue' {
     helper: string;
     modifiers: string;
     name: string;
-    value: string[];
+    value: string | string[];
     options: {
       type: 'header' | 'divider' | 'option';
       value?: string;
@@ -318,11 +318,11 @@ declare module 'sonar-ui/react' {
     label: PropTypes.Requireable<string>;
     onFocus: PropTypes.Requireable<(value?: string) => void>;
     multiple: PropTypes.Requireable<boolean>;
-    onChange: PropTypes.Requireable<(value: string[]) => void>;
+    onChange: PropTypes.Requireable<(value: (string | string[])) => void>;
     helper: PropTypes.Requireable<string>;
     modifiers: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
-    value: PropTypes.Requireable<string[]>;
+    value: PropTypes.Requireable<string | string[]>
     options: PropTypes.InferProps<{
       type: PropTypes.Validator<string>;
       value: PropTypes.Requireable<string>;
