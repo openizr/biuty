@@ -21,19 +21,19 @@ const onFocus = (): void => {
   console.log('Focused!'); // eslint-disable-line no-console
 };
 
-const onPaste = (): void => {
-  console.log('Pasted!'); // eslint-disable-line no-console
-};
-
-const onKeyDown = (): void => {
-  console.log('Keyed down!'); // eslint-disable-line no-console
-};
-
 const onIconClick = (): void => {
   console.log('Clicked!'); // eslint-disable-line no-console
 };
 
-const transform = (value: string): string => value.toUpperCase();
+const transform = (value: string): string => {
+  if (value.length >= 7) {
+    return `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+  }
+  if (value.length >= 4) {
+    return `(${value.slice(0, 3)}) ${value.slice(3)}`;
+  }
+  return value;
+};
 
 /**
  * Textfields page.
@@ -66,11 +66,9 @@ export default function Textfields(): JSX.Element {
         <UITextfield name="textfield13" label="ui-textfield icon right" icon="star" iconPosition="right" />
         <UITextfield name="textfield14" label="ui-textfield icon with listener" icon="star" onIconClick={onIconClick} />
         <UITextfield name="textfield15" label="ui-textfield with focus listener" onFocus={onFocus} />
-        <UITextfield name="textfield16" label="ui-textfield with transform" transform={transform} />
+        <UITextfield name="textfield16" label="ui-textfield with transform" allowedPattern={/[0-9]/i} transform={transform} />
         <UITextfield name="textfield17" label="ui-textfield with debounce" onChange={onChange} debounceTimeout={250} />
         <UITextfield name="textfield18" label="ui-textfield with type number" type="number" min={0} max={30} step={5} />
-        <UITextfield name="textfield19" label="ui-textfield with paste listener" onPaste={onPaste} />
-        <UITextfield name="textfield20" label="ui-textfield with keyDown listener" onKeyDown={onKeyDown} />
       </main>
     </div>
   );

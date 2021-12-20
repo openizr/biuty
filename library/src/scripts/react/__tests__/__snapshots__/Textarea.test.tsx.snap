@@ -254,27 +254,6 @@ exports[`react/UITextarea renders correctly - with placeholder 1`] = `
 </div>
 `;
 
-exports[`react/UITextarea renders correctly - with transform 1`] = `
-<div>
-  <div
-    class="ui-textarea"
-  >
-    <div
-      class="ui-textarea__wrapper"
-    >
-      <textarea
-        autocomplete="on"
-        class="ui-textarea__wrapper__field"
-        id="z8a8d7a5zad4"
-        name="test"
-      >
-        NEW TEST
-      </textarea>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`react/UITextarea renders correctly - with value 1`] = `
 <div>
   <div

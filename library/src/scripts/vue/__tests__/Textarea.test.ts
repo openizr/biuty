@@ -79,16 +79,6 @@ describe('vue/UITextarea', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  test('renders correctly - with transform', async () => {
-    const transform = jest.fn((value) => value.toUpperCase());
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', maxlength: 10, transform },
-    });
-    await wrapper.find('textarea').setValue('new test');
-    expect(wrapper.html()).toMatchSnapshot();
-    expect(transform).toHaveBeenCalledWith('new test');
-  });
-
   test('renders correctly - disabled', () => {
     const wrapper = mount(UITextarea, {
       propsData: { name: 'test', modifiers: 'disabled' },
@@ -114,8 +104,6 @@ describe('vue/UITextarea', () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
     const onChange = jest.fn();
-    const onPaste = jest.fn();
-    const onKeyDown = jest.fn();
     const wrapper = mount(UITextarea, {
       propsData: {
         name: 'test', value: 'test',
@@ -124,15 +112,11 @@ describe('vue/UITextarea', () => {
         focus: onFocus,
         blur: onBlur,
         change: onChange,
-        paste: onPaste,
-        keyDown: onKeyDown,
       },
     });
     await (wrapper.vm as component).focusField();
     await wrapper.find('textarea').setValue('new test');
     await wrapper.find('textarea').trigger('blur');
-    await wrapper.find('textarea').trigger('paste');
-    await wrapper.find('textarea').trigger('keydown');
     jest.runAllTimers();
     expect(wrapper.html()).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
@@ -141,8 +125,6 @@ describe('vue/UITextarea', () => {
     expect(onChange).toHaveBeenCalledWith('new test');
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
-    expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   test('renders correctly - with listener and debounce', async () => {

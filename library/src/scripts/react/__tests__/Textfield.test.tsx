@@ -45,6 +45,16 @@ describe('react/UITextfield', () => {
     act(() => {
       Simulate.blur(input);
     });
+    act(() => {
+      Simulate.paste(input, {
+        clipboardData: {
+          getData: jest.fn(() => 'test'),
+        } as unknown as DataTransfer,
+      });
+    });
+    act(() => {
+      Simulate.keyDown(input);
+    });
     expect(container).toMatchSnapshot();
   });
 
@@ -111,14 +121,24 @@ describe('react/UITextfield', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('renders correctly - with transform', () => {
+  test('renders correctly - with transform and allowedPattern', () => {
     const transform = (value: string): string => value.toUpperCase();
     act(() => {
-      render(<UITextfield name="test" transform={transform} />, container);
+      render(<UITextfield name="test" transform={transform} allowedPattern={/[0-9]/i} />, container);
     });
     const input = document.querySelector('input') as HTMLInputElement;
     act(() => {
-      Simulate.change(input, { target: { value: 'new test' } as Target });
+      Simulate.keyDown(input);
+    });
+    act(() => {
+      Simulate.change(input, { target: { value: 'new test', selectionStart: 100 } as Target });
+    });
+    act(() => {
+      Simulate.paste(input, {
+        clipboardData: {
+          getData: jest.fn(() => 'test'),
+        } as unknown as DataTransfer,
+      });
     });
     expect(container).toMatchSnapshot();
   });
@@ -154,8 +174,6 @@ describe('react/UITextfield', () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
     const onChange = jest.fn();
-    const onPaste = jest.fn();
-    const onKeyDown = jest.fn();
     const onIconClick = jest.fn();
     act(() => {
       render(
@@ -165,9 +183,7 @@ describe('react/UITextfield', () => {
           value="test"
           onBlur={onBlur}
           onFocus={onFocus}
-          onPaste={onPaste}
           onChange={onChange}
-          onKeyDown={onKeyDown}
           onIconClick={onIconClick}
         />,
         container,
@@ -187,12 +203,6 @@ describe('react/UITextfield', () => {
     act(() => {
       Simulate.click(icon);
     });
-    act(() => {
-      Simulate.paste(input);
-    });
-    act(() => {
-      Simulate.keyDown(input);
-    });
     jest.runAllTimers();
     expect(container).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
@@ -202,8 +212,6 @@ describe('react/UITextfield', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
     expect(onIconClick).toHaveBeenCalledTimes(1);
-    expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   test('renders correctly - with listener and debounce', () => {

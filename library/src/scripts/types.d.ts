@@ -202,7 +202,6 @@ declare module 'sonar-ui/vue' {
     placeholder: string;
     autocomplete: string;
     debounceTimeout: number;
-    transform: (value: string) => string;
   }>;
 
   /**
@@ -225,6 +224,7 @@ declare module 'sonar-ui/vue' {
     placeholder: string;
     autocomplete: string;
     debounceTimeout: number;
+    allowedPattern: RegExp;
     iconPosition: 'left' | 'right';
     transform: (value: string) => string;
     type: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url';
@@ -415,8 +415,6 @@ declare module 'sonar-ui/react' {
     onBlur: PropTypes.Requireable<(value: string) => void>;
     onFocus: PropTypes.Requireable<(value: string) => void>;
     onChange: PropTypes.Requireable<(value: string) => void>;
-    onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLTextAreaElement>) => void>;
-    onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLTextAreaElement>) => void>;
     value: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
     helper: PropTypes.Requireable<string>;
@@ -427,7 +425,6 @@ declare module 'sonar-ui/react' {
     autocomplete: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
     debounceTimeout: PropTypes.Requireable<number>;
-    transform: PropTypes.Requireable<(value: string) => string>;
   }>): JSX.Element;
 
   /**
@@ -438,25 +435,24 @@ declare module 'sonar-ui/react' {
     min: PropTypes.Requireable<number>;
     max: PropTypes.Requireable<number>;
     step: PropTypes.Requireable<number>;
-    onBlur: PropTypes.Requireable<(value: string) => void>;
     icon: PropTypes.Requireable<string>;
     size: PropTypes.Requireable<number>;
-    onFocus: PropTypes.Requireable<(value: string) => void>;
     value: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
     helper: PropTypes.Requireable<string>;
-    onChange: PropTypes.Requireable<(value: string) => void>;
-    onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLInputElement>) => void>;
-    onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLInputElement>) => void>;
     readonly: PropTypes.Requireable<boolean>;
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;
     onIconClick: PropTypes.Requireable<() => void>;
+    onBlur: PropTypes.Requireable<(value: string) => void>;
+    onFocus: PropTypes.Requireable<(value: string) => void>;
+    onChange: PropTypes.Requireable<(value: string) => void>;
     placeholder: PropTypes.Requireable<string>;
     autocomplete: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
     iconPosition: PropTypes.Requireable<string>;
     type: PropTypes.Requireable<string>;
+    allowedPattern: PropTypes.Requireable<RegExp>;
     debounceTimeout: PropTypes.Requireable<number>;
     transform: PropTypes.Requireable<(value: string) => string>;
   }>): JSX.Element;

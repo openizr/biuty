@@ -67,14 +67,24 @@ describe('vue/UITextfield', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  test('renders correctly - with transform', async () => {
+  test('renders correctly - with transform and allowedPattern', async () => {
     const transform = jest.fn((value) => value.toUpperCase());
     const wrapper = mount(UITextfield, {
-      propsData: { name: 'test', maxlength: 10, transform },
+      propsData: {
+        name: 'test', maxlength: 10, transform, allowedPattern: /[a-e0-9]/i,
+      },
     });
+    await wrapper.setProps({ allowedPattern: null });
+    await wrapper.setProps({ allowedPattern: /[a-e]/ });
     await wrapper.find('input').setValue('new test');
+    await wrapper.find('input').trigger('paste', {
+      clipboardData: {
+        getData: jest.fn(() => 'test'),
+      },
+    });
+    await wrapper.find('input').trigger('keydown');
     expect(wrapper.html()).toMatchSnapshot();
-    expect(transform).toHaveBeenCalledWith('new test');
+    expect(transform).toHaveBeenCalledWith('ee');
   });
 
   test('renders correctly - with label', () => {
@@ -132,8 +142,6 @@ describe('vue/UITextfield', () => {
     const onBlur = jest.fn();
     const onChange = jest.fn();
     const onIconClick = jest.fn();
-    const onPaste = jest.fn();
-    const onKeyDown = jest.fn();
     const wrapper = mount(UITextfield, {
       propsData: {
         name: 'test', icon: 'star', value: 'test',
@@ -143,27 +151,27 @@ describe('vue/UITextfield', () => {
         blur: onBlur,
         iconClick: onIconClick,
         change: onChange,
-        paste: onPaste,
-        keyDown: onKeyDown,
       },
     });
     await wrapper.find('i').trigger('click');
     await (wrapper.vm as component).focusField();
     await wrapper.find('input').setValue('new test');
     await wrapper.find('input').trigger('blur');
-    await wrapper.find('input').trigger('paste');
+    await wrapper.find('input').trigger('paste', {
+      clipboardData: {
+        getData: jest.fn(() => ' 123'),
+      },
+    });
     await wrapper.find('input').trigger('keydown');
     jest.runAllTimers();
     expect(wrapper.html()).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('test');
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith('new test');
+    expect(onChange).toHaveBeenCalledWith('new test 123');
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
     expect(onIconClick).toHaveBeenCalledTimes(1);
-    expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   test('renders correctly - with listener and debounce', async () => {

@@ -25,8 +25,6 @@ const propTypes = {
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
-  onPaste: PropTypes.func,
-  onKeyDown: PropTypes.func,
   readonly: PropTypes.bool,
   transform: PropTypes.func,
   maxlength: PropTypes.number,
@@ -36,6 +34,7 @@ const propTypes = {
   autocomplete: PropTypes.string,
   name: PropTypes.string.isRequired,
   debounceTimeout: PropTypes.number,
+  allowedPattern: PropTypes.instanceOf(RegExp),
   iconPosition: PropTypes.oneOf(['left', 'right']),
   type: PropTypes.oneOf(['text', 'email', 'number', 'password', 'search', 'tel', 'url']),
 };
@@ -55,17 +54,18 @@ const defaultProps = {
   onBlur: null,
   onFocus: null,
   onChange: null,
-  onPaste: null,
-  onKeyDown: null,
   readonly: false,
   maxlength: null,
   placeholder: null,
   autocomplete: 'on',
   iconPosition: 'left',
-  onIconClick: undefined,
   debounceTimeout: null,
+  allowedPattern: null,
+  onIconClick: undefined,
   transform: (value: string): string => value,
 };
+
+const specialKeysRegexp = /(Tab|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp)/;
 
 /**
  * Textfield.
@@ -74,7 +74,7 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
   const {
     id, modifiers, label, helper, onChange, value, name, readonly, step, onIconClick, autocomplete,
     placeholder, iconPosition, icon, onBlur, type, size, max, min, maxlength, onFocus,
-    debounceTimeout, onPaste, onKeyDown,
+    debounceTimeout, allowedPattern,
   } = props;
   const [randomId] = React.useState(generateRandomId);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -84,32 +84,52 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
   const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
   const isDisabled = (modifiers as string).includes('disabled');
   const className = buildClass('ui-textfield', (modifiers as string).split(' '));
-
-  // Updates current value each time the `value` property is changed.
-  React.useEffect(() => {
-    setCurrentValue(transform(value));
-  }, [value]);
-
-  // Re-positions cursor at the right place when using transform function.
-  React.useEffect(() => {
-    if (/^(url|text|tel|search|password)$/.test(type as string)) {
-      (inputRef.current as HTMLInputElement).selectionStart = cursorPosition;
-      (inputRef.current as HTMLInputElement).selectionEnd = cursorPosition;
-    }
-  }, [currentValue]);
+  const globalAllowedPattern = (allowedPattern instanceof RegExp) ? new RegExp(allowedPattern.source, 'g') : null;
 
   const changeValue = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const newValue = transform(event.target.value);
+    const filteredValue = (globalAllowedPattern !== null)
+      ? (event.target.value.match(globalAllowedPattern) || []).join('')
+      : event.target.value;
+    const newValue = transform(filteredValue);
     setCurrentValue(newValue);
-    setCursorPosition(event.target.selectionStart);
+    // At this point, the input's value has already changed, which means the cursor's position is
+    // at n + 1, which is why we substract 1 when checking last position.
+    const currentCursorPosition = event.target.selectionStart as number;
+    const isAtTheEnd = currentCursorPosition - 1 >= currentValue.length;
+    setCursorPosition(isAtTheEnd ? newValue.length : currentCursorPosition);
     if (onChange !== undefined && onChange !== null) {
       window.clearTimeout(timeout as number);
       // This debounce system prevents triggering `onChange` hooks too many times when user is
-      // still typing to save performance and make the UI more reactive on low-perfomance devices.
+      // still typing to improve performance and make UI more reactive on low-perfomance devices.
       setTimeout(window.setTimeout(() => {
         onChange(newValue);
       }, debounceTimeout || 0));
     }
+  };
+
+  const checkPattern = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (
+      allowedPattern instanceof RegExp
+      && !allowedPattern.test(event.key)
+      && !specialKeysRegexp.test(event.key)
+      && !event.ctrlKey
+    ) {
+      event.preventDefault();
+    }
+  };
+
+  const paste = (event: React.ClipboardEvent<HTMLInputElement>): void => {
+    const cursor = (event.target as HTMLInputElement).selectionStart as number;
+    const filteredValue = (globalAllowedPattern !== null)
+      ? (event.clipboardData.getData('text').match(globalAllowedPattern) || []).join('')
+      : event.clipboardData.getData('text');
+    changeValue({
+      target: {
+        value: `${currentValue.slice(0, cursor)}${filteredValue}${currentValue.slice(cursor)}`,
+        selectionStart: cursor + filteredValue.length,
+      },
+    } as unknown as React.ChangeEvent<HTMLInputElement>);
+    event.preventDefault();
   };
 
   const blurField = (): void => {
@@ -124,6 +144,19 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
     }
   };
 
+  // Updates current value each time the `value` property is changed.
+  React.useEffect(() => {
+    setCurrentValue(transform(value));
+  }, [value]);
+
+  // Re-positions cursor at the right place when using transform function.
+  React.useEffect(() => {
+    if (/^(url|text|tel|search|password)$/.test(type as string)) {
+      (inputRef.current as HTMLInputElement).selectionStart = cursorPosition;
+      (inputRef.current as HTMLInputElement).selectionEnd = cursorPosition;
+    }
+  }, [currentValue, cursorPosition]);
+
   const children = [
     (icon !== null)
       // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -134,8 +167,10 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       name={name}
       id={randomId}
       ref={inputRef}
+      onPaste={paste}
       onBlur={blurField}
       onFocus={focusField}
+      onKeyDown={checkPattern}
       max={max as number}
       min={min as number}
       step={step as number}
@@ -146,11 +181,9 @@ export default function UITextfield(props: InferProps<typeof propTypes>): JSX.El
       readOnly={readonly as boolean}
       maxLength={maxlength as number}
       autoComplete={autocomplete as string}
-      className="ui-textfield__wrapper__field"
       placeholder={placeholder as string}
+      className="ui-textfield__wrapper__field"
       onChange={(readonly === false && !isDisabled) ? changeValue : undefined}
-      onPaste={onPaste as (event: React.ClipboardEvent<HTMLInputElement>) => void}
-      onKeyDown={onKeyDown as (event: React.KeyboardEvent<HTMLInputElement>) => void}
     />,
   ];
 

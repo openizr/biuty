@@ -81,7 +81,9 @@
       <UITextfield
         name="textfield16"
         label="ui-textfield with transform"
-        :transform="(value) => value.toUpperCase()"
+        :allowed-pattern="/[0-9]/i"
+        :transform="transform"
+        :maxlength="14"
       />
       <UITextfield
         name="textfield17"
@@ -93,19 +95,9 @@
         name="textfield18"
         label="ui-textfield with type number"
         type="number"
-        min="0"
-        max="30"
-        step="5"
-      />
-      <UITextfield
-        name="textfield19"
-        label="ui-textfield with paste listener"
-        @paste="onPaste"
-      />
-      <UITextfield
-        name="textfield20"
-        label="ui-textfield with keyDown listener"
-        @keyDown="onKeyDown"
+        :min="0"
+        :max="30"
+        :step="5"
       />
     </main>
   </div>
@@ -165,11 +157,14 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     onIconClick(): void {
       console.log('Clicked!'); // eslint-disable-line no-console
     },
-    onPaste(): void {
-      console.log('Pasted!'); // eslint-disable-line no-console
-    },
-    onKeyDown(): void {
-      console.log('Keyed down!'); // eslint-disable-line no-console
+    transform(value: string): string {
+      if (value.length >= 7) {
+        return `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+      }
+      if (value.length >= 4) {
+        return `(${value.slice(0, 3)}) ${value.slice(3)}`;
+      }
+      return value;
     },
   },
 });

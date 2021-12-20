@@ -96,18 +96,6 @@ describe('react/UITextarea', () => {
     expect(container).toMatchSnapshot();
   });
 
-  test('renders correctly - with transform', () => {
-    const transform = (value: string): string => value.toUpperCase();
-    act(() => {
-      render(<UITextarea name="test" transform={transform} />, container);
-    });
-    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
-    act(() => {
-      Simulate.change(textarea, { target: { value: 'new test' } as Target });
-    });
-    expect(container).toMatchSnapshot();
-  });
-
   test('renders correctly - disabled', () => {
     act(() => {
       render(<UITextarea name="test" modifiers="disabled" />, container);
@@ -139,8 +127,6 @@ describe('react/UITextarea', () => {
     const onFocus = jest.fn();
     const onBlur = jest.fn();
     const onChange = jest.fn();
-    const onPaste = jest.fn();
-    const onKeyDown = jest.fn();
     act(() => {
       render(
         <UITextarea
@@ -148,8 +134,6 @@ describe('react/UITextarea', () => {
           onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
-          onPaste={onPaste}
-          onKeyDown={onKeyDown}
           value="test"
         />,
         container,
@@ -165,12 +149,6 @@ describe('react/UITextarea', () => {
     act(() => {
       Simulate.blur(textarea);
     });
-    act(() => {
-      Simulate.paste(textarea);
-    });
-    act(() => {
-      Simulate.keyDown(textarea);
-    });
     jest.runAllTimers();
     expect(container).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
@@ -179,8 +157,6 @@ describe('react/UITextarea', () => {
     expect(onChange).toHaveBeenCalledWith('new test');
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith('new test');
-    expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
   test('renders correctly - with listener and debounce', () => {

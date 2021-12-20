@@ -27,8 +27,6 @@
         @blur="blurField"
         @input="changeField"
         @focus="focusField"
-        @paste="handlePaste"
-        @keydown="handleKeyDown"
       />
     </div>
     <span
@@ -67,7 +65,6 @@ interface Props {
   placeholder: string;
   autocomplete: string;
   debounceTimeout: number;
-  transform: (value: string) => string;
 }
 
 /**
@@ -140,18 +137,12 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
       default: null,
       required: false,
     },
-    transform: {
-      type: Function,
-      default: (value: string) => value,
-      required: false,
-    },
   },
   data() {
     return {
       timeout: null,
-      cursorPosition: 0,
       randomId: generateRandomId(),
-      currentValue: this.transform(this.value),
+      currentValue: this.value,
     };
   },
   computed: {
@@ -162,17 +153,12 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
   watch: {
     value(): void {
       // Updates current value each time the `value` property is changed.
-      this.currentValue = this.transform(this.value);
+      this.currentValue = this.value;
     },
-  },
-  updated(): void {
-    (this.$refs.textareaRef as HTMLTextAreaElement).selectionEnd = this.cursorPosition;
-    (this.$refs.textareaRef as HTMLTextAreaElement).selectionStart = this.cursorPosition;
   },
   methods: {
     changeField(event: Event): void {
-      this.cursorPosition = (event.target as HTMLTextAreaElement).selectionStart;
-      this.currentValue = this.transform((event.target as HTMLTextAreaElement).value);
+      this.currentValue = (event.target as HTMLTextAreaElement).value;
       window.clearTimeout(this.timeout);
       this.timeout = window.setTimeout(() => {
         this.$emit('change', this.currentValue);
@@ -180,12 +166,6 @@ export default Vue.extend<Generic, Generic, Generic, Props>({
     },
     blurField(): void {
       this.$emit('blur', this.currentValue);
-    },
-    handlePaste(event: Event): void {
-      this.$emit('paste', event);
-    },
-    handleKeyDown(event: Event): void {
-      this.$emit('keyDown', event);
     },
     focusField(): void {
       this.$emit('focus', this.currentValue);

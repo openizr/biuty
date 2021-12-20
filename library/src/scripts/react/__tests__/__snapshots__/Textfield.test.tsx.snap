@@ -35,7 +35,7 @@ exports[`react/UITextfield renders correctly - basic 1`] = `
         id="z8a8d7a5zad4"
         name="test"
         type="text"
-        value="new test"
+        value="testnew test"
       />
     </div>
   </div>
@@ -297,7 +297,7 @@ exports[`react/UITextfield renders correctly - with right icon 1`] = `
 </div>
 `;
 
-exports[`react/UITextfield renders correctly - with transform 1`] = `
+exports[`react/UITextfield renders correctly - with transform and allowedPattern 1`] = `
 <div>
   <div
     class="ui-textfield"
@@ -311,7 +311,7 @@ exports[`react/UITextfield renders correctly - with transform 1`] = `
         id="z8a8d7a5zad4"
         name="test"
         type="text"
-        value="NEW TEST"
+        value=""
       />
     </div>
   </div>
