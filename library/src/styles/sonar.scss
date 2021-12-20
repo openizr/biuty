@@ -1,0 +1,437 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+@charset "UTF-8";
+
+// Add a prefix to all selectors (gap becomes ui-gap when $id = ui-) - default : '' ( no prefix )
+$id: '';
+// When set to false, all vars are set once in body, allowing scope inheritance in nested layouts.
+// When set to true, all layouts contain reseted vars, preventing any inheritance in nested layouts.
+$scope-vars-in-each-layout: true;
+
+// Number of columns available in a grid.
+$grid-columns-number: 12;
+
+// Show an alert when browser doesnt support css grid and css variables.
+$show-unsupported-browser-alert: true;
+
+// Enable to have scss warns
+$verbose: false;
+
+/* VARIABLES */
+$breakpoints: (
+  xxs: 0px,
+  xs: 375px,
+  s: 575px,
+  m: 767px,
+  l: 991px,
+  xl: 1199px,
+) !default;
+
+$gaps: (
+  1: 4px,
+  2: 8px,
+  3: 16px,
+  4: 24px,
+  5: 32px,
+  6: 64px,
+  7: 94px,
+) !default;
+
+$shapes: (
+  default: 4px,
+) !default;
+
+$colors: (
+  default: black,
+) !default;
+
+$font-families: (
+  default: 'sans-serif',
+) !default;
+
+// Placeholder to set css vars.
+%init-layout-vars {
+  // Number of columns set in a layout scope.
+  --#{$id}columns: 1;
+  // Gap between columns set in a layout scope.
+  --#{$id}hgap: unset;
+  --#{$id}vgap: unset;
+
+  // Number of columns spaning set in a layout item scope.
+  --#{$id}span: 1;
+
+  // Layout properties.
+  --#{$id}flow: unset;
+  --#{$id}display: unset;
+  --#{$id}justify-content: unset;
+  --#{$id}align-items: unset;
+  --#{$id}align-self: unset;
+}
+// Placeholder to set css vars.
+%init-flex-vars {
+  // Flex variables.
+  --#{$id}wrap: unset;
+  --#{$id}direction: unset;
+  --#{$id}flex: none;
+}
+
+@mixin ui-modifier($modifier) {
+  &[class*='--#{$modifier}'] {
+    @content;
+  }
+}
+
+@mixin ui-resp-modifier($modifier) {
+  @include ui-modifier($modifier) {
+    @content;
+  }
+  @each $key, $size in $breakpoints {
+    @include resp($key) {
+      @include ui-modifier(-#{$key}#{$modifier}) {
+        @content;
+      }
+    }
+  }
+}
+
+/**
+ * Build a media query, mobile firstly.
+ * Requires at least one breakpoint value to work.
+ * You can use registered breakpoints (s) or absolute values (1300px).
+ * Highest breakpoint value will be considered as a max-width, while the other one will be min-width.
+ * ex. : @include resp(s) => @media screen and (max-width:620px)
+ * ex. : @include resp(m s) => @media screen and (max-width:768px) and (min-width:620px)
+ */
+@mixin resp($bps) {
+  $max: 0px;
+  @if length($bps) > 2 {
+    @error "Maximum 2 breakpoints values are allowed to build a media query.";
+  }
+  @each $breakpoint in $bps {
+    // If an absolute value is used, check if that value is registered or not in breakpoints map.
+    // This is just an indication.
+    @if map-has-key($breakpoints, $breakpoint) == false {
+      @if index(map-values($breakpoints), $breakpoint) == null {
+        @if ($verbose == true) {
+          @debug 'Breakpoint absolute value used ( #{$breakpoint} ). Register it if widely used.';
+        }
+      } @else {
+        @if ($verbose == true) {
+          @debug 'Duplicate breakpoint : absolute value "#{$breakpoint}" is also available with mapped breakpoints.';
+        }
+      }
+    }
+    // Type validation and find highest value
+    @if (type-of($breakpoint) != 'number') and (type-of($breakpoint) != 'string') {
+      @error "Type error : #{$breakpoint}";
+    }
+    // Retrieve the real value in px
+    $value: if(type-of($breakpoint) == 'string', map-get($breakpoints, $breakpoint), $breakpoint);
+    @if ($value > $max) {
+      $max: $value;
+    }
+  }
+  // Build the media query string from $bps
+  $str: '';
+  @each $breakpoint in $bps {
+    // Retrieve the real value in px
+    $value: if(type-of($breakpoint) == 'string', map-get($breakpoints, $breakpoint), $breakpoint);
+    // Build a max-width if needed
+    @if $max == $value and (length($bps) > 1) {
+      $str: '#{$str} and (max-width:#{$value})';
+    } @else if $value == 0px and length($bps) == 1 {
+      // For '0px' breakpoint, we don't need to write a media query. The @content code is rendered.
+      @content;
+    } @else {
+      // Otherwise, build a min-width media query
+      @if type-of($breakpoint) == 'string' {
+        $value: $value + 1;
+      }
+      $str: '#{$str} and (min-width:#{$value})';
+    }
+  }
+  @if $str != '' {
+    @media screen#{$str} {
+      @content;
+    }
+  }
+}
+
+@mixin init() {
+  // Initialize css variables into proper scopes.
+  #{if($scope-vars-in-each-layout, "[data-#{$id}layout]", "body")} {
+    @extend %init-layout-vars;
+  }
+  #{if($scope-vars-in-each-layout, "[data-#{$id}flex]", "body")} {
+    @extend %init-flex-vars;
+  }
+
+  /* The loop... creates all required selectors for each breakpoint */
+  @each $breakpoint, $value in $breakpoints {
+    @include resp($breakpoint) {
+      $bp: if($breakpoint == xxs, '--', --#{$breakpoint});
+      // Store into scoped css3 variables propers columns parameters.
+      @for $i from 1 to $grid-columns-number + 1 {
+        %#{$id}cols#{$bp}#{$i} {
+          --#{$id}columns: #{$i};
+        }
+        %#{$id}col#{$bp}#{$i} {
+          --#{$id}span: #{$i};
+        }
+        // Columns layout.
+        [data-#{$id}cols*='#{$bp}#{$i}'] {
+          @extend %#{$id}cols#{$bp}#{$i};
+        }
+        // Column sizing.
+        [data-#{$id}col*='#{$bp}#{$i}'] {
+          @extend %#{$id}col#{$bp}#{$i};
+        }
+      }
+      // Store into scoped css3 variables propers gaps parameters.
+      @each $key, $value in $gaps {
+        %#{$id}vgap-#{$bp}#{$key} {
+          --#{$id}vgap: #{$value};
+        }
+        %#{$id}hgap-#{$bp}#{$key} {
+          --#{$id}hgap: #{$value};
+        }
+        [data-#{$id}gap*='#{$bp}#{$key}'] {
+          @extend %#{$id}vgap-#{$bp}#{$key};
+          @extend %#{$id}hgap-#{$bp}#{$key};
+        }
+        [data-#{$id}vgap*='#{$bp}#{$key}'] {
+          @extend %#{$id}vgap-#{$bp}#{$key};
+        }
+        [data-#{$id}hgap*='#{$bp}#{$key}'] {
+          @extend %#{$id}hgap-#{$bp}#{$key};
+        }
+      }
+      // Global Layout rules.
+      $displays: none, block, flex, grid;
+      @each $display in $displays {
+        %#{$id}layout-#{$bp}#{$display} {
+          --#{$id}display: #{$display};
+        }
+        [data-#{$id}layout*='#{$bp}#{$display}'] {
+          @extend %#{$id}layout-#{$bp}#{$display};
+        }
+      }
+      %#{$id}layout-#{$bp}auto {
+        --#{$id}flow: column;
+      }
+      [data-#{$id}layout*='#{$bp}auto'] {
+        @extend %#{$id}layout-#{$bp}auto;
+        > * {
+          @extend %#{$id}flex-#{$bp}auto;
+        }
+      }
+      %#{$id}layout-#{$bp}justify-space-between {
+        --#{$id}justify-content: space-between;
+      }
+      [data-#{$id}layout*='#{$bp}justify-space-between'] {
+        @extend %#{$id}layout-#{$bp}justify-space-between;
+      }
+
+      %#{$id}layout-#{$bp}justify-stretch {
+        --#{$id}justify-content: stretch;
+      }
+      [data-#{$id}layout*='#{$bp}justify-stretch'] {
+        @extend %#{$id}layout-#{$bp}justify-stretch;
+      }
+
+      %#{$id}layout-#{$bp}justify-center {
+        --#{$id}justify-content: center;
+      }
+      [data-#{$id}layout*='#{$bp}justify-center'] {
+        @extend %#{$id}layout-#{$bp}justify-center;
+      }
+
+      %#{$id}layout-#{$bp}justify-start {
+        --#{$id}justify-content: flex-start;
+      }
+      [data-#{$id}layout*='#{$bp}justify-start'] {
+        @extend %#{$id}layout-#{$bp}justify-start;
+      }
+
+      %#{$id}layout-#{$bp}justify-end {
+        --#{$id}justify-content: flex-end;
+      }
+      [data-#{$id}layout*='#{$bp}justify-end'] {
+        @extend %#{$id}layout-#{$bp}justify-end;
+      }
+
+      %#{$id}layout-#{$bp}items-stretch {
+        --#{$id}align-items: stretch;
+      }
+      [data-#{$id}layout*='#{$bp}items-stretch'] {
+        @extend %#{$id}layout-#{$bp}items-stretch;
+      }
+
+      %#{$id}layout-#{$bp}items-center {
+        --#{$id}align-items: center;
+      }
+      [data-#{$id}layout*='#{$bp}items-center'] {
+        @extend %#{$id}layout-#{$bp}items-center;
+      }
+
+      %#{$id}layout-#{$bp}items-start {
+        --#{$id}align-items: flex-start;
+      }
+      [data-#{$id}layout*='#{$bp}items-start'] {
+        @extend %#{$id}layout-#{$bp}items-start;
+      }
+
+      %#{$id}layout-#{$bp}items-end {
+        --#{$id}align-items: flex-end;
+      }
+      [data-#{$id}layout*='#{$bp}items-end'] {
+        @extend %#{$id}layout-#{$bp}items-end;
+      }
+
+      %#{$id}layout-#{$bp}self-stretch {
+        --#{$id}align-self: stretch;
+      }
+      [data-#{$id}layout*='#{$bp}self-stretch'] {
+        @extend %#{$id}layout-#{$bp}self-stretch;
+      }
+
+      %#{$id}layout-#{$bp}self-center {
+        --#{$id}align-self: center;
+      }
+      [data-#{$id}layout*='#{$bp}self-center'] {
+        @extend %#{$id}layout-#{$bp}self-center;
+      }
+
+      %#{$id}layout-#{$bp}self-start {
+        --#{$id}align-self: flex-start;
+      }
+      [data-#{$id}layout*='#{$bp}self-start'] {
+        @extend %#{$id}layout-#{$bp}self-start;
+      }
+
+      %#{$id}layout-#{$bp}self-end {
+        --#{$id}align-self: flex-end;
+      }
+      [data-#{$id}layout*='#{$bp}self-end'] {
+        @extend %#{$id}layout-#{$bp}self-end;
+      }
+
+      // Specific Flex layout.
+      // Containing layout.
+      %#{$id}flex-#{$bp}wrap {
+        --#{$id}wrap: wrap;
+      }
+      [data-#{$id}flex*='#{$bp}wrap'] {
+        @extend %#{$id}flex-#{$bp}wrap;
+      }
+      %#{$id}flex-#{$bp}no-wrap {
+        --#{$id}wrap: no-wrap;
+      }
+      [data-#{$id}flex*='#{$bp}no-wrap'] {
+        @extend %#{$id}flex-#{$bp}no-wrap;
+      }
+      %#{$id}flex-#{$bp}row {
+        --#{$id}direction: row;
+      }
+      [data-#{$id}flex*='#{$bp}row'] {
+        @extend %#{$id}flex-#{$bp}row;
+      }
+      %#{$id}flex-#{$bp}column {
+        --#{$id}direction: column;
+      }
+      [data-#{$id}flex*='#{$bp}column'] {
+        @extend %#{$id}flex-#{$bp}column;
+      }
+      // Contained layout.
+      %#{$id}flex-#{$bp}none {
+        --#{$id}flex: none;
+      }
+      [data-#{$id}flex*='#{$bp}none'] {
+        @extend %#{$id}flex-#{$bp}none;
+      }
+      %#{$id}flex-#{$bp}auto {
+        --#{$id}flex: 1 1 auto;
+      }
+      [data-#{$id}flex*='#{$bp}auto'] {
+        @extend %#{$id}flex-#{$bp}auto;
+      }
+    }
+  }
+
+  [data-#{$id}layout] {
+    display: var(--#{$id}display);
+    justify-content: var(--#{$id}justify-content);
+    align-items: var(--#{$id}align-items);
+    align-self: var(--#{$id}align-self);
+    // Auto-sizing for grid & flex.
+    &[data-#{$id}layout*='--auto'] {
+      &[data-#{$id}layout*='--grid'] {
+        grid-auto-flow: var(--#{$id}flow);
+      }
+      &[data-#{$id}layout*='--flex'] {
+        > * {
+          flex: var(--#{$id}flex);
+        }
+      }
+    }
+  }
+
+  [data-#{$id}flex] {
+    flex-wrap: var(--#{$id}wrap);
+    flex-direction: var(--#{$id}direction);
+    flex: var(--#{$id}flex);
+  }
+
+  [data-#{$id}cols] {
+    grid-template-columns: repeat(var(--#{$id}columns), 1fr);
+  }
+
+  [data-#{$id}col] {
+    grid-column: span var(--#{$id}span);
+  }
+
+  [data-#{$id}gap] {
+    column-gap: var(--#{$id}hgap);
+    row-gap: var(--#{$id}vgap);
+  }
+
+  [data-#{$id}hgap] {
+    column-gap: var(--#{$id}hgap);
+  }
+
+  [data-#{$id}vgap] {
+    row-gap: var(--#{$id}vgap);
+  }
+
+  // Alert for outdated browsers.
+  @if $show-unsupported-browser-alert {
+    body {
+      &:before {
+        position: fixed;
+        z-index: 9999;
+        content: 'Your browser is outdated and might not be able to display this page.';
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80vw;
+        max-width: 320px;
+        padding: 1.5em;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        background: white;
+      }
+      @supports (--css: variables) and (display: grid) {
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
+}

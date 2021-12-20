@@ -1,0 +1,66 @@
+/**
+ * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+$shapes: (
+  button: 4px,
+  input: 0.5em,
+  card: 1em,
+);
+
+$colors: (
+  background: #ffffff,
+  border: #e6e6e6,
+  dark: #222329,
+  grey: #a9acb8,
+  success: #1bc796,
+  light-primary: #f4f2fe,
+  light-grey: #f3f3f3,
+  light-success: #f7faf5,
+  light-error: #fef2ea,
+  light-alert: #f9f6f2,
+  error: #fe7045,
+  primary: #725bff,
+  alert: #fecb66,
+  light: #ffffff,
+  secondary: #222329,
+  text: #222329,
+  inputs-bg: #ffffff,
+  inputs-border: #e6e6e6,
+);
+
+$breakpoints: (
+  xxs: 0px,
+  xs: 375px,
+  s: 575px,
+  m: 767px,
+  l: 991px,
+  xl: 1199px,
+) !default;
+
+$gaps: (
+  // 4px
+  1: 0.25em,
+  // 8px
+  2: 0.5em,
+  // 16px
+  3: 1em,
+  // 24px
+  4: 1.5em,
+  // 32px
+  5: 2em,
+  // 64px
+  6: 4em,
+  // 94px
+  7: 5.875em
+) !default;
+
+$font-families: (
+  main: 'Lato, sans-serif',
+  title: 'Raleway, sans-serif',
+  button: 'Raleway, sans-serif',
+);
