@@ -53,13 +53,17 @@ export default function Checkboxes(): JSX.Element {
     <div className="vgap-5">
       <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
         <a href="/" className="cols-l-3">GO BACK</a>
+        {/* <React.Profiler id="Navigation" onRender={(...args) => { console.log(args); }}> */}
         <UICheckbox name="checkbox1" options={options} />
         <UICheckbox name="checkbox2" options={options} label="*ui-checkbox*" />
         <UICheckbox name="checkbox3" options={options} label="ui-checkbox with value" value={newValue} />
         <UICheckbox name="checkbox4" options={options} label="ui-checkbox with helper" helper="helper" />
         <UICheckbox name="checkbox5" options={options} label="ui-checkbox with listener" onChange={onChange} />
         <UICheckbox name="checkbox6" options={options} label="ui-checkbox disabled" modifiers="disabled" />
-        <UICheckbox name="checkbox7" options={options} label="ui-checkbox with focus listener" onFocus={onFocus} />
+        {(new Array(500).fill(null).map(() => (
+          <UICheckbox name="checkbox7" options={options} label="ui-checkbox with focus listener" onFocus={onFocus} />
+        )))}
+        {/* </React.Profiler> */}
       </main>
     </div>
   );
