@@ -14,10 +14,10 @@ describe('helpers/buildClass', () => {
   });
 
   test('correctly builds a BEM+ class name from given base class and modifiers', () => {
-    expect(buildClass('ui-root', ['modifier1', '', 'modifier1', 'modifier2'])).toBe('ui-root ui-root--modifier1--modifier2');
+    expect(buildClass('ui-root', 'modifier1     modifier1 modifier2')).toBe('ui-root ui-root--modifier1--modifier2');
   });
 
   test('only returns base class name when there is no modifier to apply', () => {
-    expect(buildClass('ui-root', ['', '', ''])).toBe('ui-root');
+    expect(buildClass('ui-root')).toBe('ui-root');
   });
 });
