@@ -19,7 +19,7 @@ describe('markdown', () => {
     });
 
     test('tab', () => {
-      expect(markdown('	 	 	 	  test\n	 	 	 	  test')).toBe('test<br />test');
+      expect(markdown('\t \t \t \t  test\n\t \t \t \t  test')).toBe('test<br />test');
     });
 
     test('strong', () => {
@@ -95,7 +95,7 @@ describe('markdown', () => {
     });
 
     test('tab', () => {
-      expect(markdown('	 	 	 	  test\n	 	 	 	  test', false)).toBe('<p class="ui-p">test<br />test</p>');
+      expect(markdown('\t \t \t \t  test\n\t \t \t \t  test', false)).toBe('<p class="ui-p">test<br />test</p>');
     });
 
     test('strong', () => {

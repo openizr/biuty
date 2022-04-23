@@ -22,6 +22,7 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 
 type KeyType = 'default' | 'ctrlKey' | 'altKey' | 'shiftKey' | 'metaKey';
 type AllowedKeys = Record<KeyType, RegExp | null>;
+type Transform = (value: string, selectionStart: number) => [string, number?];
 
 const emit = defineEmits({
   focus: null,
@@ -59,7 +60,7 @@ const props = defineProps<{
   };
   debounceTimeout?: number;
   type?: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url';
-  transform?: (value: string, selectionStart: number) => [string, number?];
+  transform?: Transform;
 }>();
 
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
