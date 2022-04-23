@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react';
-import { UITextarea } from 'sonar-ui/react';
+import { UITextarea } from 'biuty/react';
 
 const onChange = (value: string): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
@@ -19,6 +19,10 @@ const onBlur = (value: string): void => {
 
 const onFocus = (): void => {
   console.log('Focused!'); // eslint-disable-line no-console
+};
+
+const onPaste = (...args): void => {
+  console.log('Pasted!', args); // eslint-disable-line no-console
 };
 
 /**
@@ -49,7 +53,7 @@ export default function Textareas(): JSX.Element {
         <UITextarea name="textarea9" label="ui-textarea with placeholder" placeholder="placeholder" />
         <UITextarea name="textarea10" label="ui-textarea with rows and cols" rows={10} cols={10} />
         <UITextarea name="textarea11" label="ui-textarea disabled" modifiers="disabled" />
-        <UITextarea name="textarea12" label="ui-textarea with focus listener" onFocus={onFocus} />
+        <UITextarea name="textarea12" label="ui-textarea with focus listener" onFocus={onFocus} onPaste={onPaste} />
       </main>
     </div>
   );

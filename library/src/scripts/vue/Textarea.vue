@@ -1,19 +1,91 @@
+<!-- Text area. -->
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+/* eslint-disable vue/no-v-html */
+
+import { computed, ref, watch } from 'vue';
+import markdown from 'scripts/helpers/markdown';
+import buildClass from 'scripts/helpers/buildClass';
+import generateRandomId from 'scripts/helpers/generateRandomId';
+
+const emit = defineEmits({
+  focus: null,
+  blur: null,
+  paste: null,
+  change: null,
+  keyDown: null,
+});
+
+const props = defineProps<{
+  id?: string;
+  cols?: number;
+  rows?: number;
+  name: string;
+  value?: string;
+  label?: string;
+  helper?: string;
+  readonly?: boolean;
+  maxlength?: number;
+  modifiers?: string;
+  placeholder?: string;
+  debounceTimeout?: number;
+  autocomplete?: 'on' | 'off';
+}>();
+
+const timeout = ref(null);
+const randomId = ref(generateRandomId());
+const currentValue = ref(props.value || '');
+const parsedLabel = computed(() => markdown(props.label));
+const parsedHelper = computed(() => markdown(props.helper));
+const isDisabled = computed(() => props.modifiers?.includes('disabled'));
+const className = computed(() => buildClass('ui-textarea', props.modifiers || ''));
+
+// -------------------------------------------------------------------------------------------------
+// CALLBACKS DECLARATION.
+// -------------------------------------------------------------------------------------------------
+
+const handleChange = (event: InputEvent): void => {
+  const newValue = (event.target as HTMLTextAreaElement).value;
+  currentValue.value = newValue;
+  window.clearTimeout(timeout.value as number);
+  // This debounce system prevents triggering `onChange` callback too many times when user is
+  // still typing to save performance and make the UI more reactive on low-perfomance devices.
+  timeout.value = setTimeout(() => {
+    emit('change', newValue, event);
+  }, props.debounceTimeout || 0);
+};
+
+// -------------------------------------------------------------------------------------------------
+// PROPS REACTIVITY MANAGEMENT.
+// -------------------------------------------------------------------------------------------------
+
+// Updates current value whenever `value` prop changes.
+watch(() => props.value, () => {
+  currentValue.value = props.value;
+});
+</script>
+
 <template>
-  <!-- eslint-disable vue/no-v-html -->
   <div
     :id="id"
     :class="className"
   >
     <label
-      v-if="label !== null"
+      v-if="label !== undefined"
       class="ui-textarea__label"
       :for="randomId"
-      v-html="markdown(label)"
+      v-html="parsedLabel"
     />
     <div class="ui-textarea__wrapper">
       <textarea
         :id="randomId"
-        ref="textareaRef"
         :value="currentValue"
         :name="name"
         :cols="cols"
@@ -23,156 +95,18 @@
         :maxlength="maxlength"
         :placeholder="placeholder"
         :autocomplete="autocomplete"
-        :disabled="modifiers.includes('disabled')"
-        @blur="blurField"
-        @input="changeField"
-        @focus="focusField"
+        :disabled="isDisabled"
+        @blur="$emit('blur', currentValue, $event)"
+        @focus="$emit('focus', currentValue, $event)"
+        @input="(readonly !== true && !isDisabled) ? handleChange($event) : undefined"
+        @paste="(readonly !== true && !isDisabled) ? $emit('paste', $event) : undefined"
+        @keydown="(readonly !== true && !isDisabled) ? $emit('keyDown', $event) : undefined"
       />
     </div>
     <span
-      v-if="helper !== null"
+      v-if="helper !== undefined"
       class="ui-textarea__helper"
-    > {{ helper }} </span>
+      v-html="parsedHelper"
+    />
   </div>
 </template>
-
-<script lang="ts">
-/**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import Vue from 'vue';
-import { Generic } from 'scripts/vue/types';
-import markdown from 'scripts/helpers/markdown';
-import buildClass from 'scripts/helpers/buildClass';
-import generateRandomId from 'scripts/helpers/generateRandomId';
-
-interface Props {
-  id: string;
-  name: string;
-  cols: number;
-  rows: number;
-  value: string;
-  label: string;
-  helper: string;
-  maxlength: number;
-  modifiers: string;
-  readonly: boolean;
-  placeholder: string;
-  autocomplete: string;
-  debounceTimeout: number;
-}
-
-/**
- * Textarea.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'UITextarea',
-  props: {
-    id: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    cols: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    rows: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    maxlength: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    value: {
-      type: String,
-      default: '',
-      required: false,
-    },
-    label: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    helper: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    placeholder: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-    modifiers: {
-      type: String,
-      default: '',
-      required: false,
-    },
-    autocomplete: {
-      type: String,
-      default: 'on',
-      required: false,
-    },
-    debounceTimeout: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-  },
-  data() {
-    return {
-      timeout: null,
-      randomId: generateRandomId(),
-      currentValue: this.value,
-    };
-  },
-  computed: {
-    className(): string {
-      return buildClass('ui-textarea', this.modifiers.split(' '));
-    },
-  },
-  watch: {
-    value(): void {
-      // Updates current value each time the `value` property is changed.
-      this.currentValue = this.value;
-    },
-  },
-  methods: {
-    changeField(event: Event): void {
-      this.currentValue = (event.target as HTMLTextAreaElement).value;
-      window.clearTimeout(this.timeout);
-      this.timeout = window.setTimeout(() => {
-        this.$emit('change', this.currentValue);
-      }, this.debounceTimeout || 0);
-    },
-    blurField(): void {
-      this.$emit('blur', this.currentValue);
-    },
-    focusField(): void {
-      this.$emit('focus', this.currentValue);
-    },
-    markdown(label: string): string {
-      return markdown(label);
-    },
-  },
-});
-</script>

@@ -1,5 +1,9 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * @jest-environment jsdom
+ */
+
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,177 +12,108 @@
 
 import React from 'react';
 import UITextarea from 'scripts/react/Textarea';
-import { act, Simulate } from 'react-dom/test-utils';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { render, fireEvent } from '@testing-library/react';
 
-type Target = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-let container = document.createElement('div');
 jest.useFakeTimers();
-jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
+
+const JSXUITextarea = UITextarea as JSXElement;
 
 describe('react/UITextarea', () => {
   beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
     jest.clearAllMocks();
   });
 
-  afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    ((container as unknown) as null) = null;
+  test('renders correctly - basic', async () => {
+    const { container } = render(<JSXUITextarea name="test" modifiers="large" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - basic', () => {
-    act(() => {
-      render(<UITextarea name="test" modifiers="large" />, container);
-    });
-    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
-    act(() => {
-      Simulate.focus(textarea);
-    });
-    act(() => {
-      Simulate.change(textarea, { target: { value: 'test' } as Target });
-    });
-    act(() => {
-      Simulate.blur(textarea);
-    });
-    expect(container).toMatchSnapshot();
+  test('renders correctly - with id', async () => {
+    const { container } = render(<JSXUITextarea name="test" id="my-id" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with id', () => {
-    act(() => {
-      render(<UITextarea name="test" id="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - with cols and rows', () => {
-    act(() => {
-      render(<UITextarea name="test" cols={10} rows={50} />, container);
-    });
-    expect(container).toMatchSnapshot();
+  test('renders correctly - with cols and rows', async () => {
+    const { container } = render(<JSXUITextarea name="test" cols={10} rows={50} />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with placeholder', () => {
-    act(() => {
-      render(<UITextarea name="test" placeholder="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - with helper', () => {
-    act(() => {
-      render(<UITextarea name="test" helper="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITextarea name="test" placeholder="test..." />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with label', () => {
-    act(() => {
-      render(<UITextarea name="test" label="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITextarea name="test" label="*Label*" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with helper', () => {
+    const { container } = render(<JSXUITextarea name="test" helper="*Helper*" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with value', () => {
-    act(() => {
-      render(<UITextarea name="test" value="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITextarea name="test" value="my value" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with maxlength', () => {
-    act(() => {
-      render(<UITextarea name="test" maxlength={10} />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - disabled', () => {
-    act(() => {
-      render(<UITextarea name="test" modifiers="disabled" />, container);
-    });
-    expect(container).toMatchSnapshot();
+  test('renders correctly - disabled', async () => {
+    const onChange = jest.fn();
+    const { container } = render(<JSXUITextarea name="test" modifiers="disabled" />);
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.change(textarea, { value: 'new value' });
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   test('renders correctly - autocomplete off', () => {
-    act(() => {
-      render(<UITextarea name="test" autocomplete="off" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITextarea name="test" autocomplete="off" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - readonly', () => {
+  test('renders correctly - readonly', async () => {
     const onChange = jest.fn();
-    act(() => {
-      render(<UITextarea name="test" readonly onChange={onChange} />, container);
-    });
-    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
-    act(() => {
-      Simulate.change(textarea, { target: { value: 'test' } as Target });
-    });
-    expect(container).toMatchSnapshot();
-    expect(onChange).toHaveBeenCalledTimes(0);
+    const { container } = render(<JSXUITextarea name="test" readonly onChange={onChange} />);
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.change(textarea, { value: 'new value' });
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
-  test('renders correctly - with listeners', () => {
-    const onFocus = jest.fn();
+  test('renders correctly - with listeners and debounce', async () => {
     const onBlur = jest.fn();
+    const onFocus = jest.fn();
     const onChange = jest.fn();
-    act(() => {
-      render(
-        <UITextarea
-          name="test"
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          value="test"
-        />,
-        container,
-      );
-    });
-    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
-    act(() => {
-      Simulate.focus(textarea);
-    });
-    act(() => {
-      Simulate.change(textarea, { target: { value: 'new test' } as Target });
-    });
-    act(() => {
-      Simulate.blur(textarea);
-    });
+    const onPaste = jest.fn();
+    const onKeyDown = jest.fn();
+    const { container } = render(<JSXUITextarea
+      name="test"
+      onBlur={onBlur}
+      onFocus={onFocus}
+      onPaste={onPaste}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      debounceTimeout={250}
+    />);
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.focus(textarea);
+    await fireEvent.blur(textarea);
+    await fireEvent.keyDown(textarea, { key: 'a' });
+    await fireEvent.change(textarea, { target: { value: 'new 015 test', selectionStart: 100 } });
+    await fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
     jest.runAllTimers();
-    expect(container).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
-    expect(onFocus).toHaveBeenCalledWith('test');
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith('new test');
+    expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));
     expect(onBlur).toHaveBeenCalledTimes(1);
-    expect(onBlur).toHaveBeenCalledWith('new test');
-  });
-
-  test('renders correctly - with listener and debounce', () => {
-    const onChange = jest.fn();
-    act(() => {
-      render(
-        <UITextarea
-          name="test"
-          value="test"
-          onChange={onChange}
-          debounceTimeout={250}
-        />,
-        container,
-      );
-    });
-    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
-    act(() => {
-      Simulate.change(textarea, { target: { value: 'new test' } as Target });
-    });
-    jest.runAllTimers();
-    expect(container).toMatchSnapshot();
+    expect(onBlur).toHaveBeenCalledWith('', expect.any(Object));
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith('new test');
+    expect(onChange).toHaveBeenCalledWith('new 015 test', expect.any(Object));
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledTimes(1);
+    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
   });
 });

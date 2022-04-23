@@ -39,7 +39,7 @@ read this contribution guide and follow the described guidelines.
 
 ## Semantic Versioning
 
-`sonar-ui` releases follow [semantic versioning](https://semver.org/).
+`biuty` releases follow [semantic versioning](https://semver.org/).
 
 
 ## Branches organization
@@ -69,41 +69,41 @@ issue you open, you must assign it exactly one label of each group, and update t
 issue's lifecycle as it evolves.
 
 ### Type
- - ![#fbca04](https://place-hold.it/15/fbca04/000000?text=+) **[type: breaking change](https://github.com/openizr/sonar-ui/labels/type%3A%20breaking%20change)**:
+ - ![#fbca04](https://place-hold.it/15/fbca04/000000?text=+) **[type: breaking change](https://github.com/openizr/biuty/labels/type%3A%20breaking%20change)**:
 suggestion for a breaking change, that should be part of a next major release.
- - ![#b60205](https://place-hold.it/15/b60205/000000?text=+) **[type: bug](https://github.com/openizr/sonar-ui/labels/type%3A%20bug)**:
+ - ![#b60205](https://place-hold.it/15/b60205/000000?text=+) **[type: bug](https://github.com/openizr/biuty/labels/type%3A%20bug)**:
  bug reporting, that should be fixed in the next patch.
- - ![#d93f0b](https://place-hold.it/15/d93f0b/000000?text=+) **[type: regression](https://github.com/openizr/sonar-ui/labels/type%3A%20regression)**:
+ - ![#d93f0b](https://place-hold.it/15/d93f0b/000000?text=+) **[type: regression](https://github.com/openizr/biuty/labels/type%3A%20regression)**:
  just like bug, except it just showed up in the last release, and must be fixed in the next patch.
- - ![#0052cc](https://place-hold.it/15/0052cc/000000?text=+) **[type: enhancement](https://github.com/openizr/sonar-ui/labels/type%3A%20enhancement)**:
+ - ![#0052cc](https://place-hold.it/15/0052cc/000000?text=+) **[type: enhancement](https://github.com/openizr/biuty/labels/type%3A%20enhancement)**:
  improvement that should be implemented in the next patch.
- - ![#5319e7](https://place-hold.it/15/5319e7/000000?text=+) **[type: feature](https://github.com/openizr/sonar-ui/labels/type%3A%20feature)**:
+ - ![#5319e7](https://place-hold.it/15/5319e7/000000?text=+) **[type: feature](https://github.com/openizr/biuty/labels/type%3A%20feature)**:
  request for a new feature, that should be added in the next minor release.
- - ![#0e8a16](https://place-hold.it/15/0e8a16/000000?text=+) **[type: question](https://github.com/openizr/sonar-ui/labels/type%3A%20question)**:
+ - ![#0e8a16](https://place-hold.it/15/0e8a16/000000?text=+) **[type: question](https://github.com/openizr/biuty/labels/type%3A%20question)**:
  question or request for information, which can also help us to improve the documentation.
-  - ![#006b75](https://place-hold.it/15/006b75/000000?text=+) **[type: discussion](https://github.com/openizr/sonar-ui/labels/type%3A%20discussion)**:
+  - ![#006b75](https://place-hold.it/15/006b75/000000?text=+) **[type: discussion](https://github.com/openizr/biuty/labels/type%3A%20discussion)**:
   everything else you want to discuss regarding the project.
 
 ### Status
- - ![#d4c5f9](https://place-hold.it/15/d4c5f9/000000?text=+) **[status: duplicate](https://github.com/openizr/sonar-ui/labels/status%3A%20duplicate)**:
+ - ![#d4c5f9](https://place-hold.it/15/d4c5f9/000000?text=+) **[status: duplicate](https://github.com/openizr/biuty/labels/status%3A%20duplicate)**:
  another existing issue is treating about the same topic, and should be considered instead.
- - ![#c2e0c6](https://place-hold.it/15/c2e0c6/000000?text=+) **[status: in progress](https://github.com/openizr/sonar-ui/labels/status%3A%20in%20progress)**:
+ - ![#c2e0c6](https://place-hold.it/15/c2e0c6/000000?text=+) **[status: in progress](https://github.com/openizr/biuty/labels/status%3A%20in%20progress)**:
  somebody is currently working on this issue, and should (hopefully) perform a PR soon!
- - ![#e99695](https://place-hold.it/15/e99695/000000?text=+) **[status: invalid](https://github.com/openizr/sonar-ui/labels/status%3A%20invalid)**:
+ - ![#e99695](https://place-hold.it/15/e99695/000000?text=+) **[status: invalid](https://github.com/openizr/biuty/labels/status%3A%20invalid)**:
  issue is either dead, not reproductible, or does not follow the process, and will be closed soon.
- - ![#f9d0c4](https://place-hold.it/15/f9d0c4/000000?text=+) **[status: need more information](https://github.com/openizr/sonar-ui/labels/status%3A%20need%20more%20information)**:
+ - ![#f9d0c4](https://place-hold.it/15/f9d0c4/000000?text=+) **[status: need more information](https://github.com/openizr/biuty/labels/status%3A%20need%20more%20information)**:
  issue is too vague and cannot be managed without further information.
- - ![#c5def5](https://place-hold.it/15/c5def5/000000?text=+) **[status: new](https://github.com/openizr/sonar-ui/labels/status%3A%20new)**:
+ - ![#c5def5](https://place-hold.it/15/c5def5/000000?text=+) **[status: new](https://github.com/openizr/biuty/labels/status%3A%20new)**:
  issue was just submitted, and should be assigned to someone ASAP.
- - ![#fef2c0](https://place-hold.it/15/fef2c0/000000?text=+) **[status: unconfirmed](https://github.com/openizr/sonar-ui/labels/status%3A%20unconfirmed)**:
+ - ![#fef2c0](https://place-hold.it/15/fef2c0/000000?text=+) **[status: unconfirmed](https://github.com/openizr/biuty/labels/status%3A%20unconfirmed)**:
  issue should be considered carefully to determine either it is a real issue or anything else.
 
 ### Difficulty
- - ![#3ddb42](https://place-hold.it/15/3ddb42/000000?text=+) **[difficulty: starter](https://github.com/openizr/sonar-ui/labels/difficulty%3A%starter)**:
+ - ![#3ddb42](https://place-hold.it/15/3ddb42/000000?text=+) **[difficulty: starter](https://github.com/openizr/biuty/labels/difficulty%3A%starter)**:
  issue is pretty straightforward, and can be fixed by anyone (good first issue).
- - ![#ea6641](https://place-hold.it/15/ea6641/000000?text=+) **[difficulty: medium](https://github.com/openizr/sonar-ui/labels/difficulty%3A%medium)**:
+ - ![#ea6641](https://place-hold.it/15/ea6641/000000?text=+) **[difficulty: medium](https://github.com/openizr/biuty/labels/difficulty%3A%medium)**:
  issue is a bit complex, and requires some knowledge about the project.
- - ![#c13c5b](https://place-hold.it/15/c13c5b/000000?text=+) **[difficulty: challenging](https://github.com/openizr/sonar-ui/labels/difficulty%3A%20challenging)**:
+ - ![#c13c5b](https://place-hold.it/15/c13c5b/000000?text=+) **[difficulty: challenging](https://github.com/openizr/biuty/labels/difficulty%3A%20challenging)**:
  issue is very complex, and requires both good skills and a deep knowledge of the project.
 
 
@@ -155,8 +155,8 @@ To technically contribute to this project, here are the software you will need:
 
 ## Development workflow and tools
 
-1. `git clone git@github.com:openizr/sonar-ui.git`
-2. `cd sonar-ui`
+1. `git clone git@github.com:openizr/biuty.git`
+2. `cd biuty`
 3. `cp .env.example .env`
 4. Fill or change environment variables in your `.env` file if necessary
 5. `docker-compose up`
@@ -198,7 +198,7 @@ Assets will be compiled into the `dist` directory in `library`.
 
 ### Typescript
 
-`sonar-ui` codebase follows the [AirBnB Javascript Style Guide](https://github.com/airbnb/javascript).
+`biuty` codebase follows the [AirBnB Javascript Style Guide](https://github.com/airbnb/javascript).
 Several IDE extensions are available to automatically lint your code whenever you save files.
 
 ### Git commits
@@ -216,6 +216,6 @@ Project is structured as follow:
 
 ## License
 
-[MIT](https://github.com/openizr/sonar-ui/blob/master/LICENSE)
+[MIT](https://github.com/openizr/biuty/blob/master/LICENSE)
 
-Copyright (c) Matthieu Jabbour. All Rights Reserved.
+Copyright (c) Openizr. All Rights Reserved.

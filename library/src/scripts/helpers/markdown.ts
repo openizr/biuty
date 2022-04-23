@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -83,7 +83,6 @@ function sanitize(str: string): string {
  * @param {boolean} [light = true] Wether to parse complexe tags (images, blockquotes, ...).
  *
  * @return {string} Generated HTML.
- *
  */
 export default function markdown(text: string, light = true): string {
   let newStr = sanitize(text);

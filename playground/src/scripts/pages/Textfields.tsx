@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react';
-import { UITextfield } from 'sonar-ui/react';
+import { UITextfield } from 'biuty/react';
 
 const onChange = (value: string): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
@@ -25,14 +25,8 @@ const onIconClick = (): void => {
   console.log('Clicked!'); // eslint-disable-line no-console
 };
 
-const transform = (value: string): string => {
-  if (value.length >= 7) {
-    return `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
-  }
-  if (value.length >= 4) {
-    return `(${value.slice(0, 3)}) ${value.slice(3)}`;
-  }
-  return value;
+const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+  console.log('onKeyDown!', event.shiftKey); // eslint-disable-line no-console
 };
 
 /**
@@ -66,9 +60,33 @@ export default function Textfields(): JSX.Element {
         <UITextfield name="textfield13" label="ui-textfield icon right" icon="star" iconPosition="right" />
         <UITextfield name="textfield14" label="ui-textfield icon with listener" icon="star" onIconClick={onIconClick} />
         <UITextfield name="textfield15" label="ui-textfield with focus listener" onFocus={onFocus} />
-        <UITextfield name="textfield16" label="ui-textfield with transform" allowedPattern={/[0-9]/i} transform={transform} />
         <UITextfield name="textfield17" label="ui-textfield with debounce" onChange={onChange} debounceTimeout={250} />
         <UITextfield name="textfield18" label="ui-textfield with type number" type="number" min={0} max={30} step={5} />
+        <UITextfield
+          name="textfield18"
+          label="ui-textfield with type onKeyDown"
+          onKeyDown={onKeyDown}
+          allowedKeys={{ default: /[0-9()-]| / }}
+          maxlength={14}
+          transform={(value, start): [string, number?] => {
+            const stripedValue = value.replace(/(\(|\)|-| )/ig, '');
+            const { length } = stripedValue;
+            if (length >= 7) {
+              let e;
+              if (!(length === 7 && !/-/.test(value)) && start !== 10) {
+                e = start;
+              }
+              return [`(${stripedValue.slice(0, 3)}) ${stripedValue.slice(3, 6)}-${stripedValue.slice(6, 10)}`, e];
+            }
+            if (length >= 4) {
+              return [`(${stripedValue.slice(0, 3)}) ${stripedValue.slice(3)}`, start];
+            }
+            if (length >= 3 && value.length < 4) {
+              return [`(${stripedValue.slice(0, 3)}) `, 6];
+            }
+            return [stripedValue, start];
+          }}
+        />
       </main>
     </div>
   );

@@ -1,5 +1,9 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * @jest-environment jsdom
+ */
+
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,42 +12,27 @@
 
 import React from 'react';
 import UIP from 'scripts/react/P';
-import { act } from 'react-dom/test-utils';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { render } from '@testing-library/react';
 
-let container = document.createElement('div');
+const JSXUIP = UIP as JSXElement;
 
 describe('react/UIP', () => {
   beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
     jest.clearAllMocks();
   });
 
-  afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    ((container as unknown) as null) = null;
-  });
-
   test('renders correctly - basic', () => {
-    act(() => {
-      render(<UIP label="Test" modifiers="large" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUIP label="Test" modifiers="large" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with id', () => {
-    act(() => {
-      render(<UIP label="Test" id="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUIP label="Test" id="test" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with itemProp', () => {
-    act(() => {
-      render(<UIP label="Test" itemProp="description" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUIP label="Test" itemProp="description" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -1,3 +1,21 @@
+<!-- Images page. -->
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Locale } from 'basx/i18n';
+import { UIImage } from 'biuty/vue';
+
+defineProps<{
+  locale: Locale;
+}>();
+</script>
+
 <template>
   <div class="vgap-5">
     <main class="ui-page ui-block cols-3 hgap-3 vgap-5">
@@ -59,37 +77,3 @@
     </main>
   </div>
 </template>
-
-<script lang="ts">
-/**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import Vue from 'vue';
-import { Generic } from 'scripts/types';
-import { UIImage } from 'sonar-ui/vue';
-
-interface Props {
-  translate: (label: string) => string;
-}
-
-/**
- * Images page.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'Images',
-  components: {
-    UIImage,
-  },
-  props: {
-    translate: {
-      type: Function,
-      required: true,
-    },
-  },
-});
-</script>

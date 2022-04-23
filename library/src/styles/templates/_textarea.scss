@@ -1,0 +1,36 @@
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.ui-textarea {
+  display: block;
+  overflow: hidden;
+  user-select: none;
+  position: relative;
+  padding: 0.1em 1em;
+  max-width: fit-content;
+
+  &__wrapper__field {
+    max-width: 100%;
+    border-radius: var(--shp-default);
+    border: 1px solid var(--clr-default);
+  }
+
+  &__label {
+    cursor: pointer;
+    font-weight: 800;
+  }
+
+  &__wrapper__field {
+    user-select: all;
+  }
+
+  @include modifier(disabled) {
+    opacity: 0.32;
+    pointer-events: none;
+  }
+}

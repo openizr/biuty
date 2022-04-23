@@ -1,5 +1,9 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * @jest-environment jsdom
+ */
+
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,233 +12,180 @@
 
 import React from 'react';
 import UITextfield from 'scripts/react/Textfield';
-import { act, Simulate } from 'react-dom/test-utils';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { render, fireEvent } from '@testing-library/react';
 
-type Target = any; // eslint-disable-line @typescript-eslint/no-explicit-any
-
-let container = document.createElement('div');
 jest.useFakeTimers();
-jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
+
+const JSXUITextfield = UITextfield as JSXElement;
 
 describe('react/UITextfield', () => {
   beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
     jest.clearAllMocks();
   });
 
-  afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    ((container as unknown) as null) = null;
+  test('renders correctly - basic', async () => {
+    const { container } = render(<JSXUITextfield name="test" modifiers="large" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - basic', () => {
-    act(() => {
-      render(<UITextfield name="test" modifiers="large" />, container);
-    });
-    const input = document.querySelector('input') as HTMLInputElement;
-    act(() => {
-      Simulate.focus(input);
-    });
-    act(() => {
-      Simulate.change(input, { target: { value: 'new test' } as Target });
-    });
-    act(() => {
-      Simulate.blur(input);
-    });
-    act(() => {
-      Simulate.paste(input, {
-        clipboardData: {
-          getData: jest.fn(() => 'test'),
-        } as unknown as DataTransfer,
-      });
-    });
-    act(() => {
-      Simulate.keyDown(input);
-    });
-    expect(container).toMatchSnapshot();
+  test('renders correctly - with id', async () => {
+    const { container } = render(<JSXUITextfield name="test" id="my-id" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with id', () => {
-    act(() => {
-      render(<UITextfield name="test" id="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - with type number', () => {
-    act(() => {
-      render(<UITextfield name="test" type="number" min={0} max={30} step={10} />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - with type text', () => {
-    act(() => {
-      render(<UITextfield name="test" type="text" maxlength={10} size={10} />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - with placeholder', () => {
-    act(() => {
-      render(<UITextfield name="test" placeholder="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - with helper', () => {
-    act(() => {
-      render(<UITextfield name="test" helper="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - with label', () => {
-    act(() => {
-      render(<UITextfield name="test" label="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - with value', () => {
-    act(() => {
-      render(<UITextfield name="test" value="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
+  test('renders correctly - with type number', async () => {
+    const { container } = render(<JSXUITextfield name="test" type="number" min={0} max={30} step={10} />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with left icon', () => {
-    act(() => {
-      render(<UITextfield name="test" icon="star" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITextfield name="test" icon="star" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with right icon', () => {
-    act(() => {
-      render(<UITextfield name="test" icon="star" iconPosition="right" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITextfield name="test" icon="star" iconPosition="right" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with transform and allowedPattern', () => {
-    const transform = (value: string): string => value.toUpperCase();
-    act(() => {
-      render(<UITextfield name="test" transform={transform} allowedPattern={/[0-9]/i} />, container);
-    });
-    const input = document.querySelector('input') as HTMLInputElement;
-    act(() => {
-      Simulate.keyDown(input);
-    });
-    act(() => {
-      Simulate.change(input, { target: { value: 'new test', selectionStart: 100 } as Target });
-    });
-    act(() => {
-      Simulate.paste(input, {
-        clipboardData: {
-          getData: jest.fn(() => 'test'),
-        } as unknown as DataTransfer,
-      });
-    });
-    expect(container).toMatchSnapshot();
+  test('renders correctly - with placeholder', () => {
+    const { container } = render(<JSXUITextfield name="test" placeholder="test..." />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - disabled', () => {
-    act(() => {
-      render(<UITextfield name="test" modifiers="disabled" />, container);
-    });
-    expect(container).toMatchSnapshot();
+  test('renders correctly - with label', () => {
+    const { container } = render(<JSXUITextfield name="test" label="*Label*" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with helper', () => {
+    const { container } = render(<JSXUITextfield name="test" helper="*Helper*" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with value', () => {
+    const { container } = render(<JSXUITextfield name="test" value="my value" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with disabled', async () => {
+    const onChange = jest.fn();
+    const { container } = render(<JSXUITextfield name="test" modifiers="disabled" />);
+    const input = container.getElementsByTagName('input')[0];
+    await fireEvent.change(input, { value: 'new value' });
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   test('renders correctly - autocomplete off', () => {
-    act(() => {
-      render(<UITextfield name="test" autocomplete="off" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITextfield name="test" autocomplete="off" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - readonly', () => {
+  test('renders correctly - readonly', async () => {
     const onChange = jest.fn();
-    act(() => {
-      render(<UITextfield name="test" readonly onChange={onChange} />, container);
-    });
-    const input = document.querySelector('input') as HTMLInputElement;
-    act(() => {
-      Simulate.change(input, { target: { value: 'new test' } as Target });
-    });
-    expect(container).toMatchSnapshot();
-    expect(onChange).toHaveBeenCalledTimes(0);
+    const { container } = render(<JSXUITextfield name="test" readonly onChange={onChange} />);
+    const input = container.getElementsByTagName('input')[0];
+    await fireEvent.keyDown(input, { key: 'A' });
+    await fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
+    await fireEvent.keyDown(input, { key: 'a', shiftKey: true });
+    await fireEvent.keyDown(input, { key: 'a', altKey: true });
+    await fireEvent.keyDown(input, { key: 'a', metaKey: true });
+    await fireEvent.change(input, { value: 'new value' });
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
-  test('renders correctly - with listeners', () => {
-    const onFocus = jest.fn();
+  test('renders correctly - with transform and allowedKeys', async () => {
+    const onChange = jest.fn();
+    const onKeyDown = jest.fn();
+    const onPaste = jest.fn();
+    const transform = (value: string): [string, number?] => [value.toUpperCase()];
+    const { container, rerender } = render(<JSXUITextfield
+      name="test"
+      size={10}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      onPaste={onPaste}
+      transform={transform}
+      allowedKeys={{
+        default: /[a-z]/i,
+        altKey: /[a-z]/i,
+        shiftKey: /[a-z]/i,
+        metaKey: /[a-z]/i,
+        ctrlKey: /[a-z]/i,
+      }}
+    />);
+    const input = container.getElementsByTagName('input')[0];
+    await fireEvent.keyDown(input, { key: 'A' });
+    await fireEvent.keyDown(input, { key: '0' });
+    await fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
+    await fireEvent.keyDown(input, { key: 'a', shiftKey: true });
+    await fireEvent.keyDown(input, { key: 'a', altKey: true });
+    await fireEvent.keyDown(input, { key: 'a', metaKey: true });
+    await fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
+    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onKeyDown).toHaveBeenCalledTimes(5);
+    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledTimes(1);
+    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
+    await rerender(<JSXUITextfield
+      name="test"
+      size={10}
+      allowedKeys={{
+        default: /z/i,
+      }}
+    />);
+    await fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
+    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
+    await rerender(<JSXUITextfield name="test" size={10} />);
+    await fireEvent.keyDown(input, { key: '0' });
+    await fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
+    await fireEvent.keyDown(input, { key: 'a', shiftKey: true });
+    await fireEvent.keyDown(input, { key: 'a', altKey: true });
+    await fireEvent.keyDown(input, { key: 'a', metaKey: true });
+  });
+
+  test('renders correctly - with listeners and debounce', async () => {
     const onBlur = jest.fn();
+    const onFocus = jest.fn();
     const onChange = jest.fn();
     const onIconClick = jest.fn();
-    act(() => {
-      render(
-        <UITextfield
-          name="test"
-          icon="star"
-          value="test"
-          onBlur={onBlur}
-          onFocus={onFocus}
-          onChange={onChange}
-          onIconClick={onIconClick}
-        />,
-        container,
-      );
-    });
-    const icon = document.querySelector('i') as HTMLElement;
-    const input = document.querySelector('input') as HTMLInputElement;
-    act(() => {
-      Simulate.focus(input);
-    });
-    act(() => {
-      Simulate.change(input, { target: { value: 'new test' } as Target });
-    });
-    act(() => {
-      Simulate.blur(input);
-    });
-    act(() => {
-      Simulate.click(icon);
-    });
+    const onIconKeyDown = jest.fn();
+    const transform = (value: string): [string, number?] => [value.toUpperCase(), 1];
+    const { container } = render(<JSXUITextfield
+      name="test"
+      icon="star"
+      onBlur={onBlur}
+      onFocus={onFocus}
+      onChange={onChange}
+      onIconClick={onIconClick}
+      transform={transform}
+      debounceTimeout={250}
+      onIconKeyDown={onIconKeyDown}
+    />);
+    const input = container.getElementsByTagName('input')[0];
+    const icon = container.getElementsByTagName('i')[0];
+    await fireEvent.focus(input);
+    await fireEvent.blur(input);
+    await fireEvent.keyDown(icon);
+    await fireEvent.click(icon);
+    await fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
+    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
     jest.runAllTimers();
-    expect(container).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
-    expect(onFocus).toHaveBeenCalledWith('test');
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith('new test');
+    expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));
     expect(onBlur).toHaveBeenCalledTimes(1);
-    expect(onBlur).toHaveBeenCalledWith('new test');
+    expect(onBlur).toHaveBeenCalledWith('', expect.any(Object));
     expect(onIconClick).toHaveBeenCalledTimes(1);
-  });
-
-  test('renders correctly - with listener and debounce', () => {
-    const onChange = jest.fn();
-    act(() => {
-      render(
-        <UITextfield
-          name="test"
-          icon="star"
-          value="test"
-          onChange={onChange}
-          debounceTimeout={250}
-        />,
-        container,
-      );
-    });
-    const input = document.querySelector('input') as HTMLInputElement;
-    act(() => {
-      Simulate.change(input, { target: { value: 'new test' } as Target });
-    });
-    jest.runAllTimers();
-    expect(container).toMatchSnapshot();
+    expect(onIconClick).toHaveBeenCalledWith(expect.any(Object));
+    expect(onIconKeyDown).toHaveBeenCalledTimes(1);
+    expect(onIconKeyDown).toHaveBeenCalledWith(expect.any(Object));
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith('new test');
+    expect(onChange).toHaveBeenCalledWith('NAND 89 OKOKEW 015 TEST', expect.any(Object));
   });
 });

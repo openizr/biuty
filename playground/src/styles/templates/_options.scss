@@ -1,0 +1,69 @@
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.ui-options {
+  overflow: hidden;
+  user-select: none;
+  padding: 0.1em 1em;
+  max-width: fit-content;
+  border-radius: var(--shp-default);
+  border: 1px solid var(--clr-default);
+
+  &__label {
+    cursor: pointer;
+    font-weight: 800;
+
+  }
+
+  &__wrapper__option {
+    display: block;
+    @extend %ellipsis;
+
+    &:hover,
+    &:focus-within {
+      background: rgba(var(--clr-default-rgb), 0.5);
+    }
+  }
+
+  &__wrapper__list {
+    display: none;
+
+    @include modifier(expanded) {
+      display: block;
+    }
+
+    &__option {
+      &:focus {
+        background: rgba(var(--clr-default-rgb), 0.5);
+      }
+
+      @include modifier(checked) {
+        background: rgba(var(--clr-default-rgb), 0.5);
+      }
+    }
+
+    &__header {
+      color: rgba(var(--clr-default-rgb), 0.5);
+    }
+
+    &__divider:before {
+      display: block;
+      font-size: 12px;
+      content: '---------------';
+    }
+  }
+
+  &__wrapper__button:focus {
+    background: rgba(var(--clr-default-rgb), 0.5);
+  }
+
+  @include modifier(disabled) {
+    opacity: 0.32;
+    pointer-events: none;
+  }
+}

@@ -1,7 +1,47 @@
+<!-- Image. -->
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { computed } from 'vue';
+import buildClass from 'scripts/helpers/buildClass';
+
+const props = defineProps<{
+  src: string;
+  alt: string;
+  ratio: string;
+  id?: string;
+  modifiers?: string;
+  itemProp?: string;
+}>();
+
+const className = computed(() => buildClass('ui-image', `${props.ratio} ${props.modifiers || ''}`));
+const dimensions = computed(() => {
+  let newDimensions;
+  switch (props.ratio) {
+    case 'square':
+      return { width: 1, height: 1 };
+    case 'portrait':
+      return { width: 2, height: 3 };
+    case 'landscape':
+      return { width: 3, height: 2 };
+    case 'panoramic':
+      return { width: 16, height: 9 };
+    default:
+      newDimensions = props.ratio.split('x').map((value) => parseInt(value, 10));
+      return { width: newDimensions[0], height: newDimensions[1] };
+  }
+});
+</script>
+
 <template>
-  <!-- Custom aspect ratio... -->
   <img
-    v-if="/^([0-9]+):([0-9]+)$/i.test(ratio) === true"
+    v-if="/^([0-9]+)x([0-9]+)$/i.test(ratio)"
     :id="id"
     :src="src"
     :alt="alt"
@@ -11,9 +51,9 @@
     :height="dimensions.height"
     :itemprop="itemProp"
   >
-  <!-- Standard aspect ratio... -->
   <div
     v-else
+    :id="id"
     :class="className"
   >
     <img
@@ -26,83 +66,3 @@
     >
   </div>
 </template>
-
-<script lang="ts">
-/**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import Vue from 'vue';
-import { Generic } from 'scripts/vue/types';
-import buildClass from 'scripts/helpers/buildClass';
-
-interface Props {
-  src: string;
-  alt: string;
-  ratio: string;
-  id: string | null;
-  modifiers: string;
-  itemProp: string | null;
-}
-
-/**
- * Image.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'UIImage',
-  props: {
-    id: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    src: {
-      type: String,
-      required: true,
-    },
-    alt: {
-      type: String,
-      required: true,
-    },
-    ratio: {
-      type: String,
-      required: true,
-    },
-    itemProp: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    modifiers: {
-      type: String,
-      default: '',
-      required: false,
-    },
-  },
-  computed: {
-    className(): string {
-      return buildClass('ui-image', `${this.ratio.replace(':', 'x')} ${this.modifiers}`.split(' '));
-    },
-    dimensions(): { width: number; height: number; } {
-      let dimensions;
-      switch (this.ratio) {
-        case 'square':
-          return { width: 1, height: 1 };
-        case 'portrait':
-          return { width: 2, height: 3 };
-        case 'landscape':
-          return { width: 3, height: 2 };
-        case 'panoramic':
-          return { width: 16, height: 9 };
-        default:
-          dimensions = this.ratio.split(':').map((value) => parseInt(value, 10));
-          return { width: dimensions[0], height: dimensions[1] };
-      }
-    },
-  },
-});
-</script>

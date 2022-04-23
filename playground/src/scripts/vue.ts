@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,23 +7,17 @@
  */
 
 import 'styles/main.scss';
-import Vue, { VNode } from 'vue';
-import Router from 'scripts/containers/Router.vue';
+import i18n from 'basx/i18n';
+import { createApp, App } from 'vue';
+import AppRouter from 'scripts/containers/AppRouter.vue';
 
-// Webpack HMR interface.
-interface ExtendedNodeModule extends NodeModule {
-  hot: { accept: () => void };
-}
+let app: App;
 
-let vm: Vue;
+i18n();
 
 function main(): void {
-  vm = new Vue({
-    el: '#root',
-    components: { Router },
-    render: (h): VNode => h(Router, { props: { locale: {} } }),
-  });
-  Vue.config.devtools = process.env.NODE_ENV !== 'production';
+  app = createApp(AppRouter, { locale: {} });
+  app.mount('#root');
 }
 
 // Ensures DOM is fully loaded before running app's main logic.
@@ -36,12 +30,7 @@ if (document.readyState === 'loading') {
 }
 
 // Ensures subscriptions to Store are correctly cleared when page is left, to prevent "ghost"
-// processing, by manually unmounting React components tree.
+// processing, by manually unmounting Vue components tree.
 window.addEventListener('beforeunload', () => {
-  vm.$destroy();
+  app.unmount();
 });
-
-// Enables Hot Module Rendering.
-if ((module as ExtendedNodeModule).hot) {
-  (module as ExtendedNodeModule).hot.accept();
-}

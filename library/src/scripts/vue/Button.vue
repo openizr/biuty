@@ -1,98 +1,47 @@
-<template>
-  <button
-    :id="id"
-    :type="type"
-    :class="`${className}${(icon !== null && label === null) ? ' ui-button--icon' : ''}`"
-    :tabIndex="(modifiers.includes('disabled') ? -1 : 0)"
-    @click="onClick"
-    @focus="onFocus"
-  >
-    <i
-      v-if="icon !== null && iconPosition === 'left'"
-      class="ui-button__icon"
-    >{{ icon }}</i>
-    <span
-      v-if="(label !== null)"
-      class="ui-button__label"
-    >{{ label }}</span>
-    <i
-      v-if="icon !== null && iconPosition === 'right'"
-      class="ui-button__icon"
-    >{{ icon }}</i>
-  </button>
-</template>
-
-<script lang="ts">
+<!-- Button. -->
+<script lang="ts" setup>
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import Vue from 'vue';
-import { Generic } from 'scripts/vue/types';
+import { computed } from 'vue';
+import UIIcon from 'scripts/vue/Icon.vue';
 import buildClass from 'scripts/helpers/buildClass';
 
-interface Props {
-  id: string | null;
-  modifiers: string;
-  icon: string | null;
-  label: string | null;
-  type: 'button' | 'submit';
-  iconPosition: 'left' | 'right';
-}
+const props = defineProps<{
+  id?: string;
+  icon?: string;
+  label?: string;
+  modifiers?: string;
+  type?: 'button' | 'submit';
+  iconPosition?: 'left' | 'right';
+}>();
 
-/**
- * Button.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'UIButton',
-  props: {
-    id: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    icon: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    label: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    type: {
-      validator: (value) => value === 'button' || value === 'submit',
-      default: 'button',
-      required: false,
-    },
-    modifiers: {
-      type: String,
-      default: '',
-      required: false,
-    },
-    iconPosition: {
-      validator: (value) => value === 'left' || value === 'right',
-      default: 'left',
-      required: false,
-    },
-  },
-  computed: {
-    className(): string {
-      return buildClass('ui-button', this.modifiers.split(' '));
-    },
-  },
-  methods: {
-    onClick(event: MouseEvent): void {
-      this.$emit('click', event);
-    },
-    onFocus(event: MouseEvent): void {
-      this.$emit('focus', event);
-    },
-  },
-});
+const className = computed(() => buildClass('ui-button', `${props.modifiers || ''}${(props.icon !== undefined && props.label === undefined) ? ' icon' : ''}`));
 </script>
+
+<template>
+  <button
+    :id="id"
+    :class="className"
+    :type="type || 'button'"
+    :tabIndex="(modifiers?.includes('disabled') ? -1 : 0)"
+  >
+    <UIIcon
+      v-if="icon !== undefined && iconPosition !== 'right'"
+      :name="icon"
+    />
+    <span
+      v-if="(label !== undefined)"
+      class="ui-button__label"
+    >{{ label }}</span>
+    <UIIcon
+      v-if="icon !== undefined && iconPosition === 'right'"
+      :name="icon"
+    />
+  </button>
+</template>

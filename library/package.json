@@ -1,16 +1,23 @@
 {
-  "name": "sonar-ui",
+  "name": "biuty",
   "version": "TRAVIS_TAG",
+  "type": "module",
   "main": "./main.js",
-  "types": "./types.d.ts",
-  "description": "A framework-agnostic components and styling library",
-  "repository": "https://github.com/openizr/sonar-ui",
-  "bugs": "https://github.com/openizr/sonar-ui/issues",
+  "types": "./main.d.ts",
+  "description": "SASS and components library, without the superfluous",
+  "repository": "https://github.com/openizr/biuty",
+  "bugs": "https://github.com/openizr/biuty/issues",
   "keywords": [
     "ui",
+    "light",
+    "typescript",
+    "design",
+    "system",
     "components",
     "react",
-    "vuejs",
+    "svelte",
+    "vue",
+    "sass",
     "styling",
     "themes",
     "library"
@@ -24,12 +31,16 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/svelte": "^3.1.0",
+    "@testing-library/vue": "^6.5.1",
     "@types/prop-types": "^15.7.4",
-    "@types/react": "^17.0.15",
-    "@types/react-dom": "^17.0.9",
-    "@vue/test-utils": "^1.2.2",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "aria-query": "^5",
     "coveralls": "^3.1.1",
-    "typescript-dev-kit": "^3.1.2"
+    "node-sass": "^7.0.1",
+    "typescript-dev-kit": "^5.1.0"
   },
   "eslintConfig": {
     "extends": [
@@ -38,26 +49,28 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "prop-types": "^15.7.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "vue": "^2.6.14"
+    "prop-types": "^15.8.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "svelte": "^3.47.0",
+    "vue": "^3.2.33"
   },
   "engines": {
-    "node": ">= 10.0.0",
-    "npm": ">= 5.0.0"
+    "node": ">= 14.0.0",
+    "npm": ">= 7.0.0"
   },
   "tsDevKitConfig": {
     "target": "node",
-    "entry": {
+    "entries": {
       "main": "./scripts/main.ts",
       "react": "./scripts/react.ts",
-      "vue": "./scripts/vue.ts"
+      "vue": "./scripts/vue.ts",
+      "svelte": "./scripts/svelte.ts"
     },
     "runInDev": false,
     "srcPath": "src",
     "distPath": "dist",
-    "banner": "/*!\n * Copyright (c) Matthieu Jabbour. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
+    "banner": "/*!\n * Copyright (c) Openizr. All Rights Reserved.\n *\n * This source code is licensed under the MIT license found in the\n * LICENSE file in the root directory of this source tree.\n */",
     "env": {
       "development": {},
       "production": {}
@@ -66,9 +79,11 @@
   "scripts": {
     "init": "node_modules/typescript-dev-kit/scripts/init.sh",
     "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
+    "dev:sass": "node-sass -w --output-style=expanded src/styles/ -o dist/css/",
     "build": "cd node_modules/typescript-dev-kit/ && node scripts/build && cd ../../ && cp src/scripts/types.d.ts dist && cp src/scripts/types.d.ts dist/react.d.ts && cp src/scripts/types.d.ts dist/vue.d.ts && cp -r src/styles/* dist",
     "test": "cd node_modules/typescript-dev-kit/ && node scripts/test",
-    "doc": "node_modules/.bin/typedoc --out ../docs/ --exclude \"**/*.js\" --exclude \"**/__+(tests|mocks)__/**\" src/",
-    "postinstall": "rm -f node_modules/.eslintcache && test -n \"$POSTINSTALLED\" || POSTINSTALLED=1 yarn add --peer prop-types react react-dom vue"
+    "check": "cd node_modules/typescript-dev-kit/ && node scripts/check",
+    "doc": "node_modules/.bin/typedoc --out ../docs/ --exclude \"**/*.js\" --exclude \"**/__+(tests|mocks)__/**\" src/scripts/main.ts src/scripts/react.ts src/scripts/vue.ts",
+    "postinstall": "rm -f node_modules/.eslintcache && test -n \"$POSTINSTALLED\" || POSTINSTALLED=1 yarn add --peer prop-types react react-dom vue svelte"
   }
 }

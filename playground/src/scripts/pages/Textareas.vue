@@ -1,3 +1,44 @@
+<!-- Textareas page. -->
+
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Locale } from 'basx/i18n';
+import { ref, onMounted } from 'vue';
+
+defineProps<{
+  locale: Locale;
+}>();
+
+const newValue = ref('test');
+
+onMounted(() => {
+  setTimeout(() => {
+    newValue.value = 'new test';
+  }, 3000);
+});
+
+const { log } = console;
+
+const onChange = (value: string): void => {
+  log('Changed!', value);
+};
+
+const onBlur = (value: string): void => {
+  log('Blurred!', value);
+};
+
+const onFocus = (): void => {
+  log('Focused!');
+};
+</script>
+
 <template>
   <div className="vgap-5">
     <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
@@ -70,58 +111,3 @@
     </main>
   </div>
 </template>
-
-<script lang="ts">
-/**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import Vue from 'vue';
-import { Generic } from 'scripts/types';
-import { UITextarea } from 'sonar-ui/vue';
-
-interface Props {
-  translate: (label: string) => string;
-}
-
-/**
- * Textareas page.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'Textareas',
-  components: {
-    UITextarea,
-  },
-  props: {
-    translate: {
-      type: Function,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      newValue: 'test',
-    };
-  },
-  mounted() {
-    setTimeout(() => {
-      this.newValue = 'new test';
-    }, 3000);
-  },
-  methods: {
-    onChange(value: string): void {
-      console.log('Changed!', value); // eslint-disable-line no-console
-    },
-    onBlur(value: string): void {
-      console.log('Blurred!', value); // eslint-disable-line no-console
-    },
-    onFocus(): void {
-      console.log('Focused!'); // eslint-disable-line no-console
-    },
-  },
-});
-</script>
