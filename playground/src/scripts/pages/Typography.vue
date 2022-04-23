@@ -1,6 +1,31 @@
+<!-- Typography page. -->
+
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Locale } from 'basx/i18n';
+import { UITitle, UIP, UILink } from 'biuty/vue';
+
+defineProps<{
+  locale: Locale;
+}>();
+
+const { log } = console;
+const onClick = (event: MouseEvent): void => {
+  log('Clicked!', event);
+  event.preventDefault();
+};
+</script>
+
 <template>
-  <div className="vgap-5">
-    <main className="ui-page ui-block cols-1 vgap-5">
+  <div class="vgap-5">
+    <main class="ui-page ui-block cols-1 vgap-5">
       <a href="/">GO BACK</a>
       <UITitle
         level="1"
@@ -27,59 +52,20 @@
         :label="'ui-title ui-title--6\nui-title ui-title--6'"
       />
       <UIP
-        clas=""
+        c=""
         :label="
           'ui-p ui-p ui-p ui-p ~ui-p italic~ _ui-p underline_ **ui-p strong** *ui-p emphasis* ' +
             'ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p' +
             ' ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p '"
       />
-      <div>
-        <div className="ui-button-group">
-          <UILink
-            href="/"
-            target="_blank"
-            rel="nofollow noopener noreferer"
-            title="link title"
-            label="ui-link"
-          />
-        </div>
-      </div>
+      <UILink
+        href="/"
+        target="_blank"
+        rel="nofollow noopener noreferer"
+        title="link title"
+        label="ui-link"
+        @click="onClick"
+      />
     </main>
   </div>
 </template>
-
-<script lang="ts">
-/**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import Vue from 'vue';
-import { Generic } from 'scripts/types';
-import { UITitle, UIP, UILink } from 'sonar-ui/vue';
-
-interface Props {
-  translate: (label: string) => string;
-}
-
-/**
- * Typography page.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'Typography',
-  components: {
-    UIP,
-    UILink,
-    UITitle,
-  },
-  props: {
-    translate: {
-      type: Function,
-      required: true,
-    },
-  },
-});
-</script>

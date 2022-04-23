@@ -1,5 +1,9 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * @jest-environment jsdom
+ */
+
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,73 +12,42 @@
 
 import React from 'react';
 import UILink from 'scripts/react/Link';
-import { act } from 'react-dom/test-utils';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { render } from '@testing-library/react';
 
-let container = document.createElement('div');
+const JSXUILink = UILink as JSXElement;
 
 describe('react/UILink', () => {
   beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
     jest.clearAllMocks();
   });
 
-  afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    ((container as unknown) as null) = null;
-  });
-
   test('renders correctly - basic', () => {
-    act(() => {
-      render(<UILink label="Test" href="https://test.com" modifiers="large" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUILink label="Test" href="https://test.com" modifiers="large" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with id', () => {
-    act(() => {
-      render(<UILink id="test" label="Test" href="https://test.com" />, container);
-    });
-    const link = document.querySelector('a') as HTMLAnchorElement;
-    act(() => {
-      link.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUILink label="Test" href="https://test.com" id="test" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with target', () => {
-    act(() => {
-      render(<UILink target="_blank" label="Test" href="https://test.com" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUILink label="Test" href="https://test.com" target="_blank" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with rel', () => {
-    act(() => {
-      render(<UILink rel="no referrer" label="Test" href="https://test.com" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUILink label="Test" href="https://test.com" rel="no referrer" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with title', () => {
-    act(() => {
-      render(<UILink title="test" label="Test" href="https://test.com" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUILink label="Test" href="https://test.com" title="test" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with listener', () => {
-    const onClick = jest.fn();
-    act(() => {
-      render(<UILink onClick={onClick} label="Test" href="https://test.com" />, container);
-    });
-    const link = document.querySelector('a') as HTMLAnchorElement;
-    act(() => {
-      link.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    });
-    expect(container).toMatchSnapshot();
-    expect(onClick).toHaveBeenCalledTimes(1);
+  test('renders correctly - with itemProp', () => {
+    const { container } = render(<JSXUILink label="Test" href="https://test.com" itemProp="name" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

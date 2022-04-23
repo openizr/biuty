@@ -1,71 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`react/UILink renders correctly - basic 1`] = `
-<div>
-  <a
-    class="ui-link ui-link--large"
-    href="https://test.com"
-  >
-    Test
-  </a>
-</div>
+<a
+  class="ui-link ui-link--large"
+  href="https://test.com"
+>
+  Test
+</a>
 `;
 
 exports[`react/UILink renders correctly - with id 1`] = `
-<div>
-  <a
-    class="ui-link"
-    href="https://test.com"
-    id="test"
-  >
-    Test
-  </a>
-</div>
+<a
+  class="ui-link"
+  href="https://test.com"
+  id="test"
+>
+  Test
+</a>
 `;
 
-exports[`react/UILink renders correctly - with listener 1`] = `
-<div>
-  <a
-    class="ui-link"
-    href="https://test.com"
-  >
-    Test
-  </a>
-</div>
+exports[`react/UILink renders correctly - with itemProp 1`] = `
+<a
+  class="ui-link"
+  href="https://test.com"
+>
+  Test
+</a>
 `;
 
 exports[`react/UILink renders correctly - with rel 1`] = `
-<div>
-  <a
-    class="ui-link"
-    href="https://test.com"
-    rel="no referrer"
-  >
-    Test
-  </a>
-</div>
+<a
+  class="ui-link"
+  href="https://test.com"
+  rel="no referrer"
+>
+  Test
+</a>
 `;
 
 exports[`react/UILink renders correctly - with target 1`] = `
-<div>
-  <a
-    class="ui-link"
-    href="https://test.com"
-    target="_blank"
-  >
-    Test
-  </a>
-</div>
+<a
+  class="ui-link"
+  href="https://test.com"
+  target="_blank"
+>
+  Test
+</a>
 `;
 
 exports[`react/UILink renders correctly - with title 1`] = `
-<div>
-  <a
-    class="ui-link"
-    href="https://test.com"
-    title="test"
-  >
-    Test
-  </a>
-</div>
+<a
+  class="ui-link"
+  href="https://test.com"
+  title="test"
+>
+  Test
+</a>
 `;

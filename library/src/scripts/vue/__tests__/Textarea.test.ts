@@ -1,18 +1,19 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * @jest-environment jsdom
+ */
+
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { mount } from '@vue/test-utils';
 import UITextarea from 'scripts/vue/Textarea.vue';
-
-type component = any; // eslint-disable-line @typescript-eslint/no-explicit-any
+import { render, fireEvent } from '@testing-library/vue';
 
 jest.useFakeTimers();
-jest.mock('scripts/helpers/markdown');
 jest.mock('scripts/helpers/generateRandomId');
 
 describe('vue/UITextarea', () => {
@@ -20,144 +21,136 @@ describe('vue/UITextarea', () => {
     jest.clearAllMocks();
   });
 
-  test('renders correctly - basic', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', modifiers: 'large' },
-    });
-    expect(wrapper.html()).toMatchSnapshot();
-  });
-
-  test('renders correctly - with id', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', id: 'test' },
-    });
-    expect(wrapper.html()).toMatchSnapshot();
-  });
-
-  test('renders correctly - with cols and rows', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: {
-        name: 'test', cols: 10, rows: 50,
+  test('renders correctly - basic', async () => {
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', modifiers: 'large', cols: 10, rows: 10,
       },
     });
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with id', async () => {
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', id: 'my-id', cols: 10, rows: 10,
+      },
+    });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with cols and rows', async () => {
+    const { container } = render(UITextarea, { props: { name: 'test', cols: 10, rows: 50 } });
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with placeholder', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', placeholder: 'text' },
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', placeholder: 'test...', cols: 10, rows: 10,
+      },
     });
-    expect(wrapper.html()).toMatchSnapshot();
-  });
-
-  test('renders correctly - with helper', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', helper: 'Text' },
-    });
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with label', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', label: 'Text' },
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', label: '*Label*', cols: 10, rows: 10,
+      },
     });
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with value', async () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', value: 'test' },
+  test('renders correctly - with helper', () => {
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', helper: '*Helper*', cols: 10, rows: 10,
+      },
     });
-    await wrapper.setProps({ value: 'new test' });
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with maxlength', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', maxlength: 10 },
+  test('renders correctly - with value', () => {
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', value: 'my value', cols: 10, rows: 10,
+      },
     });
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with transform', async () => {
-    const transform = jest.fn((value) => value.toUpperCase());
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', maxlength: 10, transform },
+  test('renders correctly - disabled', async () => {
+    const onChange = jest.fn();
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', modifiers: 'disabled', cols: 10, rows: 10, onChange,
+      },
     });
-    await wrapper.find('textarea').setValue('new test');
-    expect(wrapper.html()).toMatchSnapshot();
-    expect(transform).toHaveBeenCalledWith('new test');
-  });
-
-  test('renders correctly - disabled', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', modifiers: 'disabled' },
-    });
-    expect(wrapper.html()).toMatchSnapshot();
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.update(textarea, 'new value');
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   test('renders correctly - autocomplete off', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', autocomplete: 'off' },
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', autocomplete: 'off', cols: 10, rows: 10,
+      },
     });
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - readonly', () => {
-    const wrapper = mount(UITextarea, {
-      propsData: { name: 'test', readonly: true },
+  test('renders correctly - readonly', async () => {
+    const onChange = jest.fn();
+    const { container, rerender } = render(UITextarea, {
+      props: {
+        name: 'test', readonly: true, onChange, cols: 10, rows: 10,
+      },
     });
-    expect(wrapper.html()).toMatchSnapshot();
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.update(textarea, 'new value');
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onChange).not.toHaveBeenCalled();
+    await rerender({ value: 'new val' });
   });
 
-  test('renders correctly - with listeners', async () => {
-    const onFocus = jest.fn();
+  test('renders correctly - with listeners and debounce', async () => {
     const onBlur = jest.fn();
+    const onFocus = jest.fn();
     const onChange = jest.fn();
     const onPaste = jest.fn();
     const onKeyDown = jest.fn();
-    const wrapper = mount(UITextarea, {
-      propsData: {
-        name: 'test', value: 'test',
-      },
-      listeners: {
-        focus: onFocus,
-        blur: onBlur,
-        change: onChange,
-        paste: onPaste,
-        keyDown: onKeyDown,
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test',
+        onBlur,
+        onFocus,
+        onPaste,
+        onChange,
+        onKeyDown,
+        cols: 10,
+        rows: 10,
       },
     });
-    await (wrapper.vm as component).focusField();
-    await wrapper.find('textarea').setValue('new test');
-    await wrapper.find('textarea').trigger('blur');
-    await wrapper.find('textarea').trigger('paste');
-    await wrapper.find('textarea').trigger('keydown');
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.focus(textarea);
+    await fireEvent.blur(textarea);
+    await fireEvent.keyDown(textarea, { key: 'a' });
+    await fireEvent.update(textarea, 'new 015 test');
+    await fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
     jest.runAllTimers();
-    expect(wrapper.html()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
-    expect(onFocus).toHaveBeenCalledWith('test');
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith('new test');
+    expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));
     expect(onBlur).toHaveBeenCalledTimes(1);
-    expect(onBlur).toHaveBeenCalledWith('new test');
-    expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onKeyDown).toHaveBeenCalledTimes(1);
-  });
-
-  test('renders correctly - with listener and debounce', async () => {
-    const onChange = jest.fn();
-    const wrapper = mount(UITextarea, {
-      propsData: {
-        name: 'test', value: 'test', debounceTimeout: 250,
-      },
-      listeners: {
-        change: onChange,
-      },
-    });
-    await wrapper.find('textarea').setValue('new test');
-    jest.runAllTimers();
+    expect(onBlur).toHaveBeenCalledWith('', expect.any(Object));
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith('new test');
+    expect(onChange).toHaveBeenCalledWith('new 015 test', expect.any(Object));
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledTimes(1);
+    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
   });
 });

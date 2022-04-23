@@ -1,3 +1,63 @@
+<!-- Textfields page. -->
+
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Locale } from 'basx/i18n';
+import { ref, onMounted } from 'vue';
+import { UITextfield } from 'biuty/vue';
+
+defineProps<{
+  locale: Locale;
+}>();
+
+const newValue = ref('test');
+
+onMounted(() => {
+  setTimeout(() => {
+    newValue.value = 'new test';
+  }, 3000);
+});
+
+const { log } = console;
+
+const onChange = (...e): void => {
+  log('Changed!', e);
+};
+
+const onBlur = (...e): void => {
+  log('Blurred!', e);
+};
+
+const onFocus = (...e): void => {
+  log('Focused!', e);
+};
+
+const onIconClick = (...e): void => {
+  log('Clicked!', e);
+};
+
+const onKeyDown = (...e): void => {
+  log('Key down!', e);
+};
+
+const transform = (value: string): string => {
+  if (value.length >= 7) {
+    return `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+  }
+  if (value.length >= 4) {
+    return `(${value.slice(0, 3)}) ${value.slice(3)}`;
+  }
+  return value;
+};
+</script>
+
 <template>
   <div class="vgap-5">
     <main class="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
@@ -71,7 +131,8 @@
         name="textfield14"
         label="ui-textfield icon with listener"
         icon="star"
-        @iconClick="onIconClick"
+        @icon-click="onIconClick"
+        @icon-key-down="onKeyDown"
       />
       <UITextfield
         name="textfield15"
@@ -81,7 +142,9 @@
       <UITextfield
         name="textfield16"
         label="ui-textfield with transform"
-        :transform="(value) => value.toUpperCase()"
+        :allowed-pattern="/[0-9]/i"
+        :transform="transform"
+        :maxlength="14"
       />
       <UITextfield
         name="textfield17"
@@ -93,84 +156,37 @@
         name="textfield18"
         label="ui-textfield with type number"
         type="number"
-        min="0"
-        max="30"
-        step="5"
+        :min="0"
+        :max="30"
+        :step="5"
       />
       <UITextfield
-        name="textfield19"
-        label="ui-textfield with paste listener"
-        @paste="onPaste"
-      />
-      <UITextfield
-        name="textfield20"
-        label="ui-textfield with keyDown listener"
-        @keyDown="onKeyDown"
+        name="textfield18"
+        label="ui-textfield with type onKeyDown"
+        :allowed-keys="{ default: /[0-9()-]| / }"
+        :maxlength="14"
+        :transform="(value, start) => {
+          const stripedValue = value.replace(/(\(|\)|-| )/ig, '');
+          const { length } = stripedValue;
+          if (length >= 7) {
+            let e;
+            if (!(length === 7 && !/-/.test(value)) && start !== 10) {
+              e = start;
+            }
+            return [`(${stripedValue.slice(0, 3)}) ${stripedValue
+              .slice(3, 6)}-${stripedValue.slice(6, 10)}`, e];
+          }
+          if (length >= 4) {
+            return [`(${stripedValue.slice(0, 3)}) ${stripedValue.slice(3)}`, start];
+          }
+          if (length >= 3 && value.length < 4) {
+            return [`(${stripedValue.slice(0, 3)}) `, 6];
+          }
+          return [stripedValue, start];
+        }"
+        @key-down="onKeyDown"
+        @change="onChange"
       />
     </main>
   </div>
 </template>
-
-<script lang="ts">
-/**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import Vue from 'vue';
-import { Generic } from 'scripts/types';
-import { UITextfield } from 'sonar-ui/vue';
-
-interface Props {
-  translate: (label: string) => string;
-}
-
-/**
- * Textfields page.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'Textfields',
-  components: {
-    UITextfield,
-  },
-  props: {
-    translate: {
-      type: Function,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      newValue: 'test',
-    };
-  },
-  mounted() {
-    setTimeout(() => {
-      this.newValue = 'new test';
-    }, 3000);
-  },
-  methods: {
-    onChange(value: string): void {
-      console.log('Changed!', value); // eslint-disable-line no-console
-    },
-    onBlur(value: string): void {
-      console.log('Blurred!', value); // eslint-disable-line no-console
-    },
-    onFocus(): void {
-      console.log('Focused!'); // eslint-disable-line no-console
-    },
-    onIconClick(): void {
-      console.log('Clicked!'); // eslint-disable-line no-console
-    },
-    onPaste(): void {
-      console.log('Pasted!'); // eslint-disable-line no-console
-    },
-    onKeyDown(): void {
-      console.log('Keyed down!'); // eslint-disable-line no-console
-    },
-  },
-});
-</script>

@@ -1,0 +1,42 @@
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+// Number of columns available in a grid.
+$gridColumnsNumber: 12;
+
+$breakpoints: ( //
+  xxs: 0px,
+  xs: 376px,
+  s: 576px,
+  m: 768px,
+  l: 992px,
+  xl: 1200px,
+) !default;
+
+$gaps: ( //
+  1: 4px,
+  2: 8px,
+  3: 16px,
+  4: 24px,
+  5: 32px,
+  6: 64px,
+  7: 94px,
+) !default;
+
+$variables: ( //
+  gaps:$gaps,
+  shp:( //
+    default: 4px,
+  ),
+  clr: ( //
+    default: #000000,
+  ),
+  ff: ( //
+    default: 'sans-serif',
+  ),
+);

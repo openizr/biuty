@@ -1,103 +1,243 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`vue/UITextarea renders correctly - autocomplete off 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"off\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      autocomplete="off"
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - basic 1`] = `
-"<div class=\\"ui-textarea ui-textarea--large\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea ui-textarea--large"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - disabled 1`] = `
-"<div class=\\"ui-textarea ui-textarea--disabled\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" disabled=\\"disabled\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea ui-textarea--disabled"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      disabled=""
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - readonly 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" readonly=\\"readonly\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      readonly=""
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - with cols and rows 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" cols=\\"10\\" rows=\\"50\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="50"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - with helper 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div> <span class=\\"ui-textarea__helper\\"> Text </span>
-</div>"
+<div
+  class="ui-textarea"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <span
+    class="ui-textarea__helper"
+  >
+    <span
+      class="ui-markdown ui-markdown--emphasis"
+    >
+      Helper
+    </span>
+  </span>
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - with id 1`] = `
-"<div id=\\"test\\" class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea"
+  id="my-id"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - with label 1`] = `
-"<div class=\\"ui-textarea\\"><label for=\\"z8a8d7a5zad4\\" class=\\"ui-textarea__label\\"><strong>Text</strong></label>
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea"
+>
+  <label
+    class="ui-textarea__label"
+    for="z8a8d7a5zad4"
+  >
+    <span
+      class="ui-markdown ui-markdown--emphasis"
+    >
+      Label
+    </span>
+  </label>
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
-exports[`vue/UITextarea renders correctly - with listeners 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
-`;
-
-exports[`vue/UITextarea renders correctly - with maxlength 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" maxlength=\\"10\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+exports[`vue/UITextarea renders correctly - with listeners and debounce 1`] = `
+<div
+  class="ui-textarea"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - with placeholder 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" placeholder=\\"text\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
-`;
-
-exports[`vue/UITextarea renders correctly - with transform 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" maxlength=\\"10\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      placeholder="test..."
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;
 
 exports[`vue/UITextarea renders correctly - with value 1`] = `
-"<div class=\\"ui-textarea\\">
-  <!---->
-  <div class=\\"ui-textarea__wrapper\\"><textarea id=\\"z8a8d7a5zad4\\" name=\\"test\\" autocomplete=\\"on\\" class=\\"ui-textarea__wrapper__field\\"></textarea></div>
-  <!---->
-</div>"
+<div
+  class="ui-textarea"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
 `;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,21 +7,22 @@
  */
 
 import 'styles/main.scss';
+import i18n from 'basx/i18n';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Router from 'scripts/containers/Router';
 
-// Webpack HMR interface.
-interface ExtendedNodeModule extends NodeModule {
-  hot: { accept: () => void };
-}
+i18n();
 
 function main(): void {
-  ReactDOM.render((
-    <React.StrictMode>
-      <Router locale={{}} />
-    </React.StrictMode>
-  ), document.querySelector('#root'));
+  const StrictMode = React.StrictMode as JSXElement;
+  ReactDOM.render(
+    (
+      <StrictMode>
+        <Router locale={{}} />
+      </StrictMode>
+    ), document.querySelector('#root'),
+  );
 }
 
 // Ensures DOM is fully loaded before running app's main logic.
@@ -38,8 +39,3 @@ if (document.readyState === 'loading') {
 window.addEventListener('beforeunload', () => {
   ReactDOM.unmountComponentAtNode(document.querySelector('#root') as Element);
 });
-
-// Enables Hot Module Rendering.
-if ((module as ExtendedNodeModule).hot) {
-  (module as ExtendedNodeModule).hot.accept();
-}

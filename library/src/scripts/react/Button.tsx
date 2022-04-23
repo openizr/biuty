@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,8 +7,11 @@
  */
 
 import * as React from 'react';
+import UIIcon from 'scripts/react/Icon';
 import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
+
+const JSXUIIcon = UIIcon as JSXElement;
 
 const propTypes = {
   id: PropTypes.string,
@@ -27,20 +30,21 @@ const defaultProps = {
   label: null,
   modifiers: '',
   type: 'button',
-  onFocus: undefined,
-  onClick: undefined,
+  onFocus: null,
+  onClick: null,
   iconPosition: 'left',
 };
 
 /**
  * Button.
  */
-export default function UIButton(props: InferProps<typeof propTypes>): JSX.Element {
-  // eslint-disable-next-line object-curly-newline
-  const { label, icon, iconPosition, onClick, id, modifiers, type, onFocus } = props;
-  const className = buildClass('ui-button', (modifiers as string).split(' '));
+function UIButton(props: InferProps<typeof propTypes>): JSX.Element {
+  const { type, onFocus } = props;
+  const { onClick, id, modifiers } = props;
+  const { label, icon, iconPosition } = props;
+
   const children = [
-    (icon !== null) ? <i key="icon" className="ui-button__icon">{icon}</i> : null,
+    (icon !== null && icon !== undefined) ? <JSXUIIcon key="icon" name={icon} /> : null,
     (label !== null) ? <span key="label" className="ui-button__label">{label}</span> : null,
   ];
 
@@ -50,8 +54,8 @@ export default function UIButton(props: InferProps<typeof propTypes>): JSX.Eleme
       onFocus={onFocus as undefined}
       onClick={onClick as undefined}
       type={(type === 'submit') ? 'submit' : 'button'}
-      className={`${className}${(icon !== null && label === null) ? ' ui-button--icon' : ''}`}
       tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
+      className={buildClass('ui-button', `${modifiers as string}${(icon !== null && label === null) ? ' icon' : ''}`)}
     >
       {(iconPosition === 'left') ? children : children.reverse()}
     </button>
@@ -61,3 +65,5 @@ export default function UIButton(props: InferProps<typeof propTypes>): JSX.Eleme
 UIButton.propTypes = propTypes;
 UIButton.defaultProps = defaultProps;
 UIButton.displayName = 'UIButton';
+
+export default React.memo(UIButton);

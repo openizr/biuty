@@ -1,5 +1,34 @@
+<!-- Hyperlink. -->
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+/* eslint-disable vue/no-v-html */
+
+import { computed } from 'vue';
+import markdown from 'scripts/helpers/markdown';
+import buildClass from 'scripts/helpers/buildClass';
+
+const props = defineProps<{
+  id?: string;
+  rel?: string;
+  href: string;
+  label: string;
+  title?: string;
+  target?: string;
+  modifiers?: string;
+}>();
+
+const parsedLabel = computed(() => markdown(props.label));
+const className = computed(() => buildClass('ui-link', props.modifiers));
+</script>
+
 <template>
-  <!-- eslint-disable vue/no-v-html -->
   <a
     :id="id"
     :rel="rel"
@@ -7,88 +36,6 @@
     :title="title"
     :class="className"
     :target="target"
-    @click="onClick"
     v-html="parsedLabel"
   />
 </template>
-
-<script lang="ts">
-/**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-import Vue from 'vue';
-import { Generic } from 'scripts/vue/types';
-import markdown from 'scripts/helpers/markdown';
-import buildClass from 'scripts/helpers/buildClass';
-
-interface Props {
-  id: string;
-  rel: string;
-  href: string;
-  title: string;
-  label: string;
-  target: string;
-  modifiers: string;
-}
-
-/**
- * Link.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'UILink',
-  props: {
-    id: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    href: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    rel: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    target: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    label: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    modifiers: {
-      type: String,
-      default: '',
-      required: false,
-    },
-  },
-  computed: {
-    className(): string {
-      return buildClass('ui-link', this.modifiers.split(' '));
-    },
-    parsedLabel(): string {
-      return markdown(this.label);
-    },
-  },
-  methods: {
-    onClick(event: MouseEvent): void {
-      this.$emit('click', event);
-    },
-  },
-});
-</script>

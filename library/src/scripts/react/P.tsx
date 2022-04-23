@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -13,25 +13,24 @@ import buildClass from 'scripts/helpers/buildClass';
 
 const propTypes = {
   id: PropTypes.string,
+  itemProp: PropTypes.string,
   modifiers: PropTypes.string,
   label: PropTypes.string.isRequired,
-  itemProp: PropTypes.string,
 };
 
 const defaultProps = {
   id: null,
   modifiers: '',
-  itemProp: undefined,
+  itemProp: null,
 };
 
 /**
  * Paragraph.
  */
-export default function UIP(props: InferProps<typeof propTypes>): JSX.Element {
-  const {
-    label, id, modifiers, itemProp,
-  } = props;
-  const className = buildClass('ui-p', (modifiers as string).split(' '));
+function UIP(props: InferProps<typeof propTypes>): JSX.Element {
+  const { itemProp } = props;
+  const { label, id, modifiers } = props;
+  const className = buildClass('ui-p', modifiers as string);
   return (
     <p
       id={id as string}
@@ -46,3 +45,5 @@ export default function UIP(props: InferProps<typeof propTypes>): JSX.Element {
 UIP.propTypes = propTypes;
 UIP.defaultProps = defaultProps;
 UIP.displayName = 'UIP';
+
+export default React.memo(UIP);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -24,18 +24,19 @@ const propTypes = {
 const defaultProps = {
   id: null,
   modifiers: '',
-  rel: undefined,
-  title: undefined,
-  target: undefined,
-  onClick: undefined,
+  rel: null,
+  title: null,
+  target: null,
+  onClick: null,
 };
 
 /**
- * Link.
+ * Hyperlink.
  */
-export default function UILink(props: InferProps<typeof propTypes>): JSX.Element {
-  // eslint-disable-next-line object-curly-newline
-  const { id, href, label, onClick, modifiers, target, rel, title } = props;
+function UILink(props: InferProps<typeof propTypes>): JSX.Element {
+  const { rel, title } = props;
+  const { id, href, label } = props;
+  const { onClick, modifiers, target } = props;
 
   return (
     <a
@@ -45,7 +46,7 @@ export default function UILink(props: InferProps<typeof propTypes>): JSX.Element
       title={title as string}
       target={target as string}
       onClick={onClick as undefined}
-      className={buildClass('ui-link', (modifiers as string).split(' '))}
+      className={buildClass('ui-link', modifiers as string)}
     >
       {label}
     </a>
@@ -55,3 +56,5 @@ export default function UILink(props: InferProps<typeof propTypes>): JSX.Element
 UILink.propTypes = propTypes;
 UILink.defaultProps = defaultProps;
 UILink.displayName = 'UILink';
+
+export default React.memo(UILink);

@@ -1,250 +1,241 @@
-<template>
-  <!-- eslint-disable vue/no-v-html -->
-  <div
-    :id="id"
-    :class="className"
-  >
-    <label
-      v-if="label !== null"
-      class="ui-textfield__label"
-      :for="randomId"
-      v-html="markdown(label)"
-    />
-    <div class="ui-textfield__wrapper">
-      <i
-        v-if="icon !== null && iconPosition === 'left'"
-        role="button"
-        tabIndex="0"
-        class="ui-textfield__wrapper__icon"
-        @click="clickIcon"
-      >{{ icon }}</i>
-      <input
-        :id="randomId"
-        ref="inputRef"
-        :value="currentValue"
-        :name="name"
-        :max="max"
-        :min="min"
-        :step="step"
-        :type="type"
-        :size="size"
-        :readonly="readonly"
-        :maxlength="maxlength"
-        class="ui-textfield__wrapper__field"
-        :placeholder="placeholder"
-        :autocomplete="autocomplete"
-        :disabled="modifiers.includes('disabled')"
-        @input="changeField"
-        @blur="blurField"
-        @focus="focusField"
-        @paste="handlePaste"
-        @keydown="handleKeyDown"
-      >
-      <i
-        v-if="icon !== null && iconPosition === 'right'"
-        role="button"
-        tabIndex="0"
-        class="ui-textfield__wrapper__icon"
-        @click="clickIcon"
-      >{{ icon }}</i>
-    </div>
-    <span
-      v-if="helper !== null"
-      class="ui-textfield__helper"
-    >{{ helper }}</span>
-  </div>
-</template>
-
-<script lang="ts">
+<!-- Text field. -->
+<script lang="ts" setup>
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import Vue from 'vue';
-import { Generic } from 'scripts/vue/types';
+/* eslint-disable vue/no-v-html */
+
+import {
+  computed,
+  onUpdated,
+  ref, watch,
+} from 'vue';
+import UIIcon from 'scripts/vue/Icon.vue';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
-interface Props {
-  name: string;
-  value: string;
-  min: number;
-  max: number;
-  step: number;
-  size: number;
-  icon: string;
-  id: string;
-  label: string;
-  helper: string;
-  maxlength: number;
-  modifiers: string;
-  readonly: boolean;
-  placeholder: string;
-  autocomplete: string;
-  debounceTimeout: number;
-  iconPosition: 'left' | 'right';
-  transform: (value: string) => string;
-  type: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url';
-}
+type KeyType = 'default' | 'ctrlKey' | 'altKey' | 'shiftKey' | 'metaKey';
+type AllowedKeys = Record<KeyType, RegExp | null>;
 
-/**
- * Textfield.
- */
-export default Vue.extend<Generic, Generic, Generic, Props>({
-  name: 'UITextfield',
-  props: {
-    id: {
-      type: String,
-      default: null,
-      required: false,
+const emit = defineEmits({
+  focus: null,
+  blur: null,
+  paste: null,
+  change: null,
+  keyDown: null,
+  iconClick: null,
+  iconKeyDown: null,
+});
+
+const props = defineProps<{
+  id?: string;
+  min?: number;
+  max?: number;
+  name: string;
+  step?: number;
+  icon?: string;
+  size?: number;
+  value?: string;
+  label?: string;
+  helper?: string;
+  readonly?: boolean;
+  maxlength?: number;
+  modifiers?: string;
+  placeholder?: string;
+  autocomplete?: 'on' | 'off';
+  iconPosition?: 'left' | 'right';
+  allowedKeys?: {
+    altKey?: RegExp;
+    metaKey?: RegExp;
+    ctrlKey?: RegExp;
+    default?: RegExp;
+    shiftKey?: RegExp;
+  };
+  debounceTimeout?: number;
+  type?: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url';
+  transform?: (value: string, selectionStart: number) => [string, number?];
+}>();
+
+const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
+const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|Home|End|AltGraph|NumLock|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp/;
+const defaultTransform = (value: string): string[] => [value];
+
+const timeout = ref(null);
+const inputRef = ref(null);
+const cursorPosition = ref(null);
+const randomId = ref(generateRandomId());
+const parsedLabel = computed(() => markdown(props.label));
+const parsedHelper = computed(() => markdown(props.helper));
+const isDisabled = computed(() => props.modifiers?.includes('disabled'));
+const actualTransform = computed(() => props.transform || defaultTransform);
+const className = computed(() => buildClass('ui-textfield', props.modifiers || ''));
+const currentValue = ref(actualTransform.value(props.value || '', 0)[0]);
+
+// Memoïzes global version of allowed keys RegExps (required for filtering out a whole text).
+const globalAllowedKeys = computed(() => keyTypes.reduce((allAllowedKeys, keyType) => {
+  const allowedKeysForType = (props.allowedKeys || {})[keyType];
+  return {
+    ...allAllowedKeys,
+    [keyType]: (allowedKeysForType !== undefined && allowedKeysForType !== null)
+      ? new RegExp(allowedKeysForType.source, `${allowedKeysForType.flags}g`)
+      : null,
+  };
+}, {} as AllowedKeys));
+
+// -------------------------------------------------------------------------------------------------
+// CALLBACKS DECLARATION.
+// -------------------------------------------------------------------------------------------------
+
+const handleChange = (event: InputEvent, filter = true): void => {
+  const target = event.target as HTMLInputElement;
+  const { selectionStart } = target;
+  const filteredValue = (filter && globalAllowedKeys.value.default !== null)
+    ? (target.value.match(globalAllowedKeys.value.default) || []).join('')
+    : target.value;
+  const [newValue, newCursorPosition] = actualTransform.value(filteredValue, selectionStart);
+  if (newCursorPosition !== undefined) {
+    cursorPosition.value = newCursorPosition;
+  } else {
+    const isAtTheEnd = selectionStart >= currentValue.value.length;
+    cursorPosition.value = isAtTheEnd ? newValue.length : selectionStart;
+  }
+  // We need to force the input value to prevent the component from getting uncontrolled.
+  if (newValue === currentValue.value) {
+    target.value = currentValue.value;
+  } else {
+    currentValue.value = newValue;
+  }
+  window.clearTimeout(timeout.value as number);
+  // This debounce system prevents triggering `onChange` callback too many times when user is
+  // still typing to improve performance and make UI more reactive on low-perfomance devices.
+  timeout.value = setTimeout(() => {
+    emit('change', newValue, event);
+  }, props.debounceTimeout || 0);
+};
+
+const handleKeyDown = (event: KeyboardEvent): void => {
+  const allowedKeys = props.allowedKeys || {};
+  let allowedKeysForEvent = allowedKeys.default || null;
+  if (event.ctrlKey === true) {
+    allowedKeysForEvent = allowedKeys.ctrlKey || null;
+  } else if (event.shiftKey === true) {
+    allowedKeysForEvent = allowedKeys.shiftKey || null;
+  } else if (event.altKey === true) {
+    allowedKeysForEvent = allowedKeys.altKey || null;
+  } else if (event.metaKey === true) {
+    allowedKeysForEvent = allowedKeys.metaKey || null;
+  }
+  if (
+    allowedKeysForEvent !== null
+    && !allowedKeysForEvent.test(event.key)
+    && !specialKeysRegexp.test(event.key)
+  ) {
+    event.preventDefault();
+  } else {
+    emit('keyDown', event);
+  }
+};
+
+const handlePaste = (event: ClipboardEvent): void => {
+  const { selectionStart, selectionEnd } = event.target as HTMLInputElement;
+  const filteredValue = (globalAllowedKeys.value.default !== null)
+    ? (event.clipboardData.getData('text').match(globalAllowedKeys.value.default) || []).join('')
+    : event.clipboardData.getData('text');
+  handleChange({
+    target: {
+      value: `${currentValue.value.slice(0, selectionStart)}${filteredValue}${currentValue.value.slice(selectionEnd)}`,
+      selectionStart: selectionStart + filteredValue.length,
     },
-    name: {
-      type: String,
-      required: true,
-    },
-    min: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    max: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    step: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    size: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    maxlength: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    icon: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    value: {
-      type: String,
-      default: '',
-      required: false,
-    },
-    label: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    helper: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    placeholder: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-    modifiers: {
-      type: String,
-      default: '',
-      required: false,
-    },
-    iconPosition: {
-      validator: (value) => value === 'left' || value === 'right',
-      default: 'left',
-      required: false,
-    },
-    type: {
-      validator: (value) => ['text', 'email', 'number', 'password', 'search', 'tel', 'url'].includes(value),
-      default: 'text',
-      required: false,
-    },
-    autocomplete: {
-      type: String,
-      default: 'on',
-      required: false,
-    },
-    debounceTimeout: {
-      type: Number,
-      default: null,
-      required: false,
-    },
-    transform: {
-      type: Function,
-      default: (value: string) => value,
-      required: false,
-    },
-  },
-  data() {
-    return {
-      timeout: null,
-      cursorPosition: null,
-      randomId: generateRandomId(),
-      currentValue: this.transform(this.value),
-    };
-  },
-  computed: {
-    className(): string {
-      return buildClass('ui-textfield', this.modifiers.split(' '));
-    },
-  },
-  watch: {
-    value(): void {
-      // Updates current value each time the `value` property is changed.
-      this.currentValue = this.transform(this.value);
-    },
-  },
-  updated(): void {
-    if (/^(url|tel|search|text|password)$/.test(this.type)) {
-      (this.$refs.inputRef as HTMLInputElement).selectionEnd = this.cursorPosition;
-      (this.$refs.inputRef as HTMLInputElement).selectionStart = this.cursorPosition;
-    }
-  },
-  methods: {
-    changeField(event: Event): void {
-      this.cursorPosition = (event.target as HTMLInputElement).selectionStart;
-      this.currentValue = this.transform((event.target as HTMLInputElement).value);
-      window.clearTimeout(this.timeout);
-      this.timeout = window.setTimeout(() => {
-        this.$emit('change', this.currentValue);
-      }, this.debounceTimeout || 0);
-    },
-    blurField(): void {
-      this.$emit('blur', this.currentValue);
-    },
-    focusField(): void {
-      this.$emit('focus', this.currentValue);
-    },
-    handlePaste(event: Event): void {
-      this.$emit('paste', event);
-    },
-    handleKeyDown(event: Event): void {
-      this.$emit('keyDown', event);
-    },
-    clickIcon(): void {
-      this.$emit('iconClick');
-    },
-    markdown(label: string): string {
-      return markdown(label);
-    },
-  },
+  } as unknown as InputEvent, false);
+  event.preventDefault();
+  emit('paste', event);
+};
+
+// -------------------------------------------------------------------------------------------------
+// PROPS REACTIVITY MANAGEMENT.
+// -------------------------------------------------------------------------------------------------
+
+// Updates current value whenever `value` and `transform` props change.
+watch(() => [props.value, props.transform], () => {
+  const [newValue, newCursorPosition] = actualTransform.value(props.value || '', 0);
+  currentValue.value = newValue;
+  cursorPosition.value = newCursorPosition;
+});
+
+// Re-positions cursor at the right place when using transform function.
+onUpdated(() => {
+  if (/^(url|text|tel|search|password)$/.test(props.type || 'text') && inputRef.value !== null) {
+    inputRef.value.selectionStart = cursorPosition.value;
+    inputRef.value.selectionEnd = cursorPosition.value;
+  }
 });
 </script>
+
+<template>
+  <div
+    :id="id"
+    :class="className"
+  >
+    <label
+      v-if="label !== undefined"
+      class="ui-textfield__label"
+      :for="randomId"
+      v-html="parsedLabel"
+    />
+    <div class="ui-textfield__wrapper">
+      <span
+        v-if="icon !== undefined && iconPosition !== 'right'"
+        tabIndex="0"
+        role="button"
+        class="ui-textfield__wrapper__icon"
+        @click="$emit('iconClick', $event)"
+        @keydown="$emit('iconKeyDown', $event)"
+      >
+        <UIIcon :name="icon" />
+      </span>
+      <input
+        :id="randomId"
+        ref="inputRef"
+        :name="name"
+        :max="max"
+        :min="min"
+        :step="step"
+        :type="type"
+        :readonly="readonly"
+        :value="currentValue"
+        :maxlength="maxlength"
+        :placeholder="placeholder"
+        :size="size"
+        :autocomplete="autocomplete"
+        class="ui-textfield__wrapper__field"
+        :disabled="isDisabled"
+        @keydown="handleKeyDown"
+        @blur="$emit('blur', currentValue, $event)"
+        @focus="$emit('focus', currentValue, $event)"
+        @paste="(readonly !== true && !isDisabled) ? handlePaste($event) : undefined"
+        @input="(readonly !== true && !isDisabled) ? handleChange($event) : undefined"
+      >
+      <span
+        v-if="icon !== undefined && iconPosition === 'right'"
+        tabIndex="0"
+        role="button"
+        class="ui-textfield__wrapper__icon"
+        @click="$emit('iconClick', $event)"
+        @keydown="$emit('iconKeyDown', $event)"
+      >
+        <UIIcon :name="icon" />
+      </span>
+    </div>
+    <span
+      v-if="helper !== undefined"
+      class="ui-textfield__helper"
+      v-html="parsedHelper"
+    />
+  </div>
+</template>

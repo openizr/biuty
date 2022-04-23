@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react';
-import { UIButton } from 'sonar-ui/react';
+import { UIButton } from 'biuty/react';
 
 const onClick = (): void => {
   console.log('Clicked!'); // eslint-disable-line no-console
@@ -22,9 +22,9 @@ const onFocus = (): void => {
  */
 export default function Buttons(): JSX.Element {
   return (
-    <div className="vgap-5">
-      <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
-        <a href="/" className="cols-l-3">GO BACK</a>
+    <div>
+      <main className="grid cols-1 hgap-3 vgap-5">
+        <a href="/">GO BACK</a>
         <UIButton label="ui-button" />
         <UIButton label="ui-button icon left" icon="star" />
         <UIButton label="ui-button icon right" icon="star" iconPosition="right" />
@@ -32,6 +32,7 @@ export default function Buttons(): JSX.Element {
         <UIButton label="ui-button with listener" onClick={onClick} />
         <UIButton label="ui-button with type submit" type="submit" />
         <UIButton label="ui-button with focus listener" onFocus={onFocus} />
+        <UIButton icon="star" onFocus={onFocus} />
       </main>
     </div>
   );

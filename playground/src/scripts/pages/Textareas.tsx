@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,18 +7,10 @@
  */
 
 import * as React from 'react';
-import { UITextarea } from 'sonar-ui/react';
+import { UITextarea } from 'biuty/react';
 
 const onChange = (value: string): void => {
   console.log('Changed!', value); // eslint-disable-line no-console
-};
-
-const onPaste = (): void => {
-  console.log('Pasted!'); // eslint-disable-line no-console
-};
-
-const onKeyDown = (): void => {
-  console.log('Keyed down!'); // eslint-disable-line no-console
 };
 
 const onBlur = (value: string): void => {
@@ -29,7 +21,9 @@ const onFocus = (): void => {
   console.log('Focused!'); // eslint-disable-line no-console
 };
 
-const transform = (value: string): string => value.toUpperCase();
+const onPaste = (...args): void => {
+  console.log('Pasted!', args); // eslint-disable-line no-console
+};
 
 /**
  * Textareas page.
@@ -52,7 +46,6 @@ export default function Textareas(): JSX.Element {
         <UITextarea name="textarea3" label="ui-textarea readonly" readonly />
         <UITextarea name="textarea4" label="ui-textarea with value" value={newValue} />
         <UITextarea name="textarea5" label="ui-textarea with helper" helper="helper" />
-        <UITextarea name="textarea5" label="ui-textarea with transform" transform={transform} />
         <UITextarea name="textarea6" label="ui-textarea with listener" onChange={onChange} />
         <UITextarea name="textarea6" label="ui-textarea with debounce" onChange={onChange} debounceTimeout={250} />
         <UITextarea name="textarea7" label="ui-textarea with blur listener" onBlur={onBlur} />
@@ -60,9 +53,7 @@ export default function Textareas(): JSX.Element {
         <UITextarea name="textarea9" label="ui-textarea with placeholder" placeholder="placeholder" />
         <UITextarea name="textarea10" label="ui-textarea with rows and cols" rows={10} cols={10} />
         <UITextarea name="textarea11" label="ui-textarea disabled" modifiers="disabled" />
-        <UITextarea name="textarea12" label="ui-textarea with focus listener" onFocus={onFocus} />
-        <UITextarea name="textarea13" label="ui-textarea with paste listener" onPaste={onPaste} />
-        <UITextarea name="textarea14" label="ui-textarea with keyDown listener" onKeyDown={onKeyDown} />
+        <UITextarea name="textarea12" label="ui-textarea with focus listener" onFocus={onFocus} onPaste={onPaste} />
       </main>
     </div>
   );

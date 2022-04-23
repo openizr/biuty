@@ -1,10 +1,12 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+/* eslint-disable react/no-danger, jsx-a11y/label-has-associated-control */
 
 import * as React from 'react';
 import markdown from 'scripts/helpers/markdown';
@@ -20,12 +22,11 @@ const propTypes = {
   label: PropTypes.string,
   helper: PropTypes.string,
   onBlur: PropTypes.func,
+  onPaste: PropTypes.func,
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
-  onPaste: PropTypes.func,
-  onKeyDown: PropTypes.func,
   readonly: PropTypes.bool,
-  transform: PropTypes.func,
+  onKeyDown: PropTypes.func,
   maxlength: PropTypes.number,
   modifiers: PropTypes.string,
   placeholder: PropTypes.string,
@@ -44,70 +45,74 @@ const defaultProps = {
   onBlur: null,
   onFocus: null,
   onPaste: null,
-  onKeyDown: null,
   modifiers: '',
   onChange: null,
   readonly: false,
   maxlength: null,
+  onKeyDown: null,
   placeholder: null,
   autocomplete: 'on',
-  debounceTimeout: null,
-  transform: (value: string): string => value,
+  debounceTimeout: 0,
 };
 
 /**
- * Textarea.
+ * Text area.
  */
-export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
-  const {
-    onPaste, onKeyDown, id, modifiers, label, helper, onChange, value, name,
-    onFocus, debounceTimeout, placeholder, readonly, rows, cols, onBlur, maxlength, autocomplete,
-  } = props;
-  const { transform } = (props as { transform: (value?: string | null) => string });
-  const [randomId] = React.useState(generateRandomId);
-  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  const [timeout, setTimeout] = React.useState<number | null>(null);
-  const [currentValue, setCurrentValue] = React.useState(transform(value));
-  const [cursorPosition, setCursorPosition] = React.useState<number>(0);
-  const isDisabled = (modifiers as string).includes('disabled');
-  const className = buildClass('ui-textarea', (modifiers as string).split(' '));
+function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
+  const { id, modifiers, label } = props;
+  const { readonly, rows, cols } = props;
+  const { helper, onChange, value } = props;
+  const { onBlur, maxlength, onPaste } = props;
+  const { name, autocomplete, onKeyDown } = props;
+  const { onFocus, debounceTimeout, placeholder } = props;
 
-  // Updates current value each time the `value` property is changed.
+  const [randomId] = React.useState(generateRandomId);
+  const timeout = React.useRef<NodeJS.Timeout | null>(null);
+  const [currentValue, setCurrentValue] = React.useState(value);
+  const isDisabled = (modifiers as string).includes('disabled');
+  const className = buildClass('ui-textarea', modifiers as string);
+
+  // -----------------------------------------------------------------------------------------------
+  // CALLBACKS DECLARATION.
+  // -----------------------------------------------------------------------------------------------
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    const newValue = event.target.value;
+    setCurrentValue(newValue);
+    if (onChange !== undefined && onChange !== null) {
+      window.clearTimeout(timeout.current as NodeJS.Timeout);
+      // This debounce system prevents triggering `onChange` callback too many times when user is
+      // still typing to save performance and make the UI more reactive on low-perfomance devices.
+      timeout.current = setTimeout(() => {
+        onChange(newValue, event);
+      }, debounceTimeout as number);
+    }
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>): void => {
+    if (onBlur !== undefined && onBlur !== null) {
+      onBlur(currentValue, event);
+    }
+  };
+
+  const handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>): void => {
+    if (onFocus !== undefined && onFocus !== null) {
+      onFocus(currentValue, event);
+    }
+  };
+
+  // -----------------------------------------------------------------------------------------------
+  // PROPS REACTIVITY MANAGEMENT.
+  // -----------------------------------------------------------------------------------------------
+
+  // Updates current value whenever `value` prop changes.
   React.useEffect(() => {
-    setCurrentValue(transform(value));
+    setCurrentValue(value);
   }, [value]);
 
-  React.useEffect(() => {
-    // Re-positions cursor at the right place when using transform function.
-    (textareaRef.current as HTMLTextAreaElement).selectionStart = cursorPosition;
-    (textareaRef.current as HTMLTextAreaElement).selectionEnd = cursorPosition;
-  }, [currentValue]);
-
-  const changeValue = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    const newValue = transform(event.target.value);
-    setCurrentValue(newValue);
-    setCursorPosition(event.target.selectionStart);
-    if (onChange !== undefined && onChange !== null) {
-      window.clearTimeout(timeout as number);
-      // This debounce system prevents triggering `onChange` hooks too many times when user is
-      // still typing to save performance and make the UI more reactive on low-perfomance devices.
-      setTimeout(window.setTimeout(() => {
-        onChange(newValue);
-      }, debounceTimeout || 0));
-    }
-  };
-
-  const blurField = (): void => {
-    if (onBlur !== undefined && onBlur !== null) {
-      onBlur(currentValue);
-    }
-  };
-
-  const focusField = (): void => {
-    if (onFocus !== undefined && onFocus !== null) {
-      onFocus(currentValue);
-    }
-  };
+  // -----------------------------------------------------------------------------------------------
+  // COMPONENT RENDERING.
+  // -----------------------------------------------------------------------------------------------
 
   return (
     <div
@@ -115,31 +120,31 @@ export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Ele
       className={className}
     >
       {(label !== null && label !== undefined)
-        // eslint-disable-next-line react/no-danger, jsx-a11y/label-has-associated-control
         ? <label className="ui-textarea__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
         : null}
       <div className="ui-textarea__wrapper">
         <textarea
           name={name}
           id={randomId}
-          ref={textareaRef}
-          onBlur={blurField}
-          onFocus={focusField}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           cols={cols as number}
           rows={rows as number}
           disabled={isDisabled}
-          className="ui-textarea__wrapper__field"
           value={currentValue as string}
           readOnly={readonly as boolean}
           maxLength={maxlength as number}
           placeholder={placeholder as string}
           autoComplete={autocomplete as string}
-          onChange={(readonly === false && !isDisabled) ? changeValue : undefined}
-          onPaste={onPaste as (event: React.ClipboardEvent<HTMLTextAreaElement>) => void}
-          onKeyDown={onKeyDown as (event: React.KeyboardEvent<HTMLTextAreaElement>) => void}
+          className="ui-textarea__wrapper__field"
+          onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
+          onPaste={(readonly === false && !isDisabled) ? onPaste as undefined : undefined}
+          onKeyDown={(readonly === false && !isDisabled) ? onKeyDown as undefined : undefined}
         />
       </div>
-      {(helper !== null) ? <span className="ui-textarea__helper">{helper}</span> : null}
+      {(helper !== null && helper !== undefined)
+        ? <span className="ui-textarea__helper" dangerouslySetInnerHTML={{ __html: markdown(helper) }} />
+        : null}
     </div>
   );
 }
@@ -147,3 +152,5 @@ export default function UITextarea(props: InferProps<typeof propTypes>): JSX.Ele
 UITextarea.propTypes = propTypes;
 UITextarea.defaultProps = defaultProps;
 UITextarea.displayName = 'UITextarea';
+
+export default React.memo(UITextarea);

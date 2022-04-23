@@ -1,5 +1,9 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * @jest-environment jsdom
+ */
+
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -7,7 +11,7 @@
  */
 
 import UIP from 'scripts/vue/P.vue';
-import { mount } from '@vue/test-utils';
+import { render } from '@testing-library/vue';
 
 describe('vue/UIP', () => {
   beforeEach(() => {
@@ -15,23 +19,17 @@ describe('vue/UIP', () => {
   });
 
   test('renders correctly - basic', () => {
-    const wrapper = mount(UIP, {
-      propsData: { label: 'Test', modifiers: 'large' },
-    });
-    expect(wrapper.html()).toMatchSnapshot();
+    const { container } = render(UIP, { props: { label: 'Test', modifiers: 'large' } });
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with id', () => {
-    const wrapper = mount(UIP, {
-      propsData: { label: 'Test', id: 'test' },
-    });
-    expect(wrapper.html()).toMatchSnapshot();
+    const { container } = render(UIP, { props: { label: 'Test', id: 'test' } });
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with itemProp', () => {
-    const wrapper = mount(UIP, {
-      propsData: { label: 'Test', itemProp: 'description' },
-    });
-    expect(wrapper.html()).toMatchSnapshot();
+    const { container } = render(UIP, { props: { label: 'Test', itemProp: 'description' } });
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -19,28 +19,27 @@ describe('markdown', () => {
     });
 
     test('tab', () => {
-      // eslint-disable-next-line no-tabs
       expect(markdown('	 	 	 	  test\n	 	 	 	  test')).toBe('test<br />test');
     });
 
     test('strong', () => {
-      expect(markdown('**test**')).toBe('<strong class="ui-markdown--strong">test</strong>');
+      expect(markdown('**test**')).toBe('<strong class="ui-markdown ui-markdown--strong">test</strong>');
     });
 
     test('emphasis', () => {
-      expect(markdown('*test*')).toBe('<span class="ui-markdown--emphasis">test</span>');
+      expect(markdown('*test*')).toBe('<span class="ui-markdown ui-markdown--emphasis">test</span>');
     });
 
     test('underline', () => {
-      expect(markdown('_test_')).toBe('<span class="ui-markdown--underline">test</span>');
+      expect(markdown('_test_')).toBe('<span class="ui-markdown ui-markdown--underline">test</span>');
     });
 
     test('italic', () => {
-      expect(markdown('~test~')).toBe('<span class="ui-markdown--italic">test</span>');
+      expect(markdown('~test~')).toBe('<span class="ui-markdown ui-markdown--italic">test</span>');
     });
 
     test('blockquote', () => {
-      expect(markdown('> test')).toBe('<blockquote>test</blockquote>');
+      expect(markdown('> test')).toBe('<blockquote class="ui-blockquote">test</blockquote>');
     });
 
     test('image', () => {
@@ -58,15 +57,15 @@ describe('markdown', () => {
     });
 
     test('hr', () => {
-      expect(markdown('\n--\n')).toBe('--');
+      expect(markdown('\n--\n')).toBe('<br />--<br />');
     });
 
     test('p', () => {
-      expect(markdown('test\n\ntest\ntest\n\ntest')).toBe('test<br />test<br />test<br />test');
+      expect(markdown('test\n\n\ntest\ntest\n\ntest')).toBe('test<br /><br /><br />test<br />test<br /><br />test');
     });
 
     test('inline code', () => {
-      expect(markdown('test `code` test')).toBe('test <code>code</code> test');
+      expect(markdown('test `code` test')).toBe('test <code class="ui-markdown ui-markdown--code">code</code> test');
     });
 
     test('link', () => {
@@ -78,11 +77,15 @@ describe('markdown', () => {
     });
 
     test('unordered list', () => {
-      expect(markdown('test:\n - first\n - second\n - third')).toBe('test:<br /><ul><li>first</li><li>second</li><li>third</li></ul>');
+      expect(markdown('test:\n - first\n - second\n - third')).toBe('test:<br /><ul class="ui-list ui-list--unordered"><li>first</li><li>second</li><li>third</li></ul>');
     });
 
     test('ordered list', () => {
-      expect(markdown('test:\n 1. first\n 2. second\n 3. third')).toBe('test:<br /><ol><li>first</li><li>second</li><li>third</li></ol>');
+      expect(markdown('test:\n 1. first\n 2. second\n 3. third')).toBe('test:<br /><ol class="ui-list ui-list--ordered"><li>first</li><li>second</li><li>third</li></ol>');
+    });
+
+    test('escaped chars', () => {
+      expect(markdown('\\**strong\\** \\*emphasis\\* \\_underline\\_ \\~italic\\~ \\\\test 3 \\* 2 \\* 1 = 6')).toBe('**strong** *emphasis* _underline_ ~italic~ \\test 3 * 2 * 1 = 6');
     });
   });
 
@@ -92,28 +95,27 @@ describe('markdown', () => {
     });
 
     test('tab', () => {
-      // eslint-disable-next-line no-tabs
       expect(markdown('	 	 	 	  test\n	 	 	 	  test', false)).toBe('<p class="ui-p">test<br />test</p>');
     });
 
     test('strong', () => {
-      expect(markdown('**test**', false)).toBe('<p class="ui-p"><strong class="ui-markdown--strong">test</strong></p>');
+      expect(markdown('**test**', false)).toBe('<p class="ui-p"><strong class="ui-markdown ui-markdown--strong">test</strong></p>');
     });
 
     test('emphasis', () => {
-      expect(markdown('*test*', false)).toBe('<p class="ui-p"><span class="ui-markdown--emphasis">test</span></p>');
+      expect(markdown('*test*', false)).toBe('<p class="ui-p"><span class="ui-markdown ui-markdown--emphasis">test</span></p>');
     });
 
     test('underline', () => {
-      expect(markdown('_test_', false)).toBe('<p class="ui-p"><span class="ui-markdown--underline">test</span></p>');
+      expect(markdown('_test_', false)).toBe('<p class="ui-p"><span class="ui-markdown ui-markdown--underline">test</span></p>');
     });
 
     test('italic', () => {
-      expect(markdown('~test~', false)).toBe('<p class="ui-p"><span class="ui-markdown--italic">test</span></p>');
+      expect(markdown('~test~', false)).toBe('<p class="ui-p"><span class="ui-markdown ui-markdown--italic">test</span></p>');
     });
 
     test('blockquote', () => {
-      expect(markdown('> test', false)).toBe('<blockquote>test</blockquote>');
+      expect(markdown('> test', false)).toBe('<blockquote class="ui-blockquote">test</blockquote>');
     });
 
     test('image', () => {
@@ -139,7 +141,7 @@ describe('markdown', () => {
     });
 
     test('inline code', () => {
-      expect(markdown('test `code` test', false)).toBe('<p class="ui-p">test <code>code</code> test</p>');
+      expect(markdown('test `code` test', false)).toBe('<p class="ui-p">test <code class="ui-markdown ui-markdown--code">code</code> test</p>');
     });
 
     test('link', () => {
@@ -147,11 +149,11 @@ describe('markdown', () => {
     });
 
     test('unordered list', () => {
-      expect(markdown('test:\n - first\n - second\n - third', false)).toBe('<p class="ui-p">test:<br /><ul><li>first</li><li>second</li><li>third</li></ul></p>');
+      expect(markdown('test:\n - first\n - second\n - third', false)).toBe('<p class="ui-p">test:<br /><ul class="ui-list ui-list--unordered"><li>first</li><li>second</li><li>third</li></ul></p>');
     });
 
     test('ordered list', () => {
-      expect(markdown('test:\n 1. first\n 2. second\n 3. third', false)).toBe('<p class="ui-p">test:<br /><ol><li>first</li><li>second</li><li>third</li></ol></p>');
+      expect(markdown('test:\n 1. first\n 2. second\n 3. third', false)).toBe('<p class="ui-p">test:<br /><ol class="ui-list ui-list--ordered"><li>first</li><li>second</li><li>third</li></ol></p>');
     });
   });
 });

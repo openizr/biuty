@@ -1,5 +1,9 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * @jest-environment jsdom
+ */
+
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -8,49 +12,32 @@
 
 import React from 'react';
 import UITitle from 'scripts/react/Title';
-import { act } from 'react-dom/test-utils';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { render } from '@testing-library/react';
 
-let container = document.createElement('div');
+const JSXUITitle = UITitle as JSXElement;
 
 describe('react/UITitle', () => {
   beforeEach(() => {
-    container = document.createElement('div');
-    document.body.appendChild(container);
     jest.clearAllMocks();
   });
 
-  afterEach(() => {
-    unmountComponentAtNode(container);
-    container.remove();
-    ((container as unknown) as null) = null;
-  });
-
   test('renders correctly - basic', () => {
-    act(() => {
-      render(<UITitle label="Test" level="1" modifiers="large" />, container);
-    });
-    expect(container).toMatchSnapshot();
-  });
-
-  test('renders correctly - modifier different than level', () => {
-    act(() => {
-      render(<UITitle label="Test" level="1" modifiers="5 large" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITitle label="Test" modifiers="large" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with id', () => {
-    act(() => {
-      render(<UITitle label="Test" id="test" />, container);
-    });
-    expect(container).toMatchSnapshot();
+    const { container } = render(<JSXUITitle label="Test" id="test" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with itemprop', () => {
-    act(() => {
-      render(<UITitle label="Test" itemProp="name" />, container);
-    });
-    expect(container).toMatchSnapshot();
+  test('renders correctly - modifier different than level', () => {
+    const { container } = render(<JSXUITitle label="Test" level="1" modifiers="5 large" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with itemProp', () => {
+    const { container } = render(<JSXUITitle label="Test" itemProp="name" />);
+    expect(container.firstChild).toMatchSnapshot();
   });
 });

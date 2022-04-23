@@ -2,16 +2,14 @@
 <html lang="en">
 
 <head>
+  <base href="/" />
   <meta charset="UTF-8">
-  <title>sonar-ui playground</title>
-  <meta name="description" content="sonar-ui playground">
+  <title>biuty playground</title>
+  <meta name="description" content="biuty playground">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 
-  <base href="/" />
-
-  <% for (var filePath in htmlWebpackPlugin.files.js) { %>
-    <script async src="<%= htmlWebpackPlugin.files.js[filePath] %>"></script>
-  <% } %>
+  <link rel="stylesheet" href="/test.css">
+  <script async crossorigin type="module" src="/src/scripts/react.tsx"></script>
 </head>
 
 <body>

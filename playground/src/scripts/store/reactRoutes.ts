@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Matthieu Jabbour. All Rights Reserved.
+ * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -10,11 +10,10 @@ export default {
   '/': () => import('scripts/pages/Home'),
   '/buttons': () => import('scripts/pages/Buttons'),
   '/images': () => import('scripts/pages/Images'),
-  '/dropdowns': () => import('scripts/pages/Dropdowns'),
+  '/options': () => import('scripts/pages/Options'),
   '/textfields': () => import('scripts/pages/Textfields'),
-  '/file-uploaders': () => import('scripts/pages/FileUploaders'),
+  '/file-pickers': () => import('scripts/pages/FilePickers'),
   '/textareas': () => import('scripts/pages/Textareas'),
-  '/radios': () => import('scripts/pages/Radios'),
-  '/checkboxes': () => import('scripts/pages/Checkboxes'),
   '/typography': () => import('scripts/pages/Typography'),
+  '/sass': () => import('scripts/pages/Sass'),
 } as Record<string, unknown>;

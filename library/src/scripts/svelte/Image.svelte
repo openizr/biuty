@@ -1,0 +1,62 @@
+<!-- Image. -->
+<script lang="ts">
+  /**
+   * Copyright (c) Openizr. All Rights Reserved.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+
+  import buildClass from 'scripts/helpers/buildClass';
+
+  export let src: string;
+  export let alt: string;
+  export let ratio: string;
+  export let modifiers = '';
+  export let id: string | null = null;
+  export let itemProp: string | null = null;
+
+  $: isCustomRatio = /^([0-9]+)x([0-9]+)$/i.test(ratio);
+  $: className = buildClass('ui-image', `${ratio} ${modifiers || ''}`);
+  $: dimensions = (() => {
+    let newDimensions;
+    switch (ratio) {
+      case 'square':
+        return { width: 1, height: 1 };
+      case 'portrait':
+        return { width: 2, height: 3 };
+      case 'landscape':
+        return { width: 3, height: 2 };
+      case 'panoramic':
+        return { width: 16, height: 9 };
+      default:
+        newDimensions = ratio.split('x').map((value) => parseInt(value, 10));
+        return { width: newDimensions[0], height: newDimensions[1] };
+    }
+  })();
+</script>
+
+{#if isCustomRatio}
+  <img
+    {id}
+    {src}
+    {alt}
+    loading="lazy"
+    class={className}
+    width={dimensions.width}
+    height={dimensions.height}
+    itemprop={itemProp}
+  />
+{:else}
+  <div {id} class={className}>
+    <img
+      {src}
+      {alt}
+      loading="lazy"
+      itemprop={itemProp}
+      width={dimensions.width}
+      height={dimensions.height}
+    />
+  </div>
+{/if}
