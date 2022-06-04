@@ -38,7 +38,7 @@
 }
 
 // Built-in classes.
-$classes: ( //
+$classes: (
   flex: ("--disp", flex),
   grid: ("--disp", grid),
   none: ("--disp", none),
@@ -56,6 +56,7 @@ $classes: ( //
   flex-none: ("--flex", none),
   flex-auto: ("--flex", 1 1 auto),
   justify-between: ("--just", space-between),
+  justify-around: ("--just", space-around),
   justify-start: ("--just", flex-start),
   justify-end: ("--just", flex-end),
   justify-stretch: ("--just", stretch),
@@ -72,19 +73,19 @@ $classes: ( //
 
 // --cols
 @for $i from 1 to $gridColumnsNumber + 1 {
-  $classes:map-merge($classes, ("cols-#{$i}": (("--cols", $i))));
+  $classes: map-merge($classes, ("cols-#{$i}": (("--cols", $i))));
 }
 
 // --span
 @for $i from 1 to $gridColumnsNumber + 1 {
-  $classes:map-merge($classes, ("col-#{$i}": (("--span", $i))));
+  $classes: map-merge($classes, ("col-#{$i}": (("--span", $i))));
 }
 
 // --vgap, --hgap
 @each $key,
 $value in $gaps {
-  $classes:map-merge($classes, ("vgap-#{$key}": (("--vgap", $value))));
-  $classes:map-merge($classes, ("hgap-#{$key}": (("--hgap", $value))));
+  $classes: map-merge($classes, ("vgap-#{$key}": (("--vgap", $value))));
+  $classes: map-merge($classes, ("hgap-#{$key}": (("--hgap", $value))));
 }
 
 // Generating breakpoints-based built-in classes...
@@ -116,7 +117,7 @@ $value in $breakpoints {
 
 // Auto-sizing for flex.
 %flex-auto {
-  > * {
+  > *:not([class*="flex-none"]) {
     --flex: 1 1 auto;
     flex: var(--flex);
   }
