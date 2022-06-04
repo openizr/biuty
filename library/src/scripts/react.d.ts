@@ -154,6 +154,7 @@ declare module 'biuty/react' {
     readonly: PropTypes.Requireable<boolean>;
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;
+    autofocus: PropTypes.Requireable<boolean>
     placeholder: PropTypes.Requireable<string>;
     autocomplete: PropTypes.Requireable<'on' | 'off'>;
     name: PropTypes.Validator<string>;
@@ -196,6 +197,7 @@ declare module 'biuty/react' {
     readonly: PropTypes.Requireable<boolean>;
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;
+    autofocus: PropTypes.Requireable<boolean>
     placeholder: PropTypes.Requireable<string>;
     autocomplete: PropTypes.Requireable<'on' | 'off'>;
     name: PropTypes.Validator<string>;

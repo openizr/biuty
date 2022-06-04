@@ -38,13 +38,3 @@ exports[`vue/UILink renders correctly - with target 1`] = `
   Test
 </a>
 `;
-
-exports[`vue/UILink renders correctly - with title 1`] = `
-<a
-  class="ui-link"
-  href="https://test.com"
-  title="test"
->
-  Test
-</a>
-`;

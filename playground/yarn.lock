@@ -1626,7 +1626,7 @@ binary-extensions@^2.0.0:
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
 "biuty@file:../../../library/dist":
-  version "9.1.7"
+  version "0.4.3"
 
 boolbase@^1.0.0:
   version "1.0.0"

@@ -69,7 +69,7 @@ describe('markdown', () => {
     });
 
     test('link', () => {
-      expect(markdown('[Test O\'Brian](/test|Test O\'Brian) ')).toBe('<a class="ui-link" href="/test">Test O&#039;Brian</a>');
+      expect(markdown('[Test O\'Brian](/test) ')).toBe('<a class="ui-link" href="/test">Test O&#039;Brian</a>');
       expect(markdown('[Test](/test|no referer) ')).toBe('<a class="ui-link" href="/test" rel="no referer">Test</a>');
       expect(markdown('[Test](/test|no referer) ')).toBe('<a class="ui-link" href="/test" rel="no referer">Test</a>');
       expect(markdown('[Test](/test|no referer|_blank) ')).toBe('<a class="ui-link" href="/test" rel="no referer" target="_blank">Test</a>');
@@ -145,7 +145,7 @@ describe('markdown', () => {
     });
 
     test('link', () => {
-      expect(markdown('test [my link](https://test.com|my title) test', false)).toBe('<p class="ui-p">test <a class="ui-link" href="https://test.com" title="my title">my link</a> test</p>');
+      expect(markdown('test [my link](https://test.com) test', false)).toBe('<p class="ui-p">test <a class="ui-link" href="https://test.com">my link</a> test</p>');
     });
 
     test('unordered list', () => {

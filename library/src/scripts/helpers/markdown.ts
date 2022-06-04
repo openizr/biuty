@@ -32,8 +32,8 @@ const parsers = [
     template: (...args: string[]): string => {
       const label = args[1];
       const link = args[2];
-      const rel = (args[3] !== undefined) ? ` rel="${args[4]}"` : '';
-      const target = (args[4] !== undefined) ? ` target="${args[5]}"` : '';
+      const rel = (args[3] !== undefined) ? ` rel="${args[3]}"` : '';
+      const target = (args[4] !== undefined) ? ` target="${args[4]}"` : '';
       return `<a class="ui-link" href="${link}"${rel}${target}>${label}</a>`;
     },
   },

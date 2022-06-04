@@ -12,7 +12,7 @@ export default {
   '/images': () => import('scripts/pages/Images.vue'),
   '/options': () => import('scripts/pages/OptionsPage.vue'),
   '/textfields': () => import('scripts/pages/Textfields.vue'),
-  '/file-uploaders': () => import('scripts/pages/FileUploaders.vue'),
+  '/file-pickers': () => import('scripts/pages/FilePickers.vue'),
   '/textareas': () => import('scripts/pages/Textareas.vue'),
   '/typography': () => import('scripts/pages/Typography.vue'),
 } as Record<string, unknown>;

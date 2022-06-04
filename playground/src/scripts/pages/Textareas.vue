@@ -57,6 +57,11 @@ const onFocus = (): void => {
         readonly
       />
       <UITextarea
+        name="textarea3"
+        label="ui-textarea with autofocus"
+        autofocus
+      />
+      <UITextarea
         name="textarea4"
         label="ui-textarea with value"
         :value="newValue"

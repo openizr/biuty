@@ -83,6 +83,27 @@ exports[`vue/UITextarea renders correctly - readonly 1`] = `
 </div>
 `;
 
+exports[`vue/UITextarea renders correctly - with autofocus 1`] = `
+<div
+  class="ui-textarea"
+>
+  <!--v-if-->
+  <div
+    class="ui-textarea__wrapper"
+  >
+    <textarea
+      autofocus=""
+      class="ui-textarea__wrapper__field"
+      cols="10"
+      id="z8a8d7a5zad4"
+      name="test"
+      rows="10"
+    />
+  </div>
+  <!--v-if-->
+</div>
+`;
+
 exports[`vue/UITextarea renders correctly - with cols and rows 1`] = `
 <div
   class="ui-textarea"

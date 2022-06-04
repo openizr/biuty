@@ -27,6 +27,7 @@ export let name: string;
 export let value = '';
 export let modifiers = '';
 export let readonly = false;
+export let autofocus = false;
 export let debounceTimeout = 0;
 export let id: string | null = null;
 export let min: number | null = null;
@@ -169,16 +170,15 @@ const handleIconKeyDown = (event: KeyboardEvent): void => {
 // Updates current value whenever `value` and `transform` props change.
 const updateValue = (updatedValue?: string, updatedTransform?: Transform) => {
   actualTransform = updatedTransform || defaultTransform;
-  const [newValue, newCursorPosition] = actualTransform(updatedValue || '', 0);
+  const [newValue] = actualTransform(updatedValue || '', 0);
   currentValue = newValue;
-  cursorPosition = newCursorPosition || null;
   updateCursorPosition();
 };
 $: updateValue(value);
 </script>
-
+<!-- svelte-ignore a11y-autofocus -->
 <div
-  id={id}
+id={id}
   class={className}
 >
   {#if label !== null}
@@ -211,6 +211,7 @@ $: updateValue(value);
       maxlength={maxlength}
       placeholder={placeholder}
       size={size}
+      autofocus={autofocus}
       autocomplete={autocomplete}
       class="ui-textfield__wrapper__field"
       disabled={isDisabled}

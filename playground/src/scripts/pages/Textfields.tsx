@@ -48,6 +48,7 @@ export default function Textfields(): JSX.Element {
         <UITextfield name="textfield1" />
         <UITextfield name="textfield2" label="*ui-textfield*" />
         <UITextfield name="textfield3" label="ui-textfield readonly" readonly />
+        <UITextfield name="textfield3" label="ui-textfield with autofocus" autofocus />
         <UITextfield name="textfield4" label="ui-textfield with value" value={newValue} />
         <UITextfield name="textfield5" label="ui-textfield with helper" helper="helper" />
         <UITextfield name="textfield6" label="ui-textfield with listener" onChange={onChange} />

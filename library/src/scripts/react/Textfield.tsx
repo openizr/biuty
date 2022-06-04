@@ -37,6 +37,7 @@ const propTypes = {
   onKeyDown: PropTypes.func,
   readonly: PropTypes.bool,
   transform: PropTypes.func,
+  autofocus: PropTypes.bool,
   maxlength: PropTypes.number,
   modifiers: PropTypes.string,
   onIconClick: PropTypes.func,
@@ -76,6 +77,7 @@ const defaultProps = {
   allowedKeys: {},
   transform: null,
   readonly: false,
+  autofocus: false,
   maxlength: null,
   onIconClick: null,
   placeholder: null,
@@ -93,6 +95,7 @@ const defaultTransform = (value: string): string[] => [value];
  * Text field.
  */
 function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
+  const { autofocus } = props;
   const { type, size, max } = props;
   const { name, readonly, step } = props;
   const { id, modifiers, label } = props;
@@ -210,9 +213,8 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
 
   // Updates current value whenever `value` and `transform` props change.
   React.useEffect(() => {
-    const [newValue, newCursorPosition] = actualTransform(value, 0);
+    const [newValue] = actualTransform(value, 0);
     setCurrentValue(newValue);
-    setCursorPosition(newCursorPosition);
   }, [value, actualTransform]);
 
   // Re-positions cursor at the right place when using transform function.
@@ -261,6 +263,7 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
       autoComplete={autocomplete as string}
       placeholder={placeholder as string}
       className="ui-textfield__wrapper__field"
+      autoFocus={autofocus as boolean} // eslint-disable-line jsx-a11y/no-autofocus
       onPaste={(readonly === false && !isDisabled) ? handlePaste : undefined}
       onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
       onKeyDown={(readonly === false && !isDisabled) ? handleKeyDown : undefined}
