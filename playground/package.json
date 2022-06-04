@@ -1,9 +1,9 @@
 {
   "devDependencies": {
-    "@types/prop-types": "^15.7.4",
-    "@types/react": "^17.0.15",
-    "@types/react-dom": "^17.0.9",
-    "typescript-dev-kit": "^5.0.4"
+    "@types/prop-types": "^15.7.5",
+    "@types/react": "^18.0.11",
+    "@types/react-dom": "^18.0.5",
+    "typescript-dev-kit": "^5.1.1"
   },
   "eslintConfig": {
     "extends": [
@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "basx": "^2.0.1",
+    "biuty": "file:../../../library/dist",
     "diox": "^5.0.2",
     "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "biuty": "file:../../../library/dist",
-    "svelte": "^3.46.4",
-    "vue": "^3.2.31"
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "svelte": "^3.48.0",
+    "vue": "^3.2.36"
   },
   "tsDevKitConfig": {
     "target": "web",

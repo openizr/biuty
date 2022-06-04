@@ -14,8 +14,8 @@
  * @param {string} [children = false] Whether to use the mixin for modifier's children, or the
  * modifier itself.
  */
-@mixin modifier($name, $children:false) {
-  @if ($children !=false) {
+@mixin modifier($name, $children: false) {
+  @if ($children  !=false) {
     &[class*='--#{$name}'] #{&} {
       @content;
     }
@@ -33,7 +33,7 @@
  *
  * @param {string[]} classes List of built-in classes to inherit properties from.
  */
-@mixin extend($classes...) {
+@mixin extend($classes) {
   @each $class in $classes {
     @if (str-index($class, flex)) {
       @extend %flex;
@@ -87,7 +87,7 @@
     @error "#{$firstValue} is not a valid breakpoint.";
   }
 
-  @if ($secondValue !=''and type-of($firstValue) !='number') {
+  @if ($secondValue  !='' and type-of($firstValue) !='number') {
     @error "#{$secondValue} is not a valid breakpoint.";
   }
 
@@ -97,7 +97,7 @@
   }
 
   // Build a max-width if needed
-  @else if ($secondValue !='') {
+  @else if ($secondValue  !='') {
     $query: if($firstValue <=$secondValue, '(min-width:#{$firstValue}) and (max-width:#{$secondValue - 1})', '(min-width:#{$secondValue}) and (max-width:#{$firstValue - 1})');
 
     @media screen and #{$query} {

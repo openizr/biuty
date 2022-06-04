@@ -9,19 +9,20 @@
 import 'styles/main.scss';
 import i18n from 'basx/i18n';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import Router from 'scripts/containers/Router';
+import { createRoot, Root } from 'react-dom/client';
 
 i18n();
 
+let app: Root;
+
 function main(): void {
+  app = createRoot(document.querySelector('#root') as HTMLElement);
   const StrictMode = React.StrictMode as JSXElement;
-  ReactDOM.render(
-    (
-      <StrictMode>
-        <Router locale={{}} />
-      </StrictMode>
-    ), document.querySelector('#root'),
+  app.render(
+    <StrictMode>
+      <Router locale={{}} />
+    </StrictMode>,
   );
 }
 
@@ -37,5 +38,5 @@ if (document.readyState === 'loading') {
 // Ensures subscriptions to Store are correctly cleared when page is left, to prevent "ghost"
 // processing, by manually unmounting React components tree.
 window.addEventListener('beforeunload', () => {
-  ReactDOM.unmountComponentAtNode(document.querySelector('#root') as Element);
+  app.unmount();
 });
