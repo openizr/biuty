@@ -14,7 +14,6 @@ const propTypes = {
   id: PropTypes.string,
   onClick: PropTypes.func,
   rel: PropTypes.string,
-  title: PropTypes.string,
   target: PropTypes.string,
   modifiers: PropTypes.string,
   href: PropTypes.string.isRequired,
@@ -25,7 +24,6 @@ const defaultProps = {
   id: null,
   modifiers: '',
   rel: null,
-  title: null,
   target: null,
   onClick: null,
 };
@@ -34,7 +32,7 @@ const defaultProps = {
  * Hyperlink.
  */
 function UILink(props: InferProps<typeof propTypes>): JSX.Element {
-  const { rel, title } = props;
+  const { rel } = props;
   const { id, href, label } = props;
   const { onClick, modifiers, target } = props;
 
@@ -43,7 +41,6 @@ function UILink(props: InferProps<typeof propTypes>): JSX.Element {
       id={id as string}
       href={href}
       rel={rel as string}
-      title={title as string}
       target={target as string}
       onClick={onClick as undefined}
       className={buildClass('ui-link', modifiers as string)}

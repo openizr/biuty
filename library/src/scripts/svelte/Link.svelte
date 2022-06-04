@@ -16,13 +16,12 @@
   export let modifiers = '';
   export let id: string | null = null;
   export let rel: string | null = null;
-  export let title: string | null = null;
   export let target: string | null = null;
 
   $: parsedLabel = markdown(label);
-  $: className = buildClass('ui-title', modifiers);
+  $: className = buildClass('ui-link', modifiers);
 </script>
 
-<a {id} {rel} {href} {title} class={className} {target} on:click>
+<a {id} {rel} {href} class={className} {target} on:click>
   {@html parsedLabel}
 </a>

@@ -28,14 +28,13 @@ const parsers = [
   },
   // links
   {
-    regexp: /\[([^\]]*)\]\(([^\t\n |]*)(?:\|([^|)]*))?(?:\|([^|)]*))?(?:\|([^|)]*))?\)/g,
+    regexp: /\[([^\]]*)\]\(([^\t\n |]*)(?:\|([^|)]*))?(?:\|([^|)]*))?\)/g,
     template: (...args: string[]): string => {
       const label = args[1];
       const link = args[2];
-      const title = (args[3] !== undefined) ? ` title="${args[3]}"` : '';
-      const rel = (args[4] !== undefined) ? ` rel="${args[4]}"` : '';
-      const target = (args[5] !== undefined) ? ` target="${args[5]}"` : '';
-      return `<a class="ui-link" href="${link}"${title}${rel}${target}>${label}</a>`;
+      const rel = (args[3] !== undefined) ? ` rel="${args[4]}"` : '';
+      const target = (args[4] !== undefined) ? ` target="${args[5]}"` : '';
+      return `<a class="ui-link" href="${link}"${rel}${target}>${label}</a>`;
     },
   },
   // blockquote
