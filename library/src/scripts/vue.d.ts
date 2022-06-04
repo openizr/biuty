@@ -21,7 +21,7 @@ declare module 'biuty/vue' {
    *
    * @returns {string} Generated modifiers list.
    */
-  export function buildClass(baseClass: string, modifiers: string[]): string;
+  export function buildClass(baseClass: string, modifiers?: string): string;
 
   /**
    * Generates a random HTML id.

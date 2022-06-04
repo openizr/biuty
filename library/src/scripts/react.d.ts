@@ -19,7 +19,7 @@ declare module 'biuty/react' {
    *
    * @returns {string} Generated modifiers list.
    */
-  export function buildClass(baseClass: string, modifiers: string[]): string;
+  export function buildClass(baseClass: string, modifiers?: string): string;
 
   /**
    * Generates a random HTML id.
@@ -52,7 +52,7 @@ declare module 'biuty/react' {
   /**
    * Basic icon.
    */
-  export function UIP(props: PropTypes.InferProps<{
+  export function UIIcon(props: PropTypes.InferProps<{
     id: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
     modifiers: PropTypes.Requireable<string>;
