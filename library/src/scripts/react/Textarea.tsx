@@ -27,6 +27,7 @@ const propTypes = {
   onChange: PropTypes.func,
   readonly: PropTypes.bool,
   onKeyDown: PropTypes.func,
+  autofocus: PropTypes.bool,
   maxlength: PropTypes.number,
   modifiers: PropTypes.string,
   placeholder: PropTypes.string,
@@ -50,6 +51,7 @@ const defaultProps = {
   readonly: false,
   maxlength: null,
   onKeyDown: null,
+  autofocus: false,
   placeholder: null,
   autocomplete: 'on',
   debounceTimeout: 0,
@@ -59,6 +61,7 @@ const defaultProps = {
  * Text area.
  */
 function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
+  const { autofocus } = props;
   const { id, modifiers, label } = props;
   const { readonly, rows, cols } = props;
   const { helper, onChange, value } = props;
@@ -137,6 +140,7 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
           placeholder={placeholder as string}
           autoComplete={autocomplete as string}
           className="ui-textarea__wrapper__field"
+          autoFocus={autofocus as boolean} // eslint-disable-line jsx-a11y/no-autofocus
           onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
           onPaste={(readonly === false && !isDisabled) ? onPaste as undefined : undefined}
           onKeyDown={(readonly === false && !isDisabled) ? onKeyDown as undefined : undefined}

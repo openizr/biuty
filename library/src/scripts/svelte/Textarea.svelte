@@ -19,6 +19,7 @@ export let name: string;
 export let value = '';
 export let modifiers = '';
 export let readonly = false;
+export let autofocus = false;
 export let debounceTimeout = 0;
 export let id: string | null = null;
 export let cols: number | null = null;
@@ -72,6 +73,7 @@ const updateValue = (newValue: string) => {
 $: updateValue(value);
 </script>
 
+<!-- svelte-ignore a11y-autofocus -->
 <div
   id={id}
   class={className}
@@ -92,6 +94,7 @@ $: updateValue(value);
       readonly={readonly}
       maxlength={maxlength}
       placeholder={placeholder}
+      autofocus={autofocus}
       autocomplete={autocomplete}
       disabled={isDisabled}
       on:paste

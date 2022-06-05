@@ -19,7 +19,6 @@ const props = defineProps<{
   rel?: string;
   href: string;
   label: string;
-  title?: string;
   target?: string;
   modifiers?: string;
 }>();
@@ -33,7 +32,6 @@ const className = computed(() => buildClass('ui-link', props.modifiers));
     :id="id"
     :rel="rel"
     :href="href"
-    :title="title"
     :class="className"
     :target="target"
     v-html="parsedLabel"

@@ -21,7 +21,7 @@ declare module 'biuty/vue' {
    *
    * @returns {string} Generated modifiers list.
    */
-  export function buildClass(baseClass: string, modifiers: string[]): string;
+  export function buildClass(baseClass: string, modifiers?: string): string;
 
   /**
    * Generates a random HTML id.
@@ -94,6 +94,15 @@ declare module 'biuty/vue' {
     modifiers?: string;
     type?: 'button' | 'submit';
     iconPosition?: 'left' | 'right';
+  }>;
+
+  /**
+   * Tooltip wrapper, for accessibility.
+   */
+  export const UITooltip: DefineComponent<{
+    label: string;
+    modifiers?: string;
+    description?: string;
   }>;
 
   /**

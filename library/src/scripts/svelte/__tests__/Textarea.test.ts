@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import UITextarea from 'scripts/svelte/Textarea.svelte';
@@ -28,6 +25,11 @@ describe('svelte/UITextarea', () => {
 
   test('renders correctly - with id', async () => {
     const { container } = render(UITextarea, { props: { name: 'test', id: 'my-id' } });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with autofocus', async () => {
+    const { container } = render(UITextarea, { props: { name: 'test', autofocus: true } });
     expect(container.firstChild).toMatchSnapshot();
   });
 

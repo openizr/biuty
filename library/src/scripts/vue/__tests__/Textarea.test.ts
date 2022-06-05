@@ -39,6 +39,15 @@ describe('vue/UITextarea', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - with autofocus', async () => {
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test', autofocus: true, cols: 10, rows: 10,
+      },
+    });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - with cols and rows', async () => {
     const { container } = render(UITextarea, { props: { name: 'test', cols: 10, rows: 50 } });
     expect(container.firstChild).toMatchSnapshot();

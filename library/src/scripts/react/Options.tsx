@@ -257,17 +257,19 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
   // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
   // be displayed before actually focusing it (`select` mode).
   React.useEffect(() => {
-    if (wrapperRef.current !== null && select === true && isDisplayed) {
-      focusOption(firstSelectedOption.current);
-    }
-  }, [isDisplayed, select, focusOption]);
-  React.useEffect(() => {
-    // Checking `mounted` prevents focusing the dropdown at component mount.
     if (!isDisplayed && buttonRef.current !== null && mounted.current === true) {
       buttonRef.current.focus();
+    } else if (isDisplayed && wrapperRef.current !== null) {
+      setTimeout(() => {
+        focusOption(firstSelectedOption.current);
+      }, 10);
     }
+  }, [isDisplayed, focusOption]);
+  // Prevents focusing the dropdown at component mount in strict mode.
+  React.useEffect(() => {
     mounted.current = true;
-  }, [isDisplayed]);
+    return () => { mounted.current = false; };
+  }, []);
 
   // -----------------------------------------------------------------------------------------------
   // COMPONENT RENDERING.

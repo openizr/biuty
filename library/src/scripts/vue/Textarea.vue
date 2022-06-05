@@ -34,6 +34,7 @@ const props = defineProps<{
   readonly?: boolean;
   maxlength?: number;
   modifiers?: string;
+  autofocus?: boolean;
   placeholder?: string;
   debounceTimeout?: number;
   autocomplete?: 'on' | 'off';
@@ -90,6 +91,7 @@ watch(() => props.value, () => {
         :name="name"
         :cols="cols"
         :rows="rows"
+        :autofocus="autofocus"
         class="ui-textarea__wrapper__field"
         :readonly="readonly"
         :maxlength="maxlength"

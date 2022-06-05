@@ -48,6 +48,7 @@ const props = defineProps<{
   readonly?: boolean;
   maxlength?: number;
   modifiers?: string;
+  autofocus?: boolean;
   placeholder?: string;
   autocomplete?: 'on' | 'off';
   iconPosition?: 'left' | 'right';
@@ -164,9 +165,8 @@ const handlePaste = (event: ClipboardEvent): void => {
 
 // Updates current value whenever `value` and `transform` props change.
 watch(() => [props.value, props.transform], () => {
-  const [newValue, newCursorPosition] = actualTransform.value(props.value || '', 0);
+  const [newValue] = actualTransform.value(props.value || '', 0);
   currentValue.value = newValue;
-  cursorPosition.value = newCursorPosition;
 });
 
 // Re-positions cursor at the right place when using transform function.
@@ -213,6 +213,7 @@ onUpdated(() => {
         :maxlength="maxlength"
         :placeholder="placeholder"
         :size="size"
+        :autofocus="autofocus"
         :autocomplete="autocomplete"
         class="ui-textfield__wrapper__field"
         :disabled="isDisabled"

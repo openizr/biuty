@@ -15,5 +15,6 @@ export default {
   '/file-pickers': () => import('scripts/pages/FilePickers'),
   '/textareas': () => import('scripts/pages/Textareas'),
   '/typography': () => import('scripts/pages/Typography'),
+  '/tooltips': () => import('scripts/pages/Tooltips'),
   '/sass': () => import('scripts/pages/Sass'),
 } as Record<string, unknown>;

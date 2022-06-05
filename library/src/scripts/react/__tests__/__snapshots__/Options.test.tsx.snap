@@ -1122,7 +1122,7 @@ exports[`react/UIOptions renders correctly - select expanded 1`] = `
       type="button"
     />
     <ul
-      aria-activedescendant="z8a8d7a5zad40"
+      aria-activedescendant="z8a8d7a5zad4-1"
       aria-expanded="true"
       aria-labelledby="z8a8d7a5zad4"
       aria-multiselectable="false"
@@ -1231,7 +1231,7 @@ exports[`react/UIOptions renders correctly - select expanded with value 1`] = `
       Option 1
     </button>
     <ul
-      aria-activedescendant="z8a8d7a5zad40"
+      aria-activedescendant="z8a8d7a5zad4-1"
       aria-expanded="true"
       aria-labelledby="z8a8d7a5zad4"
       aria-multiselectable="false"

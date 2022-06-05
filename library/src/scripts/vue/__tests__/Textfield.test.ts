@@ -30,6 +30,11 @@ describe('vue/UITextfield', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - with autofocus', async () => {
+    const { container } = render(UITextfield, { props: { name: 'test', autofocus: true, size: 100 } });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - with type number', async () => {
     const { container } = render(UITextfield, {
       props: {

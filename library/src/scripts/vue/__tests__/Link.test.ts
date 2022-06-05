@@ -37,9 +37,4 @@ describe('vue/UILink', () => {
     const { container } = render(UILink, { props: { label: 'Test', href: 'https://test.com', rel: 'no referrer' } });
     expect(container.firstChild).toMatchSnapshot();
   });
-
-  test('renders correctly - with title', () => {
-    const { container } = render(UILink, { props: { label: 'Test', href: 'https://test.com', title: 'test' } });
-    expect(container.firstChild).toMatchSnapshot();
-  });
 });

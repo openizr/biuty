@@ -13,6 +13,7 @@ import UITitle from 'scripts/vue/Title.vue';
 import UIImage from 'scripts/vue/Image.vue';
 import UIButton from 'scripts/vue/Button.vue';
 import UIOptions from 'scripts/vue/Options.vue';
+import UITooltip from 'scripts/vue/Tooltip.vue';
 import markdown from 'scripts/helpers/markdown';
 import UITextarea from 'scripts/vue/Textarea.vue';
 import UITextfield from 'scripts/vue/Textfield.vue';
@@ -28,6 +29,7 @@ export {
   UIImage,
   UIButton,
   UIOptions,
+  UITooltip,
   UITextfield,
   UITextarea,
   UIFilePicker,

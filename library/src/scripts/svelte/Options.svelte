@@ -32,6 +32,7 @@
   export let helper: string | null = null;
   export let value: string | string[] = [];
 
+  let mounted = false;
   let isFocused = false;
   let position = 'bottom';
   let isDisplayed = false;
@@ -233,16 +234,19 @@
 
   // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
   // be displayed before actually focusing it (`select` mode).
-  const updateSelectFocus = (newIsDisplayed: boolean): void => {
-    setTimeout(() => {
-      if (wrapperRef !== undefined && select && newIsDisplayed) {
-        focusOption(firstSelectedOption);
-      } else if (!newIsDisplayed && buttonRef !== null) {
-        buttonRef.focus();
-      }
-    }, 10);
+  const updateSelectFocus = (newMounted: boolean, newIsDisplayed: boolean): void => {
+    if (newMounted) {
+      setTimeout(() => {
+        if (wrapperRef !== undefined && select && newIsDisplayed) {
+          focusOption(firstSelectedOption);
+        } else if (!newIsDisplayed && buttonRef !== null) {
+          buttonRef.focus();
+        }
+      }, 10);
+    }
+    mounted = true;
   };
-  $: updateSelectFocus(isDisplayed);
+  $: updateSelectFocus(mounted, isDisplayed);
 </script>
 
 {#if select === true}

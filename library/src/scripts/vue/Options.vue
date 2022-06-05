@@ -41,6 +41,7 @@ const props = defineProps<{
 
 const buttonRef = ref(null);
 const wrapperRef = ref(null);
+const mounted = ref(false);
 const isDisplayed = ref(false);
 const isFocused = ref(false);
 const position = ref('bottom');
@@ -225,14 +226,17 @@ watch(() => props.options, () => {
 
 // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
 // be displayed before actually focusing it (`select` mode).
-watch([isDisplayed, () => props.select], async () => {
-  setTimeout(() => {
-    if (wrapperRef.value !== null && props.select === true && isDisplayed.value) {
-      focusOption(firstSelectedOption.value);
-    } else if (!isDisplayed.value && buttonRef.value !== null) {
-      buttonRef.value.focus();
-    }
-  }, 10);
+watch([isDisplayed, mounted, () => props.select], async () => {
+  if (mounted.value) {
+    setTimeout(() => {
+      if (wrapperRef.value !== null && props.select === true && isDisplayed.value) {
+        focusOption(firstSelectedOption.value);
+      } else if (!isDisplayed.value && buttonRef.value !== null) {
+        buttonRef.value.focus();
+      }
+    }, 10);
+  }
+  mounted.value = true;
 });
 </script>
 

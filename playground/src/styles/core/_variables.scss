@@ -9,16 +9,16 @@
 // Number of columns available in a grid.
 $gridColumnsNumber: 12;
 
-$breakpoints: ( //
+$breakpoints: (
   xxs: 0px,
   xs: 376px,
   s: 576px,
   m: 768px,
   l: 992px,
   xl: 1200px,
-) !default;
+  ) !default;
 
-$gaps: ( //
+$gaps: (
   1: 4px,
   2: 8px,
   3: 16px,
@@ -26,17 +26,14 @@ $gaps: ( //
   5: 32px,
   6: 64px,
   7: 94px,
-) !default;
+  ) !default;
 
-$variables: ( //
+$variables: (
   gaps:$gaps,
-  shp:( //
-    default: 4px,
+  shp:(default: 4px,
   ),
-  clr: ( //
-    default: #000000,
+  clr: (default: #000000,
   ),
-  ff: ( //
-    default: 'sans-serif',
+  ff: (default: 'sans-serif',
   ),
-);
+  ) !default;

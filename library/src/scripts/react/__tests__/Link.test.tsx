@@ -41,11 +41,6 @@ describe('react/UILink', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with title', () => {
-    const { container } = render(<JSXUILink label="Test" href="https://test.com" title="test" />);
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
   test('renders correctly - with itemProp', () => {
     const { container } = render(<JSXUILink label="Test" href="https://test.com" itemProp="name" />);
     expect(container.firstChild).toMatchSnapshot();

@@ -76,6 +76,11 @@ const transform = (value: string): string => {
         readonly
       />
       <UITextfield
+        name="textfield3"
+        label="ui-textfield with autofocus"
+        autofocus
+      />
+      <UITextfield
         name="textfield4"
         label="ui-textfield with value"
         :value="newValue"

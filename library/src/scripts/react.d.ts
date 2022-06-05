@@ -19,7 +19,7 @@ declare module 'biuty/react' {
    *
    * @returns {string} Generated modifiers list.
    */
-  export function buildClass(baseClass: string, modifiers: string[]): string;
+  export function buildClass(baseClass: string, modifiers?: string): string;
 
   /**
    * Generates a random HTML id.
@@ -52,7 +52,7 @@ declare module 'biuty/react' {
   /**
    * Basic icon.
    */
-  export function UIP(props: PropTypes.InferProps<{
+  export function UIIcon(props: PropTypes.InferProps<{
     id: PropTypes.Requireable<string>;
     name: PropTypes.Validator<string>;
     modifiers: PropTypes.Requireable<string>;
@@ -95,6 +95,20 @@ declare module 'biuty/react' {
     modifiers: PropTypes.Requireable<string>;
     type: PropTypes.Requireable<'button' | 'submit'>;
     iconPosition: PropTypes.Requireable<'left' | 'right'>;
+  }>): JSX.Element;
+
+  /**
+   * Tooltip wrapper, for accessibility.
+   */
+  export function UITooltip(props: PropTypes.InferProps<{
+    modifiers: PropTypes.Requireable<string>;
+    label: PropTypes.Validator<string>;
+    description: PropTypes.Requireable<string>;
+    children: PropTypes.Validator<
+      boolean |
+      PropTypes.ReactElementLike
+      | (boolean | PropTypes.ReactElementLike | null | undefined)[]
+    >;
   }>): JSX.Element;
 
   /**
@@ -154,6 +168,7 @@ declare module 'biuty/react' {
     readonly: PropTypes.Requireable<boolean>;
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;
+    autofocus: PropTypes.Requireable<boolean>
     placeholder: PropTypes.Requireable<string>;
     autocomplete: PropTypes.Requireable<'on' | 'off'>;
     name: PropTypes.Validator<string>;
@@ -196,6 +211,7 @@ declare module 'biuty/react' {
     readonly: PropTypes.Requireable<boolean>;
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;
+    autofocus: PropTypes.Requireable<boolean>
     placeholder: PropTypes.Requireable<string>;
     autocomplete: PropTypes.Requireable<'on' | 'off'>;
     name: PropTypes.Validator<string>;

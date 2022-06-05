@@ -1,0 +1,49 @@
+<!-- Tooltip wrapper, for accessibility. -->
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { computed, ref } from 'vue';
+import buildClass from 'scripts/helpers/buildClass';
+
+const props = defineProps<{
+  label: string;
+  modifiers?: string;
+  description?: string;
+}>();
+
+const isDescriptionVisible = ref(false);
+
+const displayDescription = () => {
+  isDescriptionVisible.value = true;
+};
+
+const hideDescription = () => {
+  isDescriptionVisible.value = false;
+};
+
+const className = computed(() => buildClass('ui-tooltip', [props.modifiers || '', isDescriptionVisible.value ? 'described' : ''].join(' ')));
+</script>
+
+<template>
+  <div
+    role="tooltip"
+    :class="className"
+    :aria-label="label"
+    @focus="displayDescription"
+    @focusout="hideDescription"
+    @keypress="displayDescription"
+  >
+    <slot />
+    <span
+      v-if="isDescriptionVisible && description !== undefined"
+      class="ui-tooltip__description"
+      role="status"
+    >{{ description }}</span>
+  </div>
+</template>

@@ -20,7 +20,7 @@ declare module 'biuty/svelte' {
    *
    * @returns {string} Generated modifiers list.
    */
-  export function buildClass(baseClass: string, modifiers: string[]): string;
+  export function buildClass(baseClass: string, modifiers?: string): string;
 
   /**
    * Generates a random HTML id.
@@ -94,6 +94,15 @@ declare module 'biuty/svelte' {
     modifiers?: string;
     type?: 'button' | 'submit';
     iconPosition?: 'left' | 'right';
+  }> { }
+
+  /**
+   * Tooltip wrapper, for accessibility.
+   */
+  export class UITooltip extends SvelteComponentTyped<{
+    label: string;
+    modifiers?: string;
+    description?: string;
   }> { }
 
   /**

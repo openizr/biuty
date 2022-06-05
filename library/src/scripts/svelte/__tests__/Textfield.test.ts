@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import UITextfield from 'scripts/svelte/Textfield.svelte';
@@ -27,6 +24,11 @@ describe('svelte/UITextfield', () => {
 
   test('renders correctly - with id', async () => {
     const { container } = render(UITextfield, { props: { name: 'test', id: 'my-id' } });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with autofocus', async () => {
+    const { container } = render(UITextfield, { props: { name: 'test', autofocus: true } });
     expect(container.firstChild).toMatchSnapshot();
   });
 

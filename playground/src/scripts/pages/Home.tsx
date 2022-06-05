@@ -32,6 +32,8 @@ export default function Home(): JSX.Element {
         <a href="/file-pickers" className="cols-3">FILE PICKERS</a>
         <br />
         <a href="/icons" className="cols-3">ICONS</a>
+        <br />
+        <a href="/tooltips" className="cols-3">TOOLTIPS</a>
       </main>
     </div>
   );

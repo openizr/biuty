@@ -45,6 +45,7 @@ export default function Textareas(): JSX.Element {
         <UITextarea name="textarea2" label="*ui-textarea*" />
         <UITextarea name="textarea3" label="ui-textarea readonly" readonly />
         <UITextarea name="textarea4" label="ui-textarea with value" value={newValue} />
+        <UITextarea name="textarea4" label="ui-textarea with autofocus" autofocus />
         <UITextarea name="textarea5" label="ui-textarea with helper" helper="helper" />
         <UITextarea name="textarea6" label="ui-textarea with listener" onChange={onChange} />
         <UITextarea name="textarea6" label="ui-textarea with debounce" onChange={onChange} debounceTimeout={250} />
