@@ -176,6 +176,7 @@ const updateValue = (updatedValue?: string, updatedTransform?: Transform) => {
 };
 $: updateValue(value);
 </script>
+
 <!-- svelte-ignore a11y-autofocus -->
 <div
 id={id}

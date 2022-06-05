@@ -97,6 +97,15 @@ declare module 'biuty/svelte' {
   }> { }
 
   /**
+   * Tooltip wrapper, for accessibility.
+   */
+  export class UITooltip extends SvelteComponentTyped<{
+    label: string;
+    modifiers?: string;
+    description?: string;
+  }> { }
+
+  /**
    * Image.
    */
   export class UIImage extends SvelteComponentTyped<{

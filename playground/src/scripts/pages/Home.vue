@@ -78,6 +78,10 @@ defineProps<{
         href="/icons"
         class="cols-3"
       >ICONS</a>
+      <a
+        href="/tooltips"
+        class="cols-3"
+      >TOOLTIPS</a>
     </main>
   </div>
 </template>

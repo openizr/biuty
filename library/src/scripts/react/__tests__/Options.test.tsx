@@ -12,7 +12,7 @@
 
 import React from 'react';
 import UIOptions from 'scripts/react/Options';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 
 const JSXUIOptions = UIOptions as JSXElement;
 
@@ -135,12 +135,15 @@ describe('react/UIOptions', () => {
   test('renders correctly - select with listeners', async () => {
     const onChange = jest.fn();
     const onFocus = jest.fn();
+    jest.useFakeTimers();
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} value="option2" onChange={onChange} onFocus={onFocus} />);
     const li = container.getElementsByTagName('li')[0];
     const button = container.getElementsByTagName('button')[0];
     await fireEvent.focus(button);
     await fireEvent.mouseDown(button);
+    await act(async () => { jest.runAllTimers(); });
     await fireEvent.mouseDown(li);
+    await fireEvent.blur(li);
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(3);
     expect(onFocus).toHaveBeenNthCalledWith(1, '', expect.any(Object));
@@ -148,6 +151,7 @@ describe('react/UIOptions', () => {
     expect(onFocus).toHaveBeenNthCalledWith(3, '', expect.any(Object));
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith('option1', expect.any(Object));
+    jest.useRealTimers();
   });
 
   test('renders correctly - multiple select with listeners', async () => {
@@ -164,10 +168,9 @@ describe('react/UIOptions', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenNthCalledWith(1, ['option2', 'option1'], expect.any(Object));
     await fireEvent.mouseDown(li);
-    expect(onFocus).toHaveBeenCalledTimes(3);
+    expect(onFocus).toHaveBeenCalledTimes(2);
     expect(onFocus).toHaveBeenNthCalledWith(1, '', expect.any(Object));
-    expect(onFocus).toHaveBeenNthCalledWith(2, 'option2', expect.any(Object));
-    expect(onFocus).toHaveBeenNthCalledWith(3, 'option1', expect.any(Object));
+    expect(onFocus).toHaveBeenNthCalledWith(2, 'option1', expect.any(Object));
     expect(onChange).toHaveBeenCalledTimes(2);
     expect(onChange).toHaveBeenNthCalledWith(2, ['option2'], expect.any(Object));
   });
@@ -182,11 +185,10 @@ describe('react/UIOptions', () => {
     await fireEvent.focus(li);
     rerender(<JSXUIOptions name="test" select options={selectOptions.slice(0, 2)} value="option3" onFocus={onFocus} multiple />);
     expect(container.firstChild).toMatchSnapshot();
-    expect(onFocus).toHaveBeenCalledTimes(4);
+    expect(onFocus).toHaveBeenCalledTimes(3);
     expect(onFocus).toHaveBeenNthCalledWith(1, '', expect.any(Object));
     expect(onFocus).toHaveBeenNthCalledWith(2, 'option3', expect.any(Object));
-    expect(onFocus).toHaveBeenNthCalledWith(3, 'option3', expect.any(Object));
-    expect(onFocus).toHaveBeenNthCalledWith(4, 'option1', expect.any(Object));
+    expect(onFocus).toHaveBeenNthCalledWith(3, 'option1', expect.any(Object));
   });
 
   test('select correctly updates current value when changing value and multiple props', async () => {

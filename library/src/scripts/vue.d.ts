@@ -97,6 +97,15 @@ declare module 'biuty/vue' {
   }>;
 
   /**
+   * Tooltip wrapper, for accessibility.
+   */
+  export const UITooltip: DefineComponent<{
+    label: string;
+    modifiers?: string;
+    description?: string;
+  }>;
+
+  /**
    * Image.
    */
   export const UIImage: DefineComponent<{

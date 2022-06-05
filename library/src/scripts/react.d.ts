@@ -98,6 +98,20 @@ declare module 'biuty/react' {
   }>): JSX.Element;
 
   /**
+   * Tooltip wrapper, for accessibility.
+   */
+  export function UITooltip(props: PropTypes.InferProps<{
+    modifiers: PropTypes.Requireable<string>;
+    label: PropTypes.Validator<string>;
+    description: PropTypes.Requireable<string>;
+    children: PropTypes.Validator<
+      boolean |
+      PropTypes.ReactElementLike
+      | (boolean | PropTypes.ReactElementLike | null | undefined)[]
+    >;
+  }>): JSX.Element;
+
+  /**
    * Image.
    */
   export function UIImage(props: PropTypes.InferProps<{

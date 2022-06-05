@@ -15,6 +15,7 @@ import UITitle from 'scripts/svelte/Title.svelte';
 import UIButton from 'scripts/svelte/Button.svelte';
 import buildClass from 'scripts/helpers/buildClass';
 import UIOptions from 'scripts/svelte/Options.svelte';
+import UITooltip from 'scripts/svelte/Tooltip.svelte';
 import UITextarea from 'scripts/svelte/Textarea.svelte';
 import UITextfield from 'scripts/svelte/Textfield.svelte';
 import UIFilePicker from 'scripts/svelte/FilePicker.svelte';
@@ -28,6 +29,7 @@ export {
   UIImage,
   UIButton,
   UIOptions,
+  UITooltip,
   UITextarea,
   UITextfield,
   UIFilePicker,

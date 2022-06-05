@@ -13,6 +13,7 @@ import UITitle from 'scripts/react/Title';
 import UIImage from 'scripts/react/Image';
 import UIButton from 'scripts/react/Button';
 import UIOptions from 'scripts/react/Options';
+import UITooltip from 'scripts/react/Tooltip';
 import markdown from 'scripts/helpers/markdown';
 import UITextarea from 'scripts/react/Textarea';
 import UITextfield from 'scripts/react/Textfield';
@@ -28,6 +29,7 @@ export {
   UITitle,
   UIButton,
   UIOptions,
+  UITooltip,
   UITextarea,
   UITextfield,
   UIFilePicker,

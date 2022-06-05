@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import UIOptions from 'scripts/svelte/Options.svelte';
@@ -182,7 +179,7 @@ describe('svelte/UIOptions', () => {
     await fireEvent.mouseDown(li);
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
-    expect(onFocus).toHaveBeenCalledTimes(4);
+    expect(onFocus).toHaveBeenCalledTimes(3);
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
@@ -205,7 +202,7 @@ describe('svelte/UIOptions', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
     await fireEvent.mouseDown(li);
     await nextTick();
-    expect(onFocus).toHaveBeenCalledTimes(3);
+    expect(onFocus).toHaveBeenCalledTimes(2);
     expect(onChange).toHaveBeenCalledTimes(2);
   });
 
@@ -236,7 +233,7 @@ describe('svelte/UIOptions', () => {
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
-    expect(onFocus).toHaveBeenCalledTimes(6);
+    expect(onFocus).toHaveBeenCalledTimes(5);
   });
 
   test('select correctly updates current value when changing value and multiple props', async () => {
