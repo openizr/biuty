@@ -159,6 +159,7 @@ declare module 'biuty/svelte' {
     readonly?: boolean;
     maxlength?: number;
     modifiers?: string;
+    autofocus?: boolean;
     placeholder?: string;
     autocomplete?: 'on' | 'off';
     iconPosition?: 'left' | 'right';
