@@ -228,7 +228,7 @@ describe('svelte/UIOptions', () => {
     await nextTick();
     component.$set({ options: selectOptions.slice(0, 2) });
     await nextTick();
-    await rerender({
+    rerender({
       name: 'test', select: true, options: selectOptions.slice(0, 2), value: null, multiple: true,
     });
     await nextTick();
@@ -242,22 +242,22 @@ describe('svelte/UIOptions', () => {
         name: 'test', select: true, options: selectOptions, value: ['option3'], multiple: true,
       },
     });
-    await rerender({
+    rerender({
       name: 'test', select: true, options: selectOptions, value: ['option1', 'option2'], multiple: true,
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
-    await rerender({
+    rerender({
       name: 'test', select: true, options: selectOptions, value: [], multiple: true,
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
-    await rerender({
+    rerender({
       name: 'test', select: true, options: selectOptions, value: ['option1'], multiple: false,
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
-    await rerender({
+    rerender({
       name: 'test', select: true, multiple: true, options: selectOptions, value: undefined,
     });
     await nextTick();

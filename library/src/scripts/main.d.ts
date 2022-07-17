@@ -6,36 +6,33 @@
  *
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Generic = Record<string, any>;
-
 declare module 'biuty' {
   /**
    * Builds a complete class name from the given array of modifiers.
    *
-   * @param {string} baseClass Base class to prefix any modifier with.
+   * @param baseClass Base class to prefix any modifier with.
    *
-   * @param {string} [modifiers = ''] Modifiers to apply to the base class.
+   * @param modifiers Modifiers to apply to the base class. Defaults to `''`.
    *
-   * @returns {string} Generated modifiers list.
+   * @returns Generated modifiers list.
    */
   export function buildClass(baseClass: string, modifiers?: string): string;
 
   /**
    * Generates a random HTML id.
    *
-   * @returns {string} The generated id.
+   * @returns The generated id.
    */
   export function generateRandomId(): string;
 
   /**
    * Parses the given markdown-flavored string into HTML.
    *
-   * @param {string} text Markdown to parse into HTML.
+   * @param text Markdown to parse into HTML.
    *
-   * @param {boolean} [light = true] Wether to parse complexe tags (images, blockquotes, ...).
+   * @param light Wether to parse complexe tags (images, blockquotes, ...). Defaults to `true`.
    *
-   * @return {string} Generated HTML.
+   * @returns Generated HTML.
    */
   export function markdown(text: string, light?: boolean): string;
 }

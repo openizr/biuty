@@ -73,7 +73,7 @@ describe('react/UITextfield', () => {
     const onChange = jest.fn();
     const { container } = render(<JSXUITextfield name="test" modifiers="disabled" />);
     const input = container.getElementsByTagName('input')[0];
-    await fireEvent.change(input, { value: 'new value' });
+    fireEvent.change(input, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -87,12 +87,12 @@ describe('react/UITextfield', () => {
     const onChange = jest.fn();
     const { container } = render(<JSXUITextfield name="test" readonly onChange={onChange} />);
     const input = container.getElementsByTagName('input')[0];
-    await fireEvent.keyDown(input, { key: 'A' });
-    await fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
-    await fireEvent.keyDown(input, { key: 'a', shiftKey: true });
-    await fireEvent.keyDown(input, { key: 'a', altKey: true });
-    await fireEvent.keyDown(input, { key: 'a', metaKey: true });
-    await fireEvent.change(input, { value: 'new value' });
+    fireEvent.keyDown(input, { key: 'A' });
+    fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
+    fireEvent.keyDown(input, { key: 'a', shiftKey: true });
+    fireEvent.keyDown(input, { key: 'a', altKey: true });
+    fireEvent.keyDown(input, { key: 'a', metaKey: true });
+    fireEvent.change(input, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -118,35 +118,35 @@ describe('react/UITextfield', () => {
       }}
     />);
     const input = container.getElementsByTagName('input')[0];
-    await fireEvent.keyDown(input, { key: 'A' });
-    await fireEvent.keyDown(input, { key: '0' });
-    await fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
-    await fireEvent.keyDown(input, { key: 'a', shiftKey: true });
-    await fireEvent.keyDown(input, { key: 'a', altKey: true });
-    await fireEvent.keyDown(input, { key: 'a', metaKey: true });
-    await fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
-    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
+    fireEvent.keyDown(input, { key: 'A' });
+    fireEvent.keyDown(input, { key: '0' });
+    fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
+    fireEvent.keyDown(input, { key: 'a', shiftKey: true });
+    fireEvent.keyDown(input, { key: 'a', altKey: true });
+    fireEvent.keyDown(input, { key: 'a', metaKey: true });
+    fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
+    fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
     expect(onKeyDown).toHaveBeenCalledTimes(5);
     expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
     expect(onPaste).toHaveBeenCalledTimes(1);
     expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
-    await rerender(<JSXUITextfield
+    rerender(<JSXUITextfield
       name="test"
       size={10}
       allowedKeys={{
         default: /z/i,
       }}
     />);
-    await fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
-    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
-    await rerender(<JSXUITextfield name="test" size={10} />);
-    await fireEvent.keyDown(input, { key: '0' });
-    await fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
-    await fireEvent.keyDown(input, { key: 'a', shiftKey: true });
-    await fireEvent.keyDown(input, { key: 'a', altKey: true });
-    await fireEvent.keyDown(input, { key: 'a', metaKey: true });
+    fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
+    fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
+    rerender(<JSXUITextfield name="test" size={10} />);
+    fireEvent.keyDown(input, { key: '0' });
+    fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
+    fireEvent.keyDown(input, { key: 'a', shiftKey: true });
+    fireEvent.keyDown(input, { key: 'a', altKey: true });
+    fireEvent.keyDown(input, { key: 'a', metaKey: true });
   });
 
   test('renders correctly - with listeners and debounce', async () => {
@@ -169,12 +169,12 @@ describe('react/UITextfield', () => {
     />);
     const input = container.getElementsByTagName('input')[0];
     const icon = container.getElementsByTagName('i')[0];
-    await fireEvent.focus(input);
-    await fireEvent.blur(input);
-    await fireEvent.keyDown(icon);
-    await fireEvent.click(icon);
-    await fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
-    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
+    fireEvent.focus(input);
+    fireEvent.blur(input);
+    fireEvent.keyDown(icon);
+    fireEvent.click(icon);
+    fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
+    fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
     jest.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);

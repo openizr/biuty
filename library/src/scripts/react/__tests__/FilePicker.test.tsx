@@ -94,9 +94,9 @@ describe('react/UIFilePicker', () => {
     const onBlur = jest.fn();
     const { container } = render(<JSXUIFilePicker name="test" onChange={onChange} onFocus={onFocus} onBlur={onBlur} />);
     const input = container.getElementsByTagName('input')[0];
-    await fireEvent.focus(input);
-    await fireEvent.change(input, { target: { files: [{ name: '/path/to/file1.png' }] } });
-    await fireEvent.blur(input);
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { files: [{ name: '/path/to/file1.png' }] } });
+    fireEvent.blur(input);
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith([{ name: '/path/to/file1.png' }], expect.any(Object));

@@ -77,11 +77,11 @@ function sanitize(str: string): string {
 /**
  * Parses the given markdown-flavored string into HTML.
  *
- * @param {string} text Markdown to parse into HTML.
+ * @param text Markdown to parse into HTML.
  *
- * @param {boolean} [light = true] Wether to parse complexe tags (images, blockquotes, ...).
+ * @param light Wether to parse complexe tags (images, blockquotes, ...). Defaults to `true`.
  *
- * @return {string} Generated HTML.
+ * @returns Generated HTML.
  */
 export default function markdown(text: string, light = true): string {
   let newStr = sanitize(text);

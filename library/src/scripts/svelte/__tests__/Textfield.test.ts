@@ -142,7 +142,7 @@ describe('svelte/UITextfield', () => {
     expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
     expect(onPaste).toHaveBeenCalledTimes(1);
     expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
-    await rerender({
+    rerender({
       name: 'test', size: 10, transform: null, allowedKeys: { default: /z/i },
     });
     await fireEvent.input(input, { value: 'zzzzzzzzzzzz' });

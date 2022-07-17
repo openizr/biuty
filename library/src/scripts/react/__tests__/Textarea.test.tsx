@@ -63,7 +63,7 @@ describe('react/UITextarea', () => {
     const onChange = jest.fn();
     const { container } = render(<JSXUITextarea name="test" modifiers="disabled" />);
     const textarea = container.getElementsByTagName('textarea')[0];
-    await fireEvent.change(textarea, { value: 'new value' });
+    fireEvent.change(textarea, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -77,7 +77,7 @@ describe('react/UITextarea', () => {
     const onChange = jest.fn();
     const { container } = render(<JSXUITextarea name="test" readonly onChange={onChange} />);
     const textarea = container.getElementsByTagName('textarea')[0];
-    await fireEvent.change(textarea, { value: 'new value' });
+    fireEvent.change(textarea, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -98,11 +98,11 @@ describe('react/UITextarea', () => {
       debounceTimeout={250}
     />);
     const textarea = container.getElementsByTagName('textarea')[0];
-    await fireEvent.focus(textarea);
-    await fireEvent.blur(textarea);
-    await fireEvent.keyDown(textarea, { key: 'a' });
-    await fireEvent.change(textarea, { target: { value: 'new 015 test', selectionStart: 100 } });
-    await fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
+    fireEvent.focus(textarea);
+    fireEvent.blur(textarea);
+    fireEvent.keyDown(textarea, { key: 'a' });
+    fireEvent.change(textarea, { target: { value: 'new 015 test', selectionStart: 100 } });
+    fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
     jest.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);

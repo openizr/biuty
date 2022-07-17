@@ -37,9 +37,9 @@ describe('react/UITooltip', () => {
       </JSXUITooltip>,
     );
     const button = container.getElementsByTagName('button')[0];
-    await fireEvent.focus(button);
+    fireEvent.focus(button);
     expect(container.firstChild).toMatchSnapshot();
-    await fireEvent.blur(button);
+    fireEvent.blur(button);
     expect(container.firstChild).toMatchSnapshot();
   });
 });
