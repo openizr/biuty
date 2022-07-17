@@ -216,16 +216,16 @@ declare module 'biuty/react' {
     autocomplete: PropTypes.Requireable<'on' | 'off'>;
     name: PropTypes.Validator<string>;
     debounceTimeout: PropTypes.Requireable<number>;
-    onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLInputElement>) => void>;
-    onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLInputElement>) => void>;
+    onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLTextAreaElement>) => void>;
+    onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLTextAreaElement>) => void>;
     onBlur: PropTypes.Requireable<
-      (value: string, event: React.FocusEvent<HTMLInputElement>) => void
+      (value: string, event: React.FocusEvent<HTMLTextAreaElement>) => void
     >;
     onFocus: PropTypes.Requireable<
-      (value: string, event: React.FocusEvent<HTMLInputElement>) => void
+      (value: string, event: React.FocusEvent<HTMLTextAreaElement>) => void
     >;
     onChange: PropTypes.Requireable<
-      (value: string, event: React.ChangeEvent<HTMLInputElement>) => void
+      (value: string, event: React.ChangeEvent<HTMLTextAreaElement>) => void
     >;
   }>): JSX.Element;
 

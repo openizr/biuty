@@ -1,4 +1,4 @@
-<!-- Basic icon, possibly interactive. -->
+<!-- Basic icon. -->
 <script lang="ts">
   /**
    * Copyright (c) Openizr. All Rights Reserved.
