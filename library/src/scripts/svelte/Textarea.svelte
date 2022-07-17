@@ -30,6 +30,21 @@ export let maxlength: number | null = null;
 export let placeholder: string | null = null;
 export let autocomplete: 'on' | 'off' = 'on';
 
+// Enforces props default values.
+$: id = id || null;
+$: value = value || '';
+$: label = label || null;
+$: helper = helper || null;
+$: modifiers = modifiers || '';
+$: readonly = readonly || false;
+$: autofocus = autofocus || false;
+$: placeholder = placeholder || null;
+$: autocomplete = autocomplete || 'on';
+$: debounceTimeout = debounceTimeout || 0;
+$: rows = (rows !== undefined) ? rows : null;
+$: cols = (cols !== undefined) ? cols : null;
+$: maxlength = (maxlength !== undefined) ? maxlength : null;
+
 let currentValue = value;
 let timeout: number | null = null;
 const randomId = generateRandomId();

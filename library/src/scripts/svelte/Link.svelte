@@ -1,25 +1,31 @@
 <!-- Hyperlink. -->
 <script lang="ts">
-  /**
-   * Copyright (c) Openizr. All Rights Reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *
-   */
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-  import markdown from 'scripts/helpers/markdown';
-  import buildClass from 'scripts/helpers/buildClass';
+import markdown from 'scripts/helpers/markdown';
+import buildClass from 'scripts/helpers/buildClass';
 
-  export let href: string;
-  export let label: string;
-  export let modifiers = '';
-  export let id: string | null = null;
-  export let rel: string | null = null;
-  export let target: string | null = null;
+export let href: string;
+export let label: string;
+export let modifiers = '';
+export let id: string | null = null;
+export let rel: string | null = null;
+export let target: string | null = null;
 
-  $: parsedLabel = markdown(label);
-  $: className = buildClass('ui-link', modifiers);
+// Enforces props default values.
+$: id = id || null;
+$: rel = rel || null;
+$: target = target || null;
+$: modifiers = modifiers || '';
+
+$: parsedLabel = markdown(label);
+$: className = buildClass('ui-link', modifiers);
 </script>
 
 <a {id} {rel} {href} class={className} {target} on:click>

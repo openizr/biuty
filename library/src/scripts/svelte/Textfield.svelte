@@ -45,6 +45,28 @@ export let iconPosition: 'left' | 'right' = 'left';
 export let transform: Transform = defaultTransform;
 export let type: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url' = 'text';
 
+// Enforces props default values.
+$: id = id || null;
+$: icon = icon || null;
+$: value = value || '';
+$: type = type || 'text';
+$: label = label || null;
+$: helper = helper || null;
+$: modifiers = modifiers || '';
+$: readonly = readonly || false;
+$: autofocus = autofocus || false;
+$: allowedKeys = allowedKeys || {};
+$: placeholder = placeholder || null;
+$: autocomplete = autocomplete || 'on';
+$: iconPosition = iconPosition || 'left';
+$: min = (min !== undefined) ? min : null;
+$: max = (max !== undefined) ? max : null;
+$: debounceTimeout = debounceTimeout || 0;
+$: transform = transform || defaultTransform;
+$: step = (step !== undefined) ? step : null;
+$: size = (size !== undefined) ? size : null;
+$: maxlength = (maxlength !== undefined) ? maxlength : null;
+
 let timeout: number | null = null;
 const randomId = generateRandomId();
 let cursorPosition: number | null = null;

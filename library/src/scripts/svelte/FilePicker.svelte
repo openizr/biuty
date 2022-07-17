@@ -31,6 +31,18 @@ export let iconPosition: 'left' | 'right' = 'left';
 let currentValue = value;
 const randomId = generateRandomId();
 
+// Enforces props default values.
+$: id = id || null;
+$: icon = icon || null;
+$: value = value || [];
+$: label = label || null;
+$: accept = accept || null;
+$: helper = helper || null;
+$: modifiers = modifiers || '';
+$: multiple = multiple || false;
+$: placeholder = placeholder || null;
+$: iconPosition = iconPosition || 'left';
+
 $: className = buildClass('ui-file-picker', modifiers + (multiple ? ' multiple' : ''));
 $: parsedLabel = label !== null ? markdown(label) : null;
 $: parsedHelper = helper !== null ? markdown(helper) : null;

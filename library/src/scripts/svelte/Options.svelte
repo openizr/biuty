@@ -1,252 +1,261 @@
 <!-- Set of selectable options. -->
 <script lang="ts">
-  /**
-   * Copyright (c) Openizr. All Rights Reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *
-   */
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-  import { createEventDispatcher } from 'svelte';
-  import markdown from 'scripts/helpers/markdown';
-  import buildClass from 'scripts/helpers/buildClass';
-  import generateRandomId from 'scripts/helpers/generateRandomId';
+import { createEventDispatcher } from 'svelte';
+import markdown from 'scripts/helpers/markdown';
+import buildClass from 'scripts/helpers/buildClass';
+import generateRandomId from 'scripts/helpers/generateRandomId';
 
-  const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
+const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
 
-  interface Option {
-    value?: string;
-    label?: string;
-    disabled?: boolean;
-    type?: 'header' | 'divider' | 'option';
+interface Option {
+  value?: string;
+  label?: string;
+  disabled?: boolean;
+  type?: 'header' | 'divider' | 'option';
+}
+
+export let name: string;
+export let modifiers = '';
+export let select = false;
+export let multiple = false;
+export let options: Option[];
+export let id: string | null = null;
+export let label: string | null = null;
+export let helper: string | null = null;
+export let value: string | string[] = [];
+
+// Enforces props default values.
+$: id = id || null;
+$: value = value || [];
+$: label = label || null;
+$: helper = helper || null;
+$: select = select || false;
+$: modifiers = modifiers || '';
+$: multiple = multiple || false;
+
+let mounted = false;
+let isFocused = false;
+let position = 'bottom';
+let isDisplayed = false;
+let focusedOptionIndex = -1;
+let currentValue = toArray(value);
+const randomId = generateRandomId();
+let buttonRef: HTMLElement | null = null;
+let wrapperRef: HTMLElement | null = null;
+const dispatch = createEventDispatcher();
+
+$: className = buildClass(
+  'ui-options',
+  modifiers + (select ? ' select' : '') + (multiple ? ' multiple' : ''),
+);
+$: parsedLabel = label !== null ? markdown(label) : null;
+$: parsedHelper = helper !== null ? markdown(helper) : null;
+// Memoizes all options' parsed labels to optimize rendering.
+$: optionParsedLabels = options.reduce(
+  (mapping, option) => {
+    if (option.value !== undefined && option.value !== null) {
+      return { ...mapping, [option.value]: markdown(option.label as string) };
+    }
+    return mapping;
+  },
+  { _: '' } as Record<string, string>,
+);
+
+// -----------------------------------------------------------------------------------------------
+// CALLBACKS DECLARATION.
+// -----------------------------------------------------------------------------------------------
+
+// Updates the `isFocused` ref when blurring options.
+const handleBlur = (): void => {
+  isFocused = false;
+};
+
+// In `select` mode only, displays the options list at the right place on the viewport.
+const displayList = (): void => {
+  if (buttonRef !== null) {
+    const relativeOffsetTop = buttonRef.getBoundingClientRect().top;
+    position = relativeOffsetTop > window.innerHeight / 2 ? 'top' : 'bottom';
+    isDisplayed = true;
   }
+};
 
-  export let name: string;
-  export let modifiers = '';
-  export let select = false;
-  export let multiple = false;
-  export let options: Option[];
-  export let id: string | null = null;
-  export let label: string | null = null;
-  export let helper: string | null = null;
-  export let value: string | string[] = [];
-
-  let mounted = false;
-  let isFocused = false;
-  let position = 'bottom';
-  let isDisplayed = false;
-  let focusedOptionIndex = -1;
-  let currentValue = toArray(value);
-  const randomId = generateRandomId();
-  let buttonRef: HTMLElement | null = null;
-  let wrapperRef: HTMLElement | null = null;
-  const dispatch = createEventDispatcher();
-
-  $: className = buildClass(
-    'ui-options',
-    modifiers + (select ? ' select' : '') + (multiple ? ' multiple' : ''),
-  );
-  $: parsedLabel = label !== null ? markdown(label) : null;
-  $: parsedHelper = helper !== null ? markdown(helper) : null;
-  // Memoizes all options' parsed labels to optimize rendering.
-  $: optionParsedLabels = options.reduce(
-    (mapping, option) => {
-      if (option.value !== undefined && option.value !== null) {
-        return { ...mapping, [option.value]: markdown(option.label as string) };
-      }
-      return mapping;
-    },
-    { _: '' } as Record<string, string>,
-  );
-
-  // -----------------------------------------------------------------------------------------------
-  // CALLBACKS DECLARATION.
-  // -----------------------------------------------------------------------------------------------
-
-  // Updates the `isFocused` ref when blurring options.
-  const handleBlur = (): void => {
-    isFocused = false;
-  };
-
-  // In `select` mode only, displays the options list at the right place on the viewport.
-  const displayList = (): void => {
-    if (buttonRef !== null) {
-      const relativeOffsetTop = buttonRef.getBoundingClientRect().top;
-      position = relativeOffsetTop > window.innerHeight / 2 ? 'top' : 'bottom';
-      isDisplayed = true;
-    }
-  };
-
-  // In `select` mode only, hides the options list only if forced or if focus is lost.
-  const hideList = (force = false) => (event: FocusEvent | null): void => {
-    // We first ensure that the newly focused element is not an option of the list.
-    const focusIsOutsideList = event !== null && wrapperRef !== null
-      ? !wrapperRef.contains(event.relatedTarget as Node)
-      : true;
-    if (focusIsOutsideList && (force === true || multiple === false)) {
-      handleBlur();
-      isDisplayed = false;
-    }
-  };
-
-  // Finds the direct previous or next option when navigating with keyboard.
-  const findSiblingOption = (
-    startIndex: number,
-    direction: number,
-    offset = 1,
-  ): number => {
-    const nextIndex = startIndex + direction * offset;
-    if (nextIndex < 0 || nextIndex >= options.length) {
-      return startIndex;
-    }
-    const option = options[nextIndex];
-    return option.value !== undefined && option.disabled !== true
-      ? nextIndex
-      : findSiblingOption(startIndex, direction, offset + 1);
-  };
-
-  // Automatically triggered when a `focus` event is fired.
-  const handleFocus = (optionValue: string, optionIndex: number) => (event: FocusEvent): void => {
-    isFocused = true;
-    focusedOptionIndex = optionIndex;
-    dispatch('focus', { optionValue, event });
-  };
-
-  // Manually triggered, used to simulate `focus` events (`select` mode).
-  const focusOption = (optionIndex: number): void => {
-    const refNode = wrapperRef;
-    if (
-      refNode !== null
-      && optionIndex < refNode.childNodes.length
-      && optionIndex >= 0
-    ) {
-      (refNode.childNodes[optionIndex] as HTMLElement).focus();
-    }
-  };
-
-  // Automatically triggered when a `change` event is fired.
-  const handleChange = (event: Event): void => {
-    const target = (event.target as HTMLInputElement);
-    const selectedIndex = currentValue.indexOf(target.value);
-    let newValue = [target.value];
-    if (multiple === true) {
-      newValue = selectedIndex >= 0
-        ? currentValue
-          .slice(0, selectedIndex)
-          .concat(currentValue.slice(selectedIndex + 1))
-        : currentValue.concat([target.value]);
-    }
-    // If the value hasn't changed, we don't trigger anything.
-    if (multiple || newValue[0] !== currentValue[0]) {
-      currentValue = newValue;
-      dispatch('change', { value: multiple === true ? newValue : newValue[0], event });
-    }
-  };
-
-  // Manually triggered, used to simulate `change` events (`select` mode).
-  const changeOption = (optionIndex: number) => (): void => {
-    focusedOptionIndex = optionIndex;
-    const optionValue = options[optionIndex].value;
-    handleChange({ target: { value: optionValue } } as unknown as InputEvent);
-    if (select === true) {
-      hideList()(null);
-    }
-  };
-
-  // -----------------------------------------------------------------------------------------------
-  // KEYBOARD NAVIGATION.
-  // -----------------------------------------------------------------------------------------------
-
-  // Handles keyboard navigation amongst options.
-  const handleKeydown = (event: KeyboardEvent): void => {
-    const { key } = event;
-    const navigationControls: Record<string, () => number> = {
-      ArrowUp: () => findSiblingOption(focusedOptionIndex, -1),
-      ArrowLeft: () => findSiblingOption(focusedOptionIndex, -1),
-      ArrowDown: () => findSiblingOption(focusedOptionIndex, +1),
-      ArrowRight: () => findSiblingOption(focusedOptionIndex, +1),
-      PageUp: () => Math.max(0, findSiblingOption(-1, +1)),
-      Home: () => Math.max(0, findSiblingOption(-1, +1)),
-      PageDown: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
-      End: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
-    };
-
-    const siblingOption = navigationControls[key];
-    if (siblingOption !== undefined) {
-      // User is navigating through options...
-      if (isDisplayed || !select) {
-        focusOption(siblingOption());
-      } else {
-        changeOption(siblingOption())();
-      }
-      // `event.preventDefault` is not called globally to avoid overriding `Tab` behaviour.
-      event.preventDefault();
-    } else if (key === ' ' || key === 'Enter') {
-      // User wants to select / unselect an option...
-      if (!isDisplayed && select) {
-        isDisplayed = true;
-      } else {
-        changeOption(focusedOptionIndex)();
-      }
-      event.preventDefault();
-    } else if (key === 'Escape') {
-      // User wants to hide list (`select` mode)...
-      hideList(true)(null);
-      event.preventDefault();
-    }
-  };
-
-  // -----------------------------------------------------------------------------------------------
-  // PROPS REACTIVITY MANAGEMENT.
-  // -----------------------------------------------------------------------------------------------
-
-  // Updates `firstSelectedOption` ref whenever `currentValue` changes.
-  let firstSelectedOption = -1;
-  $: {
-    if (currentValue.length === 0) {
-      firstSelectedOption = findSiblingOption(-1, 1);
-    }
-    firstSelectedOption = Math.max(
-      0,
-      options.findIndex((option) => currentValue.includes(option.value as string)),
-    );
+// In `select` mode only, hides the options list only if forced or if focus is lost.
+const hideList = (force = false) => (event: FocusEvent | null): void => {
+  // We first ensure that the newly focused element is not an option of the list.
+  const focusIsOutsideList = event !== null && wrapperRef !== null
+    ? !wrapperRef.contains(event.relatedTarget as Node)
+    : true;
+  if (focusIsOutsideList && (force === true || multiple === false)) {
+    handleBlur();
+    isDisplayed = false;
   }
+};
 
-  // Updates current value whenever `value` property changes.
-  $: currentValue = toArray(value || []);
+// Finds the direct previous or next option when navigating with keyboard.
+const findSiblingOption = (
+  startIndex: number,
+  direction: number,
+  offset = 1,
+): number => {
+  const nextIndex = startIndex + direction * offset;
+  if (nextIndex < 0 || nextIndex >= options.length) {
+    return startIndex;
+  }
+  const option = options[nextIndex];
+  return option.value !== undefined && option.disabled !== true
+    ? nextIndex
+    : findSiblingOption(startIndex, direction, offset + 1);
+};
 
-  // Updates current value whenever `multiple` property changes.
-  const updateCurrentValue = (newMultiple: boolean) => {
-    currentValue = (newMultiple === true || currentValue.length === 0)
+// Automatically triggered when a `focus` event is fired.
+const handleFocus = (optionValue: string, optionIndex: number) => (event: FocusEvent): void => {
+  isFocused = true;
+  focusedOptionIndex = optionIndex;
+  dispatch('focus', { optionValue, event });
+};
+
+// Manually triggered, used to simulate `focus` events (`select` mode).
+const focusOption = (optionIndex: number): void => {
+  const refNode = wrapperRef;
+  if (
+    refNode !== null
+    && optionIndex < refNode.childNodes.length
+    && optionIndex >= 0
+  ) {
+    (refNode.childNodes[optionIndex] as HTMLElement).focus();
+  }
+};
+
+// Automatically triggered when a `change` event is fired.
+const handleChange = (event: Event): void => {
+  const target = (event.target as HTMLInputElement);
+  const selectedIndex = currentValue.indexOf(target.value);
+  let newValue = [target.value];
+  if (multiple === true) {
+    newValue = selectedIndex >= 0
       ? currentValue
-      : [currentValue[0]];
-  };
-  $: updateCurrentValue(multiple);
+        .slice(0, selectedIndex)
+        .concat(currentValue.slice(selectedIndex + 1))
+      : currentValue.concat([target.value]);
+  }
+  // If the value hasn't changed, we don't trigger anything.
+  if (multiple || newValue[0] !== currentValue[0]) {
+    currentValue = newValue;
+    dispatch('change', { value: multiple === true ? newValue : newValue[0], event });
+  }
+};
 
-  // Re-focuses the right option whenever `options` property changes, to avoid out of range focus.
-  const updateFocus = (newOptions: Option[]): void => {
-    if (isFocused && newOptions) {
-      focusOption(firstSelectedOption);
-    }
-  };
-  $: updateFocus(options);
+// Manually triggered, used to simulate `change` events (`select` mode).
+const changeOption = (optionIndex: number) => (): void => {
+  focusedOptionIndex = optionIndex;
+  const optionValue = options[optionIndex].value;
+  handleChange({ target: { value: optionValue } } as unknown as InputEvent);
+  if (select === true) {
+    hideList()(null);
+  }
+};
 
-  // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
-  // be displayed before actually focusing it (`select` mode).
-  const updateSelectFocus = (newMounted: boolean, newIsDisplayed: boolean): void => {
-    if (newMounted) {
-      setTimeout(() => {
-        if (wrapperRef !== undefined && select && newIsDisplayed) {
-          focusOption(firstSelectedOption);
-        } else if (!newIsDisplayed && buttonRef !== null) {
-          buttonRef.focus();
-        }
-      }, 10);
-    }
-    mounted = true;
+// -----------------------------------------------------------------------------------------------
+// KEYBOARD NAVIGATION.
+// -----------------------------------------------------------------------------------------------
+
+// Handles keyboard navigation amongst options.
+const handleKeydown = (event: KeyboardEvent): void => {
+  const { key } = event;
+  const navigationControls: Record<string, () => number> = {
+    ArrowUp: () => findSiblingOption(focusedOptionIndex, -1),
+    ArrowLeft: () => findSiblingOption(focusedOptionIndex, -1),
+    ArrowDown: () => findSiblingOption(focusedOptionIndex, +1),
+    ArrowRight: () => findSiblingOption(focusedOptionIndex, +1),
+    PageUp: () => Math.max(0, findSiblingOption(-1, +1)),
+    Home: () => Math.max(0, findSiblingOption(-1, +1)),
+    PageDown: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
+    End: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
   };
-  $: updateSelectFocus(mounted, isDisplayed);
+
+  const siblingOption = navigationControls[key];
+  if (siblingOption !== undefined) {
+    // User is navigating through options...
+    if (isDisplayed || !select) {
+      focusOption(siblingOption());
+    } else {
+      changeOption(siblingOption())();
+    }
+    // `event.preventDefault` is not called globally to avoid overriding `Tab` behaviour.
+    event.preventDefault();
+  } else if (key === ' ' || key === 'Enter') {
+    // User wants to select / unselect an option...
+    if (!isDisplayed && select) {
+      isDisplayed = true;
+    } else {
+      changeOption(focusedOptionIndex)();
+    }
+    event.preventDefault();
+  } else if (key === 'Escape') {
+    // User wants to hide list (`select` mode)...
+    hideList(true)(null);
+    event.preventDefault();
+  }
+};
+
+// -----------------------------------------------------------------------------------------------
+// PROPS REACTIVITY MANAGEMENT.
+// -----------------------------------------------------------------------------------------------
+
+// Updates `firstSelectedOption` ref whenever `currentValue` changes.
+let firstSelectedOption = -1;
+$: {
+  if (currentValue.length === 0) {
+    firstSelectedOption = findSiblingOption(-1, 1);
+  }
+  firstSelectedOption = Math.max(
+    0,
+    options.findIndex((option) => currentValue.includes(option.value as string)),
+  );
+}
+
+// Updates current value whenever `value` property changes.
+$: currentValue = toArray(value || []);
+
+// Updates current value whenever `multiple` property changes.
+const updateCurrentValue = (newMultiple: boolean) => {
+  currentValue = (newMultiple === true || currentValue.length === 0)
+    ? currentValue
+    : [currentValue[0]];
+};
+$: updateCurrentValue(multiple);
+
+// Re-focuses the right option whenever `options` property changes, to avoid out of range focus.
+const updateFocus = (newOptions: Option[]): void => {
+  if (isFocused && newOptions) {
+    focusOption(firstSelectedOption);
+  }
+};
+$: updateFocus(options);
+
+// HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
+// be displayed before actually focusing it (`select` mode).
+const updateSelectFocus = (newMounted: boolean, newIsDisplayed: boolean): void => {
+  if (newMounted) {
+    setTimeout(() => {
+      if (wrapperRef !== undefined && select && newIsDisplayed) {
+        focusOption(firstSelectedOption);
+      } else if (!newIsDisplayed && buttonRef !== null) {
+        buttonRef.focus();
+      }
+    }, 10);
+  }
+  mounted = true;
+};
+$: updateSelectFocus(mounted, isDisplayed);
 </script>
 
 {#if select === true}
