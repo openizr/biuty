@@ -23,15 +23,19 @@ const propTypes = {
 
 const defaultProps = {
   modifiers: 'top',
-  description: undefined,
+  description: null,
 };
 
 /**
  * Tooltip wrapper, for accessibility.
  */
 function Tooltip(props: InferProps<typeof propTypes>): JSX.Element {
-  const { description } = props;
-  const { label, modifiers, children } = props;
+  const { label, children } = props;
+  let { description, modifiers } = props;
+
+  modifiers = modifiers || 'top';
+  description = description || null;
+
   const [isDescriptionVisible, setIsDescriptionVisible] = React.useState(false);
   const className = buildClass('ui-tooltip', [modifiers, isDescriptionVisible ? 'described' : ''].join(' '));
 

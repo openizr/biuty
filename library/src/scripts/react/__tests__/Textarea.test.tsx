@@ -25,7 +25,7 @@ describe('react/UITextarea', () => {
   });
 
   test('renders correctly - basic', async () => {
-    const { container } = render(<JSXUITextarea name="test" modifiers="large" />);
+    const { container } = render(<JSXUITextarea name="test" modifiers="large" autocomplete={null} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

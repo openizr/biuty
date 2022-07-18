@@ -41,13 +41,18 @@ describe('react/UIButton', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - default type', () => {
+    const { container } = render(<JSXUIButton type={null} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - type submit', () => {
     const { container } = render(<JSXUIButton type="submit" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - icon only', () => {
-    const { container } = render(<JSXUIButton icon="star" />);
+    const { container } = render(<JSXUIButton icon="star" iconPosition={null} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

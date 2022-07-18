@@ -22,7 +22,7 @@ describe('react/UITitle', () => {
   });
 
   test('renders correctly - basic', () => {
-    const { container } = render(<JSXUITitle label="Test" modifiers="large" />);
+    const { container } = render(<JSXUITitle label="Test" modifiers="large" level={null} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

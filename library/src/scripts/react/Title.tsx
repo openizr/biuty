@@ -32,20 +32,26 @@ const defaultProps = {
  * Title.
  */
 function UITitle(props: InferProps<typeof propTypes>): JSX.Element {
-  const { level, modifiers, itemProp } = props;
-  let modifiersList = props.modifiers as string;
+  const { label } = props;
+  let { id, itemProp } = props;
+  let { level, modifiers } = props;
+
+  id = id || null;
+  level = level || '1';
+  itemProp = itemProp || null;
+  modifiers = modifiers || '';
 
   // Checks if any of the given modifiers corresponds to a valid level (1, 2, ...).
   // By default, if no level is specified in modifiers, we set it to the `level` prop.
   if (/(^|\s)([1-6])($|\s)/i.test(modifiers as string) === false) {
-    modifiersList += ` ${level as string}`;
+    modifiers += ` ${level}`;
   }
 
   return React.createElement(`h${level}`, {
-    id: props.id,
+    id,
     itemProp,
-    className: buildClass('ui-title', modifiersList),
-    dangerouslySetInnerHTML: { __html: markdown(props.label) },
+    dangerouslySetInnerHTML: { __html: markdown(label) },
+    className: buildClass('ui-title', modifiers as string),
   }) as JSXElement;
 }
 

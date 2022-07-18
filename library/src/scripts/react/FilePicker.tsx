@@ -49,9 +49,9 @@ const defaultProps = {
   onBlur: null,
   onFocus: null,
   modifiers: '',
+  onChange: null,
   multiple: false,
   placeholder: null,
-  onChange: undefined,
   iconPosition: 'left',
 };
 
@@ -59,14 +59,31 @@ const defaultProps = {
  * File picker.
  */
 function UIFilePicker(props: InferProps<typeof propTypes>): JSX.Element {
-  const { value, onBlur } = props;
-  const { accept, id, modifiers } = props;
-  const { icon, onChange, multiple } = props;
-  const { name, placeholder, onFocus } = props;
-  const { label, helper, iconPosition } = props;
+  const { name } = props;
+  let { placeholder } = props;
+  let { value, onBlur, onFocus } = props;
+  let { accept, id, modifiers } = props;
+  let { icon, onChange, multiple } = props;
+  let { label, helper, iconPosition } = props;
+
+  // Enforces props default values.
+  id = id || null;
+  value = value || [];
+  icon = icon || null;
+  label = label || null;
+  helper = helper || null;
+  accept = accept || null;
+  onBlur = onBlur || null;
+  onFocus = onFocus || null;
+  onChange = onChange || null;
+  modifiers = modifiers || '';
+  multiple = multiple || false;
+  placeholder = placeholder || null;
+  iconPosition = iconPosition || 'left';
+
   const [randomId] = React.useState(generateRandomId);
-  const [currentValue, setCurrentValue] = React.useState<File[]>(value as unknown as File[]);
-  const className = buildClass('ui-file-picker', modifiers as string + (multiple ? ' multiple' : ''));
+  const [currentValue, setCurrentValue] = React.useState<File[]>(value as File[]);
+  const className = buildClass('ui-file-picker', `${modifiers}${(multiple ? ' multiple' : '')}`);
 
   // -----------------------------------------------------------------------------------------------
   // CALLBACKS DECLARATION.
@@ -79,20 +96,20 @@ function UIFilePicker(props: InferProps<typeof propTypes>): JSX.Element {
       files.push((event.target.files as FileList)[index]);
     }
     setCurrentValue(files);
-    if (onChange !== undefined && onChange !== null) {
-      onChange(files, event);
+    if (onChange !== null) {
+      (onChange as JSXElement)(files, event);
     }
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onFocus !== undefined && onFocus !== null) {
-      onFocus(currentValue, event);
+    if (onFocus !== null) {
+      (onFocus as JSXElement)(currentValue, event);
     }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onBlur !== undefined && onBlur !== null) {
-      onBlur(currentValue, event);
+    if (onBlur !== null) {
+      (onBlur as JSXElement)(currentValue, event);
     }
   };
 
@@ -102,7 +119,7 @@ function UIFilePicker(props: InferProps<typeof propTypes>): JSX.Element {
 
   // Updates current value whenever `value` prop changes.
   React.useEffect(() => {
-    setCurrentValue(value as unknown as File[]);
+    setCurrentValue(value as File[]);
   }, [value]);
 
   // -----------------------------------------------------------------------------------------------
@@ -116,13 +133,13 @@ function UIFilePicker(props: InferProps<typeof propTypes>): JSX.Element {
       type="file"
       name={name}
       id={randomId}
+      multiple={multiple}
       onBlur={handleBlur}
       onFocus={handleFocus}
       onChange={handleChange}
       accept={accept as string}
-      multiple={multiple as boolean}
       className="ui-file-picker__wrapper__field"
-      tabIndex={(modifiers as string).includes('disabled') ? -1 : 0}
+      tabIndex={modifiers.includes('disabled') ? -1 : 0}
     />,
   ];
   return (

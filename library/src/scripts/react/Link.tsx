@@ -32,18 +32,25 @@ const defaultProps = {
  * Hyperlink.
  */
 function UILink(props: InferProps<typeof propTypes>): JSX.Element {
-  const { rel } = props;
-  const { id, href, label } = props;
-  const { onClick, modifiers, target } = props;
+  let { rel, id } = props;
+  const { href, label } = props;
+  let { onClick, modifiers, target } = props;
+
+  // Enforces props default values.
+  id = id || null;
+  rel = rel || null;
+  target = target || null;
+  onClick = onClick || null;
+  modifiers = modifiers || '';
 
   return (
     <a
-      id={id as string}
       href={href}
+      id={id as string}
       rel={rel as string}
       target={target as string}
-      onClick={onClick as undefined}
-      className={buildClass('ui-link', modifiers as string)}
+      className={buildClass('ui-link', modifiers)}
+      onClick={onClick as React.MouseEventHandler<HTMLAnchorElement>}
     >
       {label}
     </a>

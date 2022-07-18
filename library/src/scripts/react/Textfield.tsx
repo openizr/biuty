@@ -95,18 +95,45 @@ const defaultTransform = (value: string): string[] => [value];
  * Text field.
  */
 function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
-  const { autofocus } = props;
-  const { type, size, max } = props;
-  const { name, readonly, step } = props;
-  const { id, modifiers, label } = props;
-  const { helper, onChange, value } = props;
-  const { min, maxlength, onFocus } = props;
-  const { iconPosition, icon, onBlur } = props;
-  const { onIconKeyDown, transform, onPaste } = props;
-  const { onIconClick, autocomplete, placeholder } = props;
-  const { debounceTimeout, allowedKeys, onKeyDown } = props;
-  const [randomId] = React.useState(generateRandomId);
+  let { type, size } = props;
+  const { min, max } = props;
+  const { name, transform } = props;
+  let { autofocus, onPaste } = props;
+  let { maxlength, onFocus } = props;
+  let { id, modifiers, label } = props;
+  let { helper, onChange, value } = props;
+  let { iconPosition, icon, onBlur } = props;
+  let { onIconKeyDown, readonly, step } = props;
+  let { onIconClick, autocomplete, placeholder } = props;
+  let { debounceTimeout, allowedKeys, onKeyDown } = props;
+
+  id = id || null;
+  value = value || '';
+  step = step || null;
+  size = size || null;
+  icon = icon || null;
+  type = type || 'text';
+  label = label || null;
+  helper = helper || null;
+  onBlur = onBlur || null;
+  onFocus = onFocus || null;
+  onPaste = onPaste || null;
+  modifiers = modifiers || '';
+  onChange = onChange || null;
+  readonly = readonly || false;
+  maxlength = maxlength || null;
+  onKeyDown = onKeyDown || null;
+  autofocus = autofocus || false;
+  allowedKeys = allowedKeys || {};
+  onIconClick = onIconClick || null;
+  placeholder = placeholder || null;
+  autocomplete = autocomplete || 'on';
+  iconPosition = iconPosition || 'left';
+  onIconKeyDown = onIconKeyDown || null;
+  debounceTimeout = debounceTimeout || 0;
   const actualTransform = transform || defaultTransform;
+
+  const [randomId] = React.useState(generateRandomId);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const isDisabled = (modifiers as string).includes('disabled');
@@ -150,7 +177,7 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
       // This debounce system prevents triggering `onChange` callback too many times when user is
       // still typing to improve performance and make UI more reactive on low-perfomance devices.
       timeout.current = setTimeout(() => {
-        onChange(newValue, event);
+        (onChange as JSXElement)(newValue, event);
       }, debounceTimeout as number);
     }
   };
@@ -236,9 +263,9 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
           key="icon"
           tabIndex={0}
           role="button"
-          onClick={onIconClick as undefined}
-          onKeyDown={onIconKeyDown as undefined}
           className="ui-textfield__wrapper__icon"
+          onClick={onIconClick as React.MouseEventHandler<HTMLSpanElement>}
+          onKeyDown={onIconKeyDown as React.KeyboardEventHandler<HTMLSpanElement>}
         >
           <JSXUIIcon name={icon} />
         </span>
@@ -254,16 +281,16 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
       step={step as number}
       type={type as string}
       size={size as number}
-      disabled={isDisabled}
+      readOnly={readonly}
       onBlur={handleBlur}
+      value={currentValue}
       onFocus={handleFocus}
-      value={currentValue as string}
-      readOnly={readonly as boolean}
+      disabled={isDisabled}
+      autoComplete={autocomplete}
       maxLength={maxlength as number}
-      autoComplete={autocomplete as string}
       placeholder={placeholder as string}
       className="ui-textfield__wrapper__field"
-      autoFocus={autofocus as boolean} // eslint-disable-line jsx-a11y/no-autofocus
+      autoFocus={autofocus} // eslint-disable-line jsx-a11y/no-autofocus
       onPaste={(readonly === false && !isDisabled) ? handlePaste : undefined}
       onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
       onKeyDown={(readonly === false && !isDisabled) ? handleKeyDown : undefined}

@@ -61,13 +61,32 @@ const defaultProps = {
  * Text area.
  */
 function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
-  const { autofocus } = props;
-  const { id, modifiers, label } = props;
-  const { readonly, rows, cols } = props;
-  const { helper, onChange, value } = props;
-  const { onBlur, maxlength, onPaste } = props;
-  const { name, autocomplete, onKeyDown } = props;
-  const { onFocus, debounceTimeout, placeholder } = props;
+  const { name } = props;
+  let { id, modifiers, label } = props;
+  let { readonly, rows, cols } = props;
+  let { helper, onChange, value } = props;
+  let { onBlur, maxlength, onPaste } = props;
+  let { autofocus, autocomplete, onKeyDown } = props;
+  let { onFocus, debounceTimeout, placeholder } = props;
+
+  id = id || null;
+  value = value || '';
+  cols = cols || null;
+  rows = rows || null;
+  label = label || null;
+  helper = helper || null;
+  onBlur = onBlur || null;
+  onFocus = onFocus || null;
+  onPaste = onPaste || null;
+  modifiers = modifiers || '';
+  onChange = onChange || null;
+  readonly = readonly || false;
+  maxlength = maxlength || null;
+  onKeyDown = onKeyDown || null;
+  autofocus = autofocus || false;
+  placeholder = placeholder || null;
+  autocomplete = autocomplete || 'on';
+  debounceTimeout = debounceTimeout || 0;
 
   const [randomId] = React.useState(generateRandomId);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
@@ -82,12 +101,12 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     const newValue = event.target.value;
     setCurrentValue(newValue);
-    if (onChange !== undefined && onChange !== null) {
+    if (onChange !== null) {
       window.clearTimeout(timeout.current as NodeJS.Timeout);
       // This debounce system prevents triggering `onChange` callback too many times when user is
       // still typing to save performance and make the UI more reactive on low-perfomance devices.
       timeout.current = setTimeout(() => {
-        onChange(newValue, event);
+        (onChange as JSXElement)(newValue, event);
       }, debounceTimeout as number);
     }
   };
@@ -110,7 +129,7 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
 
   // Updates current value whenever `value` prop changes.
   React.useEffect(() => {
-    setCurrentValue(value);
+    setCurrentValue(value as string);
   }, [value]);
 
   // -----------------------------------------------------------------------------------------------
@@ -122,7 +141,7 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
       id={id as string}
       className={className}
     >
-      {(label !== null && label !== undefined)
+      {(label !== null)
         ? <label className="ui-textarea__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
         : null}
       <div className="ui-textarea__wrapper">
@@ -142,11 +161,11 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
           className="ui-textarea__wrapper__field"
           autoFocus={autofocus as boolean} // eslint-disable-line jsx-a11y/no-autofocus
           onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
-          onPaste={(readonly === false && !isDisabled) ? onPaste as undefined : undefined}
-          onKeyDown={(readonly === false && !isDisabled) ? onKeyDown as undefined : undefined}
+          onPaste={(readonly === false && !isDisabled) ? onPaste as JSXElement : undefined}
+          onKeyDown={(readonly === false && !isDisabled) ? onKeyDown as JSXElement : undefined}
         />
       </div>
-      {(helper !== null && helper !== undefined)
+      {(helper !== null)
         ? <span className="ui-textarea__helper" dangerouslySetInnerHTML={{ __html: markdown(helper) }} />
         : null}
     </div>

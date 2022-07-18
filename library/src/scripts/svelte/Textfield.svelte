@@ -23,8 +23,8 @@ const defaultTransform: Transform = (newValue) => [newValue];
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
 const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|Home|End|AltGraph|NumLock|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp/;
 
-export let name: string;
 export let value = '';
+export let name: string;
 export let modifiers = '';
 export let readonly = false;
 export let autofocus = false;
@@ -59,18 +59,18 @@ $: allowedKeys = allowedKeys || {};
 $: placeholder = placeholder || null;
 $: autocomplete = autocomplete || 'on';
 $: iconPosition = iconPosition || 'left';
+$: debounceTimeout = debounceTimeout || 0;
 $: min = (min !== undefined) ? min : null;
 $: max = (max !== undefined) ? max : null;
-$: debounceTimeout = debounceTimeout || 0;
-$: transform = transform || defaultTransform;
 $: step = (step !== undefined) ? step : null;
 $: size = (size !== undefined) ? size : null;
+$: transform = transform || defaultTransform;
 $: maxlength = (maxlength !== undefined) ? maxlength : null;
 
 let timeout: number | null = null;
 const randomId = generateRandomId();
 let cursorPosition: number | null = null;
-let actualTransform = transform || defaultTransform;
+const actualTransform = transform || defaultTransform;
 let currentValue = defaultTransform(value, 0)[0];
 let inputRef: HTMLInputElement | null = null;
 
@@ -190,13 +190,11 @@ const handleIconKeyDown = (event: KeyboardEvent): void => {
 // -------------------------------------------------------------------------------------------------
 
 // Updates current value whenever `value` and `transform` props change.
-const updateValue = (updatedValue?: string, updatedTransform?: Transform) => {
-  actualTransform = updatedTransform || defaultTransform;
-  const [newValue] = actualTransform(updatedValue || '', 0);
+$: {
+  const [newValue] = transform(value as string, 0);
   currentValue = newValue;
   updateCursorPosition();
-};
-$: updateValue(value);
+}
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
@@ -222,27 +220,27 @@ id={id}
       </span>
     {/if}
     <input
-      name={name}
       max={max}
       min={min}
+      name={name}
       step={step}
+      size={size}
       type={type}
       id={randomId}
-      bind:this={inputRef}
       readonly={readonly}
+      bind:this={inputRef}
+      on:blur={handleBlur}
       value={currentValue}
       maxlength={maxlength}
-      placeholder={placeholder}
-      size={size}
       autofocus={autofocus}
+      disabled={isDisabled}
+      on:focus={handleFocus}
+      placeholder={placeholder}
+      on:keydown={handleKeyDown}
       autocomplete={autocomplete}
       class="ui-textfield__wrapper__field"
-      disabled={isDisabled}
-      on:blur={handleBlur}
-      on:focus={handleFocus}
-      on:keydown={handleKeyDown}
-      on:paste={(readonly !== true && !isDisabled) ? handlePaste : undefined}
-      on:input={(readonly !== true && !isDisabled) ? handleChange : undefined}
+      on:paste={(readonly !== true && !isDisabled) ? handlePaste : null}
+      on:input={(readonly !== true && !isDisabled) ? handleChange : null}
     >
     {#if icon !== null && iconPosition === 'right'}
       <span

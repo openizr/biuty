@@ -23,7 +23,7 @@ describe('react/UITooltip', () => {
 
   test('renders correctly - basic', () => {
     const { container } = render(
-      <JSXUITooltip label="Test" modifiers="top">
+      <JSXUITooltip label="Test" modifiers={null}>
         <button type="button">i</button>
       </JSXUITooltip>,
     );

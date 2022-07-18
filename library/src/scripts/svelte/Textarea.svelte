@@ -15,8 +15,8 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 
 const dispatch = createEventDispatcher();
 
-export let name: string;
 export let value = '';
+export let name: string;
 export let modifiers = '';
 export let readonly = false;
 export let autofocus = false;
@@ -82,10 +82,7 @@ const handleFocus = (event: FocusEvent): void => {
 // -------------------------------------------------------------------------------------------------
 
 // Updates current value whenever `value` prop changes.
-const updateValue = (newValue: string) => {
-  currentValue = newValue;
-};
-$: updateValue(value);
+$: currentValue = value as string;
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->

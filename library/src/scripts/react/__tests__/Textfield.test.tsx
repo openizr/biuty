@@ -25,7 +25,15 @@ describe('react/UITextfield', () => {
   });
 
   test('renders correctly - basic', async () => {
-    const { container } = render(<JSXUITextfield name="test" modifiers="large" />);
+    const { container } = render(
+      <JSXUITextfield
+        name="test"
+        type={null}
+        modifiers="large"
+        autocomplete={null}
+        iconPosition={null}
+      />,
+    );
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -161,6 +169,7 @@ describe('react/UITextfield', () => {
       icon="star"
       onBlur={onBlur}
       onFocus={onFocus}
+      allowedKeys={null}
       onChange={onChange}
       onIconClick={onIconClick}
       transform={transform}

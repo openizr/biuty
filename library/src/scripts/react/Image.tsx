@@ -46,19 +46,24 @@ const getDimensions = (ratio: string): { width: number; height: number; } => {
  * Image.
  */
 function UIImage(props: InferProps<typeof propTypes>): JSX.Element {
-  const { id, src, alt } = props;
-  const { ratio, modifiers, itemProp } = props;
+  const { src, alt, ratio } = props;
+  let { id, modifiers, itemProp } = props;
   const dimensions = getDimensions(ratio);
   const className = buildClass('ui-image', `${ratio} ${modifiers}`);
+
+  // Enforces props default values.
+  id = id || null;
+  itemProp = itemProp || null;
+  modifiers = modifiers || '';
 
   // Custom aspect ratio...
   if (/^([0-9]+)x([0-9]+)$/i.test(ratio)) {
     return (
       <img
-        id={id as string}
         src={src}
         alt={alt}
         loading="lazy"
+        id={id as string}
         className={className}
         width={dimensions.width}
         height={dimensions.height}

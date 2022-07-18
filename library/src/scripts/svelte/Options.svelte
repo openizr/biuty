@@ -62,7 +62,7 @@ $: parsedHelper = helper !== null ? markdown(helper) : null;
 $: optionParsedLabels = options.reduce(
   (mapping, option) => {
     if (option.value !== undefined && option.value !== null) {
-      return { ...mapping, [option.value]: markdown(option.label as string) };
+      return { ...mapping, [option.value]: markdown(option.label || '') };
     }
     return mapping;
   },
