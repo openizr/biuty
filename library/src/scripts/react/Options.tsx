@@ -54,10 +54,20 @@ const defaultProps = {
  * Set of selectable options.
  */
 function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
-  const { onChange, select } = props;
-  const { helper, value, name } = props;
-  const { id, modifiers, label } = props;
-  const { multiple, options, onFocus } = props;
+  const { options, name } = props;
+  let { id, modifiers, label } = props;
+  let { helper, value, onChange } = props;
+  let { multiple, select, onFocus } = props;
+
+  id = id || null;
+  value = value || [];
+  label = label || null;
+  helper = helper || null;
+  select = select || false;
+  onFocus = onFocus || null;
+  onChange = onChange || null;
+  modifiers = modifiers || '';
+  multiple = multiple || false;
 
   const mounted = React.useRef(false);
   const wrapperRef = React.useRef(null);
@@ -68,12 +78,12 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
   const [position, setPosition] = React.useState('bottom');
   const [isDisplayed, setIsDisplayed] = React.useState(false);
   const [focusedOptionIndex, setFocusedOptionIndex] = React.useState(-1);
-  const [currentValue, setCurrentValue] = React.useState<string[]>(toArray(value as string));
-  const className = buildClass('ui-options', (modifiers as string) + (select === true ? ' select' : '') + (multiple === true ? ' multiple' : ''));
+  const [currentValue, setCurrentValue] = React.useState<string[]>(toArray(value));
+  const className = buildClass('ui-options', `${modifiers} ${(select ? 'select' : '')} ${(multiple ? ' multiple' : '')}`);
   // Memoizes all options' parsed labels to optimize rendering.
   const optionParsedLabels = React.useMemo(() => options.reduce((mapping, option) => {
     if (option.value !== undefined && option.value !== null) {
-      return { ...mapping, [option.value]: markdown(option.label as string) };
+      return { ...mapping, [option.value]: markdown(option.label || '') };
     }
     return mapping;
   }, { _: '' } as Record<string, string>), [options]);
@@ -284,7 +294,7 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
     : null;
 
   // Display as select list...
-  if (select === true) {
+  if (select) {
     return (
       <div
         id={id as string}
@@ -302,8 +312,8 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
             onMouseDown={displayList}
             className="ui-options__wrapper__button"
             aria-labelledby={`${randomId} ${randomId}`}
+            tabIndex={(modifiers.includes('disabled') ? -1 : 0)}
             onFocus={handleFocus('', firstSelectedOption.current)}
-            tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
             dangerouslySetInnerHTML={{ __html: currentValue.map((optionValue) => optionParsedLabels[optionValue]).join(', ') }}
           />
           <ul

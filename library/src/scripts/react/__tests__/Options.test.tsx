@@ -154,6 +154,12 @@ describe('react/UIOptions', () => {
     jest.useRealTimers();
   });
 
+  test('renders correctly - select with default value', () => {
+    const defaultOptions = [{ value: 'test' }];
+    const { container } = render(<JSXUIOptions name="test" select options={defaultOptions} value={null} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - multiple select with listeners', async () => {
     const onChange = jest.fn();
     const onFocus = jest.fn();

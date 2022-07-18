@@ -58,7 +58,7 @@ const className = computed(() => buildClass(
 // Memoizes all options' parsed labels to optimize rendering.
 const optionParsedLabels = computed(() => props.options.reduce((mapping, option) => {
   if (option.value !== undefined && option.value !== null) {
-    return { ...mapping, [option.value]: markdown(option.label as string) };
+    return { ...mapping, [option.value]: markdown(option.label || '') };
   }
   return mapping;
 }, { _: '' } as Record<string, string>));

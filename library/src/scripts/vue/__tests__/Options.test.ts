@@ -190,6 +190,16 @@ describe('vue/UIOptions', () => {
     expect(onChange).toHaveBeenCalledWith('option1', expect.any(Object));
   });
 
+  test('renders correctly - select with default value', () => {
+    const defaultOptions = [{ value: 'test' }];
+    const { container } = render(UIOptions, {
+      props: {
+        name: 'test', select: true, options: defaultOptions, value: null,
+      },
+    });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - multiple select with listeners', async () => {
     const onChange = jest.fn();
     const onFocus = jest.fn();

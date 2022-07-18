@@ -183,6 +183,16 @@ describe('svelte/UIOptions', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
+  test('renders correctly - select with default value', () => {
+    const defaultOptions = [{ value: 'test' }];
+    const { container } = render(UIOptions, {
+      props: {
+        name: 'test', select: true, options: defaultOptions, value: null,
+      },
+    });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - multiple select with listeners', async () => {
     const onChange = jest.fn();
     const onFocus = jest.fn();
