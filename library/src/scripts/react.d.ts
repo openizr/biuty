@@ -185,6 +185,7 @@ declare module 'biuty/react' {
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;
     autofocus: PropTypes.Requireable<boolean>
+    autoresize: PropTypes.Requireable<boolean>
     placeholder: PropTypes.Requireable<string>;
     autocomplete: PropTypes.Requireable<'on' | 'off'>;
     name: PropTypes.Validator<string>;

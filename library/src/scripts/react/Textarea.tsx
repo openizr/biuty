@@ -28,6 +28,7 @@ const propTypes = {
   readonly: PropTypes.bool,
   onKeyDown: PropTypes.func,
   autofocus: PropTypes.bool,
+  autoresize: PropTypes.bool,
   maxlength: PropTypes.number,
   modifiers: PropTypes.string,
   placeholder: PropTypes.string,
@@ -53,6 +54,7 @@ const defaultProps = {
   onKeyDown: null,
   autofocus: false,
   placeholder: null,
+  autoresize: false,
   autocomplete: 'on',
   debounceTimeout: 0,
 };
@@ -62,6 +64,7 @@ const defaultProps = {
  */
 function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   const { name } = props;
+  let { autoresize } = props;
   let { id, modifiers, label } = props;
   let { readonly, rows, cols } = props;
   let { helper, onChange, value } = props;
@@ -84,6 +87,7 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   maxlength = maxlength || null;
   onKeyDown = onKeyDown || null;
   autofocus = autofocus || false;
+  autoresize = autoresize || false;
   placeholder = placeholder || null;
   autocomplete = autocomplete || 'on';
   debounceTimeout = debounceTimeout || 0;
@@ -93,6 +97,7 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   const [currentValue, setCurrentValue] = React.useState(value);
   const isDisabled = (modifiers as string).includes('disabled');
   const className = buildClass('ui-textarea', modifiers as string);
+  rows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
 
   // -----------------------------------------------------------------------------------------------
   // CALLBACKS DECLARATION.

@@ -38,6 +38,13 @@ describe('svelte/UITextarea', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test.only('renders correctly - with autoresize', async () => {
+    const { container } = render(UITextarea, { props: { name: 'test', autoresize: true } });
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.input(textarea, { target: { value: 'new\nvalue' } });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - with placeholder', () => {
     const { container } = render(UITextarea, { props: { name: 'test', placeholder: 'test...' } });
     expect(container.firstChild).toMatchSnapshot();
@@ -99,7 +106,7 @@ describe('svelte/UITextarea', () => {
     await fireEvent.focus(textarea);
     await fireEvent.blur(textarea);
     await fireEvent.keyDown(textarea, { key: 'a' });
-    await fireEvent.input(textarea, { value: 'new 015 test' });
+    await fireEvent.input(textarea, { target: { value: 'new 015 test' } });
     await fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
     jest.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();

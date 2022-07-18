@@ -20,6 +20,7 @@ export let name: string;
 export let modifiers = '';
 export let readonly = false;
 export let autofocus = false;
+export let autoresize = false;
 export let debounceTimeout = 0;
 export let id: string | null = null;
 export let cols: number | null = null;
@@ -38,6 +39,7 @@ $: helper = helper || null;
 $: modifiers = modifiers || '';
 $: readonly = readonly || false;
 $: autofocus = autofocus || false;
+$: autoresize = autoresize || false;
 $: placeholder = placeholder || null;
 $: autocomplete = autocomplete || 'on';
 $: debounceTimeout = debounceTimeout || 0;
@@ -83,6 +85,7 @@ const handleFocus = (event: FocusEvent): void => {
 
 // Updates current value whenever `value` prop changes.
 $: currentValue = value as string;
+$: actualRows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
@@ -97,22 +100,22 @@ $: currentValue = value as string;
   {/if}
   <div class="ui-textarea__wrapper">
     <textarea
-      id={randomId}
-      value={currentValue}
-      name={name}
-      cols={cols}
-      rows={rows}
-      class="ui-textarea__wrapper__field"
-      readonly={readonly}
-      maxlength={maxlength}
-      placeholder={placeholder}
-      autofocus={autofocus}
-      autocomplete={autocomplete}
-      disabled={isDisabled}
       on:paste
       on:keydown
+      name={name}
+      cols={cols}
+      id={randomId}
+      rows={actualRows}
+      readonly={readonly}
       on:blur={handleBlur}
+      value={currentValue}
+      maxlength={maxlength}
+      autofocus={autofocus}
+      disabled={isDisabled}
       on:focus={handleFocus}
+      placeholder={placeholder}
+      autocomplete={autocomplete}
+      class="ui-textarea__wrapper__field"
       on:input={(readonly !== true && !isDisabled) ? handleChange : undefined}
     />
   </div>

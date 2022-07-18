@@ -159,6 +159,8 @@ declare module 'biuty/vue' {
     readonly?: boolean;
     maxlength?: number;
     modifiers?: string;
+    autofocus?: boolean;
+    autoresize?: boolean;
     placeholder?: string;
     debounceTimeout?: number;
     autocomplete?: 'on' | 'off';

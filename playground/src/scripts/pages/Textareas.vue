@@ -11,6 +11,7 @@
 
 import { Locale } from 'basx/i18n';
 import { ref, onMounted } from 'vue';
+import { UITextarea } from 'biuty/vue';
 
 defineProps<{
   locale: Locale;
@@ -57,59 +58,64 @@ const onFocus = (): void => {
         readonly
       />
       <UITextarea
-        name="textarea3"
+        name="textarea4"
         label="ui-textarea with autofocus"
         autofocus
       />
       <UITextarea
-        name="textarea4"
+        name="textarea5"
         label="ui-textarea with value"
         :value="newValue"
       />
       <UITextarea
-        name="textarea5"
+        name="textarea6"
         label="ui-textarea with helper"
         helper="helper"
       />
       <UITextarea
-        name="textarea6"
+        name="textarea7"
         label="ui-textarea with listener"
         @change="onChange"
       />
       <UITextarea
-        name="textarea16"
+        name="textarea8"
         label="ui-textarea with debounce"
         :debounce-timeout="250"
         @change="onChange"
       />
       <UITextarea
-        name="textarea7"
+        name="textarea9"
         label="ui-textarea with blur listener"
         @blur="onBlur"
       />
       <UITextarea
-        name="textarea8"
+        name="textarea10"
         label="ui-textarea with maxlength"
         :maxlength="10"
       />
       <UITextarea
-        name="textarea9"
+        name="textarea11"
         label="ui-textarea with placeholder"
         placeholder="placeholder"
       />
       <UITextarea
-        name="textarea10"
+        name="textarea12"
         label="ui-textarea with rows and cols"
         :rows="10"
         :cols="10"
       />
       <UITextarea
-        name="textarea11"
+        name="textarea13"
         label="ui-textarea disabled"
         modifiers="disabled"
       />
       <UITextarea
-        name="textarea12"
+        name="textarea14"
+        label="ui-textarea with autoresize"
+        autoresize
+      />
+      <UITextarea
+        name="textarea15"
         label="ui-textarea with focus listener"
         @focus="onFocus"
       />

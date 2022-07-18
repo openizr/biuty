@@ -39,6 +39,14 @@ describe('react/UITextarea', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - with autoresize', async () => {
+    const { container } = render(<JSXUITextarea name="test" autoresize />);
+    const textarea = container.getElementsByTagName('textarea')[0];
+    fireEvent.change(textarea, { target: { value: 'new\nvalue' } });
+    jest.runAllTimers();
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - with placeholder', () => {
     const { container } = render(<JSXUITextarea name="test" placeholder="test..." />);
     expect(container.firstChild).toMatchSnapshot();
@@ -63,7 +71,7 @@ describe('react/UITextarea', () => {
     const onChange = jest.fn();
     const { container } = render(<JSXUITextarea name="test" modifiers="disabled" />);
     const textarea = container.getElementsByTagName('textarea')[0];
-    fireEvent.change(textarea, { value: 'new value' });
+    fireEvent.change(textarea, { target: { value: 'new value' } });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -77,7 +85,7 @@ describe('react/UITextarea', () => {
     const onChange = jest.fn();
     const { container } = render(<JSXUITextarea name="test" readonly onChange={onChange} />);
     const textarea = container.getElementsByTagName('textarea')[0];
-    fireEvent.change(textarea, { value: 'new value' });
+    fireEvent.change(textarea, { target: { value: 'new value' } });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
   });

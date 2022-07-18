@@ -53,6 +53,14 @@ describe('vue/UITextarea', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - with autoresize', async () => {
+    const { container } = render(UITextarea, { props: { name: 'test', cols: 10, autoresize: true } });
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.update(textarea, 'new\nvalue');
+    jest.runAllTimers();
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - with placeholder', () => {
     const { container } = render(UITextarea, {
       props: {

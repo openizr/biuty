@@ -35,6 +35,7 @@ const props = defineProps<{
   maxlength?: number;
   modifiers?: string;
   autofocus?: boolean;
+  autoresize?: boolean;
   placeholder?: string;
   debounceTimeout?: number;
   autocomplete?: 'on' | 'off';
@@ -44,6 +45,9 @@ const timeout = ref(null);
 const randomId = ref(generateRandomId());
 const currentValue = ref(props.value || '');
 const parsedLabel = computed(() => markdown(props.label));
+const actualRows = computed(() => ((props.autoresize && (props.rows || null) === null)
+  ? Math.max(1, currentValue.value.split('\n').length)
+  : props.rows));
 const parsedHelper = computed(() => markdown(props.helper));
 const isDisabled = computed(() => props.modifiers?.includes('disabled'));
 const className = computed(() => buildClass('ui-textarea', props.modifiers || ''));
@@ -90,7 +94,7 @@ watch(() => props.value, () => {
         :value="currentValue"
         :name="name"
         :cols="cols"
-        :rows="rows"
+        :rows="actualRows"
         :autofocus="autofocus"
         class="ui-textarea__wrapper__field"
         :readonly="readonly"
