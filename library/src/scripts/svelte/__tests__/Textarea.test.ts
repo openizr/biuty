@@ -38,7 +38,7 @@ describe('svelte/UITextarea', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  test.only('renders correctly - with autoresize', async () => {
+  test('renders correctly - with autoresize', async () => {
     const { container } = render(UITextarea, { props: { name: 'test', autoresize: true } });
     const textarea = container.getElementsByTagName('textarea')[0];
     await fireEvent.input(textarea, { target: { value: 'new\nvalue' } });

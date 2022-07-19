@@ -39,10 +39,10 @@ const propTypes = {
 
 const defaultProps = {
   id: null,
-  value: '',
   cols: null,
   rows: null,
   label: null,
+  value: null,
   helper: null,
   onBlur: null,
   onFocus: null,

@@ -28,11 +28,11 @@ const props = defineProps<{
   icon?: string;
   label?: string;
   accept?: string;
-  value?: File[];
   helper?: string;
   modifiers?: string;
   multiple?: boolean;
   placeholder?: string;
+  value?: File[] | null;
   iconPosition?: 'left' | 'right';
 }>();
 

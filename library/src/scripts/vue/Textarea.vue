@@ -28,7 +28,6 @@ const props = defineProps<{
   cols?: number;
   rows?: number;
   name: string;
-  value?: string;
   label?: string;
   helper?: string;
   readonly?: boolean;
@@ -37,6 +36,7 @@ const props = defineProps<{
   autofocus?: boolean;
   autoresize?: boolean;
   placeholder?: string;
+  value?: string | null;
   debounceTimeout?: number;
   autocomplete?: 'on' | 'off';
 }>();

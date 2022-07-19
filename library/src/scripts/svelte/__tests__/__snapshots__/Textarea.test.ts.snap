@@ -257,27 +257,6 @@ exports[`svelte/UITextarea renders correctly - with listeners and debounce 1`] =
 </div>
 `;
 
-exports[`svelte/UITextarea renders correctly - with listeners and debounce 2`] = `
-<div>
-  <div
-    class="ui-textarea"
-  >
-     
-    <div
-      class="ui-textarea__wrapper"
-    >
-      <textarea
-        autocomplete="on"
-        class="ui-textarea__wrapper__field"
-        id="z8a8d7a5zad4"
-        name="test"
-      />
-    </div>
-     
-  </div>
-</div>
-`;
-
 exports[`svelte/UITextarea renders correctly - with placeholder 1`] = `
 <div>
   <div

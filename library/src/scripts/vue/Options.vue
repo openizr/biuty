@@ -36,7 +36,7 @@ const props = defineProps<{
   select?: boolean;
   multiple?: boolean;
   modifiers?: string;
-  value?: string | string[];
+  value?: null | string | string[];
 }>();
 
 const buttonRef = ref(null);

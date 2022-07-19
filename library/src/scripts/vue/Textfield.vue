@@ -42,7 +42,6 @@ const props = defineProps<{
   step?: number;
   icon?: string;
   size?: number;
-  value?: string;
   label?: string;
   helper?: string;
   readonly?: boolean;
@@ -50,6 +49,7 @@ const props = defineProps<{
   modifiers?: string;
   autofocus?: boolean;
   placeholder?: string;
+  value?: string | null;
   autocomplete?: 'on' | 'off';
   iconPosition?: 'left' | 'right';
   allowedKeys?: {
