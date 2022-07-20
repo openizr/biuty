@@ -32,6 +32,7 @@ const propTypes = {
     value: PropTypes.string,
     label: PropTypes.string,
     disabled: PropTypes.bool,
+    modifiers: PropTypes.string,
     type: PropTypes.oneOf(['header', 'divider', 'option']),
   }).isRequired).isRequired,
 };
@@ -328,7 +329,7 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
           >
             {options.map((option, index) => {
               const key = `${randomId}${index}`;
-              let optionModifiers = (option.disabled === true) ? 'disabled' : '';
+              let optionModifiers = `${option.modifiers || ''}${option.disabled ? ' disabled' : ''}`;
               const isChecked = currentValue.includes(option.value as string);
               if (isChecked) {
                 optionModifiers += ' checked';
@@ -370,7 +371,11 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
           const optionId = `${randomId}_${index}`;
           const isDisabled = option.disabled === true;
           const isChecked = currentValue.includes(option.value as string);
-          const optionClassName = buildClass('ui-options__wrapper__option', (isChecked ? 'checked' : '') + (isDisabled ? ' disabled' : ''));
+          let optionModifiers = `${option.modifiers || ''}${option.disabled ? ' disabled' : ''}`;
+          if (isChecked) {
+            optionModifiers += ' checked';
+          }
+          const optionClassName = buildClass('ui-options__wrapper__option', optionModifiers);
           return (
             <label key={option.value} className={optionClassName} htmlFor={optionId}>
               <input

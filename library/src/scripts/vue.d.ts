@@ -94,6 +94,7 @@ declare module 'biuty/vue' {
     value?: string;
     label?: string;
     disabled?: boolean;
+    modifiers?: string;
     type?: 'header' | 'divider' | 'option';
   }
 

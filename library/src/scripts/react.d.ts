@@ -103,6 +103,7 @@ declare module 'biuty/react' {
     value: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
     disabled: PropTypes.Requireable<boolean>;
+    modifiers: PropTypes.Requireable<string>;
     type: PropTypes.Requireable<'header' | 'divider' | 'option'>;
   }
 

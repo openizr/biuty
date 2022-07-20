@@ -19,6 +19,7 @@ interface Option {
   value?: string;
   label?: string;
   disabled?: boolean;
+  modifiers?: string;
   type?: 'header' | 'divider' | 'option';
 }
 
@@ -300,8 +301,8 @@ $: updateSelectFocus(mounted, isDisplayed);
             role={option.type === 'option' ? 'option' : undefined}
             class={buildClass(
               `ui-options__wrapper__list__${option.type}`,
-              (option.disabled === true ? 'disabled' : '')
-                + (currentValue.includes(`${option.value}`) ? ' checked' : ''),
+              `${option.modifiers || ''}${option.disabled
+                ? ' disabled' : ''}${currentValue.includes(`${option.value}`) ? ' checked' : ''}`,
             )}
             on:blur={hideList(true)}
             on:mousedown={option.type === 'option' ? changeOption(index) : undefined}
@@ -330,8 +331,8 @@ $: updateSelectFocus(mounted, isDisplayed);
         <label
           class={buildClass(
             'ui-options__wrapper__option',
-            (currentValue.includes(`${option.value}`) ? 'checked' : '')
-              + (option.disabled === true ? ' disabled' : ''),
+            `${option.modifiers || ''}${option.disabled
+                ? ' disabled' : ''}${currentValue.includes(`${option.value}`) ? ' checked' : ''}`,
           )}
         >
           <input
@@ -342,11 +343,16 @@ $: updateSelectFocus(mounted, isDisplayed);
             value={option.value}
             disabled={option.disabled === true}
             class="ui-options__wrapper__option__field"
-            tabindex={option.disabled === true || modifiers.includes('disabled') || !(((index === 0 || multiple === false) && currentValue.length === 0) || option.value === currentValue[0]) ? -1 : 0}
             on:blur={handleBlur}
             on:change={handleChange}
             on:keydown={handleKeydown}
             on:focus={handleFocus(`${option.value}`, index)}
+            tabindex={(
+              option.disabled === true
+              || modifiers.includes('disabled')
+              || !(((index === 0 || multiple === false) && currentValue.length === 0)
+              || option.value === currentValue[0]) ? -1 : 0
+            )}
           />
           <span class="ui-options__wrapper__option__label">
             {@html optionParsedLabels[`${option.value}`]}

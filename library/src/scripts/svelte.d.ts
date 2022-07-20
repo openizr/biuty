@@ -95,6 +95,7 @@ declare module 'biuty/svelte' {
     value?: string;
     label?: string;
     disabled?: boolean;
+    modifiers?: string;
     type?: 'header' | 'divider' | 'option';
   }
 

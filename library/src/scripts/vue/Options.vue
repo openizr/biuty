@@ -29,6 +29,7 @@ const props = defineProps<{
     value?: string;
     label?: string;
     disabled?: boolean;
+    modifiers?: string;
     type?: 'header' | 'divider' | 'option';
   }[];
   select?: boolean;
@@ -287,8 +288,8 @@ watch([isDisplayed, mounted, () => props.select], async () => {
           :role="(option.type === 'option') ? 'option' : undefined"
           :class="buildClass(
             `ui-options__wrapper__list__${option.type}`,
-            ((option.disabled === true) ? 'disabled': '') +
-              (currentValue.includes(option.value) ? ' checked' : ''))"
+            `${option.modifiers || ''}${option.disabled
+              ? ' disabled': ''}${currentValue.includes(option.value) ? ' checked' : ''}`)"
           @blur="hideList($event, true)"
           @mousedown="(option.type==='option') ? changeOption(index) : undefined"
           @focus="handleFocus(option.value, index, $event)"
@@ -323,9 +324,8 @@ watch([isDisplayed, mounted, () => props.select], async () => {
         :key="option.value"
         :class="buildClass(
           'ui-options__wrapper__option',
-          (currentValue.includes(option.value) ? 'checked' : '') +
-            ((option.disabled === true) ? ' disabled' : '')
-        )"
+          `${option.modifiers || ''}${option.disabled
+            ? ' disabled': ''}${currentValue.includes(option.value) ? ' checked' : ''}`)"
       >
         <input
           :id="`${randomId}_${index}`"
