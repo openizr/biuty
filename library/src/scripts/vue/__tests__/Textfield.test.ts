@@ -73,9 +73,15 @@ describe('vue/UITextfield', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with value', () => {
-    const { container } = render(UITextfield, { props: { name: 'test', value: 'my value', size: 100 } });
+  test('renders correctly - with value', async () => {
+    jest.useFakeTimers();
+    const { container, rerender } = render(UITextfield, { props: { name: 'test', size: 100 } });
+    await rerender({ value: 'my value' });
+    jest.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
+    // Covers default value's value.
+    await rerender({ value: undefined });
+    jest.runAllTimers();
   });
 
   test('renders correctly - with disabled', async () => {

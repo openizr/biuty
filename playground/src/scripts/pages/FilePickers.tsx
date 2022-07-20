@@ -10,11 +10,11 @@ import * as React from 'react';
 import { UIFilePicker } from 'biuty/react';
 
 const onChange = (value: File[]): void => {
-  console.log('Changed!', value); // eslint-disable-line no-console
+  console.log('Changed!', value);
 };
 
 const onFocus = (): void => {
-  console.log('Focused!'); // eslint-disable-line no-console
+  console.log('Focused!');
 };
 
 /**

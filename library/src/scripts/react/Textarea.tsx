@@ -6,8 +6,6 @@
  *
  */
 
-/* eslint-disable react/no-danger, jsx-a11y/label-has-associated-control */
-
 import * as React from 'react';
 import markdown from 'scripts/helpers/markdown';
 import PropTypes, { InferProps } from 'prop-types';
@@ -96,6 +94,7 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const [currentValue, setCurrentValue] = React.useState(value);
   const isDisabled = (modifiers as string).includes('disabled');
+  const reverseTimeout = React.useRef<NodeJS.Timeout | null>(null);
   const className = buildClass('ui-textarea', modifiers as string);
   rows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
 
@@ -104,10 +103,11 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   // -----------------------------------------------------------------------------------------------
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    clearTimeout(timeout.current as NodeJS.Timeout);
+    clearTimeout(reverseTimeout.current as NodeJS.Timeout);
     const newValue = event.target.value;
     setCurrentValue(newValue);
     if (onChange !== null) {
-      window.clearTimeout(timeout.current as NodeJS.Timeout);
       // This debounce system prevents triggering `onChange` callback too many times when user is
       // still typing to save performance and make the UI more reactive on low-perfomance devices.
       timeout.current = setTimeout(() => {
@@ -134,7 +134,11 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
 
   // Updates current value whenever `value` prop changes.
   React.useEffect(() => {
-    setCurrentValue(value as string);
+    clearTimeout(reverseTimeout.current as NodeJS.Timeout);
+    // Do not update current value immediatly while user is typing something else.
+    reverseTimeout.current = setTimeout(() => {
+      setCurrentValue(value as string);
+    }, 150);
   }, [value]);
 
   // -----------------------------------------------------------------------------------------------
@@ -161,10 +165,10 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
           value={currentValue as string}
           readOnly={readonly as boolean}
           maxLength={maxlength as number}
+          autoFocus={autofocus as boolean}
           placeholder={placeholder as string}
           autoComplete={autocomplete as string}
           className="ui-textarea__wrapper__field"
-          autoFocus={autofocus as boolean} // eslint-disable-line jsx-a11y/no-autofocus
           onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
           onPaste={(readonly === false && !isDisabled) ? onPaste as JSXElement : undefined}
           onKeyDown={(readonly === false && !isDisabled) ? onKeyDown as JSXElement : undefined}

@@ -6,8 +6,6 @@
  *
  */
 
-/* eslint-disable react/no-danger, jsx-a11y/label-has-associated-control */
-
 import * as React from 'react';
 import UIIcon from 'scripts/react/Icon';
 import markdown from 'scripts/helpers/markdown';
@@ -137,6 +135,7 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const isDisabled = (modifiers as string).includes('disabled');
+  const reverseTimeout = React.useRef<NodeJS.Timeout | null>(null);
   const className = buildClass('ui-textfield', modifiers as string);
   const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
   const [currentValue, setCurrentValue] = React.useState(() => actualTransform(value, 0)[0]);
@@ -157,6 +156,8 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
   // -----------------------------------------------------------------------------------------------
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, filter = true): void => {
+    clearTimeout(timeout.current as NodeJS.Timeout);
+    clearTimeout(reverseTimeout.current as NodeJS.Timeout);
     const filteredValue = (filter && globalAllowedKeys.default !== null)
       ? (event.target.value.match(globalAllowedKeys.default) || []).join('')
       : event.target.value;
@@ -172,14 +173,13 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
       const isAtTheEnd = currentCursorPosition - 1 >= currentValue.length;
       setCursorPosition(isAtTheEnd ? newValue.length : currentCursorPosition);
     }
-    if (onChange !== undefined && onChange !== null) {
-      window.clearTimeout(timeout.current as NodeJS.Timeout);
-      // This debounce system prevents triggering `onChange` callback too many times when user is
-      // still typing to improve performance and make UI more reactive on low-perfomance devices.
-      timeout.current = setTimeout(() => {
-        (onChange as JSXElement)(newValue, event);
-      }, debounceTimeout as number);
-    }
+    // This debounce system prevents triggering `onChange` callback too many times when user is
+    // still typing to improve performance and make UI more reactive on low-perfomance devices.
+    timeout.current = setTimeout(() => {
+      if (onChange !== undefined && onChange !== null) {
+        onChange(newValue, event);
+      }
+    }, debounceTimeout as number);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -205,8 +205,10 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
   };
 
   const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>): void => {
-    const selectionEnd = (event.target as HTMLInputElement).selectionEnd as number;
-    const selectionStart = (event.target as HTMLInputElement).selectionStart as number;
+    // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
+    // want to replace the entire content when pasting something in that case.
+    const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
+    const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.length;
     const filteredValue = (globalAllowedKeys.default !== null)
       ? (event.clipboardData.getData('text').match(globalAllowedKeys.default) || []).join('')
       : event.clipboardData.getData('text');
@@ -240,8 +242,12 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
 
   // Updates current value whenever `value` and `transform` props change.
   React.useEffect(() => {
-    const [newValue] = actualTransform(value, 0);
-    setCurrentValue(newValue);
+    clearTimeout(reverseTimeout.current as NodeJS.Timeout);
+    // Do not update current value immediatly while user is typing something else.
+    reverseTimeout.current = setTimeout(() => {
+      const [newValue] = actualTransform(value, 0);
+      setCurrentValue(newValue);
+    }, 150);
   }, [value, actualTransform]);
 
   // Re-positions cursor at the right place when using transform function.
@@ -281,16 +287,16 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
       step={step as number}
       type={type as string}
       size={size as number}
-      readOnly={readonly}
-      onBlur={handleBlur}
-      value={currentValue}
-      onFocus={handleFocus}
       disabled={isDisabled}
-      autoComplete={autocomplete}
+      onBlur={handleBlur}
+      onFocus={handleFocus}
+      value={currentValue as string}
+      readOnly={readonly as boolean}
       maxLength={maxlength as number}
+      autoFocus={autofocus as boolean}
       placeholder={placeholder as string}
+      autoComplete={autocomplete as string}
       className="ui-textfield__wrapper__field"
-      autoFocus={autofocus} // eslint-disable-line jsx-a11y/no-autofocus
       onPaste={(readonly === false && !isDisabled) ? handlePaste : undefined}
       onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
       onKeyDown={(readonly === false && !isDisabled) ? handleKeyDown : undefined}

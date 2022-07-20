@@ -41,7 +41,6 @@ function UIP(props: InferProps<typeof propTypes>): JSX.Element {
       id={id as string}
       className={className}
       itemProp={itemProp as string}
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: markdown(label) }}
     />
   );

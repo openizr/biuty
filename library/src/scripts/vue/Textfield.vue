@@ -8,8 +8,6 @@
  *
  */
 
-/* eslint-disable vue/no-v-html */
-
 import {
   computed,
   onUpdated,
@@ -70,6 +68,7 @@ const defaultTransform = (value: string): string[] => [value];
 
 const timeout = ref(null);
 const inputRef = ref(null);
+const reverseTimeout = ref(null);
 const cursorPosition = ref(null);
 const randomId = ref(generateRandomId());
 const parsedLabel = computed(() => markdown(props.label));
@@ -95,6 +94,8 @@ const globalAllowedKeys = computed(() => keyTypes.reduce((allAllowedKeys, keyTyp
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: InputEvent, filter = true): void => {
+  clearTimeout(timeout.value);
+  clearTimeout(reverseTimeout.value);
   const target = event.target as HTMLInputElement;
   const { selectionStart } = target;
   const filteredValue = (filter && globalAllowedKeys.value.default !== null)
@@ -113,7 +114,6 @@ const handleChange = (event: InputEvent, filter = true): void => {
   } else {
     currentValue.value = newValue;
   }
-  window.clearTimeout(timeout.value as number);
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to improve performance and make UI more reactive on low-perfomance devices.
   timeout.value = setTimeout(() => {
@@ -145,7 +145,10 @@ const handleKeyDown = (event: KeyboardEvent): void => {
 };
 
 const handlePaste = (event: ClipboardEvent): void => {
-  const { selectionStart, selectionEnd } = event.target as HTMLInputElement;
+  // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
+  // want to replace the entire content when pasting something in that case.
+  const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
+  const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.value.length;
   const filteredValue = (globalAllowedKeys.value.default !== null)
     ? (event.clipboardData.getData('text').match(globalAllowedKeys.value.default) || []).join('')
     : event.clipboardData.getData('text');
@@ -165,8 +168,12 @@ const handlePaste = (event: ClipboardEvent): void => {
 
 // Updates current value whenever `value` and `transform` props change.
 watch(() => [props.value, props.transform], () => {
-  const [newValue] = actualTransform.value(props.value || '', 0);
-  currentValue.value = newValue;
+  clearTimeout(reverseTimeout.value);
+  // Do not update current value immediatly while user is typing something else.
+  reverseTimeout.value = setTimeout(() => {
+    const [newValue] = actualTransform.value(props.value || '', 0);
+    currentValue.value = newValue;
+  }, 150);
 });
 
 // Re-positions cursor at the right place when using transform function.

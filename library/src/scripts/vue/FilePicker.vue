@@ -8,8 +8,6 @@
  *
  */
 
-/* eslint-disable vue/no-v-html */
-
 import UIIcon from 'scripts/vue/Icon.vue';
 import { ref, computed, watch } from 'vue';
 import markdown from 'scripts/helpers/markdown';

@@ -50,6 +50,7 @@ $: maxlength = (maxlength !== undefined) ? maxlength : null;
 let currentValue = value;
 let timeout: number | null = null;
 const randomId = generateRandomId();
+let reverseTimeout: number | null = null;
 
 $: isDisabled = modifiers.includes('disabled');
 $: className = buildClass('ui-textarea', modifiers);
@@ -61,9 +62,10 @@ $: parsedHelper = helper !== null ? markdown(helper) : null;
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: Event): void => {
+  clearTimeout(timeout as number);
+  clearTimeout(reverseTimeout as number);
   const newValue = (event.target as HTMLTextAreaElement).value;
   currentValue = newValue;
-  window.clearTimeout(timeout as number);
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to save performance and make the UI more reactive on low-perfomance devices.
   timeout = setTimeout(() => {
@@ -84,7 +86,13 @@ const handleFocus = (event: FocusEvent): void => {
 // -------------------------------------------------------------------------------------------------
 
 // Updates current value whenever `value` prop changes.
-$: currentValue = value as string;
+$: {
+  clearTimeout(reverseTimeout as number);
+  // Do not update current value immediatly while user is typing something else.
+  reverseTimeout = setTimeout(() => {
+    currentValue = value;
+  }, 150) as unknown as number;
+}
 $: actualRows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
 </script>
 

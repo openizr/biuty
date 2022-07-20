@@ -10,19 +10,19 @@ import * as React from 'react';
 import { UITextarea } from 'biuty/react';
 
 const onChange = (value: string): void => {
-  console.log('Changed!', value); // eslint-disable-line no-console
+  console.log('Changed!', value);
 };
 
 const onBlur = (value: string): void => {
-  console.log('Blurred!', value); // eslint-disable-line no-console
+  console.log('Blurred!', value);
 };
 
 const onFocus = (): void => {
-  console.log('Focused!'); // eslint-disable-line no-console
+  console.log('Focused!');
 };
 
 const onPaste = (...args): void => {
-  console.log('Pasted!', args); // eslint-disable-line no-console
+  console.log('Pasted!', args);
 };
 
 /**

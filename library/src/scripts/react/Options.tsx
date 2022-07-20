@@ -6,8 +6,6 @@
  *
  */
 
-/* eslint-disable jsx-a11y/label-has-associated-control, react/no-danger */
-
 import * as React from 'react';
 import markdown from 'scripts/helpers/markdown';
 import PropTypes, { InferProps } from 'prop-types';

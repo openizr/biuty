@@ -8,8 +8,6 @@
  *
  */
 
-/* eslint-disable vue/no-v-html */
-
 import { computed, ref, watch } from 'vue';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
@@ -42,6 +40,7 @@ const props = defineProps<{
 }>();
 
 const timeout = ref(null);
+const reverseTimeout = ref(null);
 const randomId = ref(generateRandomId());
 const currentValue = ref(props.value || '');
 const parsedLabel = computed(() => markdown(props.label));
@@ -57,9 +56,10 @@ const className = computed(() => buildClass('ui-textarea', props.modifiers || ''
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: InputEvent): void => {
+  clearTimeout(timeout.value);
+  clearTimeout(reverseTimeout.value);
   const newValue = (event.target as HTMLTextAreaElement).value;
   currentValue.value = newValue;
-  window.clearTimeout(timeout.value as number);
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to save performance and make the UI more reactive on low-perfomance devices.
   timeout.value = setTimeout(() => {
@@ -73,7 +73,11 @@ const handleChange = (event: InputEvent): void => {
 
 // Updates current value whenever `value` prop changes.
 watch(() => props.value, () => {
-  currentValue.value = props.value;
+  clearTimeout(reverseTimeout.value);
+  // Do not update current value immediatly while user is typing something else.
+  reverseTimeout.value = setTimeout(() => {
+    currentValue.value = props.value;
+  }, 150);
 });
 </script>
 

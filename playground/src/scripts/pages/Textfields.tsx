@@ -10,23 +10,23 @@ import * as React from 'react';
 import { UITextfield } from 'biuty/react';
 
 const onChange = (value: string): void => {
-  console.log('Changed!', value); // eslint-disable-line no-console
+  console.log('Changed!', value);
 };
 
 const onBlur = (value: string): void => {
-  console.log('Blurred!', value); // eslint-disable-line no-console
+  console.log('Blurred!', value);
 };
 
 const onFocus = (): void => {
-  console.log('Focused!'); // eslint-disable-line no-console
+  console.log('Focused!');
 };
 
 const onIconClick = (): void => {
-  console.log('Clicked!'); // eslint-disable-line no-console
+  console.log('Clicked!');
 };
 
 const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-  console.log('onKeyDown!', event.shiftKey); // eslint-disable-line no-console
+  console.log('onKeyDown!', event.shiftKey);
 };
 
 /**

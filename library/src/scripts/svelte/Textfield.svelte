@@ -67,9 +67,10 @@ $: size = (size !== undefined) ? size : null;
 $: transform = transform || defaultTransform;
 $: maxlength = (maxlength !== undefined) ? maxlength : null;
 
-let timeout: number | null = null;
 const randomId = generateRandomId();
+let timeout: number | null = null;
 let cursorPosition: number | null = null;
+let reverseTimeout: number | null = null;
 const actualTransform = transform || defaultTransform;
 let currentValue = defaultTransform(value, 0)[0];
 let inputRef: HTMLInputElement | null = null;
@@ -103,6 +104,8 @@ const updateCursorPosition = async () => {
 };
 
 const handleChange = (event: Event, filter = true): void => {
+  clearTimeout(timeout as number);
+  clearTimeout(reverseTimeout as number);
   const target = event.target as HTMLInputElement;
   const selectionStart = target.selectionStart as number;
   const filteredValue = (filter && globalAllowedKeys.default !== null)
@@ -121,7 +124,6 @@ const handleChange = (event: Event, filter = true): void => {
   } else {
     currentValue = newValue;
   }
-  window.clearTimeout(timeout as unknown as number);
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to improve performance and make UI more reactive on low-perfomance devices.
   timeout = setTimeout(() => {
@@ -154,8 +156,10 @@ const handleKeyDown = (event: KeyboardEvent): void => {
 
 const handlePaste = (event: ClipboardEvent): void => {
   const clipboardData = event.clipboardData as DataTransfer;
-  const selectionEnd = (event.target as HTMLInputElement).selectionEnd as number;
-  const selectionStart = (event.target as HTMLInputElement).selectionStart as number;
+  // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
+  // want to replace the entire content when pasting something in that case.
+  const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
+  const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.length;
   const filteredValue = (globalAllowedKeys.default !== null)
     ? (clipboardData.getData('text').match(globalAllowedKeys.default as RegExp) || []).join('')
     : clipboardData.getData('text');
@@ -191,9 +195,13 @@ const handleIconKeyDown = (event: KeyboardEvent): void => {
 
 // Updates current value whenever `value` and `transform` props change.
 $: {
-  const [newValue] = transform(value as string, 0);
-  currentValue = newValue;
-  updateCursorPosition();
+  clearTimeout(reverseTimeout as number);
+  // Do not update current value immediatly while user is typing something else.
+  reverseTimeout = setTimeout(() => {
+    const [newValue] = transform(value as string, 0);
+    currentValue = newValue;
+    updateCursorPosition();
+  }, 150) as unknown as number;
 }
 </script>
 

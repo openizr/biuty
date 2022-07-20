@@ -10,11 +10,11 @@ import * as React from 'react';
 import { UIOptions } from 'biuty/react';
 
 const onChange = (value: string | string[]): void => {
-  console.log('Changed!', value); // eslint-disable-line no-console
+  console.log('Changed!', value);
 };
 
 const onFocus = (value: string): void => {
-  console.log('Focused!', value); // eslint-disable-line no-console
+  console.log('Focused!', value);
 };
 
 const options = [

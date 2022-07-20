@@ -60,6 +60,19 @@
           "import/no-self-import": "off",
           "max-classes-per-file": "off"
         }
+      },
+      {
+        "files": [
+          "*.tsx",
+          "*.vue"
+        ],
+        "rules": {
+          "vue/no-v-html": "off",
+          "react/no-danger": "off",
+          "jsx-a11y/no-autofocus": "off",
+          "jsx-a11y/label-has-associated-control": "off",
+          "jsx-a11y/no-noninteractive-element-interactions": "off"
+        }
       }
     ]
   },

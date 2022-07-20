@@ -6,8 +6,6 @@
  *
  */
 
-/* eslint-disable react/no-danger, jsx-a11y/label-has-associated-control */
-
 import * as React from 'react';
 import UIIcon from 'scripts/react/Icon';
 import markdown from 'scripts/helpers/markdown';
