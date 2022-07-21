@@ -12,3 +12,17 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+// Disabled element.
+%disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+// Interactive field's label.
+%label {
+  cursor: pointer;
+  font-weight: 700;
+  user-select: none;
+  margin-bottom: 0.5em;
+}

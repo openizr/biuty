@@ -43,7 +43,7 @@ export default function Textfields(): JSX.Element {
 
   return (
     <div className="vgap-5">
-      <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
+      <main className="grid cols-1 hgap-3 vgap-5">
         <a href="/" className="cols-l-3">GO BACK</a>
         <UITextfield name="textfield1" />
         <UITextfield name="textfield2" label="*ui-textfield*" />

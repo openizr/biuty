@@ -7,22 +7,34 @@
  */
 
 .ui-textarea {
-  display: block;
   overflow: hidden;
   user-select: none;
   position: relative;
-  padding: 0.1em 1em;
-  max-width: fit-content;
+  @include extend(flex flex-col wrap);
 
-  &__wrapper__field {
-    max-width: 100%;
+  &__wrapper {
+    flex: 1;
+    overflow: hidden;
+    @include extend(flex);
+  }
+
+  &__wrapper__field,
+  &__wrapper__field:focus {
+    width: 100%;
+    user-select: all;
+    font-size: 0.875em;
+    transition: border-color 250ms;
     border-radius: var(--shp-default);
     border: 1px solid var(--clr-default);
+    padding: var(--gaps-1) var(--gaps-2);
+
+    &::placeholder {
+      color: var(--clr-default);
+    }
   }
 
   &__label {
-    cursor: pointer;
-    font-weight: 800;
+    @extend %label;
   }
 
   &__wrapper__field {
@@ -30,7 +42,6 @@
   }
 
   @include modifier(disabled) {
-    opacity: 0.32;
-    pointer-events: none;
+    @extend %disabled;
   }
 }
