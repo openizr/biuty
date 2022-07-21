@@ -200,6 +200,7 @@
       options={selectOptions}
       value={newValue}
       label="Select large"
+      selectPosition="bottom"
     />
     <UIOptions
       name="dropdown5"

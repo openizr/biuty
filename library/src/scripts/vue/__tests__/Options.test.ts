@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import UIOptions from 'scripts/vue/Options.vue';
@@ -113,6 +110,16 @@ describe('vue/UIOptions', () => {
 
   test('renders correctly - select expanded', async () => {
     const { container } = render(UIOptions, { props: { name: 'test', select: true, options: selectOptions } });
+    await fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - select expanded with selectPosition', async () => {
+    const { container } = render(UIOptions, {
+      props: {
+        name: 'test', select: true, selectPosition: 'top', options: selectOptions,
+      },
+    });
     await fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
     expect(container.firstChild).toMatchSnapshot();
   });

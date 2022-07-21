@@ -119,6 +119,7 @@ declare module 'biuty/react' {
     multiple: PropTypes.Requireable<boolean>;
     select: PropTypes.Requireable<boolean>;
     value: PropTypes.Requireable<string | string[]>;
+    selectPosition: PropTypes.Requireable<'top' | 'bottom'>;
     onFocus: PropTypes.Requireable<(value: string, event: React.FocusEvent<HTMLElement>) => void>;
     onChange: PropTypes.Requireable<
       (value: string | string[], event: React.ChangeEvent<HTMLElement>) => void

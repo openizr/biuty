@@ -32,6 +32,7 @@ export let id: string | null = null;
 export let label: string | null = null;
 export let helper: string | null = null;
 export let value: string | string[] = [];
+export let selectPosition: 'top' | 'bottom' | null = null;
 
 // Enforces props default values.
 $: id = id || null;
@@ -41,6 +42,7 @@ $: helper = helper || null;
 $: select = select || false;
 $: modifiers = modifiers || '';
 $: multiple = multiple || false;
+$: selectPosition = selectPosition || null;
 
 let mounted = false;
 let isFocused = false;
@@ -82,8 +84,12 @@ const handleBlur = (): void => {
 // In `select` mode only, displays the options list at the right place on the viewport.
 const displayList = (): void => {
   if (buttonRef !== null) {
-    const relativeOffsetTop = buttonRef.getBoundingClientRect().top;
-    position = relativeOffsetTop > window.innerHeight / 2 ? 'top' : 'bottom';
+    if (selectPosition !== null) {
+      position = selectPosition;
+    } else {
+      const relativeOffsetTop = buttonRef.getBoundingClientRect().top;
+      position = relativeOffsetTop > window.innerHeight / 2 ? 'top' : 'bottom';
+    }
     isDisplayed = true;
   }
 };

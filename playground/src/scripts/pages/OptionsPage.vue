@@ -223,6 +223,7 @@ onMounted(() => {
       <UIOptions
         name="dropdown4"
         select
+        select-position="bottom"
         :options="selectOptions"
         :value="newValue"
         label="Select large"

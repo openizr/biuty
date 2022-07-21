@@ -16,11 +16,11 @@ const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? 
 
 const propTypes = {
   id: PropTypes.string,
+  select: PropTypes.bool,
   label: PropTypes.string,
   onFocus: PropTypes.func,
   multiple: PropTypes.bool,
   onChange: PropTypes.func,
-  select: PropTypes.bool,
   helper: PropTypes.string,
   modifiers: PropTypes.string,
   name: PropTypes.string.isRequired,
@@ -35,6 +35,7 @@ const propTypes = {
     modifiers: PropTypes.string,
     type: PropTypes.oneOf(['header', 'divider', 'option']),
   }).isRequired).isRequired,
+  selectPosition: PropTypes.oneOf(['top', 'bottom']),
 };
 
 const defaultProps = {
@@ -47,6 +48,7 @@ const defaultProps = {
   onChange: null,
   multiple: false,
   select: false,
+  selectPosition: null,
 };
 
 /**
@@ -54,6 +56,7 @@ const defaultProps = {
  */
 function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
   const { options, name } = props;
+  let { selectPosition } = props;
   let { id, modifiers, label } = props;
   let { helper, value, onChange } = props;
   let { multiple, select, onFocus } = props;
@@ -67,6 +70,7 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
   onChange = onChange || null;
   modifiers = modifiers || '';
   multiple = multiple || false;
+  selectPosition = selectPosition || null;
 
   const mounted = React.useRef(false);
   const wrapperRef = React.useRef(null);
@@ -74,9 +78,9 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
   const firstSelectedOption = React.useRef(-1);
   const [randomId] = React.useState(generateRandomId);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const [position, setPosition] = React.useState('bottom');
   const [isDisplayed, setIsDisplayed] = React.useState(false);
   const [focusedOptionIndex, setFocusedOptionIndex] = React.useState(-1);
+  const [position, setPosition] = React.useState(selectPosition || 'bottom');
   const [currentValue, setCurrentValue] = React.useState<string[]>(toArray(value));
   const className = buildClass('ui-options', `${modifiers} ${(select ? 'select' : '')} ${(multiple ? ' multiple' : '')}`);
   // Memoizes all options' parsed labels to optimize rendering.
@@ -98,10 +102,14 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
 
   // In `select` mode only, displays the options list at the right place on the viewport.
   const displayList = React.useCallback((): void => {
-    const relativeOffsetTop = (buttonRef.current as HTMLInputElement).getBoundingClientRect().top;
-    setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+    if (selectPosition !== null) {
+      setPosition(selectPosition as string);
+    } else {
+      const relativeOffsetTop = (buttonRef.current as HTMLInputElement).getBoundingClientRect().top;
+      setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+    }
     setIsDisplayed(true);
-  }, []);
+  }, [selectPosition]);
 
   // In `select` mode only, hides the options list only if forced or if focus is lost.
   const hideList = React.useCallback(

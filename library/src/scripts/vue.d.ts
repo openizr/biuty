@@ -111,6 +111,7 @@ declare module 'biuty/vue' {
     multiple?: boolean;
     modifiers?: string;
     value?: string | string[];
+    selectPosition?: 'top' | 'bottom';
   }>;
 
   /**

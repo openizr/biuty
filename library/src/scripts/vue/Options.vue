@@ -36,6 +36,7 @@ const props = defineProps<{
   multiple?: boolean;
   modifiers?: string;
   value?: null | string | string[];
+  selectPosition?: 'top' | 'bottom';
 }>();
 
 const buttonRef = ref(null);
@@ -73,8 +74,12 @@ const handleBlur = (): void => {
 
 // In `select` mode only, displays the options list at the right place on the viewport.
 const displayList = (): void => {
-  const relativeOffsetTop = buttonRef.value.getBoundingClientRect().top;
-  position.value = ((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+  if ((props.selectPosition || null) !== null) {
+    position.value = props.selectPosition;
+  } else {
+    const relativeOffsetTop = buttonRef.value.getBoundingClientRect().top;
+    position.value = ((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+  }
   isDisplayed.value = true;
 };
 

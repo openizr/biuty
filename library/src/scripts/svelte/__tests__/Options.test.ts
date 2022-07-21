@@ -114,6 +114,16 @@ describe('svelte/UIOptions', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - select expanded with selectPosition', async () => {
+    const { container } = render(UIOptions, {
+      props: {
+        name: 'test', select: true, selectPosition: 'top', options: selectOptions,
+      },
+    });
+    await fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - select changing options', async () => {
     const { container } = render(UIOptions, { props: { name: 'test', select: true, options: selectOptions } });
     await fireEvent.keyDown(container.getElementsByTagName('button')[0], { key: 'End' });
