@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import React from 'react';
@@ -25,7 +22,7 @@ describe('react/UITextarea', () => {
   });
 
   test('renders correctly - basic', async () => {
-    const { container } = render(<JSXUITextarea name="test" modifiers="large" />);
+    const { container } = render(<JSXUITextarea name="test" modifiers="large" autocomplete={null} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -36,6 +33,14 @@ describe('react/UITextarea', () => {
 
   test('renders correctly - with cols and rows', async () => {
     const { container } = render(<JSXUITextarea name="test" cols={10} rows={50} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with autoresize', async () => {
+    const { container } = render(<JSXUITextarea name="test" autoresize />);
+    const textarea = container.getElementsByTagName('textarea')[0];
+    fireEvent.change(textarea, { target: { value: 'new\nvalue' } });
+    jest.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -63,7 +68,7 @@ describe('react/UITextarea', () => {
     const onChange = jest.fn();
     const { container } = render(<JSXUITextarea name="test" modifiers="disabled" />);
     const textarea = container.getElementsByTagName('textarea')[0];
-    await fireEvent.change(textarea, { value: 'new value' });
+    fireEvent.change(textarea, { target: { value: 'new value' } });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -77,7 +82,7 @@ describe('react/UITextarea', () => {
     const onChange = jest.fn();
     const { container } = render(<JSXUITextarea name="test" readonly onChange={onChange} />);
     const textarea = container.getElementsByTagName('textarea')[0];
-    await fireEvent.change(textarea, { value: 'new value' });
+    fireEvent.change(textarea, { target: { value: 'new value' } });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
   });
@@ -98,11 +103,11 @@ describe('react/UITextarea', () => {
       debounceTimeout={250}
     />);
     const textarea = container.getElementsByTagName('textarea')[0];
-    await fireEvent.focus(textarea);
-    await fireEvent.blur(textarea);
-    await fireEvent.keyDown(textarea, { key: 'a' });
-    await fireEvent.change(textarea, { target: { value: 'new 015 test', selectionStart: 100 } });
-    await fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
+    fireEvent.focus(textarea);
+    fireEvent.blur(textarea);
+    fireEvent.keyDown(textarea, { key: 'a' });
+    fireEvent.change(textarea, { target: { value: 'new 015 test', selectionStart: 100 } });
+    fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
     jest.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);

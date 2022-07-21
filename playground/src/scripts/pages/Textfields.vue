@@ -60,7 +60,7 @@ const transform = (value: string): string => {
 
 <template>
   <div class="vgap-5">
-    <main class="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
+    <main class="grid cols-1 hgap-3 vgap-5">
       <a
         href="/"
         class="cols-l-3"

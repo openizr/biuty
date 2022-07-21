@@ -1,30 +1,36 @@
 <!-- Title. -->
 <script lang="ts">
-  /**
-   * Copyright (c) Openizr. All Rights Reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *
-   */
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-  import markdown from 'scripts/helpers/markdown';
-  import buildClass from 'scripts/helpers/buildClass';
+import markdown from 'scripts/helpers/markdown';
+import buildClass from 'scripts/helpers/buildClass';
 
-  export let label: string;
-  export let modifiers = '';
-  export let id: string | null = null;
-  export let itemProp: string | null = null;
-  export let level: '1' | '2' | '3' | '4' | '5' | '6' = '1';
+export let label: string;
+export let modifiers = '';
+export let id: string | null = null;
+export let itemProp: string | null = null;
+export let level: '1' | '2' | '3' | '4' | '5' | '6' = '1';
 
-  $: parsedLabel = markdown(label);
-  $: fullModifiers = modifiers;
-  // Checks if any of the given modifiers corresponds to a valid level (1, 2, ...).
-  // By default, if no level is specified in modifiers, we set it to the `level` prop.
-  $: if (/(^|\s)([1-6])($|\s)/i.test(modifiers) === false) {
-    fullModifiers = `${fullModifiers} ${level}`;
-  }
-  $: className = buildClass('ui-title', fullModifiers);
+// Enforces props default values.
+$: id = id || null;
+$: level = level || '1';
+$: itemProp = itemProp || null;
+$: modifiers = modifiers || '';
+
+$: parsedLabel = markdown(label);
+$: fullModifiers = modifiers;
+// Checks if any of the given modifiers corresponds to a valid level (1, 2, ...).
+// By default, if no level is specified in modifiers, we set it to the `level` prop.
+$: if (/(^|\s)([1-6])($|\s)/i.test(modifiers) === false) {
+  fullModifiers = `${fullModifiers} ${level}`;
+}
+$: className = buildClass('ui-title', fullModifiers);
 </script>
 
 {#if level === '1'}

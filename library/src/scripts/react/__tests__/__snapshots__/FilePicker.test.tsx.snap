@@ -86,6 +86,27 @@ exports[`react/UIFilePicker renders correctly - with accept 1`] = `
 </div>
 `;
 
+exports[`react/UIFilePicker renders correctly - with default value 1`] = `
+<div
+  class="ui-file-picker"
+>
+  <div
+    class="ui-file-picker__wrapper"
+  >
+    <input
+      class="ui-file-picker__wrapper__field"
+      id="z8a8d7a5zad4"
+      name="test"
+      tabindex="0"
+      type="file"
+    />
+    <span
+      class="ui-file-picker__wrapper__placeholder"
+    />
+  </div>
+</div>
+`;
+
 exports[`react/UIFilePicker renders correctly - with helper 1`] = `
 <div
   class="ui-file-picker"

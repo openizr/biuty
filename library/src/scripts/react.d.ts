@@ -10,34 +10,7 @@ declare module 'biuty/react' {
   import { MouseEvent } from 'react';
   import * as PropTypes from 'prop-types';
 
-  /**
-   * Builds a complete class name from the given array of modifiers.
-   *
-   * @param {string} baseClass Base class to prefix any modifier with.
-   *
-   * @param {string} [modifiers = ''] Modifiers to apply to the base class.
-   *
-   * @returns {string} Generated modifiers list.
-   */
-  export function buildClass(baseClass: string, modifiers?: string): string;
-
-  /**
-   * Generates a random HTML id.
-   *
-   * @returns {string} The generated id.
-   */
-  export function generateRandomId(): string;
-
-  /**
-   * Parses the given markdown-flavored string into HTML.
-   *
-   * @param {string} text Markdown to parse into HTML.
-   *
-   * @param {boolean} [light = true] Wether to parse complexe tags (images, blockquotes, ...).
-   *
-   * @return {string} Generated HTML.
-   */
-  export function markdown(text: string, light?: boolean): string;
+  export * from 'biuty';
 
   /**
    * Paragraph.
@@ -76,7 +49,7 @@ declare module 'biuty/react' {
     rel: PropTypes.Requireable<string>;
     id: PropTypes.Requireable<string>;
     title: PropTypes.Requireable<string>;
-    onClick: PropTypes.Requireable<(event: React.MouseEvent<HTMLAnchorElement>) => void>;
+    onClick: PropTypes.Requireable<(event: MouseEvent<HTMLAnchorElement>) => void>;
     modifiers: PropTypes.Requireable<string>;
     href: PropTypes.Validator<string>;
     label: PropTypes.Validator<string>;
@@ -90,8 +63,8 @@ declare module 'biuty/react' {
     id: PropTypes.Requireable<string>;
     icon: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
-    onClick: PropTypes.Requireable<(event: React.MouseEvent<HTMLButtonElement>) => void>;
-    onFocus: PropTypes.Requireable<(event: React.MouseEvent<HTMLButtonElement>) => void>;
+    onClick: PropTypes.Requireable<(event: MouseEvent<HTMLButtonElement>) => void>;
+    onFocus: PropTypes.Requireable<(event: MouseEvent<HTMLButtonElement>) => void>;
     modifiers: PropTypes.Requireable<string>;
     type: PropTypes.Requireable<'button' | 'submit'>;
     iconPosition: PropTypes.Requireable<'left' | 'right'>;
@@ -130,6 +103,7 @@ declare module 'biuty/react' {
     value: PropTypes.Requireable<string>;
     label: PropTypes.Requireable<string>;
     disabled: PropTypes.Requireable<boolean>;
+    modifiers: PropTypes.Requireable<string>;
     type: PropTypes.Requireable<'header' | 'divider' | 'option'>;
   }
 
@@ -145,6 +119,7 @@ declare module 'biuty/react' {
     multiple: PropTypes.Requireable<boolean>;
     select: PropTypes.Requireable<boolean>;
     value: PropTypes.Requireable<string | string[]>;
+    selectPosition: PropTypes.Requireable<'top' | 'bottom'>;
     onFocus: PropTypes.Requireable<(value: string, event: React.FocusEvent<HTMLElement>) => void>;
     onChange: PropTypes.Requireable<
       (value: string | string[], event: React.ChangeEvent<HTMLElement>) => void
@@ -183,7 +158,7 @@ declare module 'biuty/react' {
     debounceTimeout: PropTypes.Requireable<number>;
     type: PropTypes.Requireable<'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url'>;
     transform: PropTypes.Requireable<(value: string, selectionStart: number) => [string, number?]>;
-    onIconClick: PropTypes.Requireable<(event: React.MouseEvent<HTMLElement>) => void>;
+    onIconClick: PropTypes.Requireable<(event: MouseEvent<HTMLElement>) => void>;
     onIconKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLElement>) => void>;
     onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLInputElement>) => void>;
     onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLInputElement>) => void>;
@@ -212,20 +187,21 @@ declare module 'biuty/react' {
     maxlength: PropTypes.Requireable<number>;
     modifiers: PropTypes.Requireable<string>;
     autofocus: PropTypes.Requireable<boolean>
+    autoresize: PropTypes.Requireable<boolean>
     placeholder: PropTypes.Requireable<string>;
     autocomplete: PropTypes.Requireable<'on' | 'off'>;
     name: PropTypes.Validator<string>;
     debounceTimeout: PropTypes.Requireable<number>;
-    onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLInputElement>) => void>;
-    onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLInputElement>) => void>;
+    onPaste: PropTypes.Requireable<(event: React.ClipboardEvent<HTMLTextAreaElement>) => void>;
+    onKeyDown: PropTypes.Requireable<(event: React.KeyboardEvent<HTMLTextAreaElement>) => void>;
     onBlur: PropTypes.Requireable<
-      (value: string, event: React.FocusEvent<HTMLInputElement>) => void
+      (value: string, event: React.FocusEvent<HTMLTextAreaElement>) => void
     >;
     onFocus: PropTypes.Requireable<
-      (value: string, event: React.FocusEvent<HTMLInputElement>) => void
+      (value: string, event: React.FocusEvent<HTMLTextAreaElement>) => void
     >;
     onChange: PropTypes.Requireable<
-      (value: string, event: React.ChangeEvent<HTMLInputElement>) => void
+      (value: string, event: React.ChangeEvent<HTMLTextAreaElement>) => void
     >;
   }>): JSX.Element;
 

@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import React from 'react';
@@ -22,7 +19,7 @@ describe('react/UITitle', () => {
   });
 
   test('renders correctly - basic', () => {
-    const { container } = render(<JSXUITitle label="Test" modifiers="large" />);
+    const { container } = render(<JSXUITitle label="Test" modifiers="large" level={null} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

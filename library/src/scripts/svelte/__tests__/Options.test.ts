@@ -114,6 +114,16 @@ describe('svelte/UIOptions', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - select expanded with selectPosition', async () => {
+    const { container } = render(UIOptions, {
+      props: {
+        name: 'test', select: true, selectPosition: 'top', options: selectOptions,
+      },
+    });
+    await fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - select changing options', async () => {
     const { container } = render(UIOptions, { props: { name: 'test', select: true, options: selectOptions } });
     await fireEvent.keyDown(container.getElementsByTagName('button')[0], { key: 'End' });
@@ -183,6 +193,16 @@ describe('svelte/UIOptions', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
+  test('renders correctly - select with default value', () => {
+    const defaultOptions = [{ value: 'test' }];
+    const { container } = render(UIOptions, {
+      props: {
+        name: 'test', select: true, options: defaultOptions, value: null,
+      },
+    });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - multiple select with listeners', async () => {
     const onChange = jest.fn();
     const onFocus = jest.fn();
@@ -228,7 +248,7 @@ describe('svelte/UIOptions', () => {
     await nextTick();
     component.$set({ options: selectOptions.slice(0, 2) });
     await nextTick();
-    await rerender({
+    rerender({
       name: 'test', select: true, options: selectOptions.slice(0, 2), value: null, multiple: true,
     });
     await nextTick();
@@ -242,22 +262,22 @@ describe('svelte/UIOptions', () => {
         name: 'test', select: true, options: selectOptions, value: ['option3'], multiple: true,
       },
     });
-    await rerender({
+    rerender({
       name: 'test', select: true, options: selectOptions, value: ['option1', 'option2'], multiple: true,
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
-    await rerender({
+    rerender({
       name: 'test', select: true, options: selectOptions, value: [], multiple: true,
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
-    await rerender({
+    rerender({
       name: 'test', select: true, options: selectOptions, value: ['option1'], multiple: false,
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
-    await rerender({
+    rerender({
       name: 'test', select: true, multiple: true, options: selectOptions, value: undefined,
     });
     await nextTick();

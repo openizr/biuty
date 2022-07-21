@@ -1,30 +1,34 @@
 <!-- Tooltip wrapper, for accessibility. -->
 <script lang="ts">
-  /**
-   * Copyright (c) Openizr. All Rights Reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *
-   */
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-  import buildClass from 'scripts/helpers/buildClass';
+import buildClass from 'scripts/helpers/buildClass';
 
-  export let label: string;
-  export let modifiers = '';
-  export let description: string | null = null;
+export let label: string;
+export let modifiers = '';
+export let description: string | null = null;
 
-  let isDescriptionVisible = false;
+// Enforces props default values.
+$: modifiers = modifiers || '';
+$: description = description || null;
 
-  const displayDescription = () => {
-    isDescriptionVisible = true;
-  };
+let isDescriptionVisible = false;
 
-  const hideDescription = () => {
-    isDescriptionVisible = false;
-  };
+const displayDescription = () => {
+  isDescriptionVisible = true;
+};
 
-  $: className = buildClass('ui-tooltip', [modifiers, isDescriptionVisible ? 'described' : ''].join(' '));
+const hideDescription = () => {
+  isDescriptionVisible = false;
+};
+
+$: className = buildClass('ui-tooltip', [modifiers, isDescriptionVisible ? 'described' : ''].join(' '));
 </script>
 
 <div

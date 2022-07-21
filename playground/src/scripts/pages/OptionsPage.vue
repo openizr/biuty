@@ -17,11 +17,11 @@ defineProps<{
 }>();
 
 const onChange = (value: string | string[]): void => {
-  console.log('Changed!', value); // eslint-disable-line no-console
+  console.log('Changed!', value);
 };
 
 const onFocus = (value: string): void => {
-  console.log('Focused!', value); // eslint-disable-line no-console
+  console.log('Focused!', value);
 };
 
 const newValue = ref('option3');
@@ -96,7 +96,7 @@ onMounted(() => {
 
 <template>
   <div class="vgap-5">
-    <main class="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
+    <main class="grid cols-1 hgap-3 vgap-5">
       <a
         href="/"
         class="cols-l-3"
@@ -223,6 +223,7 @@ onMounted(() => {
       <UIOptions
         name="dropdown4"
         select
+        select-position="bottom"
         :options="selectOptions"
         :value="newValue"
         label="Select large"

@@ -39,23 +39,33 @@ const defaultProps = {
  * Button.
  */
 function UIButton(props: InferProps<typeof propTypes>): JSX.Element {
-  const { type, onFocus } = props;
-  const { onClick, id, modifiers } = props;
-  const { label, icon, iconPosition } = props;
+  let { type, modifiers } = props;
+  let { id, onClick, onFocus } = props;
+  let { label, icon, iconPosition } = props;
+
+  // Enforces props default values.
+  id = id || null;
+  icon = icon || null;
+  label = label || null;
+  type = type || 'button';
+  onClick = onClick || null;
+  onFocus = onFocus || null;
+  modifiers = modifiers || '';
+  iconPosition = iconPosition || 'left';
 
   const children = [
-    (icon !== null && icon !== undefined) ? <JSXUIIcon key="icon" name={icon} /> : null,
+    (icon !== null) ? <JSXUIIcon key="icon" name={icon} /> : null,
     (label !== null) ? <span key="label" className="ui-button__label">{label}</span> : null,
   ];
 
   return (
     <button
       id={id as string}
-      onFocus={onFocus as undefined}
-      onClick={onClick as undefined}
       type={(type === 'submit') ? 'submit' : 'button'}
-      tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
-      className={buildClass('ui-button', `${modifiers as string}${(icon !== null && label === null) ? ' icon' : ''}`)}
+      tabIndex={(modifiers.includes('disabled') ? -1 : 0)}
+      onFocus={onFocus as React.FocusEventHandler<HTMLButtonElement>}
+      onClick={onClick as React.MouseEventHandler<HTMLButtonElement>}
+      className={buildClass('ui-button', `${modifiers}${(icon !== null && label === null) ? ' icon' : ''}`)}
     >
       {(iconPosition === 'left') ? children : children.reverse()}
     </button>

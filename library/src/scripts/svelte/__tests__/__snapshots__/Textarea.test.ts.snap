@@ -108,6 +108,28 @@ exports[`svelte/UITextarea renders correctly - with autofocus 1`] = `
 </div>
 `;
 
+exports[`svelte/UITextarea renders correctly - with autoresize 1`] = `
+<div>
+  <div
+    class="ui-textarea"
+  >
+     
+    <div
+      class="ui-textarea__wrapper"
+    >
+      <textarea
+        autocomplete="on"
+        class="ui-textarea__wrapper__field"
+        id="z8a8d7a5zad4"
+        name="test"
+        rows="2"
+      />
+    </div>
+     
+  </div>
+</div>
+`;
+
 exports[`svelte/UITextarea renders correctly - with cols and rows 1`] = `
 <div>
   <div

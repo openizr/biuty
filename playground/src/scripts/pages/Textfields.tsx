@@ -10,23 +10,23 @@ import * as React from 'react';
 import { UITextfield } from 'biuty/react';
 
 const onChange = (value: string): void => {
-  console.log('Changed!', value); // eslint-disable-line no-console
+  console.log('Changed!', value);
 };
 
 const onBlur = (value: string): void => {
-  console.log('Blurred!', value); // eslint-disable-line no-console
+  console.log('Blurred!', value);
 };
 
 const onFocus = (): void => {
-  console.log('Focused!'); // eslint-disable-line no-console
+  console.log('Focused!');
 };
 
 const onIconClick = (): void => {
-  console.log('Clicked!'); // eslint-disable-line no-console
+  console.log('Clicked!');
 };
 
 const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-  console.log('onKeyDown!', event.shiftKey); // eslint-disable-line no-console
+  console.log('onKeyDown!', event.shiftKey);
 };
 
 /**
@@ -43,7 +43,7 @@ export default function Textfields(): JSX.Element {
 
   return (
     <div className="vgap-5">
-      <main className="ui-page ui-block cols-1 cols-l-3 hgap-3 vgap-5">
+      <main className="grid cols-1 hgap-3 vgap-5">
         <a href="/" className="cols-l-3">GO BACK</a>
         <UITextfield name="textfield1" />
         <UITextfield name="textfield2" label="*ui-textfield*" />

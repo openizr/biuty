@@ -8,8 +8,6 @@
  *
  */
 
-/* eslint-disable vue/no-v-html */
-
 import { computed, ref, watch } from 'vue';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
@@ -28,22 +26,27 @@ const props = defineProps<{
   cols?: number;
   rows?: number;
   name: string;
-  value?: string;
   label?: string;
   helper?: string;
   readonly?: boolean;
   maxlength?: number;
   modifiers?: string;
   autofocus?: boolean;
+  autoresize?: boolean;
   placeholder?: string;
+  value?: string | null;
   debounceTimeout?: number;
   autocomplete?: 'on' | 'off';
 }>();
 
 const timeout = ref(null);
+const reverseTimeout = ref(null);
 const randomId = ref(generateRandomId());
 const currentValue = ref(props.value || '');
 const parsedLabel = computed(() => markdown(props.label));
+const actualRows = computed(() => ((props.autoresize && (props.rows || null) === null)
+  ? Math.max(1, currentValue.value.split('\n').length)
+  : props.rows));
 const parsedHelper = computed(() => markdown(props.helper));
 const isDisabled = computed(() => props.modifiers?.includes('disabled'));
 const className = computed(() => buildClass('ui-textarea', props.modifiers || ''));
@@ -53,9 +56,10 @@ const className = computed(() => buildClass('ui-textarea', props.modifiers || ''
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: InputEvent): void => {
+  clearTimeout(timeout.value);
+  clearTimeout(reverseTimeout.value);
   const newValue = (event.target as HTMLTextAreaElement).value;
   currentValue.value = newValue;
-  window.clearTimeout(timeout.value as number);
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to save performance and make the UI more reactive on low-perfomance devices.
   timeout.value = setTimeout(() => {
@@ -69,7 +73,11 @@ const handleChange = (event: InputEvent): void => {
 
 // Updates current value whenever `value` prop changes.
 watch(() => props.value, () => {
-  currentValue.value = props.value;
+  clearTimeout(reverseTimeout.value);
+  // Do not update current value immediatly while user is typing something else.
+  reverseTimeout.value = setTimeout(() => {
+    currentValue.value = props.value;
+  }, 150);
 });
 </script>
 
@@ -90,7 +98,7 @@ watch(() => props.value, () => {
         :value="currentValue"
         :name="name"
         :cols="cols"
-        :rows="rows"
+        :rows="actualRows"
         :autofocus="autofocus"
         class="ui-textarea__wrapper__field"
         :readonly="readonly"

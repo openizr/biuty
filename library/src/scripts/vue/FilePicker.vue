@@ -8,8 +8,6 @@
  *
  */
 
-/* eslint-disable vue/no-v-html */
-
 import UIIcon from 'scripts/vue/Icon.vue';
 import { ref, computed, watch } from 'vue';
 import markdown from 'scripts/helpers/markdown';
@@ -28,11 +26,11 @@ const props = defineProps<{
   icon?: string;
   label?: string;
   accept?: string;
-  value?: File[];
   helper?: string;
   modifiers?: string;
   multiple?: boolean;
   placeholder?: string;
+  value?: File[] | null;
   iconPosition?: 'left' | 'right';
 }>();
 

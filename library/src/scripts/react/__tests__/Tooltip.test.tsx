@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import React from 'react';
@@ -23,7 +20,7 @@ describe('react/UITooltip', () => {
 
   test('renders correctly - basic', () => {
     const { container } = render(
-      <JSXUITooltip label="Test" modifiers="top">
+      <JSXUITooltip label="Test" modifiers={null}>
         <button type="button">i</button>
       </JSXUITooltip>,
     );
@@ -37,9 +34,9 @@ describe('react/UITooltip', () => {
       </JSXUITooltip>,
     );
     const button = container.getElementsByTagName('button')[0];
-    await fireEvent.focus(button);
+    fireEvent.focus(button);
     expect(container.firstChild).toMatchSnapshot();
-    await fireEvent.blur(button);
+    fireEvent.blur(button);
     expect(container.firstChild).toMatchSnapshot();
   });
 });

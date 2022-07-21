@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import React from 'react';
@@ -41,8 +38,8 @@ describe('react/UIOptions', () => {
 
   test('renders correctly - basic select', async () => {
     const { container } = render(<JSXUIOptions name="test" modifiers="large" select options={selectOptions} />);
-    await fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
-    await fireEvent.mouseDown(container.getElementsByTagName('li')[0]);
+    fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
+    fireEvent.mouseDown(container.getElementsByTagName('li')[0]);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -81,54 +78,60 @@ describe('react/UIOptions', () => {
       }]}
       onChange={onChange}
     />);
-    await fireEvent.change(container.getElementsByTagName('button')[0]);
+    fireEvent.change(container.getElementsByTagName('button')[0]);
     expect(onChange).not.toHaveBeenCalled();
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - select expanded', async () => {
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} />);
-    await fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
+    fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - select expanded with selectPosition', async () => {
+    const { container } = render(<JSXUIOptions name="test" select selectPosition="top" options={selectOptions} />);
+    fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - select changing options', async () => {
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} />);
-    await fireEvent.keyDown(container.getElementsByTagName('button')[0], { key: 'End' });
+    fireEvent.keyDown(container.getElementsByTagName('button')[0], { key: 'End' });
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - select expanded with no option and small viewport', async () => {
     Object.assign(window, { innerHeight: -1 });
     const { container } = render(<JSXUIOptions name="test" select options={[]} />);
-    await fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
+    fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
     expect(container.firstChild).toMatchSnapshot();
     Object.assign(window, { innerHeight: 768 });
   });
 
   test('renders correctly - select expanded with value', async () => {
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} value={['option1']} />);
-    await fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
+    fireEvent.mouseDown(container.getElementsByTagName('button')[0]);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('correctly handles select keyboard navigation', async () => {
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} value={['option1']} />);
     const button = container.getElementsByTagName('button')[0];
-    await fireEvent.focus(button);
-    await fireEvent.keyDown(button, { key: 'ArrowUp' });
-    await fireEvent.keyDown(button, { key: 'ArrowDown' });
-    await fireEvent.keyDown(button, { key: 'PageDown' });
-    await fireEvent.keyDown(button, { key: 'End' });
-    await fireEvent.keyDown(button, { key: 'ArrowDown' });
-    await fireEvent.keyDown(button, { key: 'PageUp' });
-    await fireEvent.keyDown(button, { key: 'Home' });
-    await fireEvent.keyDown(button, { key: ' ' });
-    await fireEvent.keyDown(button, { key: 'Enter' });
-    await fireEvent.keyDown(button, { key: 'Escape' });
-    await fireEvent.keyDown(button, { key: 'Enter' });
-    await fireEvent.keyDown(button, { key: 'A' });
-    await fireEvent.keyDown(button, { key: 'Enter' });
+    fireEvent.focus(button);
+    fireEvent.keyDown(button, { key: 'ArrowUp' });
+    fireEvent.keyDown(button, { key: 'ArrowDown' });
+    fireEvent.keyDown(button, { key: 'PageDown' });
+    fireEvent.keyDown(button, { key: 'End' });
+    fireEvent.keyDown(button, { key: 'ArrowDown' });
+    fireEvent.keyDown(button, { key: 'PageUp' });
+    fireEvent.keyDown(button, { key: 'Home' });
+    fireEvent.keyDown(button, { key: ' ' });
+    fireEvent.keyDown(button, { key: 'Enter' });
+    fireEvent.keyDown(button, { key: 'Escape' });
+    fireEvent.keyDown(button, { key: 'Enter' });
+    fireEvent.keyDown(button, { key: 'A' });
+    fireEvent.keyDown(button, { key: 'Enter' });
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -139,11 +142,11 @@ describe('react/UIOptions', () => {
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} value="option2" onChange={onChange} onFocus={onFocus} />);
     const li = container.getElementsByTagName('li')[0];
     const button = container.getElementsByTagName('button')[0];
-    await fireEvent.focus(button);
-    await fireEvent.mouseDown(button);
+    fireEvent.focus(button);
+    fireEvent.mouseDown(button);
     await act(async () => { jest.runAllTimers(); });
-    await fireEvent.mouseDown(li);
-    await fireEvent.blur(li);
+    fireEvent.mouseDown(li);
+    fireEvent.blur(li);
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(3);
     expect(onFocus).toHaveBeenNthCalledWith(1, '', expect.any(Object));
@@ -154,20 +157,26 @@ describe('react/UIOptions', () => {
     jest.useRealTimers();
   });
 
+  test('renders correctly - select with default value', () => {
+    const defaultOptions = [{ value: 'test' }];
+    const { container } = render(<JSXUIOptions name="test" select options={defaultOptions} value={null} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - multiple select with listeners', async () => {
     const onChange = jest.fn();
     const onFocus = jest.fn();
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} value="option2" onChange={onChange} onFocus={onFocus} multiple />);
     const li = container.getElementsByTagName('li')[0];
     const button = container.getElementsByTagName('button')[0];
-    await fireEvent.focus(button);
-    await fireEvent.mouseDown(button);
-    await fireEvent.focus(li);
-    await fireEvent.mouseDown(li);
+    fireEvent.focus(button);
+    fireEvent.mouseDown(button);
+    fireEvent.focus(li);
+    fireEvent.mouseDown(li);
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenNthCalledWith(1, ['option2', 'option1'], expect.any(Object));
-    await fireEvent.mouseDown(li);
+    fireEvent.mouseDown(li);
     expect(onFocus).toHaveBeenCalledTimes(2);
     expect(onFocus).toHaveBeenNthCalledWith(1, '', expect.any(Object));
     expect(onFocus).toHaveBeenNthCalledWith(2, 'option1', expect.any(Object));
@@ -180,9 +189,9 @@ describe('react/UIOptions', () => {
     const { container, rerender } = render(<JSXUIOptions name="test" select options={selectOptions} value="option3" onFocus={onFocus} multiple />);
     const li = container.getElementsByTagName('li')[3];
     const button = container.getElementsByTagName('button')[0];
-    await fireEvent.focus(button);
-    await fireEvent.mouseDown(button);
-    await fireEvent.focus(li);
+    fireEvent.focus(button);
+    fireEvent.mouseDown(button);
+    fireEvent.focus(li);
     rerender(<JSXUIOptions name="test" select options={selectOptions.slice(0, 2)} value="option3" onFocus={onFocus} multiple />);
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(3);
@@ -239,8 +248,8 @@ describe('react/UIOptions', () => {
     const onFocus = jest.fn();
     const { container } = render(<JSXUIOptions name="test" options={options} onChange={onChange} onFocus={onFocus} />);
     const input = container.getElementsByTagName('input')[2];
-    await fireEvent.focus(input);
-    await fireEvent.click(input);
+    fireEvent.focus(input);
+    fireEvent.click(input);
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('option3', expect.any(Object));
@@ -251,10 +260,10 @@ describe('react/UIOptions', () => {
   test('correctly handles checkboxes keyboard navigation', async () => {
     const { container } = render(<JSXUIOptions name="test" multiple options={options} />);
     const input = container.getElementsByTagName('input')[1];
-    await fireEvent.keyDown(input, { key: 'ArrowLeft' });
-    await fireEvent.keyDown(input, { key: 'ArrowRight' });
-    await fireEvent.focus(container.getElementsByTagName('input')[0]);
-    await fireEvent.keyDown(input, { key: ' ' });
+    fireEvent.keyDown(input, { key: 'ArrowLeft' });
+    fireEvent.keyDown(input, { key: 'ArrowRight' });
+    fireEvent.focus(container.getElementsByTagName('input')[0]);
+    fireEvent.keyDown(input, { key: ' ' });
     expect(container.firstChild).toMatchSnapshot();
   });
 });

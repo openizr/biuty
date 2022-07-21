@@ -23,8 +23,8 @@ const defaultTransform: Transform = (newValue) => [newValue];
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
 const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|Home|End|AltGraph|NumLock|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp/;
 
-export let name: string;
 export let value = '';
+export let name: string;
 export let modifiers = '';
 export let readonly = false;
 export let autofocus = false;
@@ -45,10 +45,33 @@ export let iconPosition: 'left' | 'right' = 'left';
 export let transform: Transform = defaultTransform;
 export let type: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url' = 'text';
 
-let timeout: number | null = null;
+// Enforces props default values.
+$: id = id || null;
+$: icon = icon || null;
+$: value = value || '';
+$: type = type || 'text';
+$: label = label || null;
+$: helper = helper || null;
+$: modifiers = modifiers || '';
+$: readonly = readonly || false;
+$: autofocus = autofocus || false;
+$: allowedKeys = allowedKeys || {};
+$: placeholder = placeholder || null;
+$: autocomplete = autocomplete || 'on';
+$: iconPosition = iconPosition || 'left';
+$: debounceTimeout = debounceTimeout || 0;
+$: min = (min !== undefined) ? min : null;
+$: max = (max !== undefined) ? max : null;
+$: step = (step !== undefined) ? step : null;
+$: size = (size !== undefined) ? size : null;
+$: transform = transform || defaultTransform;
+$: maxlength = (maxlength !== undefined) ? maxlength : null;
+
 const randomId = generateRandomId();
+let timeout: number | null = null;
 let cursorPosition: number | null = null;
-let actualTransform = transform || defaultTransform;
+let reverseTimeout: number | null = null;
+const actualTransform = transform || defaultTransform;
 let currentValue = defaultTransform(value, 0)[0];
 let inputRef: HTMLInputElement | null = null;
 
@@ -81,6 +104,8 @@ const updateCursorPosition = async () => {
 };
 
 const handleChange = (event: Event, filter = true): void => {
+  clearTimeout(timeout as number);
+  clearTimeout(reverseTimeout as number);
   const target = event.target as HTMLInputElement;
   const selectionStart = target.selectionStart as number;
   const filteredValue = (filter && globalAllowedKeys.default !== null)
@@ -99,7 +124,6 @@ const handleChange = (event: Event, filter = true): void => {
   } else {
     currentValue = newValue;
   }
-  window.clearTimeout(timeout as unknown as number);
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to improve performance and make UI more reactive on low-perfomance devices.
   timeout = setTimeout(() => {
@@ -132,8 +156,10 @@ const handleKeyDown = (event: KeyboardEvent): void => {
 
 const handlePaste = (event: ClipboardEvent): void => {
   const clipboardData = event.clipboardData as DataTransfer;
-  const selectionEnd = (event.target as HTMLInputElement).selectionEnd as number;
-  const selectionStart = (event.target as HTMLInputElement).selectionStart as number;
+  // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
+  // want to replace the entire content when pasting something in that case.
+  const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
+  const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.length;
   const filteredValue = (globalAllowedKeys.default !== null)
     ? (clipboardData.getData('text').match(globalAllowedKeys.default as RegExp) || []).join('')
     : clipboardData.getData('text');
@@ -168,13 +194,15 @@ const handleIconKeyDown = (event: KeyboardEvent): void => {
 // -------------------------------------------------------------------------------------------------
 
 // Updates current value whenever `value` and `transform` props change.
-const updateValue = (updatedValue?: string, updatedTransform?: Transform) => {
-  actualTransform = updatedTransform || defaultTransform;
-  const [newValue] = actualTransform(updatedValue || '', 0);
-  currentValue = newValue;
-  updateCursorPosition();
-};
-$: updateValue(value);
+$: {
+  clearTimeout(reverseTimeout as number);
+  // Do not update current value immediatly while user is typing something else.
+  reverseTimeout = setTimeout(() => {
+    const [newValue] = transform(value as string, 0);
+    currentValue = newValue;
+    updateCursorPosition();
+  }, 150) as unknown as number;
+}
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
@@ -200,27 +228,27 @@ id={id}
       </span>
     {/if}
     <input
-      name={name}
       max={max}
       min={min}
+      name={name}
       step={step}
+      size={size}
       type={type}
       id={randomId}
-      bind:this={inputRef}
       readonly={readonly}
+      bind:this={inputRef}
+      on:blur={handleBlur}
       value={currentValue}
       maxlength={maxlength}
-      placeholder={placeholder}
-      size={size}
       autofocus={autofocus}
+      disabled={isDisabled}
+      on:focus={handleFocus}
+      placeholder={placeholder}
+      on:keydown={handleKeyDown}
       autocomplete={autocomplete}
       class="ui-textfield__wrapper__field"
-      disabled={isDisabled}
-      on:blur={handleBlur}
-      on:focus={handleFocus}
-      on:keydown={handleKeyDown}
-      on:paste={(readonly !== true && !isDisabled) ? handlePaste : undefined}
-      on:input={(readonly !== true && !isDisabled) ? handleChange : undefined}
+      on:paste={(readonly !== true && !isDisabled) ? handlePaste : null}
+      on:input={(readonly !== true && !isDisabled) ? handleChange : null}
     >
     {#if icon !== null && iconPosition === 'right'}
       <span

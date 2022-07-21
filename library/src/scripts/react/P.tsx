@@ -28,15 +28,19 @@ const defaultProps = {
  * Paragraph.
  */
 function UIP(props: InferProps<typeof propTypes>): JSX.Element {
-  const { itemProp } = props;
-  const { label, id, modifiers } = props;
-  const className = buildClass('ui-p', modifiers as string);
+  const { label } = props;
+  let { itemProp, id, modifiers } = props;
+
+  id = id || null;
+  itemProp = itemProp || null;
+  modifiers = modifiers || '';
+
+  const className = buildClass('ui-p', modifiers);
   return (
     <p
       id={id as string}
       className={className}
       itemProp={itemProp as string}
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: markdown(label) }}
     />
   );

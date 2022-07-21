@@ -8,8 +8,6 @@
  *
  */
 
-/* eslint-disable vue/no-v-html */
-
 import { ref, computed, watch } from 'vue';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
@@ -31,12 +29,14 @@ const props = defineProps<{
     value?: string;
     label?: string;
     disabled?: boolean;
+    modifiers?: string;
     type?: 'header' | 'divider' | 'option';
   }[];
   select?: boolean;
   multiple?: boolean;
   modifiers?: string;
-  value?: string | string[];
+  value?: null | string | string[];
+  selectPosition?: 'top' | 'bottom';
 }>();
 
 const buttonRef = ref(null);
@@ -58,7 +58,7 @@ const className = computed(() => buildClass(
 // Memoizes all options' parsed labels to optimize rendering.
 const optionParsedLabels = computed(() => props.options.reduce((mapping, option) => {
   if (option.value !== undefined && option.value !== null) {
-    return { ...mapping, [option.value]: markdown(option.label as string) };
+    return { ...mapping, [option.value]: markdown(option.label || '') };
   }
   return mapping;
 }, { _: '' } as Record<string, string>));
@@ -74,8 +74,12 @@ const handleBlur = (): void => {
 
 // In `select` mode only, displays the options list at the right place on the viewport.
 const displayList = (): void => {
-  const relativeOffsetTop = buttonRef.value.getBoundingClientRect().top;
-  position.value = ((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+  if ((props.selectPosition || null) !== null) {
+    position.value = props.selectPosition;
+  } else {
+    const relativeOffsetTop = buttonRef.value.getBoundingClientRect().top;
+    position.value = ((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+  }
   isDisplayed.value = true;
 };
 
@@ -289,8 +293,8 @@ watch([isDisplayed, mounted, () => props.select], async () => {
           :role="(option.type === 'option') ? 'option' : undefined"
           :class="buildClass(
             `ui-options__wrapper__list__${option.type}`,
-            ((option.disabled === true) ? 'disabled': '') +
-              (currentValue.includes(option.value) ? ' checked' : ''))"
+            `${option.modifiers || ''}${option.disabled
+              ? ' disabled': ''}${currentValue.includes(option.value) ? ' checked' : ''}`)"
           @blur="hideList($event, true)"
           @mousedown="(option.type==='option') ? changeOption(index) : undefined"
           @focus="handleFocus(option.value, index, $event)"
@@ -325,9 +329,8 @@ watch([isDisplayed, mounted, () => props.select], async () => {
         :key="option.value"
         :class="buildClass(
           'ui-options__wrapper__option',
-          (currentValue.includes(option.value) ? 'checked' : '') +
-            ((option.disabled === true) ? ' disabled' : '')
-        )"
+          `${option.modifiers || ''}${option.disabled
+            ? ' disabled': ''}${currentValue.includes(option.value) ? ' checked' : ''}`)"
       >
         <input
           :id="`${randomId}_${index}`"

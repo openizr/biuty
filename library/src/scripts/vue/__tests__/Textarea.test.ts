@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import UITextarea from 'scripts/vue/Textarea.vue';
@@ -50,6 +47,14 @@ describe('vue/UITextarea', () => {
 
   test('renders correctly - with cols and rows', async () => {
     const { container } = render(UITextarea, { props: { name: 'test', cols: 10, rows: 50 } });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with autoresize', async () => {
+    const { container } = render(UITextarea, { props: { name: 'test', cols: 10, autoresize: true } });
+    const textarea = container.getElementsByTagName('textarea')[0];
+    await fireEvent.update(textarea, 'new\nvalue');
+    jest.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
   });
 

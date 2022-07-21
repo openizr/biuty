@@ -9,11 +9,11 @@
 /**
  * Builds a complete class name from the given array of modifiers.
  *
- * @param {string} baseClass Base class to prefix any modifier with.
+ * @param baseClass Base class to prefix any modifier with.
  *
- * @param {string} [modifiers = ''] Modifiers to apply to the base class.
+ * @param modifiers Modifiers to apply to the base class. Defaults to `''`.
  *
- * @returns {string} Generated modifiers list.
+ * @returns Generated modifiers list.
  */
 export default function buildClass(baseClass: string, modifiers = ''): string {
   const chainedModifiers = [...new Set(modifiers.split(' '))].map((modifier) => (

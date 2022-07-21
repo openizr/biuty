@@ -14,6 +14,14 @@ exports[`react/UIButton renders correctly - basic 1`] = `
 </button>
 `;
 
+exports[`react/UIButton renders correctly - default type 1`] = `
+<button
+  class="ui-button"
+  tabindex="0"
+  type="button"
+/>
+`;
+
 exports[`react/UIButton renders correctly - disabled 1`] = `
 <button
   class="ui-button ui-button--disabled"

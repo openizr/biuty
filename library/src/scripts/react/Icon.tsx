@@ -24,8 +24,14 @@ const defaultProps = {
 /**
  * Basic icon.
  */
-function UIIcon(props: InferProps<typeof propTypes>): JSX.Element | null {
-  const { id, name, modifiers } = props;
+function UIIcon(props: InferProps<typeof propTypes>): JSX.Element {
+  const { name } = props;
+  let { id, modifiers } = props;
+
+  // Enforces props default values.
+  id = id || null;
+  modifiers = modifiers || '';
+
   const className = buildClass('ui-icon', `${name} ${modifiers}`);
   return (
     <i

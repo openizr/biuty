@@ -8,8 +8,6 @@
  *
  */
 
-/* eslint-disable vue/no-v-html */
-
 import { computed } from 'vue';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';

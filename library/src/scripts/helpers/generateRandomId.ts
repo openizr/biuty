@@ -9,7 +9,7 @@
 /**
  * Generates a random HTML id.
  *
- * @returns {string} The generated id.
+ * @returns The generated id.
  */
 export default function generateRandomId(): string {
   return `_${Math.random().toString(36).slice(2, 8)}`;

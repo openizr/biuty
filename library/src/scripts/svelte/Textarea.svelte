@@ -15,11 +15,12 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 
 const dispatch = createEventDispatcher();
 
-export let name: string;
 export let value = '';
+export let name: string;
 export let modifiers = '';
 export let readonly = false;
 export let autofocus = false;
+export let autoresize = false;
 export let debounceTimeout = 0;
 export let id: string | null = null;
 export let cols: number | null = null;
@@ -30,9 +31,26 @@ export let maxlength: number | null = null;
 export let placeholder: string | null = null;
 export let autocomplete: 'on' | 'off' = 'on';
 
+// Enforces props default values.
+$: id = id || null;
+$: value = value || '';
+$: label = label || null;
+$: helper = helper || null;
+$: modifiers = modifiers || '';
+$: readonly = readonly || false;
+$: autofocus = autofocus || false;
+$: autoresize = autoresize || false;
+$: placeholder = placeholder || null;
+$: autocomplete = autocomplete || 'on';
+$: debounceTimeout = debounceTimeout || 0;
+$: rows = (rows !== undefined) ? rows : null;
+$: cols = (cols !== undefined) ? cols : null;
+$: maxlength = (maxlength !== undefined) ? maxlength : null;
+
 let currentValue = value;
 let timeout: number | null = null;
 const randomId = generateRandomId();
+let reverseTimeout: number | null = null;
 
 $: isDisabled = modifiers.includes('disabled');
 $: className = buildClass('ui-textarea', modifiers);
@@ -44,9 +62,10 @@ $: parsedHelper = helper !== null ? markdown(helper) : null;
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: Event): void => {
+  clearTimeout(timeout as number);
+  clearTimeout(reverseTimeout as number);
   const newValue = (event.target as HTMLTextAreaElement).value;
   currentValue = newValue;
-  window.clearTimeout(timeout as number);
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to save performance and make the UI more reactive on low-perfomance devices.
   timeout = setTimeout(() => {
@@ -67,10 +86,14 @@ const handleFocus = (event: FocusEvent): void => {
 // -------------------------------------------------------------------------------------------------
 
 // Updates current value whenever `value` prop changes.
-const updateValue = (newValue: string) => {
-  currentValue = newValue;
-};
-$: updateValue(value);
+$: {
+  clearTimeout(reverseTimeout as number);
+  // Do not update current value immediatly while user is typing something else.
+  reverseTimeout = setTimeout(() => {
+    currentValue = value;
+  }, 150) as unknown as number;
+}
+$: actualRows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
@@ -85,22 +108,22 @@ $: updateValue(value);
   {/if}
   <div class="ui-textarea__wrapper">
     <textarea
-      id={randomId}
-      value={currentValue}
-      name={name}
-      cols={cols}
-      rows={rows}
-      class="ui-textarea__wrapper__field"
-      readonly={readonly}
-      maxlength={maxlength}
-      placeholder={placeholder}
-      autofocus={autofocus}
-      autocomplete={autocomplete}
-      disabled={isDisabled}
       on:paste
       on:keydown
+      name={name}
+      cols={cols}
+      id={randomId}
+      rows={actualRows}
+      readonly={readonly}
       on:blur={handleBlur}
+      value={currentValue}
+      maxlength={maxlength}
+      autofocus={autofocus}
+      disabled={isDisabled}
       on:focus={handleFocus}
+      placeholder={placeholder}
+      autocomplete={autocomplete}
+      class="ui-textarea__wrapper__field"
       on:input={(readonly !== true && !isDisabled) ? handleChange : undefined}
     />
   </div>

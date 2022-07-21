@@ -10,11 +10,11 @@ import * as React from 'react';
 import { UIButton } from 'biuty/react';
 
 const onClick = (): void => {
-  console.log('Clicked!'); // eslint-disable-line no-console
+  console.log('Clicked!');
 };
 
 const onFocus = (): void => {
-  console.log('Focused!'); // eslint-disable-line no-console
+  console.log('Focused!');
 };
 
 /**

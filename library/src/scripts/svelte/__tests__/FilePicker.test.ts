@@ -80,7 +80,7 @@ describe('svelte/UIFilePicker', () => {
       },
     });
     expect(container.firstChild).toMatchSnapshot();
-    await rerender({ name: 'test', value: [] });
+    rerender({ name: 'test', value: [] });
   });
 
   test('renders correctly - with listeners', async () => {

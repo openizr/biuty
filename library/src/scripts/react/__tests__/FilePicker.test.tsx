@@ -49,7 +49,7 @@ describe('react/UIFilePicker', () => {
   });
 
   test('renders correctly - with left icon', () => {
-    const { container } = render(<JSXUIFilePicker name="test" icon="star" />);
+    const { container } = render(<JSXUIFilePicker name="test" icon="star" iconPosition={null} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -70,6 +70,11 @@ describe('react/UIFilePicker', () => {
 
   test('renders correctly - with accept', () => {
     const { container } = render(<JSXUIFilePicker name="test" accept="image/*" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with default value', () => {
+    const { container } = render(<JSXUIFilePicker name="test" value={null} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -94,9 +99,9 @@ describe('react/UIFilePicker', () => {
     const onBlur = jest.fn();
     const { container } = render(<JSXUIFilePicker name="test" onChange={onChange} onFocus={onFocus} onBlur={onBlur} />);
     const input = container.getElementsByTagName('input')[0];
-    await fireEvent.focus(input);
-    await fireEvent.change(input, { target: { files: [{ name: '/path/to/file1.png' }] } });
-    await fireEvent.blur(input);
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { files: [{ name: '/path/to/file1.png' }] } });
+    fireEvent.blur(input);
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith([{ name: '/path/to/file1.png' }], expect.any(Object));

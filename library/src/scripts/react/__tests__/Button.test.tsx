@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @jest-environment jsdom
  */
 
 import React from 'react';
@@ -41,13 +38,18 @@ describe('react/UIButton', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - default type', () => {
+    const { container } = render(<JSXUIButton type={null} />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - type submit', () => {
     const { container } = render(<JSXUIButton type="submit" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - icon only', () => {
-    const { container } = render(<JSXUIButton icon="star" />);
+    const { container } = render(<JSXUIButton icon="star" iconPosition={null} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

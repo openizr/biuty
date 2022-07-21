@@ -6,8 +6,6 @@
  *
  */
 
-/* eslint-disable jsx-a11y/label-has-associated-control, react/no-danger */
-
 import * as React from 'react';
 import markdown from 'scripts/helpers/markdown';
 import PropTypes, { InferProps } from 'prop-types';
@@ -18,11 +16,11 @@ const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? 
 
 const propTypes = {
   id: PropTypes.string,
+  select: PropTypes.bool,
   label: PropTypes.string,
   onFocus: PropTypes.func,
   multiple: PropTypes.bool,
   onChange: PropTypes.func,
-  select: PropTypes.bool,
   helper: PropTypes.string,
   modifiers: PropTypes.string,
   name: PropTypes.string.isRequired,
@@ -34,8 +32,10 @@ const propTypes = {
     value: PropTypes.string,
     label: PropTypes.string,
     disabled: PropTypes.bool,
+    modifiers: PropTypes.string,
     type: PropTypes.oneOf(['header', 'divider', 'option']),
   }).isRequired).isRequired,
+  selectPosition: PropTypes.oneOf(['top', 'bottom']),
 };
 
 const defaultProps = {
@@ -48,16 +48,29 @@ const defaultProps = {
   onChange: null,
   multiple: false,
   select: false,
+  selectPosition: null,
 };
 
 /**
  * Set of selectable options.
  */
 function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
-  const { onChange, select } = props;
-  const { helper, value, name } = props;
-  const { id, modifiers, label } = props;
-  const { multiple, options, onFocus } = props;
+  const { options, name } = props;
+  let { selectPosition } = props;
+  let { id, modifiers, label } = props;
+  let { helper, value, onChange } = props;
+  let { multiple, select, onFocus } = props;
+
+  id = id || null;
+  value = value || [];
+  label = label || null;
+  helper = helper || null;
+  select = select || false;
+  onFocus = onFocus || null;
+  onChange = onChange || null;
+  modifiers = modifiers || '';
+  multiple = multiple || false;
+  selectPosition = selectPosition || null;
 
   const mounted = React.useRef(false);
   const wrapperRef = React.useRef(null);
@@ -65,15 +78,15 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
   const firstSelectedOption = React.useRef(-1);
   const [randomId] = React.useState(generateRandomId);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const [position, setPosition] = React.useState('bottom');
   const [isDisplayed, setIsDisplayed] = React.useState(false);
   const [focusedOptionIndex, setFocusedOptionIndex] = React.useState(-1);
-  const [currentValue, setCurrentValue] = React.useState<string[]>(toArray(value as string));
-  const className = buildClass('ui-options', (modifiers as string) + (select === true ? ' select' : '') + (multiple === true ? ' multiple' : ''));
+  const [position, setPosition] = React.useState(selectPosition || 'bottom');
+  const [currentValue, setCurrentValue] = React.useState<string[]>(toArray(value));
+  const className = buildClass('ui-options', `${modifiers} ${(select ? 'select' : '')} ${(multiple ? ' multiple' : '')}`);
   // Memoizes all options' parsed labels to optimize rendering.
   const optionParsedLabels = React.useMemo(() => options.reduce((mapping, option) => {
     if (option.value !== undefined && option.value !== null) {
-      return { ...mapping, [option.value]: markdown(option.label as string) };
+      return { ...mapping, [option.value]: markdown(option.label || '') };
     }
     return mapping;
   }, { _: '' } as Record<string, string>), [options]);
@@ -89,10 +102,14 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
 
   // In `select` mode only, displays the options list at the right place on the viewport.
   const displayList = React.useCallback((): void => {
-    const relativeOffsetTop = (buttonRef.current as HTMLInputElement).getBoundingClientRect().top;
-    setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+    if (selectPosition !== null) {
+      setPosition(selectPosition as string);
+    } else {
+      const relativeOffsetTop = (buttonRef.current as HTMLInputElement).getBoundingClientRect().top;
+      setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+    }
     setIsDisplayed(true);
-  }, []);
+  }, [selectPosition]);
 
   // In `select` mode only, hides the options list only if forced or if focus is lost.
   const hideList = React.useCallback(
@@ -284,7 +301,7 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
     : null;
 
   // Display as select list...
-  if (select === true) {
+  if (select) {
     return (
       <div
         id={id as string}
@@ -302,8 +319,8 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
             onMouseDown={displayList}
             className="ui-options__wrapper__button"
             aria-labelledby={`${randomId} ${randomId}`}
+            tabIndex={(modifiers.includes('disabled') ? -1 : 0)}
             onFocus={handleFocus('', firstSelectedOption.current)}
-            tabIndex={((modifiers as string).includes('disabled') ? -1 : 0)}
             dangerouslySetInnerHTML={{ __html: currentValue.map((optionValue) => optionParsedLabels[optionValue]).join(', ') }}
           />
           <ul
@@ -320,7 +337,7 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
           >
             {options.map((option, index) => {
               const key = `${randomId}${index}`;
-              let optionModifiers = (option.disabled === true) ? 'disabled' : '';
+              let optionModifiers = `${option.modifiers || ''}${option.disabled ? ' disabled' : ''}`;
               const isChecked = currentValue.includes(option.value as string);
               if (isChecked) {
                 optionModifiers += ' checked';
@@ -362,7 +379,11 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
           const optionId = `${randomId}_${index}`;
           const isDisabled = option.disabled === true;
           const isChecked = currentValue.includes(option.value as string);
-          const optionClassName = buildClass('ui-options__wrapper__option', (isChecked ? 'checked' : '') + (isDisabled ? ' disabled' : ''));
+          let optionModifiers = `${option.modifiers || ''}${option.disabled ? ' disabled' : ''}`;
+          if (isChecked) {
+            optionModifiers += ' checked';
+          }
+          const optionClassName = buildClass('ui-options__wrapper__option', optionModifiers);
           return (
             <label key={option.value} className={optionClassName} htmlFor={optionId}>
               <input

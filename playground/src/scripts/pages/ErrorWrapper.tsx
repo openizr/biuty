@@ -20,15 +20,12 @@ type Props = InferProps<typeof ErrorWrapper.propTypes>;
  * Catches generic errors and displays a generic UI.
  */
 export default class ErrorWrapper extends React.Component<Props, State> {
-  // eslint-disable-next-line react/static-property-placement
   static displayName = 'ErrorWrapper';
 
-  // eslint-disable-next-line react/static-property-placement
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
   };
 
-  // eslint-disable-next-line react/static-property-placement
   static defaultProps = {
     children: null,
   };
@@ -43,7 +40,7 @@ export default class ErrorWrapper extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: { componentStack: string }): void {
-    console.error(error, errorInfo); // eslint-disable-line no-console
+    console.error(error, errorInfo);
   }
 
   render(): JSX.Element {
