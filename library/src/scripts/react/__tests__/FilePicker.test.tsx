@@ -1,13 +1,10 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @vitest-environment jsdom
  */
 
 import React from 'react';
@@ -16,11 +13,11 @@ import { render, fireEvent } from '@testing-library/react';
 
 const JSXUIFilePicker = UIFilePicker as JSXElement;
 
-jest.mock('scripts/helpers/generateRandomId');
+vi.mock('scripts/helpers/generateRandomId');
 
 describe('react/UIFilePicker', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', () => {
@@ -94,9 +91,9 @@ describe('react/UIFilePicker', () => {
   });
 
   test('renders correctly - with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
-    const onBlur = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
+    const onBlur = vi.fn();
     const { container } = render(<JSXUIFilePicker name="test" onChange={onChange} onFocus={onFocus} onBlur={onBlur} />);
     const input = container.getElementsByTagName('input')[0];
     fireEvent.focus(input);

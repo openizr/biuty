@@ -42,7 +42,7 @@ export let maxlength: number | null = null;
 export let placeholder: string | null = null;
 export let autocomplete: 'on' | 'off' = 'on';
 export let iconPosition: 'left' | 'right' = 'left';
-export let transform: Transform = defaultTransform;
+export let transform: Transform | null = defaultTransform;
 export let type: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url' = 'text';
 
 // Enforces props default values.
@@ -198,7 +198,7 @@ $: {
   clearTimeout(reverseTimeout as number);
   // Do not update current value immediatly while user is typing something else.
   reverseTimeout = setTimeout(() => {
-    const [newValue] = transform(value as string, 0);
+    const [newValue] = (transform as Transform)(value as string, 0);
     currentValue = newValue;
     updateCursorPosition();
   }, 150) as unknown as number;

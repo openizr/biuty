@@ -4,13 +4,13 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UIOptions from 'scripts/vue/Options.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
-jest.mock('scripts/helpers/generateRandomId');
+vi.mock('scripts/helpers/generateRandomId');
 
 const selectOptions: { type: string; value?: string; label?: string; disabled?: boolean; }[] = [
   { type: 'option', value: 'option1', label: 'Option 1' },
@@ -32,7 +32,7 @@ const nextTick = (): Promise<void> => new Promise((resolve) => { setTimeout(reso
 
 describe('vue/UIOptions', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic select', async () => {
@@ -92,7 +92,7 @@ describe('vue/UIOptions', () => {
   });
 
   test('renders correctly - select with option disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(UIOptions, {
       props: {
         name: 'test',
@@ -173,8 +173,8 @@ describe('vue/UIOptions', () => {
   });
 
   test('renders correctly - select with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
     const { container } = render(UIOptions, {
       props: {
         name: 'test', select: true, options: selectOptions, value: 'option2', onChange, onFocus,
@@ -208,8 +208,8 @@ describe('vue/UIOptions', () => {
   });
 
   test('renders correctly - multiple select with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
     const { container } = render(UIOptions, {
       props: {
         name: 'test', select: true, options: selectOptions, value: 'option2', onChange, onFocus, multiple: true,
@@ -233,7 +233,7 @@ describe('vue/UIOptions', () => {
   });
 
   test('select correctly focuses last available option when narrowing options down', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     const { container, rerender } = render(UIOptions, {
       props: {
         name: 'test', select: true, options: selectOptions, value: 'option3', onFocus, multiple: true,
@@ -324,8 +324,8 @@ describe('vue/UIOptions', () => {
   });
 
   test('renders correctly - radio  with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
     const { container } = render(UIOptions, {
       props: {
         name: 'test', options, onChange, onFocus,

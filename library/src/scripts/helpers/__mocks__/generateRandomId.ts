@@ -6,4 +6,4 @@
  *
  */
 
-export default jest.fn(() => 'z8a8d7a5zad4');
+export default vi.fn(() => 'z8a8d7a5zad4');

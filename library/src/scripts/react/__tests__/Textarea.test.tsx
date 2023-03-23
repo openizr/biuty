@@ -4,21 +4,21 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import React from 'react';
 import UITextarea from 'scripts/react/Textarea';
 import { render, fireEvent } from '@testing-library/react';
 
-jest.useFakeTimers();
-jest.mock('scripts/helpers/generateRandomId');
+vi.useFakeTimers();
+vi.mock('scripts/helpers/generateRandomId');
 
 const JSXUITextarea = UITextarea as JSXElement;
 
 describe('react/UITextarea', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', async () => {
@@ -40,7 +40,7 @@ describe('react/UITextarea', () => {
     const { container } = render(<JSXUITextarea name="test" autoresize />);
     const textarea = container.getElementsByTagName('textarea')[0];
     fireEvent.change(textarea, { target: { value: 'new\nvalue' } });
-    jest.runAllTimers();
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -65,7 +65,7 @@ describe('react/UITextarea', () => {
   });
 
   test('renders correctly - disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(<JSXUITextarea name="test" modifiers="disabled" />);
     const textarea = container.getElementsByTagName('textarea')[0];
     fireEvent.change(textarea, { target: { value: 'new value' } });
@@ -79,7 +79,7 @@ describe('react/UITextarea', () => {
   });
 
   test('renders correctly - readonly', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(<JSXUITextarea name="test" readonly onChange={onChange} />);
     const textarea = container.getElementsByTagName('textarea')[0];
     fireEvent.change(textarea, { target: { value: 'new value' } });
@@ -88,11 +88,11 @@ describe('react/UITextarea', () => {
   });
 
   test('renders correctly - with listeners and debounce', async () => {
-    const onBlur = jest.fn();
-    const onFocus = jest.fn();
-    const onChange = jest.fn();
-    const onPaste = jest.fn();
-    const onKeyDown = jest.fn();
+    const onBlur = vi.fn();
+    const onFocus = vi.fn();
+    const onChange = vi.fn();
+    const onPaste = vi.fn();
+    const onKeyDown = vi.fn();
     const { container } = render(<JSXUITextarea
       name="test"
       onBlur={onBlur}
@@ -107,8 +107,8 @@ describe('react/UITextarea', () => {
     fireEvent.blur(textarea);
     fireEvent.keyDown(textarea, { key: 'a' });
     fireEvent.change(textarea, { target: { value: 'new 015 test', selectionStart: 100 } });
-    fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
-    jest.runAllTimers();
+    fireEvent.paste(textarea, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));

@@ -4,18 +4,18 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UITextarea from 'scripts/vue/Textarea.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
-jest.useFakeTimers();
-jest.mock('scripts/helpers/generateRandomId');
+vi.useFakeTimers();
+vi.mock('scripts/helpers/generateRandomId');
 
 describe('vue/UITextarea', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', async () => {
@@ -54,7 +54,7 @@ describe('vue/UITextarea', () => {
     const { container } = render(UITextarea, { props: { name: 'test', cols: 10, autoresize: true } });
     const textarea = container.getElementsByTagName('textarea')[0];
     await fireEvent.update(textarea, 'new\nvalue');
-    jest.runAllTimers();
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -95,7 +95,7 @@ describe('vue/UITextarea', () => {
   });
 
   test('renders correctly - disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(UITextarea, {
       props: {
         name: 'test', modifiers: 'disabled', cols: 10, rows: 10, onChange,
@@ -117,7 +117,7 @@ describe('vue/UITextarea', () => {
   });
 
   test('renders correctly - readonly', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container, rerender } = render(UITextarea, {
       props: {
         name: 'test', readonly: true, onChange, cols: 10, rows: 10,
@@ -131,11 +131,11 @@ describe('vue/UITextarea', () => {
   });
 
   test('renders correctly - with listeners and debounce', async () => {
-    const onBlur = jest.fn();
-    const onFocus = jest.fn();
-    const onChange = jest.fn();
-    const onPaste = jest.fn();
-    const onKeyDown = jest.fn();
+    const onBlur = vi.fn();
+    const onFocus = vi.fn();
+    const onChange = vi.fn();
+    const onPaste = vi.fn();
+    const onKeyDown = vi.fn();
     const { container } = render(UITextarea, {
       props: {
         name: 'test',
@@ -153,8 +153,8 @@ describe('vue/UITextarea', () => {
     await fireEvent.blur(textarea);
     await fireEvent.keyDown(textarea, { key: 'a' });
     await fireEvent.update(textarea, 'new 015 test');
-    await fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
-    jest.runAllTimers();
+    await fireEvent.paste(textarea, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));

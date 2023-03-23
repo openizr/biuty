@@ -4,15 +4,15 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UIOptions from 'scripts/svelte/Options.svelte';
 import { render, fireEvent } from '@testing-library/svelte';
 
-jest.mock('scripts/helpers/generateRandomId');
+vi.mock('scripts/helpers/generateRandomId');
 
-const selectOptions: { type: string; value?: string; label?: string; disabled?: boolean; }[] = [
+const selectOptions: { type: 'header' | 'divider' | 'option'; value?: string; label?: string; disabled?: boolean; }[] = [
   { type: 'option', value: 'option1', label: 'Option 1' },
   { type: 'divider' },
   { type: 'option', value: 'option2', label: 'Option 2' },
@@ -21,7 +21,7 @@ const selectOptions: { type: string; value?: string; label?: string; disabled?: 
   { type: 'option', value: 'option4', label: 'Option 4' },
 ];
 
-const options: { type: string; value?: string; label?: string; disabled?: boolean; }[] = [
+const options: { type: 'header' | 'divider' | 'option'; value?: string; label?: string; disabled?: boolean; }[] = [
   { type: 'option', value: 'option1', label: 'Option 1' },
   { type: 'option', value: 'option2', label: 'Option 2' },
   { type: 'option', value: 'option3', label: 'Option 3' },
@@ -32,7 +32,7 @@ const nextTick = (): Promise<void> => new Promise((resolve) => { setTimeout(reso
 
 describe('svelte/UIOptions', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic select', async () => {
@@ -92,7 +92,7 @@ describe('svelte/UIOptions', () => {
   });
 
   test('renders correctly - select with option disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container, component } = render(UIOptions, {
       props: {
         name: 'test',
@@ -173,8 +173,8 @@ describe('svelte/UIOptions', () => {
   });
 
   test('renders correctly - select with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
     const { container, component } = render(UIOptions, {
       props: {
         name: 'test', select: true, options: selectOptions, value: 'option2',
@@ -204,8 +204,8 @@ describe('svelte/UIOptions', () => {
   });
 
   test('renders correctly - multiple select with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
     const { container, component } = render(UIOptions, {
       props: {
         name: 'test', select: true, options: selectOptions, value: 'option2', multiple: true,
@@ -227,7 +227,7 @@ describe('svelte/UIOptions', () => {
   });
 
   test('select correctly focuses last available option when narrowing options down', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     const { container, component, rerender } = render(UIOptions, {
       props: {
         name: 'test', select: true, options: selectOptions, value: 'option3', multiple: true,
@@ -320,8 +320,8 @@ describe('svelte/UIOptions', () => {
   });
 
   test('renders correctly - radio  with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
     const { container, component } = render(UIOptions, { props: { name: 'test', options } });
     const input = container.getElementsByTagName('input')[2];
     component.$on('focus', onFocus);

@@ -4,18 +4,18 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UITextarea from 'scripts/svelte/Textarea.svelte';
 import { render, fireEvent } from '@testing-library/svelte';
 
-jest.useFakeTimers();
-jest.mock('scripts/helpers/generateRandomId');
+vi.useFakeTimers();
+vi.mock('scripts/helpers/generateRandomId');
 
 describe('svelte/UITextarea', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', async () => {
@@ -66,7 +66,7 @@ describe('svelte/UITextarea', () => {
   });
 
   test('renders correctly - disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container, component } = render(UITextarea, { props: { name: 'test', modifiers: 'disabled' } });
     component.$on('change', onChange);
     const textarea = container.getElementsByTagName('textarea')[0];
@@ -81,7 +81,7 @@ describe('svelte/UITextarea', () => {
   });
 
   test('renders correctly - readonly', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container, component } = render(UITextarea, { props: { name: 'test', readonly: true } });
     component.$on('change', onChange);
     const textarea = container.getElementsByTagName('textarea')[0];
@@ -91,11 +91,11 @@ describe('svelte/UITextarea', () => {
   });
 
   test('renders correctly - with listeners and debounce', async () => {
-    const onBlur = jest.fn();
-    const onFocus = jest.fn();
-    const onChange = jest.fn();
-    const onPaste = jest.fn();
-    const onKeyDown = jest.fn();
+    const onBlur = vi.fn();
+    const onFocus = vi.fn();
+    const onChange = vi.fn();
+    const onPaste = vi.fn();
+    const onKeyDown = vi.fn();
     const { container, component } = render(UITextarea, { props: { name: 'test', debounceTimeout: 250 } });
     component.$on('blur', onBlur);
     component.$on('focus', onFocus);
@@ -107,8 +107,8 @@ describe('svelte/UITextarea', () => {
     await fireEvent.blur(textarea);
     await fireEvent.keyDown(textarea, { key: 'a' });
     await fireEvent.input(textarea, { target: { value: 'new 015 test' } });
-    await fireEvent.paste(textarea, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
-    jest.runAllTimers();
+    await fireEvent.paste(textarea, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith(expect.any(Object));

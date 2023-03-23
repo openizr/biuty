@@ -1,27 +1,24 @@
 /**
- * @jest-environment jsdom
- */
-
-/**
  * Copyright (c) Openizr. All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
+ * @vitest-environment jsdom
  */
 
 import React from 'react';
 import UITextfield from 'scripts/react/Textfield';
 import { render, fireEvent } from '@testing-library/react';
 
-jest.useFakeTimers();
-jest.mock('scripts/helpers/generateRandomId');
+vi.useFakeTimers();
+vi.mock('scripts/helpers/generateRandomId');
 
 const JSXUITextfield = UITextfield as JSXElement;
 
 describe('react/UITextfield', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', async () => {
@@ -78,7 +75,7 @@ describe('react/UITextfield', () => {
   });
 
   test('renders correctly - with disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(<JSXUITextfield name="test" modifiers="disabled" />);
     const input = container.getElementsByTagName('input')[0];
     fireEvent.change(input, { value: 'new value' });
@@ -92,7 +89,7 @@ describe('react/UITextfield', () => {
   });
 
   test('renders correctly - readonly', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(<JSXUITextfield name="test" readonly onChange={onChange} />);
     const input = container.getElementsByTagName('input')[0];
     fireEvent.keyDown(input, { key: 'A' });
@@ -106,9 +103,9 @@ describe('react/UITextfield', () => {
   });
 
   test('renders correctly - with transform and allowedKeys', async () => {
-    const onChange = jest.fn();
-    const onKeyDown = jest.fn();
-    const onPaste = jest.fn();
+    const onChange = vi.fn();
+    const onKeyDown = vi.fn();
+    const onPaste = vi.fn();
     const transform = (value: string): [string, number?] => [value.toUpperCase()];
     const { container, rerender } = render(<JSXUITextfield
       name="test"
@@ -133,7 +130,7 @@ describe('react/UITextfield', () => {
     fireEvent.keyDown(input, { key: 'a', altKey: true });
     fireEvent.keyDown(input, { key: 'a', metaKey: true });
     fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
-    fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
+    fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89') } });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
     expect(onKeyDown).toHaveBeenCalledTimes(5);
@@ -148,7 +145,7 @@ describe('react/UITextfield', () => {
       }}
     />);
     fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
-    fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
+    fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89') } });
     rerender(<JSXUITextfield name="test" size={10} />);
     fireEvent.keyDown(input, { key: '0' });
     fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
@@ -158,11 +155,11 @@ describe('react/UITextfield', () => {
   });
 
   test('renders correctly - with listeners and debounce', async () => {
-    const onBlur = jest.fn();
-    const onFocus = jest.fn();
-    const onChange = jest.fn();
-    const onIconClick = jest.fn();
-    const onIconKeyDown = jest.fn();
+    const onBlur = vi.fn();
+    const onFocus = vi.fn();
+    const onChange = vi.fn();
+    const onIconClick = vi.fn();
+    const onIconKeyDown = vi.fn();
     const transform = (value: string): [string, number?] => [value.toUpperCase(), 1];
     const { container } = render(<JSXUITextfield
       name="test"
@@ -183,8 +180,8 @@ describe('react/UITextfield', () => {
     fireEvent.keyDown(icon);
     fireEvent.click(icon);
     fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
-    fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
-    jest.runAllTimers();
+    fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));

@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import React from 'react';
@@ -13,7 +13,7 @@ import { render, fireEvent, act } from '@testing-library/react';
 
 const JSXUIOptions = UIOptions as JSXElement;
 
-jest.mock('scripts/helpers/generateRandomId');
+vi.mock('scripts/helpers/generateRandomId');
 
 const selectOptions: { type: string; value?: string; label?: string; disabled?: boolean; }[] = [
   { type: 'option', value: 'option1', label: 'Option 1' },
@@ -33,7 +33,7 @@ const options: { type: string; value?: string; label?: string; disabled?: boolea
 
 describe('react/UIOptions', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic select', async () => {
@@ -69,7 +69,7 @@ describe('react/UIOptions', () => {
   });
 
   test('renders correctly - select with option disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(<JSXUIOptions
       name="test"
       select
@@ -136,15 +136,15 @@ describe('react/UIOptions', () => {
   });
 
   test('renders correctly - select with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
-    jest.useFakeTimers();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
+    vi.useFakeTimers();
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} value="option2" onChange={onChange} onFocus={onFocus} />);
     const li = container.getElementsByTagName('li')[0];
     const button = container.getElementsByTagName('button')[0];
     fireEvent.focus(button);
     fireEvent.mouseDown(button);
-    await act(async () => { jest.runAllTimers(); });
+    await act(async () => { vi.runAllTimers(); });
     fireEvent.mouseDown(li);
     fireEvent.blur(li);
     expect(container.firstChild).toMatchSnapshot();
@@ -154,7 +154,7 @@ describe('react/UIOptions', () => {
     expect(onFocus).toHaveBeenNthCalledWith(3, '', expect.any(Object));
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith('option1', expect.any(Object));
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   test('renders correctly - select with default value', () => {
@@ -164,8 +164,8 @@ describe('react/UIOptions', () => {
   });
 
   test('renders correctly - multiple select with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
     const { container } = render(<JSXUIOptions name="test" select options={selectOptions} value="option2" onChange={onChange} onFocus={onFocus} multiple />);
     const li = container.getElementsByTagName('li')[0];
     const button = container.getElementsByTagName('button')[0];
@@ -185,7 +185,7 @@ describe('react/UIOptions', () => {
   });
 
   test('select correctly focuses last available option when narrowing options down', async () => {
-    const onFocus = jest.fn();
+    const onFocus = vi.fn();
     const { container, rerender } = render(<JSXUIOptions name="test" select options={selectOptions} value="option3" onFocus={onFocus} multiple />);
     const li = container.getElementsByTagName('li')[3];
     const button = container.getElementsByTagName('button')[0];
@@ -244,8 +244,8 @@ describe('react/UIOptions', () => {
   });
 
   test('renders correctly - radio  with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
     const { container } = render(<JSXUIOptions name="test" options={options} onChange={onChange} onFocus={onFocus} />);
     const input = container.getElementsByTagName('input')[2];
     fireEvent.focus(input);

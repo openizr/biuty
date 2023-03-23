@@ -6,17 +6,36 @@
  *
  */
 
+const specialCharsEncodings: Record<string, string> = {
+  '\\': '::BUI:BS::',
+  '*': '::BUI:ST::',
+  '**': '::BUI:DST::',
+  '~': '::BUI:TI::',
+  _: '::BUI:UN::',
+  '#': '::BUI:HA::',
+  '`': '::BUI:QU::',
+};
+const specialCharsDecodings: Record<string, string> = {
+  BS: '\\',
+  ST: '*',
+  DST: '**',
+  TI: '~',
+  UN: '_',
+  HA: '#',
+  QU: '`',
+};
+
 const parsers = [
   // tab
   { regexp: /^[\t ]+|[\t ]$/gm, template: '' },
   // strong
-  { regexp: /(?:(?<!\\)\*\*)([^*\n]+?)(?:(?<!\\)\*\*)/g, template: '<strong class="ui-markdown ui-markdown--strong">$1</strong>' },
+  { regexp: /(?:\*\*)([^*\n]+?)(?:\*\*)/g, template: '<strong class="ui-markdown ui-markdown--strong">$1</strong>' },
   // emphasis
-  { regexp: /(?:(?<!\\)\*)([^*\n]+?)(?:(?<!\\)\*)/g, template: '<span class="ui-markdown ui-markdown--emphasis">$1</span>' },
+  { regexp: /(?:\*)([^*\n]+?)(?:\*)/g, template: '<span class="ui-markdown ui-markdown--emphasis">$1</span>' },
   // underline
-  { regexp: /(?:(?<!\\)_)([^_\n]+?)(?:(?<!\\)_)/g, template: '<span class="ui-markdown ui-markdown--underline">$1</span>' },
+  { regexp: /(?:_)([^_\n]+?)(?:_)/g, template: '<span class="ui-markdown ui-markdown--underline">$1</span>' },
   // italic
-  { regexp: /(?:(?<!\\)~)([^~\n]+?)(?:(?<!\\)~)/g, template: '<span class="ui-markdown ui-markdown--italic">$1</span>' },
+  { regexp: /(?:~)([^~\n]+?)(?:~)/g, template: '<span class="ui-markdown ui-markdown--italic">$1</span>' },
   // image
   {
     regexp: /!\[(.*)\]\((.*)\)/g,
@@ -41,7 +60,7 @@ const parsers = [
   { regexp: /^[ \t]*&gt; (.*)/gm, template: '<blockquote class="ui-blockquote">$1</blockquote>' },
   // headings
   {
-    regexp: /^(?<!\\)(#{1,6})\s+(.*)/gm,
+    regexp: /^(#{1,6})\s+(.*)/gm,
     template: (_match: string, hash: string, content: string): string => {
       const { length } = hash;
       return `<h${length} class="ui-title ui-title--${length}">${content}</h${length}>`;
@@ -60,9 +79,7 @@ const parsers = [
   // paragraph
   { regexp: /^(?!<h|<br|<blockquote|<img)([^\n]+)/gm, template: '<p class="ui-p">$1</p>' },
   // inline code
-  { regexp: /(?<!\\)`([^`]+?)(?<!\\)`/g, template: (_match: string, group1: string): string => `<code class="ui-markdown ui-markdown--code">${group1}</code>` },
-  // escape char
-  { regexp: /(?<!\\)\\/g, template: '' },
+  { regexp: /(?:`)([^`]+?)(?:`)/g, template: (_match: string, group1: string): string => `<code class="ui-markdown ui-markdown--code">${group1}</code>` },
 ];
 
 function sanitize(str: string): string {
@@ -84,14 +101,18 @@ function sanitize(str: string): string {
  * @returns Generated HTML.
  */
 export default function markdown(text: string, light = true): string {
-  let newStr = sanitize(text);
+  let newStr = sanitize(text)
+    .replace(/\\(\\|\*|~|\*\*|_|`)/gm, (_match, p1) => specialCharsEncodings[p1]);
+
   for (let i = 0; i < parsers.length; i += 1) {
     if ((light === true && i !== 5 && i !== 8 && i !== 9 && i !== 15) || light === false) {
       newStr = newStr.replace(parsers[i].regexp, parsers[i].template as string);
     }
   }
   // line breaks
-  newStr = newStr.replace(/\n/gm, (light === true) ? '<br />' : '');
+  newStr = newStr
+    .replace(/\n/gm, (light === true) ? '<br />' : '')
+    .replace(/::BUI:(BS|ST|DST|TI|UN|HA|QU)::/gm, (_match, p1) => specialCharsDecodings[p1]);
 
   return newStr.trim();
 }

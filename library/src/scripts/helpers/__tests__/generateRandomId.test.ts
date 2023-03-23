@@ -10,8 +10,8 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 
 describe('helpers/generateRandomId', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    global.Math.random = jest.fn(() => 0.22068766900273062);
+    vi.clearAllMocks();
+    global.Math.random = vi.fn(() => 0.22068766900273062);
   });
 
   test('correctly generates a random HTML id', () => {
