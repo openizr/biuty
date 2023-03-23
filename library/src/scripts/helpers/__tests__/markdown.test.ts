@@ -23,10 +23,10 @@ describe('markdown', () => {
     });
 
     test('strong', () => {
-      expect(markdown('**test**')).toBe('<strong class="ui-markdown ui-markdown--strong">test</strong>');
-      expect(markdown('\\*\\*test\\**')).toBe('**test**');
-      expect(markdown('\\\\**this** is a \\*\\*test\\**')).toBe('\\<strong class="ui-markdown ui-markdown--strong">this</strong> is a **test**');
-      expect(markdown('**the formula 2\\*\\*3 equals 8**')).toBe('<strong class="ui-markdown ui-markdown--strong">the formula 2**3 equals 8</strong>');
+      expect(markdown('^test^')).toBe('<strong class="ui-markdown ui-markdown--strong">test</strong>');
+      expect(markdown('\\^test^')).toBe('^test^');
+      expect(markdown('\\\\^this^ is a \\^test^')).toBe('\\<strong class="ui-markdown ui-markdown--strong">this</strong> is a ^test^');
+      expect(markdown('^the formula 2\\^3 equals 8^')).toBe('<strong class="ui-markdown ui-markdown--strong">the formula 2^3 equals 8</strong>');
     });
 
     test('emphasis', () => {
@@ -101,7 +101,7 @@ describe('markdown', () => {
     });
 
     test('escaped chars', () => {
-      expect(markdown('\\*\\*strong\\*\\* \\*emphasis\\* \\_underline\\_ \\~italic\\~ \\\\test 3 \\* 2 \\* 1 = 6')).toBe('**strong** *emphasis* _underline_ ~italic~ \\test 3 * 2 * 1 = 6');
+      expect(markdown('\\^strong^ \\*emphasis\\* \\_underline\\_ \\~italic\\~ \\\\test 3 \\* 2 \\* 1 = 6')).toBe('^strong^ *emphasis* _underline_ ~italic~ \\test 3 * 2 * 1 = 6');
     });
   });
 
@@ -115,10 +115,10 @@ describe('markdown', () => {
     });
 
     test('strong', () => {
-      expect(markdown('**test**', false)).toBe('<p class="ui-p"><strong class="ui-markdown ui-markdown--strong">test</strong></p>');
-      expect(markdown('\\*\\*test\\*\\*', false)).toBe('<p class="ui-p">**test**</p>');
-      expect(markdown('\\\\**this** is a \\*\\*test\\**', false)).toBe('<p class="ui-p">\\<strong class="ui-markdown ui-markdown--strong">this</strong> is a **test**</p>');
-      expect(markdown('**the formula 2\\*\\*3 equals 8**', false)).toBe('<p class="ui-p"><strong class="ui-markdown ui-markdown--strong">the formula 2**3 equals 8</strong></p>');
+      expect(markdown('^test^', false)).toBe('<p class="ui-p"><strong class="ui-markdown ui-markdown--strong">test</strong></p>');
+      expect(markdown('\\^test^', false)).toBe('<p class="ui-p">^test^</p>');
+      expect(markdown('\\\\^this^ is a \\^test\\^', false)).toBe('<p class="ui-p">\\<strong class="ui-markdown ui-markdown--strong">this</strong> is a ^test^</p>');
+      expect(markdown('^the formula 2\\^3 equals 8^', false)).toBe('<p class="ui-p"><strong class="ui-markdown ui-markdown--strong">the formula 2^3 equals 8</strong></p>');
     });
 
     test('emphasis', () => {
