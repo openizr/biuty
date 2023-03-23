@@ -6,30 +6,39 @@
  *
  */
 
-const specialCharsEncodings: Record<string, string> = {
-  '\\': '::BUI:BS::',
-  '*': '::BUI:ST::',
-  '**': '::BUI:DST::',
-  '~': '::BUI:TI::',
-  _: '::BUI:UN::',
-  '#': '::BUI:HA::',
-  '`': '::BUI:QU::',
+const sanitizedCharacters: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  '\'': '&#039;',
 };
+
+const specialCharsEncodings: Record<string, string> = {
+  '\\\\': '<1>',
+  '\\*': '<2>',
+  '\\^': '<3>',
+  '\\~': '<4>',
+  '\\_': '<5>',
+  '\\#': '<6>',
+  '\\`': '<7>',
+};
+
 const specialCharsDecodings: Record<string, string> = {
-  BS: '\\',
-  ST: '*',
-  DST: '**',
-  TI: '~',
-  UN: '_',
-  HA: '#',
-  QU: '`',
+  '<1>': '\\',
+  '<2>': '*',
+  '<3>': '^',
+  '<4>': '~',
+  '<5>': '_',
+  '<6>': '#',
+  '<7>': '`',
 };
 
 const parsers = [
   // tab
   { regexp: /^[\t ]+|[\t ]$/gm, template: '' },
   // strong
-  { regexp: /(?:\*\*)([^*\n]+?)(?:\*\*)/g, template: '<strong class="ui-markdown ui-markdown--strong">$1</strong>' },
+  { regexp: /(?:\^)([^*\n]+?)(?:\^)/g, template: '<strong class="ui-markdown ui-markdown--strong">$1</strong>' },
   // emphasis
   { regexp: /(?:\*)([^*\n]+?)(?:\*)/g, template: '<span class="ui-markdown ui-markdown--emphasis">$1</span>' },
   // underline
@@ -82,13 +91,9 @@ const parsers = [
   { regexp: /(?:`)([^`]+?)(?:`)/g, template: (_match: string, group1: string): string => `<code class="ui-markdown ui-markdown--code">${group1}</code>` },
 ];
 
+const sanitizeRegexp = /[&<>"']/g;
 function sanitize(str: string): string {
-  return str
-    .replace(/&/mg, '&amp;')
-    .replace(/</mg, '&lt;')
-    .replace(/>/mg, '&gt;')
-    .replace(/"/mg, '&quot;')
-    .replace(/'/mg, '&#039;');
+  return str.replace(sanitizeRegexp, (match) => sanitizedCharacters[match]);
 }
 
 /**
@@ -102,7 +107,7 @@ function sanitize(str: string): string {
  */
 export default function markdown(text: string, light = true): string {
   let newStr = sanitize(text)
-    .replace(/\\(\\|\*|~|\*\*|_|`)/gm, (_match, p1) => specialCharsEncodings[p1]);
+    .replace(/\\[\\^*~_`]/g, (match) => specialCharsEncodings[match]);
 
   for (let i = 0; i < parsers.length; i += 1) {
     if ((light === true && i !== 5 && i !== 8 && i !== 9 && i !== 15) || light === false) {
@@ -111,8 +116,8 @@ export default function markdown(text: string, light = true): string {
   }
   // line breaks
   newStr = newStr
-    .replace(/\n/gm, (light === true) ? '<br />' : '')
-    .replace(/::BUI:(BS|ST|DST|TI|UN|HA|QU)::/gm, (_match, p1) => specialCharsDecodings[p1]);
+    .replace(/\n/g, (light === true) ? '<br />' : '')
+    .replace(/<[1234567]>/g, (match) => specialCharsDecodings[match]);
 
   return newStr.trim();
 }
