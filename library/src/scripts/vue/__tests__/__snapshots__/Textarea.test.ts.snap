@@ -4,6 +4,7 @@ exports[`vue/UITextarea > renders correctly - autocomplete off 1`] = `
 <div
   class="ui-textarea"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -16,6 +17,7 @@ exports[`vue/UITextarea > renders correctly - autocomplete off 1`] = `
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -23,6 +25,7 @@ exports[`vue/UITextarea > renders correctly - basic 1`] = `
 <div
   class="ui-textarea ui-textarea--large"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -34,6 +37,7 @@ exports[`vue/UITextarea > renders correctly - basic 1`] = `
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -41,6 +45,7 @@ exports[`vue/UITextarea > renders correctly - disabled 1`] = `
 <div
   class="ui-textarea ui-textarea--disabled"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -53,6 +58,7 @@ exports[`vue/UITextarea > renders correctly - disabled 1`] = `
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -60,6 +66,7 @@ exports[`vue/UITextarea > renders correctly - readonly 1`] = `
 <div
   class="ui-textarea"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -72,6 +79,7 @@ exports[`vue/UITextarea > renders correctly - readonly 1`] = `
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -79,6 +87,7 @@ exports[`vue/UITextarea > renders correctly - with autofocus 1`] = `
 <div
   class="ui-textarea"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -91,6 +100,7 @@ exports[`vue/UITextarea > renders correctly - with autofocus 1`] = `
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -98,6 +108,7 @@ exports[`vue/UITextarea > renders correctly - with autoresize 1`] = `
 <div
   class="ui-textarea"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -106,9 +117,10 @@ exports[`vue/UITextarea > renders correctly - with autoresize 1`] = `
       cols="10"
       id="z8a8d7a5zad4"
       name="test"
-      rows="1"
+      rows="2"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -116,6 +128,7 @@ exports[`vue/UITextarea > renders correctly - with cols and rows 1`] = `
 <div
   class="ui-textarea"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -127,6 +140,7 @@ exports[`vue/UITextarea > renders correctly - with cols and rows 1`] = `
       rows="50"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -134,6 +148,7 @@ exports[`vue/UITextarea > renders correctly - with helper 1`] = `
 <div
   class="ui-textarea"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -162,6 +177,7 @@ exports[`vue/UITextarea > renders correctly - with id 1`] = `
   class="ui-textarea"
   id="my-id"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -173,6 +189,7 @@ exports[`vue/UITextarea > renders correctly - with id 1`] = `
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -201,6 +218,7 @@ exports[`vue/UITextarea > renders correctly - with label 1`] = `
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -208,6 +226,7 @@ exports[`vue/UITextarea > renders correctly - with listeners and debounce 1`] = 
 <div
   class="ui-textarea"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -219,6 +238,7 @@ exports[`vue/UITextarea > renders correctly - with listeners and debounce 1`] = 
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
@@ -226,6 +246,7 @@ exports[`vue/UITextarea > renders correctly - with placeholder 1`] = `
 <div
   class="ui-textarea"
 >
+  <!--v-if-->
   <div
     class="ui-textarea__wrapper"
   >
@@ -238,291 +259,11 @@ exports[`vue/UITextarea > renders correctly - with placeholder 1`] = `
       rows="10"
     />
   </div>
+  <!--v-if-->
 </div>
 `;
 
 exports[`vue/UITextarea > renders correctly - with value 1`] = `
-<div
-  class="ui-textarea"
->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - autocomplete off 1`] = `
-<div
-  class="ui-textarea"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      autocomplete="off"
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - basic 1`] = `
-<div
-  class="ui-textarea ui-textarea--large"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - disabled 1`] = `
-<div
-  class="ui-textarea ui-textarea--disabled"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      disabled=""
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - readonly 1`] = `
-<div
-  class="ui-textarea"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      readonly=""
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with autofocus 1`] = `
-<div
-  class="ui-textarea"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      autofocus=""
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with autoresize 1`] = `
-<div
-  class="ui-textarea"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="2"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with cols and rows 1`] = `
-<div
-  class="ui-textarea"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="50"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with helper 1`] = `
-<div
-  class="ui-textarea"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-  <span
-    class="ui-textarea__helper"
-  >
-    <span
-      class="ui-markdown ui-markdown--emphasis"
-    >
-      Helper
-    </span>
-  </span>
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with id 1`] = `
-<div
-  class="ui-textarea"
-  id="my-id"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with label 1`] = `
-<div
-  class="ui-textarea"
->
-  <label
-    class="ui-textarea__label"
-    for="z8a8d7a5zad4"
-  >
-    <span
-      class="ui-markdown ui-markdown--emphasis"
-    >
-      Label
-    </span>
-  </label>
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with listeners and debounce 1`] = `
-<div
-  class="ui-textarea"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with placeholder 1`] = `
-<div
-  class="ui-textarea"
->
-  <!--v-if-->
-  <div
-    class="ui-textarea__wrapper"
-  >
-    <textarea
-      class="ui-textarea__wrapper__field"
-      cols="10"
-      id="z8a8d7a5zad4"
-      name="test"
-      placeholder="test..."
-      rows="10"
-    />
-  </div>
-  <!--v-if-->
-</div>
-`;
-
-exports[`vue/UITextarea renders correctly - with value 1`] = `
 <div
   class="ui-textarea"
 >
