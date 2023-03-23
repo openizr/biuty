@@ -31,7 +31,7 @@ export let options: Option[];
 export let id: string | null = null;
 export let label: string | null = null;
 export let helper: string | null = null;
-export let value: string | string[] = [];
+export let value: string | string[] | null = [];
 export let selectPosition: 'top' | 'bottom' | null = null;
 
 // Enforces props default values.
@@ -288,7 +288,8 @@ $: updateSelectFocus(mounted, isDisplayed);
       >
         {@html currentValue.map((optionValue) => optionParsedLabels[optionValue]).join(', ')}
       </button>
-      <ul
+      <svelte:element
+        this={"ul"}
         bind:this={wrapperRef}
         tabindex="-1"
         role="listbox"
@@ -317,7 +318,7 @@ $: updateSelectFocus(mounted, isDisplayed);
             {@html optionParsedLabels[option.value || '_']}
           </li>
         {/each}
-      </ul>
+      </svelte:element>
     </div>
     {#if helper !== null}
       <span class="ui-options__helper">

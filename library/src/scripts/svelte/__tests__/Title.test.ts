@@ -4,7 +4,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UITitle from 'scripts/svelte/Title.svelte';
@@ -12,7 +12,7 @@ import { render } from '@testing-library/svelte';
 
 describe('svelte/UITitle', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - level 1', () => {

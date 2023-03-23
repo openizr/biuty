@@ -4,17 +4,17 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UITextfield from 'scripts/svelte/Textfield.svelte';
 import { render, fireEvent } from '@testing-library/svelte';
 
-jest.mock('scripts/helpers/generateRandomId');
+vi.mock('scripts/helpers/generateRandomId');
 
 describe('svelte/UITextfield', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', async () => {
@@ -76,7 +76,7 @@ describe('svelte/UITextfield', () => {
   });
 
   test('renders correctly - with disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container, component } = render(UITextfield, { props: { name: 'test', modifiers: 'disabled' } });
     component.$on('change', onChange);
     const input = container.getElementsByTagName('input')[0];
@@ -91,7 +91,7 @@ describe('svelte/UITextfield', () => {
   });
 
   test('renders correctly - readonly', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container, component } = render(UITextfield, { props: { name: 'test', readonly: true } });
     component.$on('change', onChange);
     const input = container.getElementsByTagName('input')[0];
@@ -106,9 +106,9 @@ describe('svelte/UITextfield', () => {
   });
 
   test('renders correctly - with transform and allowedKeys', async () => {
-    const onChange = jest.fn();
-    const onKeyDown = jest.fn();
-    const onPaste = jest.fn();
+    const onChange = vi.fn();
+    const onKeyDown = vi.fn();
+    const onPaste = vi.fn();
     const transform = (value: string): [string, number?] => [value.toUpperCase()];
     const { container, rerender, component } = render(UITextfield, {
       props: {
@@ -135,7 +135,7 @@ describe('svelte/UITextfield', () => {
     await fireEvent.keyDown(input, { key: 'a', altKey: true });
     await fireEvent.keyDown(input, { key: 'a', metaKey: true });
     await fireEvent.input(input, { value: 'new 015 test' });
-    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89') } });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
     expect(onKeyDown).toHaveBeenCalledTimes(5);
@@ -146,19 +146,19 @@ describe('svelte/UITextfield', () => {
       name: 'test', size: 10, transform: null, allowedKeys: { default: /z/i },
     });
     await fireEvent.input(input, { value: 'zzzzzzzzzzzz' });
-    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: jest.fn(() => 'zzz') } });
+    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'zzz') } });
     await fireEvent.input(input, { value: 'qsdqsd' });
-    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: jest.fn(() => 'sqdqsd') } });
+    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'sqdqsd') } });
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with listeners and debounce', async () => {
-    jest.useFakeTimers();
-    const onBlur = jest.fn();
-    const onFocus = jest.fn();
-    const onChange = jest.fn();
-    const onIconClick = jest.fn();
-    const onIconKeyDown = jest.fn();
+    vi.useFakeTimers();
+    const onBlur = vi.fn();
+    const onFocus = vi.fn();
+    const onChange = vi.fn();
+    const onIconClick = vi.fn();
+    const onIconKeyDown = vi.fn();
     const transform = (value: string): [string, number?] => [value.toUpperCase(), 1];
     const { container, component } = render(UITextfield, {
       props: {
@@ -181,8 +181,8 @@ describe('svelte/UITextfield', () => {
     await fireEvent.keyDown(icon);
     await fireEvent.click(icon);
     await fireEvent.input(input, { value: 'new 015 test' });
-    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
-    jest.runAllTimers();
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith(expect.any(Object));

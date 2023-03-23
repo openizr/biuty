@@ -10,7 +10,7 @@ import buildClass from 'scripts/helpers/buildClass';
 
 describe('helpers/buildClass', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('correctly builds a BEM+ class name from given base class and modifiers', () => {

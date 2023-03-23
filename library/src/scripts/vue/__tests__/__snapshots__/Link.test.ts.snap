@@ -1,4 +1,43 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`vue/UILink > renders correctly - basic 1`] = `
+<a
+  class="ui-link ui-link--large"
+  href="https://test.com"
+>
+  Test
+</a>
+`;
+
+exports[`vue/UILink > renders correctly - with id 1`] = `
+<a
+  class="ui-link"
+  href="https://test.com"
+  id="test"
+>
+  Test
+</a>
+`;
+
+exports[`vue/UILink > renders correctly - with rel 1`] = `
+<a
+  class="ui-link"
+  href="https://test.com"
+  rel="no referrer"
+>
+  Test
+</a>
+`;
+
+exports[`vue/UILink > renders correctly - with target 1`] = `
+<a
+  class="ui-link"
+  href="https://test.com"
+  target="_blank"
+>
+  Test
+</a>
+`;
 
 exports[`vue/UILink renders correctly - basic 1`] = `
 <a

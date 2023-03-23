@@ -6,4 +6,4 @@
  *
  */
 
-export default jest.fn((label: string) => `<strong>${label}</strong>`);
+export default vi.fn((label: string) => `<strong>${label}</strong>`);

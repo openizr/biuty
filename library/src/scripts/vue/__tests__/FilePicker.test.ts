@@ -4,17 +4,17 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UIFilePicker from 'scripts/vue/FilePicker.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
-jest.mock('scripts/helpers/generateRandomId');
+vi.mock('scripts/helpers/generateRandomId');
 
 describe('vue/UIFilePicker', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', () => {
@@ -85,10 +85,10 @@ describe('vue/UIFilePicker', () => {
 
   test('renders correctly - with listeners', async () => {
     const logger = console;
-    logger.warn = jest.fn();
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
-    const onBlur = jest.fn();
+    logger.warn = vi.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
+    const onBlur = vi.fn();
     const { container } = render(UIFilePicker, {
       props: {
         name: 'test', onChange, onFocus, onBlur,

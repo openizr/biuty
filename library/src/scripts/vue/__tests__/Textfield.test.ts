@@ -4,17 +4,17 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UITextfield from 'scripts/vue/Textfield.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
-jest.mock('scripts/helpers/generateRandomId');
+vi.mock('scripts/helpers/generateRandomId');
 
 describe('vue/UITextfield', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', async () => {
@@ -71,18 +71,18 @@ describe('vue/UITextfield', () => {
   });
 
   test('renders correctly - with value', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     const { container, rerender } = render(UITextfield, { props: { name: 'test', size: 100 } });
     await rerender({ value: 'my value' });
-    jest.runAllTimers();
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     // Covers default value's value.
     await rerender({ value: undefined });
-    jest.runAllTimers();
+    vi.runAllTimers();
   });
 
   test('renders correctly - with disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(UITextfield, { props: { name: 'test', modifiers: 'disabled', size: 100 } });
     const input = container.getElementsByTagName('input')[0];
     await fireEvent.update(input, 'new value');
@@ -96,7 +96,7 @@ describe('vue/UITextfield', () => {
   });
 
   test('renders correctly - readonly', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { container } = render(UITextfield, {
       props: {
         name: 'test', readonly: true, onChange, size: 100,
@@ -114,9 +114,9 @@ describe('vue/UITextfield', () => {
   });
 
   test('renders correctly - with transform and allowedKeys', async () => {
-    const onChange = jest.fn();
-    const onKeyDown = jest.fn();
-    const onPaste = jest.fn();
+    const onChange = vi.fn();
+    const onKeyDown = vi.fn();
+    const onPaste = vi.fn();
     const transform = (value: string): [string, number?] => [value.toUpperCase()];
     const { container, rerender } = render(UITextfield, {
       props: {
@@ -143,7 +143,7 @@ describe('vue/UITextfield', () => {
     await fireEvent.keyDown(input, { key: 'a', altKey: true });
     await fireEvent.keyDown(input, { key: 'a', metaKey: true });
     await fireEvent.update(input, 'new 015 test');
-    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89') } });
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89') } });
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
     expect(onKeyDown).toHaveBeenCalledTimes(5);
@@ -154,19 +154,19 @@ describe('vue/UITextfield', () => {
       name: 'test', size: 10, transform: null, allowedKeys: { default: /z/i },
     });
     await fireEvent.update(input, 'zzzzzzzzzzzz');
-    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: jest.fn(() => 'zzz') } });
+    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'zzz') } });
     await fireEvent.update(input, 'qsdqsd');
-    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: jest.fn(() => 'sqdqsd') } });
+    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'sqdqsd') } });
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with listeners and debounce', async () => {
-    jest.useFakeTimers();
-    const onBlur = jest.fn();
-    const onFocus = jest.fn();
-    const onChange = jest.fn();
-    const onIconClick = jest.fn();
-    const onIconKeyDown = jest.fn();
+    vi.useFakeTimers();
+    const onBlur = vi.fn();
+    const onFocus = vi.fn();
+    const onChange = vi.fn();
+    const onIconClick = vi.fn();
+    const onIconKeyDown = vi.fn();
     const transform = (value: string): [string, number?] => [value.toUpperCase(), 1];
     const { container } = render(UITextfield, {
       props: {
@@ -189,8 +189,8 @@ describe('vue/UITextfield', () => {
     await fireEvent.keyDown(icon);
     await fireEvent.click(icon);
     await fireEvent.update(input, 'new 015 test');
-    await fireEvent.paste(input, { clipboardData: { getData: jest.fn(() => 'and 89 OKOK') } });
-    jest.runAllTimers();
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));

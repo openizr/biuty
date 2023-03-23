@@ -4,17 +4,17 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import UIFilePicker from 'scripts/svelte/FilePicker.svelte';
 import { render, fireEvent } from '@testing-library/svelte';
 
-jest.mock('scripts/helpers/generateRandomId');
+vi.mock('scripts/helpers/generateRandomId');
 
 describe('svelte/UIFilePicker', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders correctly - basic', () => {
@@ -76,7 +76,7 @@ describe('svelte/UIFilePicker', () => {
           size: 1515,
           type: 'image/png',
           lastModified: Date.now(),
-        }],
+        } as unknown as File],
       },
     });
     expect(container.firstChild).toMatchSnapshot();
@@ -84,9 +84,9 @@ describe('svelte/UIFilePicker', () => {
   });
 
   test('renders correctly - with listeners', async () => {
-    const onChange = jest.fn();
-    const onFocus = jest.fn();
-    const onBlur = jest.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
+    const onBlur = vi.fn();
     const { container, component } = render(UIFilePicker, { props: { name: 'test' } });
     component.$on('blur', onBlur);
     component.$on('focus', onFocus);
