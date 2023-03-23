@@ -12,16 +12,3 @@ exports[`vue/UIIcon > renders correctly - with id 1`] = `
   id="test"
 />
 `;
-
-exports[`vue/UIIcon renders correctly - basic 1`] = `
-<i
-  class="ui-icon ui-icon--star--large"
-/>
-`;
-
-exports[`vue/UIIcon renders correctly - with id 1`] = `
-<i
-  class="ui-icon ui-icon--star"
-  id="test"
-/>
-`;
