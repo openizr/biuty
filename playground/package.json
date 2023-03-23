@@ -1,9 +1,9 @@
 {
   "devDependencies": {
     "@types/prop-types": "^15.7.5",
-    "@types/react": "^18.0.11",
-    "@types/react-dom": "^18.0.5",
-    "typescript-dev-kit": "^5.1.1"
+    "@types/react": "^18.0.20",
+    "@types/react-dom": "^18.0.6",
+    "typescript-dev-kit": "^6.0.0"
   },
   "eslintConfig": {
     "extends": [
@@ -26,12 +26,12 @@
   "dependencies": {
     "basx": "^2.0.1",
     "biuty": "file:../../../library/dist",
-    "diox": "^5.0.2",
+    "diox": "^5.0.3",
     "prop-types": "^15.7.2",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "svelte": "^3.48.0",
-    "vue": "^3.2.36"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "svelte": "^3.50.1",
+    "vue": "^3.2.39"
   },
   "tsDevKitConfig": {
     "target": "web",
@@ -56,10 +56,10 @@
     }
   },
   "scripts": {
-    "init": "node_modules/typescript-dev-kit/scripts/init.sh",
+    "init": "node_modules/typescript-dev-kit/scripts/init",
+    "test": "cd node_modules/typescript-dev-kit/ && scripts/test",
     "dev": "cd node_modules/typescript-dev-kit/ && node scripts/dev",
     "build": "cd node_modules/typescript-dev-kit/ && node scripts/build",
-    "test": "cd node_modules/typescript-dev-kit/ && node scripts/test",
     "check": "cd node_modules/typescript-dev-kit/ && node scripts/check",
     "doc": "node_modules/.bin/typedoc --out ./doc/ --exclude \"**/*.js\" --exclude \"**/__+(tests|mocks)__/**\" src/scripts/react.tsx",
     "postinstall": "rm -f node_modules/.eslintcache"
