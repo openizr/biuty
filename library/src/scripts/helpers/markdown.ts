@@ -14,6 +14,9 @@ const sanitizedCharacters: Record<string, string> = {
   '\'': '&#039;',
 };
 
+// Regexp lookbehinds are not supported by all modern browsers yet, so we need to perform the
+// following transformations first.
+
 const specialCharsEncodings: Record<string, string> = {
   '\\\\': '<1>',
   '\\*': '<2>',
@@ -33,6 +36,11 @@ const specialCharsDecodings: Record<string, string> = {
   '<6>': '#',
   '<7>': '`',
 };
+
+const newLineRegexp = /\n/g;
+const sanitizeRegexp = /[&<>"']/g;
+const specialCharsRegexp = /\\[\\^*~_`]/g;
+const specialCharsDecodingRegexp = /<[1234567]>/g;
 
 const parsers = [
   // tab
@@ -91,7 +99,6 @@ const parsers = [
   { regexp: /(?:`)([^`]+?)(?:`)/g, template: (_match: string, group1: string): string => `<code class="ui-markdown ui-markdown--code">${group1}</code>` },
 ];
 
-const sanitizeRegexp = /[&<>"']/g;
 function sanitize(str: string): string {
   return str.replace(sanitizeRegexp, (match) => sanitizedCharacters[match]);
 }
@@ -107,7 +114,7 @@ function sanitize(str: string): string {
  */
 export default function markdown(text: string, light = true): string {
   let newStr = sanitize(text)
-    .replace(/\\[\\^*~_`]/g, (match) => specialCharsEncodings[match]);
+    .replace(specialCharsRegexp, (match) => specialCharsEncodings[match]);
 
   for (let i = 0; i < parsers.length; i += 1) {
     if ((light === true && i !== 5 && i !== 8 && i !== 9 && i !== 15) || light === false) {
@@ -116,8 +123,8 @@ export default function markdown(text: string, light = true): string {
   }
   // line breaks
   newStr = newStr
-    .replace(/\n/g, (light === true) ? '<br />' : '')
-    .replace(/<[1234567]>/g, (match) => specialCharsDecodings[match]);
+    .replace(newLineRegexp, (light === true) ? '<br />' : '')
+    .replace(specialCharsDecodingRegexp, (match) => specialCharsDecodings[match]);
 
   return newStr.trim();
 }
