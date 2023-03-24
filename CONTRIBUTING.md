@@ -209,7 +209,6 @@ To provide good and clear git commit messages, you should follow [these guidelin
 ## Project structure
 
 Project is structured as follow:
-- **`/docs`:** contains the documentation automatically generated from code
 - **`library`:** contains the actual library codebase
 - **`examples`:** contains a bunch of code samples and allows you to play with the library in real-time while developing it
 

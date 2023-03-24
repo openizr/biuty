@@ -1,0 +1,89 @@
+<!-- FileUploaders page. -->
+
+<script lang="ts" setup>
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { Locale } from 'basx/i18n';
+
+defineProps<{
+  locale: Locale;
+}>();
+
+const { log } = console;
+
+const onChange = (value: string): void => {
+  log('Changed!', value);
+};
+
+const onFocus = (): void => {
+  log('Focused!');
+};
+</script>
+
+<template>
+  <div className="vgap-5">
+    <main className="grid cols-1 hgap-3 vgap-5">
+      <a
+        href="/"
+        className="cols-l-3"
+      >GO BACK</a>
+      <UIFileUploader name="file-uploader1" />
+      <UIFileUploader
+        name="file-uploader2"
+        label="*ui-file-uploader*"
+      />
+      <UIFileUploader
+        name="file-uploader5"
+        label="ui-file-uploader multiple"
+        multiple
+      />
+      <UIFileUploader
+        name="file-uploader5"
+        label="ui-file-uploader with helper"
+        helper="helper"
+      />
+      <UIFileUploader
+        name="file-uploader6"
+        label="ui-file-uploader with listener"
+        @change="onChange"
+      />
+      <UIFileUploader
+        name="file-uploader11"
+        label="ui-file-uploader disabled"
+        modifiers="disabled"
+      />
+      <UIFileUploader
+        name="file-uploader12"
+        label="ui-file-uploader icon left"
+        icon="star"
+      />
+      <UIFileUploader
+        name="file-uploader13"
+        label="ui-file-uploader icon right"
+        icon="star"
+        icon-position="right"
+      />
+      <UIFileUploader
+        name="file-uploader14"
+        label="ui-file-uploader with focus listener"
+        @focus="onFocus"
+      />
+      <UIFileUploader
+        name="file-uploader15"
+        label="ui-file-uploader with accept"
+        accept="image/*"
+      />
+      <UIFileUploader
+        name="file-uploader15"
+        label="ui-file-uploader with value"
+        :value="[new File([], 'test.png')]"
+      />
+    </main>
+  </div>
+</template>
