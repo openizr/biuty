@@ -1,0 +1,58 @@
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+// Resets annoying default browsers' CSS properties.
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  text-decoration: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+input,
+input:focus {
+  border: none;
+  outline: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  background: none;
+
+  &::-moz-focus-inner {
+    padding: 0;
+    border: none;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  word-break: break-word;
+
+  & > * {
+    flex: none;
+  }
+}

@@ -1,0 +1,45 @@
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.ui-button {
+  display: flex;
+  @extend %ellipsis;
+  user-select: none;
+  font-size: 0.875em;
+  transition: all 250ms;
+  max-width: fit-content;
+  border-radius: var(--shp-default);
+  border: 1px solid var(--clr-default);
+  padding: var(--gaps-1) var(--gaps-3);
+  @include extend(flex items-center hgap-2);
+
+  &__label {
+    line-height: 1.5em;
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-visible {
+    background: rgba(var(--clr-default-rgb), 0.5);
+  }
+
+  @include modifier(icon) {
+    padding: var(--gaps-2);
+  }
+
+  @include modifier(disabled) {
+    @extend %disabled;
+  }
+
+  @include modifier(floating) {
+    z-index: 1;
+    position: absolute;
+    right: var(--gaps-4);
+    bottom: var(--gaps-4);
+  }
+}

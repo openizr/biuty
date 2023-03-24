@@ -1,0 +1,93 @@
+/**
+ * Copyright (c) Openizr. All Rights Reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+.ui-options {
+  user-select: none;
+  max-width: fit-content;
+
+  &__label {
+    @extend %label;
+  }
+
+  &__wrapper {
+    padding: var(--gaps-1) var(--gaps-3);
+    border-radius: var(--shp-default);
+    border: 1px solid var(--clr-default);
+
+    &__option {
+      display: block;
+      cursor: pointer;
+      @extend %ellipsis;
+    }
+
+    &__button:focus {
+      background: rgba(var(--clr-default-rgb), 0.5);
+    }
+  }
+
+
+  @include modifier(disabled) {
+    @extend %disabled;
+  }
+
+  @include modifier(select, &) {
+    &__wrapper {
+      position: relative;
+      @include extend(flex hgap-2);
+
+      &:after {
+        content: ">";
+        display: block;
+        transform: rotate(90deg);
+        color: var(--clr-default);
+      }
+
+      &__list {
+        left: 0;
+        top: 100%;
+        z-index: 999;
+        display: none;
+        overflow-y: auto;
+        max-height: 200px;
+        position: absolute;
+        background: #FFFFFF;
+        border-radius: var(--shp-default);
+        border: 1px solid var(--clr-default);
+        padding: var(--gaps-1) var(--gaps-2);
+
+        &__option {
+          cursor: pointer;
+
+          &:hover,
+          &:focus-within {
+            background: rgba(var(--clr-default-rgb), 0.5);
+          }
+
+          @include modifier(checked) {
+            background: rgba(var(--clr-default-rgb), 0.5);
+          }
+        }
+
+        &__header {
+          color: rgba(var(--clr-default-rgb), 0.5);
+        }
+
+        &__divider:before {
+          display: block;
+          font-size: 12px;
+          content: '---------------';
+        }
+
+        @include modifier(expanded) {
+          display: block;
+        }
+      }
+    }
+  }
+
+}
