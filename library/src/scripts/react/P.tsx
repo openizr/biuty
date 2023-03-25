@@ -8,26 +8,12 @@
 
 import * as React from 'react';
 import markdown from 'scripts/helpers/markdown';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
-
-const propTypes = {
-  id: PropTypes.string,
-  itemProp: PropTypes.string,
-  modifiers: PropTypes.string,
-  label: PropTypes.string.isRequired,
-};
-
-const defaultProps = {
-  id: null,
-  modifiers: '',
-  itemProp: null,
-};
 
 /**
  * Paragraph.
  */
-function UIP(props: InferProps<typeof propTypes>): JSX.Element {
+function UIP(props: UIPProps): JSX.Element {
   const { label } = props;
   let { itemProp, id, modifiers } = props;
 
@@ -45,9 +31,5 @@ function UIP(props: InferProps<typeof propTypes>): JSX.Element {
     />
   );
 }
-
-UIP.propTypes = propTypes;
-UIP.defaultProps = defaultProps;
-UIP.displayName = 'UIP';
 
 export default React.memo(UIP);

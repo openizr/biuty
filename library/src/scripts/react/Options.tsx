@@ -8,53 +8,21 @@
 
 import * as React from 'react';
 import markdown from 'scripts/helpers/markdown';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
 const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
 
-const propTypes = {
-  id: PropTypes.string,
-  select: PropTypes.bool,
-  label: PropTypes.string,
-  onFocus: PropTypes.func,
-  multiple: PropTypes.bool,
-  onChange: PropTypes.func,
-  helper: PropTypes.string,
-  modifiers: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.arrayOf(PropTypes.string.isRequired),
-  ]),
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string,
-    disabled: PropTypes.bool,
-    modifiers: PropTypes.string,
-    type: PropTypes.oneOf(['header', 'divider', 'option']),
-  }).isRequired).isRequired,
-  selectPosition: PropTypes.oneOf(['top', 'bottom']),
-};
-
-const defaultProps = {
-  id: null,
-  label: null,
-  helper: null,
-  value: [],
-  modifiers: '',
-  onFocus: null,
-  onChange: null,
-  multiple: false,
-  select: false,
-  selectPosition: null,
-};
-
 /**
  * Set of selectable options.
  */
-function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
+function UIOptions(props: UIOptionsProps & {
+  /** `focus` event handler. */
+  onFocus?: React.FocusEventHandler<HTMLElement>;
+
+  /** `change` event handler. */
+  onChange?: React.ChangeEventHandler<HTMLElement>;
+}): JSX.Element {
   const { options, name } = props;
   let { selectPosition } = props;
   let { id, modifiers, label } = props;
@@ -412,9 +380,5 @@ function UIOptions(props: InferProps<typeof propTypes>): JSX.Element {
     </div>
   );
 }
-
-UIOptions.propTypes = propTypes;
-UIOptions.defaultProps = defaultProps;
-UIOptions.displayName = 'UIOptions';
 
 export default React.memo(UIOptions);

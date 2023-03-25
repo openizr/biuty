@@ -7,31 +7,12 @@
  */
 
 import * as React from 'react';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
-
-const propTypes = {
-  id: PropTypes.string,
-  modifiers: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.element, PropTypes.bool])).isRequired,
-  ]).isRequired,
-};
-
-const defaultProps = {
-  id: null,
-  modifiers: 'top',
-  description: null,
-};
 
 /**
  * Tooltip wrapper, for accessibility.
  */
-function Tooltip(props: InferProps<typeof propTypes>): JSX.Element {
+function Tooltip(props: UITooltipProps): JSX.Element {
   const { label, children } = props;
   let { id, description, modifiers } = props;
 
@@ -67,9 +48,5 @@ function Tooltip(props: InferProps<typeof propTypes>): JSX.Element {
     </div>
   );
 }
-
-Tooltip.propTypes = propTypes;
-Tooltip.defaultProps = defaultProps;
-Tooltip.displayName = 'Tooltip';
 
 export default React.memo(Tooltip);
