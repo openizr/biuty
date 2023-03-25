@@ -64,7 +64,7 @@ const handleChange = (event: InputEvent): void => {
   // still typing to save performance and make the UI more reactive on low-perfomance devices.
   timeout.value = setTimeout(() => {
     emit('change', newValue, event);
-  }, props.debounceTimeout || 0);
+  }, props.debounceTimeout ?? 50);
 };
 
 // -------------------------------------------------------------------------------------------------

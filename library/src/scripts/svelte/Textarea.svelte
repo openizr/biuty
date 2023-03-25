@@ -42,15 +42,15 @@ $: autofocus = autofocus || false;
 $: autoresize = autoresize || false;
 $: placeholder = placeholder || null;
 $: autocomplete = autocomplete || 'on';
-$: debounceTimeout = debounceTimeout || 0;
+$: debounceTimeout = debounceTimeout ?? 50;
 $: rows = (rows !== undefined) ? rows : null;
 $: cols = (cols !== undefined) ? cols : null;
 $: maxlength = (maxlength !== undefined) ? maxlength : null;
 
 let currentValue = value;
+let userIsTyping = false;
 let timeout: number | null = null;
 const randomId = generateRandomId();
-let reverseTimeout: number | null = null;
 
 $: isDisabled = modifiers.includes('disabled');
 $: className = buildClass('ui-textarea', modifiers);
@@ -63,12 +63,13 @@ $: parsedHelper = helper !== null ? markdown(helper) : null;
 
 const handleChange = (event: Event): void => {
   clearTimeout(timeout as number);
-  clearTimeout(reverseTimeout as number);
+  userIsTyping = true;
   const newValue = (event.target as HTMLTextAreaElement).value;
   currentValue = newValue;
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to save performance and make the UI more reactive on low-perfomance devices.
   timeout = setTimeout(() => {
+    userIsTyping = false;
     dispatch('change', { newValue, event });
   }, debounceTimeout) as unknown as number;
 };
@@ -87,11 +88,10 @@ const handleFocus = (event: FocusEvent): void => {
 
 // Updates current value whenever `value` prop changes.
 $: {
-  clearTimeout(reverseTimeout as number);
   // Do not update current value immediatly while user is typing something else.
-  reverseTimeout = setTimeout(() => {
+  if (!userIsTyping) {
     currentValue = value;
-  }, 150) as unknown as number;
+  }
 }
 $: actualRows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
 </script>

@@ -88,13 +88,13 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
   autoresize = autoresize || false;
   placeholder = placeholder || null;
   autocomplete = autocomplete || 'on';
-  debounceTimeout = debounceTimeout || 0;
+  debounceTimeout = debounceTimeout ?? 50;
 
+  const isUserTyping = React.useRef(false);
   const [randomId] = React.useState(generateRandomId);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const [currentValue, setCurrentValue] = React.useState(value);
   const isDisabled = (modifiers as string).includes('disabled');
-  const reverseTimeout = React.useRef<NodeJS.Timeout | null>(null);
   const className = buildClass('ui-textarea', modifiers as string);
   rows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
 
@@ -104,13 +104,14 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     clearTimeout(timeout.current as NodeJS.Timeout);
-    clearTimeout(reverseTimeout.current as NodeJS.Timeout);
+    isUserTyping.current = true;
     const newValue = event.target.value;
     setCurrentValue(newValue);
     if (onChange !== null) {
       // This debounce system prevents triggering `onChange` callback too many times when user is
       // still typing to save performance and make the UI more reactive on low-perfomance devices.
       timeout.current = setTimeout(() => {
+        isUserTyping.current = false;
         (onChange as JSXElement)(newValue, event);
       }, debounceTimeout as number);
     }
@@ -134,11 +135,10 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
 
   // Updates current value whenever `value` prop changes.
   React.useEffect(() => {
-    clearTimeout(reverseTimeout.current as NodeJS.Timeout);
     // Do not update current value immediatly while user is typing something else.
-    reverseTimeout.current = setTimeout(() => {
+    if (!isUserTyping.current) {
       setCurrentValue(value as string);
-    }, 150);
+    }
   }, [value]);
 
   // -----------------------------------------------------------------------------------------------

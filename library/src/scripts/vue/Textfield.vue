@@ -78,7 +78,7 @@ const actualTransform = computed(() => props.transform || defaultTransform);
 const className = computed(() => buildClass('ui-textfield', props.modifiers || ''));
 const currentValue = ref(actualTransform.value(props.value || '', 0)[0]);
 
-// Memoïzes global version of allowed keys RegExps (required for filtering out a whole text).
+// Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
 const globalAllowedKeys = computed(() => keyTypes.reduce((allAllowedKeys, keyType) => {
   const allowedKeysForType = (props.allowedKeys || {})[keyType];
   return {
@@ -118,7 +118,7 @@ const handleChange = (event: InputEvent, filter = true): void => {
   // still typing to improve performance and make UI more reactive on low-perfomance devices.
   timeout.value = setTimeout(() => {
     emit('change', newValue, event);
-  }, props.debounceTimeout || 0);
+  }, props.debounceTimeout ?? 50);
 };
 
 const handleKeyDown = (event: KeyboardEvent): void => {
