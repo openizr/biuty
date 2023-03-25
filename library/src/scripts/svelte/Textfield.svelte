@@ -59,7 +59,7 @@ $: allowedKeys = allowedKeys || {};
 $: placeholder = placeholder || null;
 $: autocomplete = autocomplete || 'on';
 $: iconPosition = iconPosition || 'left';
-$: debounceTimeout = debounceTimeout || 0;
+$: debounceTimeout = debounceTimeout ?? 50;
 $: min = (min !== undefined) ? min : null;
 $: max = (max !== undefined) ? max : null;
 $: step = (step !== undefined) ? step : null;
@@ -67,10 +67,10 @@ $: size = (size !== undefined) ? size : null;
 $: transform = transform || defaultTransform;
 $: maxlength = (maxlength !== undefined) ? maxlength : null;
 
+let userIsTyping = false;
 const randomId = generateRandomId();
 let timeout: number | null = null;
 let cursorPosition: number | null = null;
-let reverseTimeout: number | null = null;
 const actualTransform = transform || defaultTransform;
 let currentValue = defaultTransform(value, 0)[0];
 let inputRef: HTMLInputElement | null = null;
@@ -79,7 +79,7 @@ $: isDisabled = modifiers.includes('disabled');
 $: className = buildClass('ui-textfield', modifiers);
 $: parsedLabel = label !== null ? markdown(label) : null;
 $: parsedHelper = helper !== null ? markdown(helper) : null;
-// Memoïzes global version of allowed keys RegExps (required for filtering out a whole text).
+// Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
 $: globalAllowedKeys = keyTypes.reduce((allAllowedKeys, keyType) => {
   const allowedKeysForType = allowedKeys[keyType];
   return {
@@ -105,7 +105,7 @@ const updateCursorPosition = async () => {
 
 const handleChange = (event: Event, filter = true): void => {
   clearTimeout(timeout as number);
-  clearTimeout(reverseTimeout as number);
+  userIsTyping = true;
   const target = event.target as HTMLInputElement;
   const selectionStart = target.selectionStart as number;
   const filteredValue = (filter && globalAllowedKeys.default !== null)
@@ -127,6 +127,7 @@ const handleChange = (event: Event, filter = true): void => {
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to improve performance and make UI more reactive on low-perfomance devices.
   timeout = setTimeout(() => {
+    userIsTyping = false;
     dispatch('change', { newValue, event });
   }, debounceTimeout) as unknown as number;
   updateCursorPosition();
@@ -195,13 +196,12 @@ const handleIconKeyDown = (event: KeyboardEvent): void => {
 
 // Updates current value whenever `value` and `transform` props change.
 $: {
-  clearTimeout(reverseTimeout as number);
   // Do not update current value immediatly while user is typing something else.
-  reverseTimeout = setTimeout(() => {
+  if (!userIsTyping) {
     const [newValue] = (transform as Transform)(value as string, 0);
     currentValue = newValue;
     updateCursorPosition();
-  }, 150) as unknown as number;
+  }
 }
 </script>
 

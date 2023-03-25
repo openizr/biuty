@@ -128,19 +128,19 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
   autocomplete = autocomplete || 'on';
   iconPosition = iconPosition || 'left';
   onIconKeyDown = onIconKeyDown || null;
-  debounceTimeout = debounceTimeout || 0;
+  debounceTimeout = debounceTimeout ?? 50;
   const actualTransform = transform || defaultTransform;
 
+  const isUserTyping = React.useRef(false);
   const [randomId] = React.useState(generateRandomId);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const isDisabled = (modifiers as string).includes('disabled');
-  const reverseTimeout = React.useRef<NodeJS.Timeout | null>(null);
   const className = buildClass('ui-textfield', modifiers as string);
   const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
   const [currentValue, setCurrentValue] = React.useState(() => actualTransform(value, 0)[0]);
 
-  // Memoïzes global version of allowed keys RegExps (required for filtering out a whole text).
+  // Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
   const globalAllowedKeys = React.useMemo(() => keyTypes.reduce((allAllowedKeys, keyType) => {
     const allowedKeysForType = (allowedKeys as AllowedKeys)[keyType];
     return {
@@ -157,7 +157,7 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, filter = true): void => {
     clearTimeout(timeout.current as NodeJS.Timeout);
-    clearTimeout(reverseTimeout.current as NodeJS.Timeout);
+    isUserTyping.current = true;
     const filteredValue = (filter && globalAllowedKeys.default !== null)
       ? (event.target.value.match(globalAllowedKeys.default) || []).join('')
       : event.target.value;
@@ -176,6 +176,7 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
     // This debounce system prevents triggering `onChange` callback too many times when user is
     // still typing to improve performance and make UI more reactive on low-perfomance devices.
     timeout.current = setTimeout(() => {
+      isUserTyping.current = false;
       if (onChange !== undefined && onChange !== null) {
         onChange(newValue, event);
       }
@@ -242,12 +243,11 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
 
   // Updates current value whenever `value` and `transform` props change.
   React.useEffect(() => {
-    clearTimeout(reverseTimeout.current as NodeJS.Timeout);
     // Do not update current value immediatly while user is typing something else.
-    reverseTimeout.current = setTimeout(() => {
+    if (!isUserTyping.current) {
       const [newValue] = actualTransform(value, 0);
       setCurrentValue(newValue);
-    }, 150);
+    }
   }, [value, actualTransform]);
 
   // Re-positions cursor at the right place when using transform function.
