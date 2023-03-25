@@ -12,9 +12,11 @@ import buildClass from 'scripts/helpers/buildClass';
 
 export let label: string;
 export let modifiers = '';
+export let id: string | null = null;
 export let description: string | null = null;
 
 // Enforces props default values.
+$: id = id || null;
 $: modifiers = modifiers || '';
 $: description = description || null;
 
@@ -32,6 +34,7 @@ $: className = buildClass('ui-tooltip', [modifiers, isDescriptionVisible ? 'desc
 </script>
 
 <div
+  {id}
   role="tooltip"
   class={className}
   aria-label={label}
