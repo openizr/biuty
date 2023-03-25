@@ -7,24 +7,12 @@
  */
 
 import * as React from 'react';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
-
-const propTypes = {
-  id: PropTypes.string,
-  modifiers: PropTypes.string,
-  name: PropTypes.string.isRequired,
-};
-
-const defaultProps = {
-  id: null,
-  modifiers: '',
-};
 
 /**
  * Basic icon.
  */
-function UIIcon(props: InferProps<typeof propTypes>): JSX.Element {
+function UIIcon(props: UIIconProps): JSX.Element {
   const { name } = props;
   let { id, modifiers } = props;
 
@@ -40,9 +28,5 @@ function UIIcon(props: InferProps<typeof propTypes>): JSX.Element {
     />
   );
 }
-
-UIIcon.propTypes = propTypes;
-UIIcon.defaultProps = defaultProps;
-UIIcon.displayName = 'UIIcon';
 
 export default React.memo(UIIcon);

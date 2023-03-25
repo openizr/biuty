@@ -9,7 +9,6 @@
 import * as React from 'react';
 import UIIcon from 'scripts/react/Icon';
 import markdown from 'scripts/helpers/markdown';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
@@ -18,73 +17,6 @@ type AllowedKeys = Record<KeyType, RegExp | null>;
 
 const JSXUIIcon = UIIcon as JSXElement;
 
-const propTypes = {
-  id: PropTypes.string,
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  icon: PropTypes.string,
-  size: PropTypes.number,
-  value: PropTypes.string,
-  label: PropTypes.string,
-  helper: PropTypes.string,
-  onBlur: PropTypes.func,
-  onFocus: PropTypes.func,
-  onPaste: PropTypes.func,
-  onChange: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  readonly: PropTypes.bool,
-  transform: PropTypes.func,
-  autofocus: PropTypes.bool,
-  maxlength: PropTypes.number,
-  modifiers: PropTypes.string,
-  onIconClick: PropTypes.func,
-  placeholder: PropTypes.string,
-  onIconKeyDown: PropTypes.func,
-  autocomplete: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  debounceTimeout: PropTypes.number,
-  allowedKeys: PropTypes.shape({
-    altKey: PropTypes.instanceOf(RegExp),
-    metaKey: PropTypes.instanceOf(RegExp),
-    ctrlKey: PropTypes.instanceOf(RegExp),
-    default: PropTypes.instanceOf(RegExp),
-    shiftKey: PropTypes.instanceOf(RegExp),
-  }),
-  iconPosition: PropTypes.oneOf(['left', 'right']),
-  type: PropTypes.oneOf(['text', 'email', 'number', 'password', 'search', 'tel', 'url']),
-};
-
-const defaultProps = {
-  id: null,
-  min: null,
-  max: null,
-  step: null,
-  size: null,
-  icon: null,
-  label: null,
-  value: null,
-  helper: null,
-  type: 'text',
-  modifiers: '',
-  onBlur: null,
-  onFocus: null,
-  onPaste: null,
-  onChange: null,
-  onKeyDown: null,
-  allowedKeys: {},
-  transform: null,
-  readonly: false,
-  autofocus: false,
-  maxlength: null,
-  onIconClick: null,
-  placeholder: null,
-  autocomplete: 'on',
-  iconPosition: 'left',
-  onIconKeyDown: null,
-  debounceTimeout: 0,
-};
-
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
 const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|Home|End|AltGraph|NumLock|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp/;
 const defaultTransform = (value: string): string[] => [value];
@@ -92,7 +24,28 @@ const defaultTransform = (value: string): string[] => [value];
 /**
  * Text field.
  */
-function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
+function UITextfield(props: UITextfieldProps & {
+  /** `focus` event handler. */
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+
+  /** `change` event handler. */
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+
+  /** `blur` event handler. */
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+
+  /** `paste` event handler. */
+  onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
+
+  /** `keyDown` event handler. */
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+
+  /** `iconKeyDown` event handler. */
+  onIconKeyDown?: React.KeyboardEventHandler<HTMLElement>;
+
+  /** `iconClick` event handler. */
+  onIconClick?: React.MouseEventHandler<HTMLElement>;
+}): JSX.Element {
   let { type, size } = props;
   const { min, max } = props;
   const { name, transform } = props;
@@ -320,9 +273,5 @@ function UITextfield(props: InferProps<typeof propTypes>): JSX.Element {
     </div>
   );
 }
-
-UITextfield.propTypes = propTypes;
-UITextfield.defaultProps = defaultProps;
-UITextfield.displayName = 'UITextfield';
 
 export default React.memo(UITextfield);

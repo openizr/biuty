@@ -7,31 +7,15 @@
  */
 
 import * as React from 'react';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
-
-const propTypes = {
-  id: PropTypes.string,
-  onClick: PropTypes.func,
-  rel: PropTypes.string,
-  target: PropTypes.string,
-  modifiers: PropTypes.string,
-  href: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-};
-
-const defaultProps = {
-  id: null,
-  modifiers: '',
-  rel: null,
-  target: null,
-  onClick: null,
-};
 
 /**
  * Hyperlink.
  */
-function UILink(props: InferProps<typeof propTypes>): JSX.Element {
+function UILink(props: UILinkProps & {
+  /** `click` event handler. */
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+}): JSX.Element {
   let { rel, id } = props;
   const { href, label } = props;
   let { onClick, modifiers, target } = props;
@@ -56,9 +40,5 @@ function UILink(props: InferProps<typeof propTypes>): JSX.Element {
     </a>
   );
 }
-
-UILink.propTypes = propTypes;
-UILink.defaultProps = defaultProps;
-UILink.displayName = 'UILink';
 
 export default React.memo(UILink);

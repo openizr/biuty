@@ -9,56 +9,26 @@
 import * as React from 'react';
 import UIIcon from 'scripts/react/Icon';
 import markdown from 'scripts/helpers/markdown';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
 const JSXUIIcon = UIIcon as JSXElement;
-
-const propTypes = {
-  id: PropTypes.string,
-  icon: PropTypes.string,
-  label: PropTypes.string,
-  onBlur: PropTypes.func,
-  onFocus: PropTypes.func,
-  helper: PropTypes.string,
-  onChange: PropTypes.func,
-  multiple: PropTypes.bool,
-  accept: PropTypes.string,
-  modifiers: PropTypes.string,
-  placeholder: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  iconPosition: PropTypes.oneOf(['left', 'right']),
-  value: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    lastModified: PropTypes.number.isRequired,
-  }).isRequired),
-};
-
-const defaultProps = {
-  id: null,
-  value: [],
-  icon: null,
-  label: null,
-  helper: null,
-  accept: null,
-  onBlur: null,
-  onFocus: null,
-  modifiers: '',
-  onChange: null,
-  multiple: false,
-  placeholder: null,
-  iconPosition: 'left',
-};
 
 const defaultValue: File[] = [];
 
 /**
  * File picker.
  */
-function UIFilePicker(props: InferProps<typeof propTypes>): JSX.Element {
+function UIFilePicker(props: UIFilePickerProps & {
+  /** `blur` event handler. */
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+
+  /** `focus` event handler. */
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+
+  /** `change` event handler. */
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}): JSX.Element {
   const { name } = props;
   let { placeholder } = props;
   let { value, onBlur, onFocus } = props;
@@ -162,9 +132,5 @@ function UIFilePicker(props: InferProps<typeof propTypes>): JSX.Element {
     </div>
   );
 }
-
-UIFilePicker.propTypes = propTypes;
-UIFilePicker.defaultProps = defaultProps;
-UIFilePicker.displayName = 'UIFilePicker';
 
 export default React.memo(UIFilePicker);

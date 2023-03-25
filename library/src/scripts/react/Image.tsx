@@ -8,22 +8,6 @@
 
 import * as React from 'react';
 import buildClass from 'scripts/helpers/buildClass';
-import PropTypes, { InferProps } from 'prop-types';
-
-const propTypes = {
-  id: PropTypes.string,
-  itemProp: PropTypes.string,
-  modifiers: PropTypes.string,
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-  ratio: PropTypes.string.isRequired,
-};
-
-const defaultProps = {
-  id: null,
-  modifiers: '',
-  itemProp: null,
-};
 
 const getDimensions = (ratio: string): { width: number; height: number; } => {
   let dimensions;
@@ -45,7 +29,7 @@ const getDimensions = (ratio: string): { width: number; height: number; } => {
 /**
  * Image.
  */
-function UIImage(props: InferProps<typeof propTypes>): JSX.Element {
+function UIImage(props: UIImageProps): JSX.Element {
   const { src, alt, ratio } = props;
   let { id, modifiers, itemProp } = props;
   const dimensions = getDimensions(ratio);
@@ -86,9 +70,5 @@ function UIImage(props: InferProps<typeof propTypes>): JSX.Element {
     </div>
   );
 }
-
-UIImage.displayName = 'UIImage';
-UIImage.propTypes = propTypes;
-UIImage.defaultProps = defaultProps;
 
 export default React.memo(UIImage);

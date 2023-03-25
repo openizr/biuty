@@ -8,37 +8,20 @@
 
 import * as React from 'react';
 import UIIcon from 'scripts/react/Icon';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
 
 const JSXUIIcon = UIIcon as JSXElement;
 
-const propTypes = {
-  id: PropTypes.string,
-  icon: PropTypes.string,
-  label: PropTypes.string,
-  onClick: PropTypes.func,
-  onFocus: PropTypes.func,
-  modifiers: PropTypes.string,
-  type: PropTypes.oneOf(['button', 'submit']),
-  iconPosition: PropTypes.oneOf(['left', 'right']),
-};
-
-const defaultProps = {
-  id: null,
-  icon: null,
-  label: null,
-  modifiers: '',
-  type: 'button',
-  onFocus: null,
-  onClick: null,
-  iconPosition: 'left',
-};
-
 /**
  * Button.
  */
-function UIButton(props: InferProps<typeof propTypes>): JSX.Element {
+function UIButton(props: UIButtonProps & {
+  /** `click` event handler. */
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+
+  /** `focus` event handler. */
+  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
+}): JSX.Element {
   let { type, modifiers } = props;
   let { id, onClick, onFocus } = props;
   let { label, icon, iconPosition } = props;
@@ -71,9 +54,5 @@ function UIButton(props: InferProps<typeof propTypes>): JSX.Element {
     </button>
   );
 }
-
-UIButton.propTypes = propTypes;
-UIButton.defaultProps = defaultProps;
-UIButton.displayName = 'UIButton';
 
 export default React.memo(UIButton);

@@ -8,59 +8,28 @@
 
 import * as React from 'react';
 import markdown from 'scripts/helpers/markdown';
-import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
-
-const propTypes = {
-  id: PropTypes.string,
-  cols: PropTypes.number,
-  rows: PropTypes.number,
-  value: PropTypes.string,
-  label: PropTypes.string,
-  helper: PropTypes.string,
-  onBlur: PropTypes.func,
-  onPaste: PropTypes.func,
-  onFocus: PropTypes.func,
-  onChange: PropTypes.func,
-  readonly: PropTypes.bool,
-  onKeyDown: PropTypes.func,
-  autofocus: PropTypes.bool,
-  autoresize: PropTypes.bool,
-  maxlength: PropTypes.number,
-  modifiers: PropTypes.string,
-  placeholder: PropTypes.string,
-  autocomplete: PropTypes.string,
-  debounceTimeout: PropTypes.number,
-  name: PropTypes.string.isRequired,
-};
-
-const defaultProps = {
-  id: null,
-  cols: null,
-  rows: null,
-  label: null,
-  value: null,
-  helper: null,
-  onBlur: null,
-  onFocus: null,
-  onPaste: null,
-  modifiers: '',
-  onChange: null,
-  readonly: false,
-  maxlength: null,
-  onKeyDown: null,
-  autofocus: false,
-  placeholder: null,
-  autoresize: false,
-  autocomplete: 'on',
-  debounceTimeout: 0,
-};
 
 /**
  * Text area.
  */
-function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
+function UITextarea(props: UITextareaProps & {
+  /** `focus` event handler. */
+  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
+
+  /** `change` event handler. */
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
+
+  /** `blur` event handler. */
+  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
+
+  /** `paste` event handler. */
+  onPaste?: React.ClipboardEventHandler<HTMLTextAreaElement>;
+
+  /** `keyDown` event handler. */
+  onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+}): JSX.Element {
   const { name } = props;
   let { autoresize } = props;
   let { id, modifiers, label } = props;
@@ -180,9 +149,5 @@ function UITextarea(props: InferProps<typeof propTypes>): JSX.Element {
     </div>
   );
 }
-
-UITextarea.propTypes = propTypes;
-UITextarea.defaultProps = defaultProps;
-UITextarea.displayName = 'UITextarea';
 
 export default React.memo(UITextarea);
