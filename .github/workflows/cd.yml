@@ -32,9 +32,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
+          path: dist
 
       - name: Log into NPM
         run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_AUTH_TOKEN}"
 
       - name: Publish package on NPM
-        run: cp README.md dist && cp LICENSE dist && sed -i "s/PACKAGE_VERSION/$GITHUB_REF_NAME/g" dist/package.json && printenv && cat dist/package.json #npm publish ./dist
+        run: ls && printenv && pwd && ls dist && cp README.md dist && cp LICENSE dist && sed -i "s/PACKAGE_VERSION/$GITHUB_REF_NAME/g" dist/package.json && cat dist/package.json #npm publish ./dist
