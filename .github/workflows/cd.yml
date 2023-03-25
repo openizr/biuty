@@ -38,4 +38,4 @@ jobs:
         run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_AUTH_TOKEN}"
 
       - name: Publish package on NPM
-        run: ls && printenv && pwd && ls dist && cp README.md dist && cp LICENSE dist && sed -i "s/PACKAGE_VERSION/$GITHUB_REF_NAME/g" dist/package.json && cat dist/package.json #npm publish ./dist
+        run: cp README.md dist && cp LICENSE dist && sed -i "s/PACKAGE_VERSION/$GITHUB_REF_NAME/g" dist/package.json && npm publish ./dist
