@@ -49,7 +49,6 @@ declare module 'biuty/svelte' {
     href: string;
     rel?: string;
     label: string;
-    title?: string;
     target?: string;
     itemProp?: string;
     modifiers?: string;

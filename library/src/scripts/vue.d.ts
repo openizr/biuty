@@ -49,7 +49,6 @@ declare module 'biuty/vue' {
     rel?: string;
     href: string;
     label: string;
-    title?: string;
     target?: string;
     modifiers?: string;
   }>;
