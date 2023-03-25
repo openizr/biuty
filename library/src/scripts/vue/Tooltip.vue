@@ -12,6 +12,7 @@ import { computed, ref } from 'vue';
 import buildClass from 'scripts/helpers/buildClass';
 
 const props = defineProps<{
+  id?: string;
   label: string;
   modifiers?: string;
   description?: string;
@@ -32,6 +33,7 @@ const className = computed(() => buildClass('ui-tooltip', [props.modifiers || ''
 
 <template>
   <div
+    :id="id"
     role="tooltip"
     :class="className"
     :aria-label="label"

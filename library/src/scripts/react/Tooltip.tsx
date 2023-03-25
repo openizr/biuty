@@ -11,6 +11,7 @@ import PropTypes, { InferProps } from 'prop-types';
 import buildClass from 'scripts/helpers/buildClass';
 
 const propTypes = {
+  id: PropTypes.string,
   modifiers: PropTypes.string,
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
@@ -22,6 +23,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  id: null,
   modifiers: 'top',
   description: null,
 };
@@ -31,8 +33,9 @@ const defaultProps = {
  */
 function Tooltip(props: InferProps<typeof propTypes>): JSX.Element {
   const { label, children } = props;
-  let { description, modifiers } = props;
+  let { id, description, modifiers } = props;
 
+  id = id || null;
   modifiers = modifiers || 'top';
   description = description || null;
 
@@ -49,6 +52,7 @@ function Tooltip(props: InferProps<typeof propTypes>): JSX.Element {
 
   return (
     <div
+      id={id as string}
       role="tooltip"
       className={className}
       aria-label={label}
