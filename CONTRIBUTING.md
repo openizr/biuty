@@ -187,7 +187,7 @@ changelogs to watch for updates:
 ## Build & Deployment
 
 You don't have to worry about deploying the code and publishing it on `npm`, the CI/CD system does
-it for you (using TravisCI). Each time a new release is created on the `master` branch, TravisCI
+it for you (using Github Actions). Each time a new release is created on the `master` branch, Github Actions
 will automatically build and deploy this release on `npm` with the version you specified in your
 release name. Of course, all tests must pass otherwise code won't be deployed. However, if you want
 to get an preview of the distributed package, you can run `docker exec <PROJECT_NAME>_library yarn run build`.

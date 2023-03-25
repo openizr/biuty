@@ -2,7 +2,7 @@
 
 SASS and components library, without the superfluous
 
-[![Build Status](https://travis-ci.org/openizr/biuty.svg?branch=master)](https://travis-ci.org/openizr/biuty)
+[![Build Status](https://github.com/openizr/biuty/actions/workflows/ci.yml/badge.svg)](https://github.com/openizr/biuty/actions/workflows/ci.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/openizr/biuty/badge.svg)](https://coveralls.io/github/openizr/biuty)
 [![npm](https://img.shields.io/npm/v/biuty.svg)](https://www.npmjs.com/package/biuty)
 [![node](https://img.shields.io/node/v/biuty.svg)](https://nodejs.org)

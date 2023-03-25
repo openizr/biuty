@@ -1,6 +1,6 @@
 {
   "name": "biuty",
-  "version": "TRAVIS_TAG",
+  "version": "PACKAGE_VERSION",
   "type": "module",
   "main": "./main.js",
   "types": "./main.d.ts",
