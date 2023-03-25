@@ -48,7 +48,6 @@ declare module 'biuty/react' {
   export function UILink(props: PropTypes.InferProps<{
     rel: PropTypes.Requireable<string>;
     id: PropTypes.Requireable<string>;
-    title: PropTypes.Requireable<string>;
     onClick: PropTypes.Requireable<(event: MouseEvent<HTMLAnchorElement>) => void>;
     modifiers: PropTypes.Requireable<string>;
     href: PropTypes.Validator<string>;
