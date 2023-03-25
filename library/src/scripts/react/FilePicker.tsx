@@ -53,6 +53,8 @@ const defaultProps = {
   iconPosition: 'left',
 };
 
+const defaultValue: File[] = [];
+
 /**
  * File picker.
  */
@@ -66,7 +68,6 @@ function UIFilePicker(props: InferProps<typeof propTypes>): JSX.Element {
 
   // Enforces props default values.
   id = id || null;
-  value = value || [];
   icon = icon || null;
   label = label || null;
   helper = helper || null;
@@ -76,6 +77,7 @@ function UIFilePicker(props: InferProps<typeof propTypes>): JSX.Element {
   onChange = onChange || null;
   modifiers = modifiers || '';
   multiple = multiple || false;
+  value = value || defaultValue;
   placeholder = placeholder || null;
   iconPosition = iconPosition || 'left';
 
