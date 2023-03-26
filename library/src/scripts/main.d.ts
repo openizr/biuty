@@ -209,6 +209,9 @@ declare module 'biuty' {
 
     /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
+
+    /** Whether to lazy-load image. Defaults to `true`. */
+    lazy?: boolean;
   }
 
   export type UIOptionsOption = {
