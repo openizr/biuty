@@ -86,6 +86,12 @@ interface UILinkProps {
   modifiers?: string;
 
   /**
+   * When element is disabled, a special `disabled` modifier is automatically added, and all its
+   * user interactions are disabled. Defaults to `false`.
+   */
+  disabled?: boolean;
+
+  /**
    * `click` event handler.
    *
    * @param event `click` DOM event.
@@ -114,6 +120,12 @@ interface UIButtonProps {
 
   /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
+
+  /**
+   * When element is disabled, a special `disabled` modifier is automatically added, and all its
+   * user interactions are disabled. Defaults to `false`.
+   */
+  disabled?: boolean;
 
   /**
    * `click` event handler.
@@ -236,6 +248,12 @@ interface UIOptionsProps {
   options: Option[];
 
   /**
+   * When element is disabled, a special `disabled` modifier is automatically added, and all its
+   * user interactions are disabled. Defaults to `false`.
+   */
+  disabled?: boolean;
+
+  /**
    * Whether user can select several options. Determines how the component will be displayed.
    * `false` will display options as radio buttons, `true` will display them as check-boxes,
    * and `true` along with `select` set to `true` will display a multi-choices drop-down.
@@ -299,6 +317,12 @@ interface UITextfieldProps {
 
   /** `site` HTML attribute to set to the element. */
   size?: number;
+
+  /**
+   * When element is disabled, a special `disabled` modifier is automatically added, and all its
+   * user interactions are disabled. Defaults to `false`.
+   */
+  disabled?: boolean;
 
   /**
    * Input's value. Updating this prop with a new value will replace the current value by
@@ -449,6 +473,12 @@ interface UITextareaProps {
   name: string;
 
   /**
+   * When element is disabled, a special `disabled` modifier is automatically added, and all its
+   * user interactions are disabled. Defaults to `false`.
+   */
+  disabled?: boolean;
+
+  /**
    * Textarea's value. Updating this prop with a new value will replace the current value by
    * the one passed. Defaults to `""`.
    */
@@ -559,6 +589,12 @@ interface UIFilePickerProps {
 
   /** Position of the icon relatively to the label. */
   iconPosition?: 'left' | 'right';
+
+  /**
+   * When element is disabled, a special `disabled` modifier is automatically added, and all its
+   * user interactions are disabled. Defaults to `false`.
+   */
+  disabled?: boolean;
 
   /**
    * File picker's value. Updating this prop with a new value will replace the current value by

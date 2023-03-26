@@ -1053,7 +1053,7 @@ exports[`vue/UIOptions > renders correctly - select changing options 1`] = `
 
 exports[`vue/UIOptions > renders correctly - select disabled 1`] = `
 <div
-  class="ui-options ui-options--disabled--select"
+  class="ui-options ui-options--select--disabled"
 >
   <!--v-if-->
   <div

@@ -24,6 +24,7 @@ export let id: string | undefined = undefined;
 export let cols: number | undefined = undefined;
 export let rows: number | undefined = undefined;
 export let label: string | undefined = undefined;
+export let disabled: boolean | undefined = false;
 export let helper: string | undefined = undefined;
 export let maxlength: number | undefined = undefined;
 export let placeholder: string | undefined = undefined;
@@ -38,48 +39,49 @@ let isUserTyping = false;
 let timeout: number | null = null;
 const randomId = generateRandomId();
 
-$: isDisabled = modifiers.includes('disabled');
-$: className = buildClass('ui-textarea', modifiers);
+$: className = buildClass('ui-textarea', `${modifiers}${disabled ? ' disabled' : ''}`);
 
 // -------------------------------------------------------------------------------------------------
 // CALLBACKS DECLARATION.
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: Event): void => {
-  clearTimeout(timeout as number);
-  isUserTyping = true;
-  const newValue = (event.target as HTMLTextAreaElement).value;
-  currentValue = newValue;
-  // This debounce system prevents triggering `onChange` callback too many times when user is
-  // still typing to save performance and make the UI more reactive on low-perfomance devices.
-  timeout = setTimeout(() => {
-    isUserTyping = false;
-    if (onChange !== undefined) {
-      onChange(newValue, event as InputEvent);
-    }
-  }, debounceTimeout) as unknown as number;
+  if (!disabled) {
+    clearTimeout(timeout as number);
+    isUserTyping = true;
+    const newValue = (event.target as HTMLTextAreaElement).value;
+    currentValue = newValue;
+    // This debounce system prevents triggering `onChange` callback too many times when user is
+    // still typing to save performance and make the UI more reactive on low-perfomance devices.
+    timeout = setTimeout(() => {
+      isUserTyping = false;
+      if (onChange !== undefined) {
+        onChange(newValue, event as InputEvent);
+      }
+    }, debounceTimeout) as unknown as number;
+  }
 };
 
 const handlePaste = (event: ClipboardEvent): void => {
-  if (onPaste !== undefined) {
+  if (onPaste !== undefined && !disabled) {
     onPaste(currentValue, event);
   }
 };
 
 const handleKeyDown = (event: KeyboardEvent): void => {
-  if (onKeyDown !== undefined) {
+  if (onKeyDown !== undefined && !disabled) {
     onKeyDown(currentValue, event);
   }
 };
 
 const handleBlur = (event: FocusEvent): void => {
-  if (onBlur !== undefined) {
+  if (onBlur !== undefined && !disabled) {
     onBlur(currentValue, event);
   }
 };
 
 const handleFocus = (event: FocusEvent): void => {
-  if (onFocus !== undefined) {
+  if (onFocus !== undefined && !disabled) {
     onFocus(currentValue, event);
   }
 };
@@ -113,20 +115,21 @@ $: actualRows = (autoresize && rows === undefined) ? Math.max(1, currentValue.sp
       name={name}
       cols={cols}
       id={randomId}
-      on:paste={handlePaste}
       rows={actualRows}
       readonly={readonly}
       on:blur={handleBlur}
       value={currentValue}
       maxlength={maxlength}
       autofocus={autofocus}
-      disabled={isDisabled}
+      disabled={disabled}
       on:focus={handleFocus}
-      on:keydown={handleKeyDown}
       placeholder={placeholder}
       autocomplete={autocomplete}
+      tabindex={disabled ? -1 : 0}
       class="ui-textarea__wrapper__field"
-      on:input={(readonly !== true && !isDisabled) ? handleChange : undefined}
+      on:paste={!readonly ? handlePaste : undefined}
+      on:input={!readonly ? handleChange : undefined}
+      on:keydown={!readonly ? handleKeyDown : undefined}
     />
   </div>
   {#if helper !== undefined}

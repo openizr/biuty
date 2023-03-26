@@ -29,6 +29,7 @@ const props = withDefaults(defineProps<{
   maxlength?: number;
   modifiers?: string;
   autofocus?: boolean;
+  disabled?: boolean;
   placeholder?: string;
   value?: string | number;
   autocomplete?: 'on' | 'off';
@@ -48,6 +49,7 @@ const props = withDefaults(defineProps<{
   rows: undefined,
   name: undefined,
   autofocus: false,
+  disabled: false,
   label: undefined,
   autoresize: false,
   helper: undefined,
@@ -69,26 +71,27 @@ const currentValue = ref(`${props.value}`);
 const actualRows = computed(() => ((props.autoresize && props.rows === undefined)
   ? Math.max(1, currentValue.value.split('\n').length)
   : props.rows));
-const isDisabled = computed(() => props.modifiers.includes('disabled'));
-const className = computed(() => buildClass('ui-textarea', props.modifiers));
+const className = computed(() => buildClass('ui-textarea', `${props.modifiers}${props.disabled ? ' disabled' : ''}`));
 
 // -------------------------------------------------------------------------------------------------
 // CALLBACKS DECLARATION.
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: InputEvent): void => {
-  clearTimeout(timeout.value);
-  isUserTyping.value = true;
-  const newValue = (event.target as HTMLTextAreaElement).value;
-  currentValue.value = newValue;
-  // This debounce system prevents triggering `onChange` callback too many times when user is
-  // still typing to save performance and make the UI more reactive on low-perfomance devices.
-  timeout.value = setTimeout(() => {
-    isUserTyping.value = false;
-    if (props.onChange !== undefined) {
-      props.onChange(newValue, event);
-    }
-  }, props.debounceTimeout);
+  if (!props.disabled) {
+    clearTimeout(timeout.value);
+    isUserTyping.value = true;
+    const newValue = (event.target as HTMLTextAreaElement).value;
+    currentValue.value = newValue;
+    // This debounce system prevents triggering `onChange` callback too many times when user is
+    // still typing to save performance and make the UI more reactive on low-perfomance devices.
+    timeout.value = setTimeout(() => {
+      isUserTyping.value = false;
+      if (props.onChange !== undefined) {
+        props.onChange(newValue, event);
+      }
+    }, props.debounceTimeout);
+  }
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -128,13 +131,14 @@ watch(() => props.value, () => {
         :maxlength="maxlength"
         :placeholder="placeholder"
         :autocomplete="autocomplete"
-        :disabled="isDisabled"
-        @blur="onBlur !== undefined && onBlur(currentValue, $event)"
-        @focus="onFocus !== undefined && onFocus(currentValue, $event)"
-        @input="(!readonly && !isDisabled) ? handleChange($event) : undefined"
-        @paste="(!readonly && !isDisabled && onPaste !== undefined)
+        :disabled="disabled"
+        :tabindex="disabled ? -1 : 0"
+        @blur="onBlur !== undefined && !disabled && onBlur(currentValue, $event)"
+        @focus="onFocus !== undefined && !disabled && onFocus(currentValue, $event)"
+        @input="!readonly ? handleChange($event) : undefined"
+        @paste="(!readonly && onPaste !== undefined && !disabled)
           ? onPaste(currentValue, $event) : undefined"
-        @keydown="(!readonly && !isDisabled && onKeyDown !== undefined)
+        @keydown="(!readonly && !disabled && onKeyDown !== undefined)
           ? onKeyDown(currentValue, $event) : undefined"
       />
     </div>

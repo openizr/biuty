@@ -78,7 +78,7 @@ describe('svelte/UITextfield', () => {
 
   test('renders correctly - with disabled', async () => {
     const onChange = vi.fn();
-    const { container } = render(UITextfield, { props: { name: 'test', modifiers: 'disabled', onChange } });
+    const { container } = render(UITextfield, { props: { name: 'test', disabled: true, onChange } });
     const input = container.getElementsByTagName('input')[0];
     await fireEvent.input(input, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();

@@ -17,11 +17,11 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 function UITextarea(props: UITextareaProps): JSX.Element {
   let { rows } = props;
   const { name } = props;
-  const { autoresize = false } = props;
   const { readonly = false, cols } = props;
   const { id, modifiers = '', label } = props;
   const { onBlur, maxlength, onPaste } = props;
   const { helper, onChange, value = '' } = props;
+  const { autoresize = false, disabled = false } = props;
   const { onFocus, debounceTimeout = 50, placeholder } = props;
   const { autofocus = false, autocomplete = 'off', onKeyDown } = props;
 
@@ -29,8 +29,7 @@ function UITextarea(props: UITextareaProps): JSX.Element {
   const [randomId] = React.useState(generateRandomId);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const [currentValue, setCurrentValue] = React.useState(`${value}`);
-  const isDisabled = modifiers.includes('disabled');
-  const className = buildClass('ui-textarea', modifiers);
+  const className = buildClass('ui-textarea', `${modifiers}${disabled ? ' disabled' : ''}`);
   rows = (autoresize && rows === undefined) ? Math.max(1, currentValue.split('\n').length) : rows;
 
   // -----------------------------------------------------------------------------------------------
@@ -38,40 +37,42 @@ function UITextarea(props: UITextareaProps): JSX.Element {
   // -----------------------------------------------------------------------------------------------
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    clearTimeout(timeout.current as NodeJS.Timeout);
-    isUserTyping.current = true;
-    const newValue = event.target.value;
-    setCurrentValue(newValue);
-    // This debounce system prevents triggering `onChange` callback too many times when user is
-    // still typing to save performance and make the UI more reactive on low-perfomance devices.
-    timeout.current = setTimeout(() => {
-      isUserTyping.current = false;
-      if (onChange !== undefined) {
-        onChange(newValue, event as unknown as InputEvent);
-      }
-    }, debounceTimeout as number);
+    if (!disabled) {
+      clearTimeout(timeout.current as NodeJS.Timeout);
+      isUserTyping.current = true;
+      const newValue = event.target.value;
+      setCurrentValue(newValue);
+      // This debounce system prevents triggering `onChange` callback too many times when user is
+      // still typing to save performance and make the UI more reactive on low-perfomance devices.
+      timeout.current = setTimeout(() => {
+        isUserTyping.current = false;
+        if (onChange !== undefined) {
+          onChange(newValue, event as unknown as InputEvent);
+        }
+      }, debounceTimeout as number);
+    }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>): void => {
-    if (onBlur !== undefined) {
+    if (onBlur !== undefined && !disabled) {
       onBlur(currentValue, event as unknown as FocusEvent);
     }
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>): void => {
-    if (onFocus !== undefined) {
+    if (onFocus !== undefined && !disabled) {
       onFocus(currentValue, event as unknown as FocusEvent);
     }
   };
 
   const handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>): void => {
-    if (onPaste !== undefined) {
+    if (onPaste !== undefined && !disabled) {
       onPaste(currentValue, event as unknown as ClipboardEvent);
     }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>): void => {
-    if (onKeyDown !== undefined) {
+    if (onKeyDown !== undefined && !disabled) {
       onKeyDown(currentValue, event as unknown as KeyboardEvent);
     }
   };
@@ -112,17 +113,18 @@ function UITextarea(props: UITextareaProps): JSX.Element {
           id={randomId}
           onBlur={handleBlur}
           onFocus={handleFocus}
-          disabled={isDisabled}
+          disabled={disabled}
           maxLength={maxlength}
           value={currentValue}
           readOnly={readonly}
           autoFocus={autofocus}
           placeholder={placeholder}
           autoComplete={autocomplete}
+          tabIndex={disabled ? -1 : 0}
           className="ui-textarea__wrapper__field"
-          onChange={(!readonly && !isDisabled) ? handleChange : undefined}
-          onPaste={(!readonly && !isDisabled) ? handlePaste : undefined}
-          onKeyDown={(!readonly && !isDisabled) ? handleKeyDown : undefined}
+          onPaste={!readonly ? handlePaste : undefined}
+          onChange={!readonly ? handleChange : undefined}
+          onKeyDown={!readonly ? handleKeyDown : undefined}
         />
       </div>
       {(helper !== undefined) && (

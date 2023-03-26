@@ -64,7 +64,7 @@ describe('react/UIOptions', () => {
   });
 
   test('renders correctly - select disabled', () => {
-    const { container } = render(<JSXUIOptions name="test" modifiers="disabled" select options={selectOptions} />);
+    const { container } = render(<JSXUIOptions name="test" disabled select options={selectOptions} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -234,7 +234,7 @@ describe('react/UIOptions', () => {
   });
 
   test('renders correctly - radio disabled', () => {
-    const { container } = render(<JSXUIOptions name="test" options={options} modifiers="disabled" />);
+    const { container } = render(<JSXUIOptions name="test" options={options} disabled />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

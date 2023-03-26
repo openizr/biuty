@@ -22,40 +22,42 @@ const toArray = (value: File | File[]): File[] => (Array.isArray(value) ? value 
  */
 function UIFilePicker(props: UIFilePickerProps): JSX.Element {
   const { name } = props;
-  const { placeholder } = props;
   const { icon, onChange, multiple } = props;
   const { accept, id, modifiers = '' } = props;
+  const { placeholder, disabled = false } = props;
   const { label, helper, iconPosition = 'left' } = props;
   const { value = defaultValue, onBlur, onFocus } = props;
 
   const [randomId] = React.useState(generateRandomId);
   const [currentValue, setCurrentValue] = React.useState<File[]>(toArray(value));
-  const className = buildClass('ui-file-picker', `${modifiers}${(multiple ? ' multiple' : '')}`);
+  const className = buildClass('ui-file-picker', `${modifiers}${(multiple ? ' multiple' : '')}${disabled ? ' disabled' : ''}`);
 
   // -----------------------------------------------------------------------------------------------
   // CALLBACKS DECLARATION.
   // -----------------------------------------------------------------------------------------------
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const files = [];
-    const numberOfFiles = ((event.target.files as FileList).length);
-    for (let index = 0; index < numberOfFiles; index += 1) {
-      files.push((event.target.files as FileList)[index]);
-    }
-    setCurrentValue(files);
-    if (onChange !== undefined) {
-      onChange(multiple ? files : files[0], event as unknown as InputEvent);
+    if (!disabled) {
+      const files = [];
+      const numberOfFiles = ((event.target.files as FileList).length);
+      for (let index = 0; index < numberOfFiles; index += 1) {
+        files.push((event.target.files as FileList)[index]);
+      }
+      setCurrentValue(files);
+      if (onChange !== undefined) {
+        onChange(multiple ? files : files[0], event as unknown as InputEvent);
+      }
     }
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onFocus !== undefined) {
+    if (onFocus !== undefined && !disabled) {
       onFocus(multiple ? currentValue : currentValue[0], event as unknown as FocusEvent);
     }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onBlur !== undefined) {
+    if (onBlur !== undefined && !disabled) {
       onBlur(multiple ? currentValue : currentValue[0], event as unknown as FocusEvent);
     }
   };
@@ -85,8 +87,8 @@ function UIFilePicker(props: UIFilePickerProps): JSX.Element {
       onBlur={handleBlur}
       onFocus={handleFocus}
       onChange={handleChange}
+      tabIndex={disabled ? -1 : 0}
       className="ui-file-picker__wrapper__field"
-      tabIndex={modifiers.includes('disabled') ? -1 : 0}
     />,
   ];
   return (

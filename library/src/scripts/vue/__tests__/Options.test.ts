@@ -85,7 +85,7 @@ describe('vue/UIOptions', () => {
   test('renders correctly - select disabled', () => {
     const { container } = render(UIOptions, {
       props: {
-        name: 'test', modifiers: 'disabled', select: true, options: selectOptions,
+        name: 'test', disabled: true, select: true, options: selectOptions,
       },
     });
     expect(container.firstChild).toMatchSnapshot();
@@ -317,7 +317,7 @@ describe('vue/UIOptions', () => {
   });
 
   test('renders correctly - radio disabled', () => {
-    const { container } = render(UIOptions, { props: { name: 'test', options, modifiers: 'disabled' } });
+    const { container } = render(UIOptions, { props: { name: 'test', options, disabled: true } });
     expect(container.firstChild).toMatchSnapshot();
   });
 

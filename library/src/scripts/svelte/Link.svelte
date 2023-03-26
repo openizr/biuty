@@ -16,12 +16,23 @@ export let label: string;
 export let modifiers = '';
 export let id: string | undefined = undefined;
 export let rel: string | undefined = undefined;
+export let disabled: boolean | undefined = false;
 export let target: string | undefined = undefined;
 export let onClick: ((event: MouseEvent) => void) | undefined = undefined;
 
-$: className = buildClass('ui-link', modifiers);
+$: className = buildClass('ui-link', `${modifiers}${disabled ? ' disabled' : ''}`);
+
+// -----------------------------------------------------------------------------------------------
+// CALLBACKS DECLARATION.
+// -----------------------------------------------------------------------------------------------
+
+const handleClick = (event: MouseEvent): void => {
+  if (onClick !== undefined && !disabled) {
+    onClick(event);
+  }
+};
 </script>
 
-<a {id} {rel} {href} class={className} {target} on:click={onClick}>
+<a {id} {rel} {href} class={className} {target} on:click={handleClick} tabIndex={disabled ? -1 : 0}>
   {@html markdown(label)}
 </a>

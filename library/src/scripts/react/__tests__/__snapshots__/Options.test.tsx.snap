@@ -508,6 +508,7 @@ exports[`react/UIOptions > renders correctly - radio disabled 1`] = `
     >
       <input
         class="ui-options__wrapper__option__field"
+        disabled=""
         id="z8a8d7a5zad4_0"
         name="test"
         tabindex="-1"
@@ -526,6 +527,7 @@ exports[`react/UIOptions > renders correctly - radio disabled 1`] = `
     >
       <input
         class="ui-options__wrapper__option__field"
+        disabled=""
         id="z8a8d7a5zad4_1"
         name="test"
         tabindex="-1"
@@ -544,6 +546,7 @@ exports[`react/UIOptions > renders correctly - radio disabled 1`] = `
     >
       <input
         class="ui-options__wrapper__option__field"
+        disabled=""
         id="z8a8d7a5zad4_2"
         name="test"
         tabindex="-1"
@@ -562,6 +565,7 @@ exports[`react/UIOptions > renders correctly - radio disabled 1`] = `
     >
       <input
         class="ui-options__wrapper__option__field"
+        disabled=""
         id="z8a8d7a5zad4_3"
         name="test"
         tabindex="-1"
@@ -1037,7 +1041,7 @@ exports[`react/UIOptions > renders correctly - select changing options 1`] = `
 
 exports[`react/UIOptions > renders correctly - select disabled 1`] = `
 <div
-  class="ui-options ui-options--disabled--select"
+  class="ui-options ui-options--select--disabled"
 >
   <div
     class="ui-options__wrapper"

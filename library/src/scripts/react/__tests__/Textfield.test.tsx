@@ -73,7 +73,7 @@ describe('react/UITextfield', () => {
 
   test('renders correctly - with disabled', async () => {
     const onChange = vi.fn();
-    const { container } = render(<JSXUITextfield name="test" modifiers="disabled" />);
+    const { container } = render(<JSXUITextfield name="test" disabled />);
     const input = container.getElementsByTagName('input')[0];
     fireEvent.change(input, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();

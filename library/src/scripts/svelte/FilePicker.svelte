@@ -24,6 +24,7 @@ export let value: File | File[] = [];
 export let id: string | undefined = undefined;
 export let icon: string | undefined = undefined;
 export let label: string | undefined = undefined;
+export let disabled: boolean | undefined = false;
 export let accept: string | undefined = undefined;
 export let helper: string | undefined = undefined;
 export let iconPosition: 'left' | 'right' = 'left';
@@ -35,7 +36,7 @@ export let onBlur: ((value: File | File[], event: FocusEvent) => void) | undefin
 let currentValue = toArray(value);
 const randomId = generateRandomId();
 
-$: className = buildClass('ui-file-picker', modifiers + (multiple ? ' multiple' : ''));
+$: className = buildClass('ui-file-picker', `${modifiers}${multiple ? ' multiple' : ''}${disabled ? ' disabled' : ''}`);
 $: currentPlaceholder = (currentValue.length > 0) ? currentValue.map((file) => file.name).join(', ') : placeholder;
 
 // -----------------------------------------------------------------------------------------------
@@ -43,26 +44,28 @@ $: currentPlaceholder = (currentValue.length > 0) ? currentValue.map((file) => f
 // -----------------------------------------------------------------------------------------------
 
 const handleChange = (event: Event): void => {
-  const files = [];
-  const target = event.target as HTMLInputElement;
-  const numberOfFiles = (target.files as FileList).length;
-  for (let index = 0; index < numberOfFiles; index += 1) {
-    files.push((target.files as FileList)[index]);
-  }
-  currentValue = files;
-  if (onChange !== undefined) {
-    onChange(multiple ? files : files[0], event as InputEvent);
+  if (!disabled) {
+    const files = [];
+    const target = event.target as HTMLInputElement;
+    const numberOfFiles = (target.files as FileList).length;
+    for (let index = 0; index < numberOfFiles; index += 1) {
+      files.push((target.files as FileList)[index]);
+    }
+    currentValue = files;
+    if (onChange !== undefined) {
+      onChange(multiple ? files : files[0], event as InputEvent);
+    }
   }
 };
 
 const handleFocus = (event: FocusEvent): void => {
-  if (onFocus !== undefined) {
+  if (onFocus !== undefined && !disabled) {
     onFocus(multiple ? currentValue : currentValue[0], event);
   }
 };
 
 const handleBlur = (event: FocusEvent): void => {
-  if (onBlur !== undefined) {
+  if (onBlur !== undefined && !disabled) {
     onBlur(multiple ? currentValue : currentValue[0], event);
   }
 };
@@ -100,8 +103,8 @@ $: updateValue(value);
       on:blur={handleBlur}
       on:focus={handleFocus}
       on:input={handleChange}
+      tabIndex={disabled ? -1 : 0}
       class="ui-file-picker__wrapper__field"
-      tabIndex={modifiers.includes('disabled') ? -1 : 0}
     >
     {#if icon !== undefined && iconPosition === 'right'}
       <UIIcon name={icon} />

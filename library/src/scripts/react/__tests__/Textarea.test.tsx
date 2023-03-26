@@ -66,7 +66,7 @@ describe('react/UITextarea', () => {
 
   test('renders correctly - disabled', async () => {
     const onChange = vi.fn();
-    const { container } = render(<JSXUITextarea name="test" modifiers="disabled" />);
+    const { container } = render(<JSXUITextarea name="test" disabled />);
     const textarea = container.getElementsByTagName('textarea')[0];
     fireEvent.change(textarea, { target: { value: 'new value' } });
     expect(container.firstChild).toMatchSnapshot();

@@ -32,6 +32,7 @@ const props = withDefaults(defineProps<{
   label?: string;
   helper?: string;
   modifiers?: string;
+  disabled?: boolean;
   placeholder?: string;
   onBlur?: FocusEventHandler;
   onFocus?: FocusEventHandler;
@@ -40,6 +41,7 @@ const props = withDefaults(defineProps<{
   modifiers: '',
   id: undefined,
   icon: undefined,
+  disabled: false,
   label: undefined,
   accept: undefined,
   helper: undefined,
@@ -53,7 +55,7 @@ const props = withDefaults(defineProps<{
 
 const randomId = ref(generateRandomId());
 const currentValue = ref(toArray(props.value));
-const className = computed(() => buildClass('ui-file-picker', `${props.modifiers} ${props.multiple ? ' multiple' : ''}`));
+const className = computed(() => buildClass('ui-file-picker', `${props.modifiers}${props.multiple ? ' multiple' : ''}${props.disabled ? ' disabled' : ''}`));
 const currentPlaceholder = computed(() => ((currentValue.value.length > 0)
   ? currentValue.value.map((file) => file.name).join(', ')
   : props.placeholder));
@@ -63,26 +65,28 @@ const currentPlaceholder = computed(() => ((currentValue.value.length > 0)
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: InputEvent): void => {
-  const files = [];
-  const target = event.target as HTMLInputElement;
-  const numberOfFiles = target.files.length;
-  for (let index = 0; index < numberOfFiles; index += 1) {
-    files.push(target.files[index]);
-  }
-  currentValue.value = files;
-  if (props.onChange !== undefined) {
-    props.onChange(props.multiple ? files : files[0], event);
+  if (!props.disabled) {
+    const files = [];
+    const target = event.target as HTMLInputElement;
+    const numberOfFiles = target.files.length;
+    for (let index = 0; index < numberOfFiles; index += 1) {
+      files.push(target.files[index]);
+    }
+    currentValue.value = files;
+    if (props.onChange !== undefined) {
+      props.onChange(props.multiple ? files : files[0], event);
+    }
   }
 };
 
 const handleFocus = (event: FocusEvent): void => {
-  if (props.onFocus !== undefined) {
+  if (props.onFocus !== undefined && !props.disabled) {
     props.onFocus(props.multiple ? currentValue.value : currentValue.value[0], event);
   }
 };
 
 const handleBlur = (event: FocusEvent): void => {
-  if (props.onBlur !== undefined) {
+  if (props.onBlur !== undefined && !props.disabled) {
     props.onBlur(props.multiple ? currentValue.value : currentValue.value[0], event);
   }
 };
@@ -120,7 +124,7 @@ watch(() => props.value, () => {
         :accept="accept"
         :multiple="multiple"
         class="ui-file-picker__wrapper__field"
-        :tabindex="modifiers.includes('disabled') ? -1 : 0"
+        :tabindex="disabled ? -1 : 0"
         @change="handleChange"
         @blur="handleBlur"
         @focus="handleFocus"

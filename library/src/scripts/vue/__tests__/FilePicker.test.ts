@@ -28,7 +28,7 @@ describe('vue/UIFilePicker', () => {
   });
 
   test('renders correctly - disabled', () => {
-    const { container } = render(UIFilePicker, { props: { name: 'test', modifiers: 'disabled' } });
+    const { container } = render(UIFilePicker, { props: { name: 'test', disabled: true } });
     expect(container.firstChild).toMatchSnapshot();
   });
 
