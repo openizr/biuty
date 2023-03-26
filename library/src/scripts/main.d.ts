@@ -202,25 +202,40 @@ declare module 'biuty' {
   /**
    * Selectable option.
    */
-  export interface Option {
-    /**
-     * Option's value (HTML value attribute).
-     * Required when type is neither `header` nor `divider`.
-     */
-    value?: string;
+  export type UIOptionsOption = {
+    type: 'option';
 
-    /** Option's label. Required when type is not `divider`. */
-    label?: string;
+    /** Option's value (`value` HTML attribute). */
+    value: string;
 
-    /** Whether the option can be selected. Defaults to `true`. */
+    /** Option's label. */
+    label: string;
+
+    /** Whether the option can be selected. Defaults to `false`. */
     disabled?: boolean;
 
     /** List of modifiers to pass to the option. */
     modifiers?: string;
+  };
 
-    /** Option's type. Determines how the option will be displayed. Required only for drop-downs. */
-    type?: 'header' | 'divider' | 'option';
-  }
+  export type UIOptionsHeader = {
+    type: 'header';
+
+    /** Header's label. */
+    label: string;
+
+    /** List of modifiers to pass to the header. */
+    modifiers?: string;
+  };
+
+  export type UIOptionsDivider = {
+    type: 'divider';
+
+    /** List of modifiers to pass to the divider. */
+    modifiers?: string;
+  };
+
+  export type Option = UIOptionsDivider | UIOptionsOption | UIOptionsHeader;
 
   /**
    * UIOptions component props.

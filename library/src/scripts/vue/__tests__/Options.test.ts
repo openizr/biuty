@@ -12,16 +12,16 @@ import { render, fireEvent } from '@testing-library/vue';
 
 vi.mock('scripts/helpers/generateRandomId');
 
-const selectOptions: { type: string; value?: string; label?: string; disabled?: boolean; }[] = [
+const selectOptions: Option[] = [
   { type: 'option', value: 'option1', label: 'Option 1' },
   { type: 'divider' },
   { type: 'option', value: 'option2', label: 'Option 2' },
   { type: 'option', value: 'option3', label: 'Option 3' },
-  { type: 'header' },
+  { type: 'header', label: 'Group 2' },
   { type: 'option', value: 'option4', label: 'Option 4' },
 ];
 
-const options: { type: string; value?: string; label?: string; disabled?: boolean; }[] = [
+const options: Option[] = [
   { type: 'option', value: 'option1', label: 'Option 1' },
   { type: 'option', value: 'option2', label: 'Option 2' },
   { type: 'option', value: 'option3', label: 'Option 3' },
@@ -98,7 +98,10 @@ describe('vue/UIOptions', () => {
         name: 'test',
         select: true,
         options: [{
-          type: 'option', value: 'option5', label: 'Option 5', disabled: true,
+          type: 'option',
+          value: 'option5',
+          label: 'Option 5',
+          disabled: true,
         }],
         onChange,
       },
@@ -319,7 +322,17 @@ describe('vue/UIOptions', () => {
   });
 
   test('renders correctly - radio with option disabled', () => {
-    const { container } = render(UIOptions, { props: { name: 'test', options: [{ value: 'option5', label: 'Option 5', disabled: true }] } });
+    const { container } = render(UIOptions, {
+      props: {
+        name: 'test',
+        options: [{
+          type: 'option',
+          value: 'option5',
+          label: 'Option 5',
+          disabled: true,
+        }],
+      },
+    });
     expect(container.firstChild).toMatchSnapshot();
   });
 

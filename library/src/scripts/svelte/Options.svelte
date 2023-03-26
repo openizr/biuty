@@ -44,15 +44,15 @@ $: className = buildClass(
   modifiers + (select ? ' select' : '') + (multiple ? ' multiple' : ''),
 );
 // Memoizes all options' parsed labels to optimize rendering.
-$: optionParsedLabels = options.reduce(
-  (mapping, option) => {
-    if (option.value !== undefined && option.value !== null) {
-      return { ...mapping, [option.value]: markdown(option.label ?? '') };
-    }
-    return mapping;
-  },
-  { _: '' } as Record<string, string>,
-);
+$: optionParsedLabels = options.reduce((mapping, option, index) => {
+  if (option.type === 'option') {
+    return { ...mapping, [option.value]: markdown(option.label) };
+  }
+  if (option.type === 'header') {
+    return { ...mapping, [`header_${index}`]: markdown(option.label) };
+  }
+  return mapping;
+}, {} as Record<string, string>);
 
 // -----------------------------------------------------------------------------------------------
 // CALLBACKS DECLARATION.
@@ -99,7 +99,7 @@ const findSiblingOption = (
     return startIndex;
   }
   const option = options[nextIndex];
-  return option.value !== undefined && option.disabled !== true
+  return option.type == 'option' && !option.disabled
     ? nextIndex
     : findSiblingOption(startIndex, direction, offset + 1);
 };
@@ -149,7 +149,7 @@ const handleChange = (event: Event): void => {
 // Manually triggered, used to simulate `change` events (`select` mode).
 const changeOption = (optionIndex: number) => (): void => {
   focusedOptionIndex = optionIndex;
-  const optionValue = options[optionIndex].value;
+  const optionValue = (options[optionIndex] as UIOptionsOption).value;
   handleChange({ target: { value: optionValue } } as unknown as InputEvent);
   if (select === true) {
     hideList()(null);
@@ -211,7 +211,7 @@ $: {
   }
   firstSelectedOption = Math.max(
     0,
-    options.findIndex((option) => currentValue.includes(option.value as string)),
+    options.findIndex((option) => option.type === 'option' && currentValue.includes(option.value)),
   );
 }
 
@@ -249,6 +249,7 @@ const updateSelectFocus = (newMounted: boolean, newIsDisplayed: boolean): void =
   mounted = true;
 };
 $: updateSelectFocus(mounted, isDisplayed);
+$: onlyOptions = options.filter((option) => option.type === 'option') as UIOptionsOption[];
 </script>
 
 {#if select === true}
@@ -290,18 +291,18 @@ $: updateSelectFocus(mounted, isDisplayed);
           <li
             id={`${randomId}${index}`}
             tabindex="-1"
-            aria-selected={currentValue.includes(`${option.value}`)}
             role={option.type === 'option' ? 'option' : undefined}
+            aria-selected={option.type === 'option' && currentValue.includes(option.value)}
             class={buildClass(
               `ui-options__wrapper__list__${option.type}`,
-              `${option.modifiers ?? ''}${option.disabled
-                ? ' disabled' : ''}${currentValue.includes(`${option.value}`) ? ' checked' : ''}`,
+              `${option.modifiers ?? ''}${option.type === 'option' && option.disabled
+                ? ' disabled' : ''}${(option.type === 'option' && currentValue.includes(option.value)) ? ' checked' : ''}`,
             )}
             on:blur={hideList(true)}
-            on:mousedown={option.type === 'option' ? changeOption(index) : undefined}
-            on:focus={handleFocus(`${option.value}`, index)}
+            on:mousedown={(option.type === 'option' && !option.disabled) ? changeOption(index) : undefined}
+            on:focus={(option.type === 'option' && !option.disabled) ? handleFocus(option.value, index) : undefined}
           >
-            {@html optionParsedLabels[option.value ?? '_']}
+            {@html option.type === 'divider' ? '' : optionParsedLabels[option.type === 'option' ? option.value : `header_${index}`]}
           </li>
         {/each}
       </svelte:element>
@@ -320,18 +321,18 @@ $: updateSelectFocus(mounted, isDisplayed);
       </label>
     {/if}
     <div bind:this={wrapperRef} class="ui-options__wrapper">
-      {#each options as option, index (`${randomId}${index}`)}
+      {#each onlyOptions as option, index (`${randomId}${index}`)}
         <label
           class={buildClass(
             'ui-options__wrapper__option',
             `${option.modifiers ?? ''}${option.disabled
-                ? ' disabled' : ''}${currentValue.includes(`${option.value}`) ? ' checked' : ''}`,
+                ? ' disabled' : ''}${currentValue.includes(option.value) ? ' checked' : ''}`,
           )}
         >
           <input
             id={`${randomId}_${index}`}
             {name}
-            checked={currentValue.includes(`${option.value}`)}
+            checked={currentValue.includes(option.value)}
             type={multiple ? 'checkbox' : 'radio'}
             value={option.value}
             disabled={option.disabled}
@@ -339,7 +340,7 @@ $: updateSelectFocus(mounted, isDisplayed);
             on:blur={handleBlur}
             on:change={handleChange}
             on:keydown={handleKeydown}
-            on:focus={handleFocus(`${option.value}`, index)}
+            on:focus={handleFocus(option.value, index)}
             tabindex={(
               option.disabled
               || modifiers.includes('disabled')
@@ -348,7 +349,7 @@ $: updateSelectFocus(mounted, isDisplayed);
             )}
           />
           <span class="ui-options__wrapper__option__label">
-            {@html optionParsedLabels[`${option.value}`]}
+            {@html optionParsedLabels[option.value]}
           </span>
         </label>
       {/each}

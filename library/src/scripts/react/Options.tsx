@@ -43,12 +43,15 @@ function UIOptions(props: UIOptionsProps & {
   const [currentValue, setCurrentValue] = React.useState<string[]>(toArray(value));
   const className = buildClass('ui-options', `${modifiers} ${(select ? 'select' : '')} ${(multiple ? ' multiple' : '')}`);
   // Memoizes all options' parsed labels to optimize rendering.
-  const optionParsedLabels = React.useMemo(() => options.reduce((mapping, option) => {
-    if (option.value !== undefined && option.value !== null) {
-      return { ...mapping, [option.value]: markdown(option.label ?? '') };
+  const optionParsedLabels = React.useMemo(() => options.reduce((mapping, option, index) => {
+    if (option.type === 'option') {
+      return { ...mapping, [option.value]: markdown(option.label) };
+    }
+    if (option.type === 'header') {
+      return { ...mapping, [`header_${index}`]: markdown(option.label) };
     }
     return mapping;
-  }, { _: '' } as Record<string, string>), [options]);
+  }, {} as Record<string, string>), [options]);
 
   // -----------------------------------------------------------------------------------------------
   // CALLBACKS DECLARATION.
@@ -93,7 +96,7 @@ function UIOptions(props: UIOptionsProps & {
         return startIndex;
       }
       const option = options[nextIndex];
-      return (option.value !== undefined && option.disabled !== true)
+      return (option.type === 'option' && !option.disabled)
         ? nextIndex
         : findSiblingOption(startIndex, direction, offset + 1);
     },
@@ -139,7 +142,7 @@ function UIOptions(props: UIOptionsProps & {
   // Manually triggered, used to simulate `change` events (`select` mode).
   const changeOption = React.useCallback((optionIndex: number) => (): void => {
     setFocusedOptionIndex(optionIndex);
-    const optionValue = options[optionIndex].value;
+    const optionValue = (options[optionIndex] as UIOptionsOption).value;
     handleChange({ target: { value: optionValue } } as React.ChangeEvent<HTMLInputElement>);
     if (select === true) {
       hideList()(null);
@@ -203,7 +206,7 @@ function UIOptions(props: UIOptionsProps & {
 
   // Updates current value whenever `value` property changes.
   React.useEffect(() => {
-    const newValue = toArray(value as string);
+    const newValue = toArray(value);
     setCurrentValue(newValue);
   }, [value]);
 
@@ -219,7 +222,7 @@ function UIOptions(props: UIOptionsProps & {
       firstSelectedOption.current = findSiblingOption(-1, 1);
     }
     firstSelectedOption.current = Math.max(0, options.findIndex(
-      (option) => currentValue.includes(option.value as string),
+      (option) => option.type === 'option' && currentValue.includes(option.value),
     ));
   }, [currentValue, options, findSiblingOption]);
 
@@ -303,10 +306,18 @@ function UIOptions(props: UIOptionsProps & {
           >
             {options.map((option, index) => {
               const key = `${randomId}${index}`;
-              let optionModifiers = `${option.modifiers ?? ''}${option.disabled ? ' disabled' : ''}`;
-              const isChecked = currentValue.includes(option.value as string);
+              const isOption = option.type === 'option';
+              const isDisabled = isOption && option.disabled;
+              let optionModifiers = `${option.modifiers ?? ''}${(isDisabled) ? ' disabled' : ''}`;
+              const isChecked = isOption && currentValue.includes(option.value);
               if (isChecked) {
                 optionModifiers += ' checked';
+              }
+              let html = '';
+              if (isOption) {
+                html = optionParsedLabels[option.value];
+              } else if (option.type === 'header') {
+                html = optionParsedLabels[`header_${index}`];
               }
               return (
                 <li
@@ -315,10 +326,10 @@ function UIOptions(props: UIOptionsProps & {
                   tabIndex={-1}
                   onBlur={handleBlur}
                   aria-selected={isChecked}
-                  role={(option.type === 'option') ? 'option' : undefined}
-                  onFocus={handleFocus(option.value as string, index)}
-                  dangerouslySetInnerHTML={{ __html: optionParsedLabels[option.value ?? '_'] }}
-                  onMouseDown={(option.type === 'option') ? changeOption(index) : undefined}
+                  dangerouslySetInnerHTML={{ __html: html }}
+                  role={isOption ? 'option' : undefined}
+                  onMouseDown={(isOption && !isDisabled) ? changeOption(index) : undefined}
+                  onFocus={(isOption && !isDisabled) ? handleFocus(option.value, index) : undefined}
                   className={buildClass(`ui-options__wrapper__list__${option.type}`, optionModifiers)}
                 />
               );
@@ -341,34 +352,34 @@ function UIOptions(props: UIOptionsProps & {
         ref={wrapperRef}
         className="ui-options__wrapper"
       >
-        {options.map((option, index) => {
+        {options.filter((option) => option.type === 'option').map((option, index) => {
+          const realOption = option as UIOptionsOption;
           const optionId = `${randomId}_${index}`;
-          const isDisabled = option.disabled === true;
-          const isChecked = currentValue.includes(option.value as string);
-          let optionModifiers = `${option.modifiers ?? ''}${option.disabled ? ' disabled' : ''}`;
+          const isChecked = currentValue.includes(realOption.value);
+          let optionModifiers = `${option.modifiers ?? ''}${realOption.disabled ? ' disabled' : ''}`;
           if (isChecked) {
             optionModifiers += ' checked';
           }
           const optionClassName = buildClass('ui-options__wrapper__option', optionModifiers);
           return (
-            <label key={option.value} className={optionClassName} htmlFor={optionId}>
+            <label key={realOption.value} className={optionClassName} htmlFor={optionId}>
               <input
                 name={name}
                 id={optionId}
                 onBlur={handleBlur}
                 checked={isChecked}
-                disabled={isDisabled}
-                value={option.value}
+                value={realOption.value}
                 onChange={handleChange}
                 onKeyDown={handleKeydown}
-                onFocus={handleFocus(option.value as string, index)}
+                disabled={realOption.disabled}
+                onFocus={handleFocus(realOption.value, index)}
                 className="ui-options__wrapper__option__field"
                 type={(multiple === true) ? 'checkbox' : 'radio'}
-                tabIndex={(modifiers.includes('disabled') || isDisabled || !(((index === 0 || !multiple) && currentValue.length === 0) || option.value === currentValue[0]) ? -1 : 0)}
+                tabIndex={(modifiers.includes('disabled') || realOption.disabled || !(((index === 0 || !multiple) && currentValue.length === 0) || realOption.value === currentValue[0]) ? -1 : 0)}
               />
               <span
                 className="ui-options__wrapper__option__label"
-                dangerouslySetInnerHTML={{ __html: optionParsedLabels[option.value as string] }}
+                dangerouslySetInnerHTML={{ __html: optionParsedLabels[realOption.value] }}
               />
             </label>
           );
