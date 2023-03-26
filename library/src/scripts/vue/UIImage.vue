@@ -16,9 +16,11 @@ const props = withDefaults(defineProps<{
   src: string;
   alt: string;
   id?: string;
+  lazy?: boolean;
   itemProp?: string;
   modifiers?: string;
 }>(), {
+  lazy: true,
   modifiers: '',
   id: undefined,
   itemProp: undefined,
@@ -49,11 +51,11 @@ const dimensions = computed(() => {
     :id="id"
     :src="src"
     :alt="alt"
-    loading="lazy"
     :class="className"
+    :itemprop="itemProp"
     :width="dimensions.width"
     :height="dimensions.height"
-    :itemprop="itemProp"
+    :loading="lazy ? 'lazy' : undefined"
   >
   <div
     v-else
@@ -63,10 +65,10 @@ const dimensions = computed(() => {
     <img
       :src="src"
       :alt="alt"
-      loading="lazy"
       :itemprop="itemProp"
       :width="dimensions.width"
       :height="dimensions.height"
+      :loading="lazy ? 'lazy' : undefined"
     >
   </div>
 </template>

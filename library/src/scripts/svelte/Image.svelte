@@ -14,6 +14,7 @@ export let src: string;
 export let alt: string;
 export let ratio: string;
 export let modifiers = '';
+export let lazy: boolean | undefined = true;
 export let id: string | undefined = undefined;
 export let itemProp: string | undefined = undefined;
 
@@ -42,21 +43,21 @@ $: dimensions = (() => {
     {id}
     {src}
     {alt}
-    loading="lazy"
     class={className}
+    itemprop={itemProp}
     width={dimensions.width}
     height={dimensions.height}
-    itemprop={itemProp}
+    loading={lazy ? 'lazy' : undefined}
   />
 {:else}
   <div {id} class={className}>
     <img
       {src}
       {alt}
-      loading="lazy"
       itemprop={itemProp}
       width={dimensions.width}
       height={dimensions.height}
+      loading={lazy ? 'lazy' : undefined}
     />
   </div>
 {/if}

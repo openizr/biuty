@@ -30,6 +30,7 @@ const getDimensions = (ratio: string): { width: number; height: number; } => {
  * Image.
  */
 function UIImage(props: UIImageProps): JSX.Element {
+  const { lazy = true } = props;
   const { src, alt, ratio } = props;
   const { id, modifiers = '', itemProp } = props;
   const dimensions = getDimensions(ratio);
@@ -42,11 +43,11 @@ function UIImage(props: UIImageProps): JSX.Element {
         id={id}
         src={src}
         alt={alt}
-        loading="lazy"
         itemProp={itemProp}
         className={className}
         width={dimensions.width}
         height={dimensions.height}
+        loading={lazy ? 'lazy' : undefined}
       />
     );
   }
@@ -57,10 +58,10 @@ function UIImage(props: UIImageProps): JSX.Element {
       <img
         src={src}
         alt={alt}
-        loading="lazy"
         itemProp={itemProp}
         width={dimensions.width}
         height={dimensions.height}
+        loading={lazy ? 'lazy' : undefined}
       />
     </div>
   );
