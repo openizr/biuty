@@ -46,52 +46,26 @@ function UITextfield(props: UITextfieldProps & {
   /** `iconClick` event handler. */
   onIconClick?: React.MouseEventHandler<HTMLElement>;
 }): JSX.Element {
-  let { type, size } = props;
   const { min, max } = props;
-  const { name, transform } = props;
-  let { autofocus, onPaste } = props;
-  let { maxlength, onFocus } = props;
-  let { id, modifiers, label } = props;
-  let { helper, onChange, value } = props;
-  let { iconPosition, icon, onBlur } = props;
-  let { onIconKeyDown, readonly, step } = props;
-  let { onIconClick, autocomplete, placeholder } = props;
-  let { debounceTimeout, allowedKeys, onKeyDown } = props;
-
-  id = id || null;
-  value = value || '';
-  step = step || null;
-  size = size || null;
-  icon = icon || null;
-  type = type || 'text';
-  label = label || null;
-  helper = helper || null;
-  onBlur = onBlur || null;
-  onFocus = onFocus || null;
-  onPaste = onPaste || null;
-  modifiers = modifiers || '';
-  onChange = onChange || null;
-  readonly = readonly || false;
-  maxlength = maxlength || null;
-  onKeyDown = onKeyDown || null;
-  autofocus = autofocus || false;
-  allowedKeys = allowedKeys || {};
-  onIconClick = onIconClick || null;
-  placeholder = placeholder || null;
-  autocomplete = autocomplete || 'on';
-  iconPosition = iconPosition || 'left';
-  onIconKeyDown = onIconKeyDown || null;
-  debounceTimeout = debounceTimeout ?? 50;
-  const actualTransform = transform || defaultTransform;
+  const { maxlength, onFocus } = props;
+  const { type = 'text', size } = props;
+  const { id, modifiers = '', label } = props;
+  const { autofocus = false, onPaste } = props;
+  const { helper, onChange, value = '' } = props;
+  const { name, transform = defaultTransform } = props;
+  const { iconPosition = 'left', icon, onBlur } = props;
+  const { onIconKeyDown, readonly = false, step } = props;
+  const { onIconClick, autocomplete = 'on', placeholder } = props;
+  const { debounceTimeout = 50, allowedKeys = {}, onKeyDown } = props;
 
   const isUserTyping = React.useRef(false);
   const [randomId] = React.useState(generateRandomId);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
-  const isDisabled = (modifiers as string).includes('disabled');
-  const className = buildClass('ui-textfield', modifiers as string);
+  const isDisabled = (modifiers).includes('disabled');
+  const className = buildClass('ui-textfield', modifiers);
   const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
-  const [currentValue, setCurrentValue] = React.useState(() => actualTransform(value, 0)[0]);
+  const [currentValue, setCurrentValue] = React.useState(() => transform(value, 0)[0]);
 
   // Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
   const globalAllowedKeys = React.useMemo(() => keyTypes.reduce((allAllowedKeys, keyType) => {
@@ -115,14 +89,14 @@ function UITextfield(props: UITextfieldProps & {
       ? (event.target.value.match(globalAllowedKeys.default) || []).join('')
       : event.target.value;
     const { selectionStart } = event.target;
-    const [newValue, newCursorPosition] = actualTransform(filteredValue, selectionStart);
+    const [newValue, newCursorPosition] = transform(filteredValue, selectionStart);
     setCurrentValue(newValue);
     if (newCursorPosition !== undefined) {
       setCursorPosition(newCursorPosition);
     } else {
       // At this point, the input's value has already changed, which means the cursor's position is
       // at n + 1, which is why we substract 1 when checking last position.
-      const currentCursorPosition = event.target.selectionStart as number;
+      const currentCursorPosition = event.target.selectionStart;
       const isAtTheEnd = currentCursorPosition - 1 >= currentValue.length;
       setCursorPosition(isAtTheEnd ? newValue.length : currentCursorPosition);
     }
@@ -133,7 +107,7 @@ function UITextfield(props: UITextfieldProps & {
       if (onChange !== undefined && onChange !== null) {
         onChange(newValue, event);
       }
-    }, debounceTimeout as number);
+    }, debounceTimeout);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -198,14 +172,14 @@ function UITextfield(props: UITextfieldProps & {
   React.useEffect(() => {
     // Do not update current value immediatly while user is typing something else.
     if (!isUserTyping.current) {
-      const [newValue] = actualTransform(value, 0);
+      const [newValue] = transform(value, 0);
       setCurrentValue(newValue);
     }
-  }, [value, actualTransform]);
+  }, [value, transform]);
 
   // Re-positions cursor at the right place when using transform function.
   React.useEffect(() => {
-    if (/^(url|text|tel|search|password)$/.test(type as string)) {
+    if (/^(url|text|tel|search|password)$/.test(type)) {
       (inputRef.current as HTMLInputElement).selectionStart = cursorPosition;
       (inputRef.current as HTMLInputElement).selectionEnd = cursorPosition;
     }
@@ -232,23 +206,23 @@ function UITextfield(props: UITextfieldProps & {
       : null,
     <input
       key="input"
+      max={max}
+      min={min}
+      step={step}
+      size={size}
+      type={type}
       name={name}
       id={randomId}
       ref={inputRef}
-      max={max as number}
-      min={min as number}
-      step={step as number}
-      type={type as string}
-      size={size as number}
       disabled={isDisabled}
       onBlur={handleBlur}
       onFocus={handleFocus}
-      value={currentValue as string}
-      readOnly={readonly as boolean}
-      maxLength={maxlength as number}
-      autoFocus={autofocus as boolean}
-      placeholder={placeholder as string}
-      autoComplete={autocomplete as string}
+      value={currentValue}
+      readOnly={readonly}
+      maxLength={maxlength}
+      autoFocus={autofocus}
+      placeholder={placeholder}
+      autoComplete={autocomplete}
       className="ui-textfield__wrapper__field"
       onPaste={(readonly === false && !isDisabled) ? handlePaste : undefined}
       onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
@@ -258,7 +232,7 @@ function UITextfield(props: UITextfieldProps & {
 
   return (
     <div
-      id={id as string}
+      id={id}
       className={className}
     >
       {(label !== null && label !== undefined)

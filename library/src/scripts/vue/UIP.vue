@@ -1,4 +1,4 @@
-<!-- Basic icon. -->
+<!-- Paragraph. -->
 <script lang="ts" setup>
 /**
  * Copyright (c) Openizr. All Rights Reserved.
@@ -9,20 +9,29 @@
  */
 
 import { computed } from 'vue';
+import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   id?: string;
-  name: string;
+  label: string;
+  itemProp?: string;
   modifiers?: string;
-}>();
+}>(), {
+  modifiers: '',
+  id: undefined,
+  itemProp: undefined,
+});
 
-const className = computed(() => buildClass('ui-icon', `${props.name} ${props.modifiers || ''}`));
+const parsedLabel = computed(() => markdown(props.label));
+const className = computed(() => buildClass('ui-p', props.modifiers));
 </script>
 
 <template>
-  <i
+  <p
     :id="id"
     :class="className"
+    :itemprop="itemProp"
+    v-html="parsedLabel"
   />
 </template>

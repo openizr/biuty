@@ -14,16 +14,12 @@ import buildClass from 'scripts/helpers/buildClass';
  */
 function UIIcon(props: UIIconProps): JSX.Element {
   const { name } = props;
-  let { id, modifiers } = props;
-
-  // Enforces props default values.
-  id = id || null;
-  modifiers = modifiers || '';
+  const { id, modifiers = '' } = props;
 
   const className = buildClass('ui-icon', `${name} ${modifiers}`);
   return (
     <i
-      id={id as string}
+      id={id}
       className={className}
     />
   );

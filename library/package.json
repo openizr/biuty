@@ -63,6 +63,14 @@
       },
       {
         "files": [
+          "*.svelte"
+        ],
+        "rules": {
+          "no-undef-init": "off"
+        }
+      },
+      {
+        "files": [
           "*.tsx",
           "*.vue"
         ],

@@ -12,24 +12,42 @@ import { computed } from 'vue';
 import UIIcon from 'scripts/vue/Icon.vue';
 import buildClass from 'scripts/helpers/buildClass';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
+  /** `id` HTML attribute to set to the element. */
   id?: string;
-  icon?: string;
-  label?: string;
-  modifiers?: string;
-  type?: 'button' | 'submit';
-  iconPosition?: 'left' | 'right';
-}>();
 
-const className = computed(() => buildClass('ui-button', `${props.modifiers || ''}${(props.icon !== undefined && props.label === undefined) ? ' icon' : ''}`));
+  /** Button's content. */
+  label?: string;
+
+  /** Name of the icon to set to the element. */
+  icon?: string;
+
+  /** `type` HTML attribute to set to the element. Defaults to "button". */
+  type?: 'button' | 'submit';
+
+  /** Position of the icon relatively to the label. Defaults to "left". */
+  iconPosition?: 'left' | 'right';
+
+  /** List of modifiers to apply to the element. Defaults to `""`. */
+  modifiers?: string;
+}>(), {
+  modifiers: '',
+  id: undefined,
+  icon: undefined,
+  type: 'button',
+  label: undefined,
+  iconPosition: 'left',
+});
+
+const className = computed(() => buildClass('ui-button', `${props.modifiers}${(props.icon !== undefined && props.label === undefined) ? ' icon' : ''}`));
 </script>
 
 <template>
   <button
     :id="id"
+    :type="type"
     :class="className"
-    :type="type || 'button'"
-    :tabIndex="(modifiers?.includes('disabled') ? -1 : 0)"
+    :tabIndex="(modifiers.includes('disabled') ? -1 : 0)"
   >
     <UIIcon
       v-if="icon !== undefined && iconPosition !== 'right'"

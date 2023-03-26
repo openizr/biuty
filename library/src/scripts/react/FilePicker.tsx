@@ -30,29 +30,14 @@ function UIFilePicker(props: UIFilePickerProps & {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }): JSX.Element {
   const { name } = props;
-  let { placeholder } = props;
-  let { value, onBlur, onFocus } = props;
-  let { accept, id, modifiers } = props;
-  let { icon, onChange, multiple } = props;
-  let { label, helper, iconPosition } = props;
-
-  // Enforces props default values.
-  id = id || null;
-  icon = icon || null;
-  label = label || null;
-  helper = helper || null;
-  accept = accept || null;
-  onBlur = onBlur || null;
-  onFocus = onFocus || null;
-  onChange = onChange || null;
-  modifiers = modifiers || '';
-  multiple = multiple || false;
-  value = value || defaultValue;
-  placeholder = placeholder || null;
-  iconPosition = iconPosition || 'left';
+  const { placeholder } = props;
+  const { icon, onChange, multiple } = props;
+  const { accept, id, modifiers = '' } = props;
+  const { label, helper, iconPosition = 'left' } = props;
+  const { value = defaultValue, onBlur, onFocus } = props;
 
   const [randomId] = React.useState(generateRandomId);
-  const [currentValue, setCurrentValue] = React.useState<File[]>(value as File[]);
+  const [currentValue, setCurrentValue] = React.useState<File[]>(value);
   const className = buildClass('ui-file-picker', `${modifiers}${(multiple ? ' multiple' : '')}`);
 
   // -----------------------------------------------------------------------------------------------
@@ -89,7 +74,7 @@ function UIFilePicker(props: UIFilePickerProps & {
 
   // Updates current value whenever `value` prop changes.
   React.useEffect(() => {
-    setCurrentValue(value as File[]);
+    setCurrentValue(value);
   }, [value]);
 
   // -----------------------------------------------------------------------------------------------
@@ -103,18 +88,18 @@ function UIFilePicker(props: UIFilePickerProps & {
       type="file"
       name={name}
       id={randomId}
+      accept={accept}
       multiple={multiple}
       onBlur={handleBlur}
       onFocus={handleFocus}
       onChange={handleChange}
-      accept={accept as string}
       className="ui-file-picker__wrapper__field"
       tabIndex={modifiers.includes('disabled') ? -1 : 0}
     />,
   ];
   return (
     <div
-      id={id as string}
+      id={id}
       className={className}
     >
       {(label !== null && label !== undefined)

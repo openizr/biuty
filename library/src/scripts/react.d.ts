@@ -61,7 +61,10 @@ declare module 'biuty/react' {
   /**
    * Tooltip wrapper, for accessibility.
    */
-  export function UITooltip(props: UITooltipProps): JSX.Element;
+  export function UITooltip(props: UITooltipProps & {
+    /** Tooltip content. */
+    children: React.ReactNode;
+  }): JSX.Element;
 
   /**
    * Image.

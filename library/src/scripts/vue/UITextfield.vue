@@ -18,8 +18,14 @@ import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
+type AllowedKeys = {
+  altKey?: RegExp;
+  metaKey?: RegExp;
+  ctrlKey?: RegExp;
+  default?: RegExp;
+  shiftKey?: RegExp;
+};
 type KeyType = 'default' | 'ctrlKey' | 'altKey' | 'shiftKey' | 'metaKey';
-type AllowedKeys = Record<KeyType, RegExp | null>;
 type Transform = (value: string, selectionStart: number) => [string, number?];
 
 const emit = defineEmits({
@@ -32,39 +38,119 @@ const emit = defineEmits({
   iconKeyDown: null,
 });
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
+  /** `id` HTML attribute to set to the element. */
   id?: string;
+
+  /** `min` HTML attribute to set to the element. */
   min?: number;
+
+  /** `max` HTML attribute to set to the element. */
   max?: number;
+
+  /** `name` HTML attribute to set to the element. */
   name: string;
+
+  /** `step` HTML attribute to set to the element. */
   step?: number;
+
+  /** Name of the icon to set to the element. */
   icon?: string;
+
+  /** `site` HTML attribute to set to the element. */
   size?: number;
+
+  /**
+   * Input's value. Updating this prop with a new value will replace the current value by
+   * the one passed.
+   */
+  value?: string;
+
+  /** Element's label. Supports biuty light markdown. */
   label?: string;
+
+  /** Element's helper. Supports biuty light markdown. */
   helper?: string;
+
+  /** `readonly` HTML attribute to set to the element. Defaults to `false`. */
   readonly?: boolean;
+
+  /** `maxlength` HTML attribute to set to the element. */
   maxlength?: number;
+
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
+
+  /** `autofocus` HTML attribute to set to the element. Defaults to `false`. */
   autofocus?: boolean;
+
+  /** `placeholder` HTML attribute to set to the element. Defaults to `false`. */
   placeholder?: string;
-  value?: string | null;
+
+  /** `autocomplete` HTML attribute to set to the element. Defaults to `on`. */
   autocomplete?: 'on' | 'off';
+
+  /** Position of the icon relatively to the label. */
   iconPosition?: 'left' | 'right';
-  allowedKeys?: {
-    altKey?: RegExp;
-    metaKey?: RegExp;
-    ctrlKey?: RegExp;
-    default?: RegExp;
-    shiftKey?: RegExp;
-  };
+
+  /**
+   * List of RegExp patterns used to filter user inputs and keep only authorized characters.
+   * Useful for purpose-specific inputs, like phone numbers (you only want to allow digits).
+   * `default` is used to filter all inputs, and the others keys are used to allow specific
+   * patterns when holding special keys, like `Ctrl`.
+   */
+  allowedKeys?: AllowedKeys;
+
+  /**
+   * Number of milliseconds to wait before triggering the `change` event. If user changes the
+   * input value during that time, the timeout is reset. This is especially useful to limit the
+   * number of triggers, if you want to use this component as an autocomplete performing HTTP
+   * requests on user inputs, for instance. Defaults to `0`.
+   */
   debounceTimeout?: number;
+
+  /** `type` HTML attribute to set to the element. Defaults to `text`. */
   type?: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url';
+
+  /**
+   * Transformation function that will format input value.
+   * This is especially useful for purpose-specific inputs, like phone numbers (you want to format
+   * the number to something like (XXX) XXX-XXXX).
+   *
+   * @param value Input value to transform.
+   *
+   * @param selectionStart Current cursor position in the input.
+   *
+   * @returns An array of at least the formatted value, and optionally the new cursor position
+   * after formatting.
+   */
   transform?: Transform;
-}>();
+}>(), {
+  type: 'text',
+  modifiers: '',
+  min: undefined,
+  id: undefined,
+  max: undefined,
+  readonly: false,
+  autofocus: false,
+  name: undefined,
+  icon: undefined,
+  step: undefined,
+  size: undefined,
+  value: undefined,
+  label: undefined,
+  helper: undefined,
+  autocomplete: 'on',
+  debounceTimeout: 50,
+  iconPosition: 'left',
+  maxlength: undefined,
+  placeholder: undefined,
+  allowedKeys: {} as undefined,
+  transform: (value: string): [string, number?] => [value],
+});
 
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
 const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|Home|End|AltGraph|NumLock|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp/;
-const defaultTransform = (value: string): string[] => [value];
 
 const timeout = ref(null);
 const inputRef = ref(null);
@@ -73,14 +159,13 @@ const cursorPosition = ref(null);
 const randomId = ref(generateRandomId());
 const parsedLabel = computed(() => markdown(props.label));
 const parsedHelper = computed(() => markdown(props.helper));
-const isDisabled = computed(() => props.modifiers?.includes('disabled'));
-const actualTransform = computed(() => props.transform || defaultTransform);
-const className = computed(() => buildClass('ui-textfield', props.modifiers || ''));
-const currentValue = ref(actualTransform.value(props.value || '', 0)[0]);
+const currentValue = ref(props.transform(props.value, 0)[0]);
+const isDisabled = computed(() => props.modifiers.includes('disabled'));
+const className = computed(() => buildClass('ui-textfield', props.modifiers));
 
 // Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
 const globalAllowedKeys = computed(() => keyTypes.reduce((allAllowedKeys, keyType) => {
-  const allowedKeysForType = (props.allowedKeys || {})[keyType];
+  const allowedKeysForType = (props.allowedKeys)[keyType];
   return {
     ...allAllowedKeys,
     [keyType]: (allowedKeysForType !== undefined && allowedKeysForType !== null)
@@ -101,7 +186,7 @@ const handleChange = (event: InputEvent, filter = true): void => {
   const filteredValue = (filter && globalAllowedKeys.value.default !== null)
     ? (target.value.match(globalAllowedKeys.value.default) || []).join('')
     : target.value;
-  const [newValue, newCursorPosition] = actualTransform.value(filteredValue, selectionStart);
+  const [newValue, newCursorPosition] = props.transform(filteredValue, selectionStart);
   if (newCursorPosition !== undefined) {
     cursorPosition.value = newCursorPosition;
   } else {
@@ -118,11 +203,11 @@ const handleChange = (event: InputEvent, filter = true): void => {
   // still typing to improve performance and make UI more reactive on low-perfomance devices.
   timeout.value = setTimeout(() => {
     emit('change', newValue, event);
-  }, props.debounceTimeout ?? 50);
+  }, props.debounceTimeout);
 };
 
 const handleKeyDown = (event: KeyboardEvent): void => {
-  const allowedKeys = props.allowedKeys || {};
+  const { allowedKeys } = props;
   let allowedKeysForEvent = allowedKeys.default || null;
   if (event.ctrlKey === true) {
     allowedKeysForEvent = allowedKeys.ctrlKey || null;
@@ -171,14 +256,14 @@ watch(() => [props.value, props.transform], () => {
   clearTimeout(reverseTimeout.value);
   // Do not update current value immediatly while user is typing something else.
   reverseTimeout.value = setTimeout(() => {
-    const [newValue] = actualTransform.value(props.value || '', 0);
+    const [newValue] = props.transform(props.value, 0);
     currentValue.value = newValue;
   }, 150);
 });
 
 // Re-positions cursor at the right place when using transform function.
 onUpdated(() => {
-  if (/^(url|text|tel|search|password)$/.test(props.type || 'text') && inputRef.value !== null) {
+  if (/^(url|text|tel|search|password)$/.test(props.type) && inputRef.value !== null) {
     inputRef.value.selectionStart = cursorPosition.value;
     inputRef.value.selectionEnd = cursorPosition.value;
   }

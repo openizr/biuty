@@ -20,28 +20,16 @@ export let name: string;
 export let modifiers = '';
 export let multiple = false;
 export let value: File[] = [];
-export let id: string | null = null;
-export let icon: string | null = null;
-export let label: string | null = null;
-export let accept: string | null = null;
-export let helper: string | null = null;
-export let placeholder: string | null = null;
+export let id: string | undefined = undefined;
+export let icon: string | undefined = undefined;
+export let label: string | undefined = undefined;
+export let accept: string | undefined = undefined;
+export let helper: string | undefined = undefined;
 export let iconPosition: 'left' | 'right' = 'left';
+export let placeholder: string | undefined = undefined;
 
 let currentValue = value;
 const randomId = generateRandomId();
-
-// Enforces props default values.
-$: id = id || null;
-$: icon = icon || null;
-$: value = value || [];
-$: label = label || null;
-$: accept = accept || null;
-$: helper = helper || null;
-$: modifiers = modifiers || '';
-$: multiple = multiple || false;
-$: placeholder = placeholder || null;
-$: iconPosition = iconPosition || 'left';
 
 $: className = buildClass('ui-file-picker', modifiers + (multiple ? ' multiple' : ''));
 $: parsedLabel = label !== null ? markdown(label) : null;

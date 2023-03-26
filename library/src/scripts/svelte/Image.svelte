@@ -14,13 +14,8 @@ export let src: string;
 export let alt: string;
 export let ratio: string;
 export let modifiers = '';
-export let id: string | null = null;
-export let itemProp: string | null = null;
-
-// Enforces props default values.
-$: id = id || null;
-$: itemProp = itemProp || null;
-$: modifiers = modifiers || '';
+export let id: string | undefined = undefined;
+export let itemProp: string | undefined = undefined;
 
 $: isCustomRatio = /^([0-9]+)x([0-9]+)$/i.test(ratio);
 $: className = buildClass('ui-image', `${ratio} ${modifiers || ''}`);

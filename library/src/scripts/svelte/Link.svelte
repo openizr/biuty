@@ -14,15 +14,9 @@ import buildClass from 'scripts/helpers/buildClass';
 export let href: string;
 export let label: string;
 export let modifiers = '';
-export let id: string | null = null;
-export let rel: string | null = null;
-export let target: string | null = null;
-
-// Enforces props default values.
-$: id = id || null;
-$: rel = rel || null;
-$: target = target || null;
-$: modifiers = modifiers || '';
+export let id: string | undefined = undefined;
+export let rel: string | undefined = undefined;
+export let target: string | undefined = undefined;
 
 $: parsedLabel = markdown(label);
 $: className = buildClass('ui-link', modifiers);

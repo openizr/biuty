@@ -30,41 +30,22 @@ function UITextarea(props: UITextareaProps & {
   /** `keyDown` event handler. */
   onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
 }): JSX.Element {
+  let { rows } = props;
   const { name } = props;
-  let { autoresize } = props;
-  let { id, modifiers, label } = props;
-  let { readonly, rows, cols } = props;
-  let { helper, onChange, value } = props;
-  let { onBlur, maxlength, onPaste } = props;
-  let { autofocus, autocomplete, onKeyDown } = props;
-  let { onFocus, debounceTimeout, placeholder } = props;
-
-  id = id || null;
-  value = value || '';
-  cols = cols || null;
-  rows = rows || null;
-  label = label || null;
-  helper = helper || null;
-  onBlur = onBlur || null;
-  onFocus = onFocus || null;
-  onPaste = onPaste || null;
-  modifiers = modifiers || '';
-  onChange = onChange || null;
-  readonly = readonly || false;
-  maxlength = maxlength || null;
-  onKeyDown = onKeyDown || null;
-  autofocus = autofocus || false;
-  autoresize = autoresize || false;
-  placeholder = placeholder || null;
-  autocomplete = autocomplete || 'on';
-  debounceTimeout = debounceTimeout ?? 50;
+  const { autoresize = false } = props;
+  const { readonly = false, cols } = props;
+  const { id, modifiers = '', label } = props;
+  const { onBlur, maxlength, onPaste } = props;
+  const { helper, onChange, value = '' } = props;
+  const { onFocus, debounceTimeout = 50, placeholder } = props;
+  const { autofocus = false, autocomplete = 'on', onKeyDown } = props;
 
   const isUserTyping = React.useRef(false);
   const [randomId] = React.useState(generateRandomId);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const [currentValue, setCurrentValue] = React.useState(value);
-  const isDisabled = (modifiers as string).includes('disabled');
-  const className = buildClass('ui-textarea', modifiers as string);
+  const isDisabled = modifiers.includes('disabled');
+  const className = buildClass('ui-textarea', modifiers);
   rows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
 
   // -----------------------------------------------------------------------------------------------
@@ -106,7 +87,7 @@ function UITextarea(props: UITextareaProps & {
   React.useEffect(() => {
     // Do not update current value immediatly while user is typing something else.
     if (!isUserTyping.current) {
-      setCurrentValue(value as string);
+      setCurrentValue(value);
     }
   }, [value]);
 
@@ -116,7 +97,7 @@ function UITextarea(props: UITextareaProps & {
 
   return (
     <div
-      id={id as string}
+      id={id}
       className={className}
     >
       {(label !== null)
@@ -124,19 +105,19 @@ function UITextarea(props: UITextareaProps & {
         : null}
       <div className="ui-textarea__wrapper">
         <textarea
+          cols={cols}
+          rows={rows}
           name={name}
           id={randomId}
           onBlur={handleBlur}
           onFocus={handleFocus}
-          cols={cols as number}
-          rows={rows as number}
           disabled={isDisabled}
-          value={currentValue as string}
-          readOnly={readonly as boolean}
-          maxLength={maxlength as number}
-          autoFocus={autofocus as boolean}
-          placeholder={placeholder as string}
-          autoComplete={autocomplete as string}
+          maxLength={maxlength}
+          value={currentValue}
+          readOnly={readonly}
+          autoFocus={autofocus}
+          placeholder={placeholder}
+          autoComplete={autocomplete}
           className="ui-textarea__wrapper__field"
           onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
           onPaste={(readonly === false && !isDisabled) ? onPaste as JSXElement : undefined}

@@ -20,25 +20,34 @@ const emit = defineEmits({
   change: null,
 });
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   id?: string;
   name: string;
+  accept: string;
   icon?: string;
+  multiple?: boolean;
+  iconPosition?: 'left' | 'right';
+  value?: File[];
   label?: string;
-  accept?: string;
   helper?: string;
   modifiers?: string;
-  multiple?: boolean;
   placeholder?: string;
-  value?: File[] | null;
-  iconPosition?: 'left' | 'right';
-}>();
+}>(), {
+  modifiers: '',
+  id: undefined,
+  icon: undefined,
+  label: undefined,
+  helper: undefined,
+  iconPosition: 'left',
+  value: [] as undefined,
+  placeholder: undefined,
+});
 
 const randomId = ref(generateRandomId());
-const currentValue = ref(props.value || []);
+const currentValue = ref(props.value);
 const parsedLabel = computed(() => markdown(props.label));
 const parsedHelper = computed(() => markdown(props.helper));
-const className = computed(() => buildClass('ui-file-picker', (props.modifiers || '') + (props.multiple ? ' multiple' : '')));
+const className = computed(() => buildClass('ui-file-picker', props.modifiers + (props.multiple ? ' multiple' : '')));
 const currentPlaceholder = computed(() => ((currentValue.value.length > 0)
   ? currentValue.value.map((file) => file.name).join(', ')
   : props.placeholder));
