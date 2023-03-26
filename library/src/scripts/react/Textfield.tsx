@@ -34,7 +34,7 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
   const { name, transform = defaultTransform } = props;
   const { iconPosition = 'left', icon, onBlur } = props;
   const { onIconKeyDown, readonly = false, step } = props;
-  const { onIconClick, autocomplete = 'on', placeholder } = props;
+  const { onIconClick, autocomplete = 'off', placeholder } = props;
   const { debounceTimeout = 50, allowedKeys = {}, onKeyDown } = props;
 
   const isUserTyping = React.useRef(false);

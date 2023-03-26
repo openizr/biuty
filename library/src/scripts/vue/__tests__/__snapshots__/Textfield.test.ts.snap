@@ -33,7 +33,7 @@ exports[`vue/UITextfield > renders correctly - basic 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -56,7 +56,7 @@ exports[`vue/UITextfield > renders correctly - readonly 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -80,7 +80,7 @@ exports[`vue/UITextfield > renders correctly - with autofocus 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       autofocus=""
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
@@ -104,7 +104,7 @@ exports[`vue/UITextfield > renders correctly - with disabled 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       disabled=""
       id="z8a8d7a5zad4"
@@ -128,7 +128,7 @@ exports[`vue/UITextfield > renders correctly - with helper 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -160,7 +160,7 @@ exports[`vue/UITextfield > renders correctly - with id 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -192,7 +192,7 @@ exports[`vue/UITextfield > renders correctly - with label 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -223,7 +223,7 @@ exports[`vue/UITextfield > renders correctly - with left icon 1`] = `
       />
     </span>
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -254,7 +254,7 @@ exports[`vue/UITextfield > renders correctly - with listeners and debounce 1`] =
       />
     </span>
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -277,7 +277,7 @@ exports[`vue/UITextfield > renders correctly - with placeholder 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -301,7 +301,7 @@ exports[`vue/UITextfield > renders correctly - with right icon 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -332,7 +332,7 @@ exports[`vue/UITextfield > renders correctly - with transform and allowedKeys 1`
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -355,7 +355,7 @@ exports[`vue/UITextfield > renders correctly - with transform and allowedKeys 2`
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -378,7 +378,7 @@ exports[`vue/UITextfield > renders correctly - with type number 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       max="30"
@@ -404,7 +404,7 @@ exports[`vue/UITextfield > renders correctly - with value 1`] = `
   >
     <!--v-if-->
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"

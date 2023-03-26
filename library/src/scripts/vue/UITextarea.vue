@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<{
   label: undefined,
   autoresize: false,
   helper: undefined,
-  autocomplete: 'on',
+  autocomplete: 'off',
   debounceTimeout: 50,
   maxlength: undefined,
   placeholder: undefined,

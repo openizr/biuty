@@ -23,7 +23,7 @@ function UITextarea(props: UITextareaProps): JSX.Element {
   const { onBlur, maxlength, onPaste } = props;
   const { helper, onChange, value = '' } = props;
   const { onFocus, debounceTimeout = 50, placeholder } = props;
-  const { autofocus = false, autocomplete = 'on', onKeyDown } = props;
+  const { autofocus = false, autocomplete = 'off', onKeyDown } = props;
 
   const isUserTyping = React.useRef(false);
   const [randomId] = React.useState(generateRandomId);

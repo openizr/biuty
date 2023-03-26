@@ -108,6 +108,13 @@ declare module 'biuty' {
 
     /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
+
+    /**
+     * `click` event handler.
+     *
+     * @param event `click` DOM event.
+     */
+    onClick?: (event: MouseEvent) => void;
   }
 
   /**
@@ -132,10 +139,18 @@ declare module 'biuty' {
     /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
 
-    /** `click` event handler. */
+    /**
+     * `click` event handler.
+     *
+     * @param event `click` DOM event.
+     */
     onClick?: (event: MouseEvent) => void;
 
-    /** `focus` event handler. */
+    /**
+     * `focus` event handler.
+     *
+     * @param event `focus` DOM event.
+     */
     onFocus?: (event: FocusEvent) => void;
   }
 
@@ -247,11 +262,26 @@ declare module 'biuty' {
      */
     value?: string | string[];
 
-    /**
-     * Pass this prop if you want to force options list positionning in `select` mode.
-     * Defaults to `"bottom"`.
-     */
+    /** Pass this prop if you want to force options list positionning in `select` mode. */
     selectPosition?: 'top' | 'bottom';
+
+    /**
+     * `focus` event handler.
+     *
+     * @param value Focused option's value.
+     *
+     * @param event `focus` DOM event.
+     */
+    onFocus?: (value: string, event: FocusEvent) => void;
+
+    /**
+     * `change` event handler.
+     *
+     * @param value Current options' value.
+     *
+     * @param event `input` DOM event.
+     */
+    onChange?: (value: string | string[], event: InputEvent) => void;
   }
 
   /**
@@ -281,7 +311,7 @@ declare module 'biuty' {
 
     /**
      * Input's value. Updating this prop with a new value will replace the current value by
-     * the one passed.
+     * the one passed. Defaults to `""`.
      */
     value?: string;
 
@@ -306,7 +336,7 @@ declare module 'biuty' {
     /** `placeholder` HTML attribute to set to the element. Defaults to `false`. */
     placeholder?: string;
 
-    /** `autocomplete` HTML attribute to set to the element. Defaults to `on`. */
+    /** `autocomplete` HTML attribute to set to the element. Defaults to `off`. */
     autocomplete?: 'on' | 'off';
 
     /** Position of the icon relatively to the label. */
@@ -330,7 +360,7 @@ declare module 'biuty' {
      * Number of milliseconds to wait before triggering the `change` event. If user changes the
      * input value during that time, the timeout is reset. This is especially useful to limit the
      * number of triggers, if you want to use this component as an autocomplete performing HTTP
-     * requests on user inputs, for instance. Defaults to `0`.
+     * requests on user inputs, for instance. Defaults to `50`.
      */
     debounceTimeout?: number;
 
@@ -350,6 +380,65 @@ declare module 'biuty' {
      * after formatting.
      */
     transform?: (value: string, selectionStart: number) => [string, number?];
+
+    /**
+     * `focus` event handler.
+     *
+     * @param value Current textfield's value.
+     *
+     * @param event `focus` DOM event.
+     */
+    onFocus?: (value: string, event: FocusEvent) => void;
+
+    /**
+     * `blur` event handler.
+     *
+     * @param value Current textfield's value.
+     *
+     * @param event `blur` DOM event.
+     */
+    onBlur?: (value: string, event: FocusEvent) => void;
+
+    /**
+     * `paste` event handler.
+     *
+     * @param value Current textfield's value.
+     *
+     * @param event `clipboard` DOM event.
+     */
+    onPaste?: (value: string, event: ClipboardEvent) => void;
+
+    /**
+     * `change` event handler.
+     *
+     * @param value Current textfield's value.
+     *
+     * @param event `input` DOM event.
+     */
+    onChange?: (value: string, event: InputEvent) => void;
+
+    /**
+     * `keyDown` event handler.
+     *
+     * @param value Current textfield's value.
+     *
+     * @param event `keyDown` DOM event.
+     */
+    onKeyDown?: (value: string, event: KeyboardEvent) => void;
+
+    /**
+     * `iconKeyDown` event handler.
+     *
+     * @param event `keyDown` DOM event.
+     */
+    onIconKeyDown?: (event: KeyboardEvent) => void;
+
+    /**
+     * `iconClick` event handler.
+     *
+     * @param event `click` DOM event.
+     */
+    onIconClick?: (event: MouseEvent) => void;
   }
 
   /**
@@ -370,7 +459,7 @@ declare module 'biuty' {
 
     /**
      * Textarea's value. Updating this prop with a new value will replace the current value by
-     * the one passed.
+     * the one passed. Defaults to `""`.
      */
     value?: string;
 
@@ -395,7 +484,7 @@ declare module 'biuty' {
     /** `placeholder` HTML attribute to set to the element. */
     placeholder?: string;
 
-    /** `autocomplete` HTML attribute to set to the element. Defaults to `on`. */
+    /** `autocomplete` HTML attribute to set to the element. Defaults to `off`. */
     autocomplete?: 'on' | 'off';
 
     /**
@@ -408,9 +497,54 @@ declare module 'biuty' {
      * Number of milliseconds to wait before triggering the `change` event. If user changes the
      * textarea value during that time, the timeout is reset. This is especially useful to limit the
      * number of triggers, if you want to use this component as an autocomplete performing HTTP
-     * requests on user inputs, for instance. Defaults to `0`.
+     * requests on user inputs, for instance. Defaults to `50`.
      */
     debounceTimeout?: number;
+
+    /**
+     * `focus` event handler.
+     *
+     * @param value Current textarea's value.
+     *
+     * @param event `focus` DOM event.
+     */
+    onFocus?: (value: string, event: FocusEvent) => void;
+
+    /**
+     * `blur` event handler.
+     *
+     * @param value Current textarea's value.
+     *
+     * @param event `blur` DOM event.
+     */
+    onBlur?: (value: string, event: FocusEvent) => void;
+
+    /**
+     * `paste` event handler.
+     *
+     * @param value Current textarea's value.
+     *
+     * @param event `clipboard` DOM event.
+     */
+    onPaste?: (value: string, event: ClipboardEvent) => void;
+
+    /**
+     * `change` event handler.
+     *
+     * @param value Current textarea's value.
+     *
+     * @param event `input` DOM event.
+     */
+    onChange?: (value: string, event: InputEvent) => void;
+
+    /**
+     * `keyDown` event handler.
+     *
+     * @param value Current textarea's value.
+     *
+     * @param event `keyDown` DOM event.
+     */
+    onKeyDown?: (value: string, event: KeyboardEvent) => void;
   }
 
   /**
@@ -453,13 +587,31 @@ declare module 'biuty' {
     /** Element's placeholder. */
     placeholder?: string;
 
-    /** `blur` event handler. */
+    /**
+     * `blur` event handler.
+     *
+     * @param value Current file picker's value.
+     *
+     * @param event `blur` DOM event.
+     */
     onBlur?: (value: File[], event: FocusEvent) => void;
 
-    /** `focus` event handler. */
+    /**
+     * `focus` event handler.
+     *
+     * @param value Current file picker's value.
+     *
+     * @param event `focus` DOM event.
+     */
     onFocus?: (value: File[], event: FocusEvent) => void;
 
-    /** `change` event handler. */
+    /**
+     * `change` event handler.
+     *
+     * @param value Current file picker's value.
+     *
+     * @param event `input` DOM event.
+     */
     onChange?: (value: File[], event: InputEvent) => void;
   }
 }

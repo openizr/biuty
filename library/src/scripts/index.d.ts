@@ -312,7 +312,7 @@ interface UITextfieldProps {
   /** `placeholder` HTML attribute to set to the element. Defaults to `false`. */
   placeholder?: string;
 
-  /** `autocomplete` HTML attribute to set to the element. Defaults to `on`. */
+  /** `autocomplete` HTML attribute to set to the element. Defaults to `off`. */
   autocomplete?: 'on' | 'off';
 
   /** Position of the icon relatively to the label. */
@@ -460,7 +460,7 @@ interface UITextareaProps {
   /** `placeholder` HTML attribute to set to the element. */
   placeholder?: string;
 
-  /** `autocomplete` HTML attribute to set to the element. Defaults to `on`. */
+  /** `autocomplete` HTML attribute to set to the element. Defaults to `off`. */
   autocomplete?: 'on' | 'off';
 
   /**
