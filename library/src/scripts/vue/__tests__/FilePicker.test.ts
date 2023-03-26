@@ -100,9 +100,38 @@ describe('vue/UIFilePicker', () => {
     await fireEvent.blur(input);
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith({ name: '/path/to/file1.png' }, expect.any(Object));
+    expect(onFocus).toHaveBeenCalledTimes(1);
+    expect(onFocus).toHaveBeenCalledWith(undefined, expect.any(Object));
+    expect(onBlur).toHaveBeenCalledTimes(1);
+    expect(onBlur).toHaveBeenCalledWith({ name: '/path/to/file1.png' }, expect.any(Object));
+  });
+
+  test('renders correctly - multiple with listeners', async () => {
+    const logger = console;
+    logger.warn = vi.fn();
+    const onChange = vi.fn();
+    const onFocus = vi.fn();
+    const onBlur = vi.fn();
+    const { container } = render(UIFilePicker, {
+      props: {
+        name: 'test',
+        onChange,
+        onFocus,
+        onBlur,
+        multiple: true,
+        value: new File([], '/path/to/file2.png'),
+      },
+    });
+    const input = container.getElementsByTagName('input')[0];
+    await fireEvent.focus(input);
+    await fireEvent.change(input, { target: { files: [{ name: '/path/to/file1.png' }] } });
+    await fireEvent.blur(input);
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith([{ name: '/path/to/file1.png' }], expect.any(Object));
     expect(onFocus).toHaveBeenCalledTimes(1);
-    expect(onFocus).toHaveBeenCalledWith([], expect.any(Object));
+    expect(onFocus).toHaveBeenCalledWith([new File([], '/path/to/file2.png')], expect.any(Object));
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith([{ name: '/path/to/file1.png' }], expect.any(Object));
   });

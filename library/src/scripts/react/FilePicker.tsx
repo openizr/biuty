@@ -15,6 +15,7 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 const JSXUIIcon = UIIcon as JSXElement;
 
 const defaultValue: File[] = [];
+const toArray = (value: File | File[]): File[] => (Array.isArray(value) ? value : [value]);
 
 /**
  * File picker.
@@ -28,7 +29,7 @@ function UIFilePicker(props: UIFilePickerProps): JSX.Element {
   const { value = defaultValue, onBlur, onFocus } = props;
 
   const [randomId] = React.useState(generateRandomId);
-  const [currentValue, setCurrentValue] = React.useState<File[]>(value);
+  const [currentValue, setCurrentValue] = React.useState<File[]>(toArray(value));
   const className = buildClass('ui-file-picker', `${modifiers}${(multiple ? ' multiple' : '')}`);
 
   // -----------------------------------------------------------------------------------------------
@@ -43,19 +44,19 @@ function UIFilePicker(props: UIFilePickerProps): JSX.Element {
     }
     setCurrentValue(files);
     if (onChange !== undefined) {
-      onChange(files, event as unknown as InputEvent);
+      onChange(multiple ? files : files[0], event as unknown as InputEvent);
     }
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
     if (onFocus !== undefined) {
-      onFocus(currentValue, event as unknown as FocusEvent);
+      onFocus(multiple ? currentValue : currentValue[0], event as unknown as FocusEvent);
     }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
     if (onBlur !== undefined) {
-      onBlur(currentValue, event as unknown as FocusEvent);
+      onBlur(multiple ? currentValue : currentValue[0], event as unknown as FocusEvent);
     }
   };
 
@@ -65,7 +66,7 @@ function UIFilePicker(props: UIFilePickerProps): JSX.Element {
 
   // Updates current value whenever `value` prop changes.
   React.useEffect(() => {
-    setCurrentValue(value);
+    setCurrentValue(toArray(value));
   }, [value]);
 
   // -----------------------------------------------------------------------------------------------
