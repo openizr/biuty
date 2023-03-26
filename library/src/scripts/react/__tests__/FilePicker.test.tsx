@@ -31,7 +31,7 @@ describe('react/UIFilePicker', () => {
   });
 
   test('renders correctly - disabled', () => {
-    const { container } = render(<JSXUIFilePicker name="test" modifiers="disabled" />);
+    const { container } = render(<JSXUIFilePicker name="test" disabled />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

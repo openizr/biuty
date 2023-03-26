@@ -9,7 +9,7 @@
 
 import React from 'react';
 import UIButton from 'scripts/react/Button';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 const JSXUIButton = UIButton as JSXElement;
 
@@ -59,7 +59,21 @@ describe('react/UIButton', () => {
   });
 
   test('renders correctly - disabled', () => {
-    const { container } = render(<JSXUIButton modifiers="disabled" />);
+    const { container } = render(<JSXUIButton disabled />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with listeners', async () => {
+    const onFocus = vi.fn();
+    const onClick = vi.fn();
+    const { container } = render(<JSXUIButton onFocus={onFocus} onClick={onClick} />);
+    const button = container.getElementsByTagName('button')[0];
+    fireEvent.focus(button);
+    fireEvent.click(button);
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onFocus).toHaveBeenCalledTimes(1);
+    expect(onFocus).toHaveBeenCalledWith(expect.any(Object));
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledWith(expect.any(Object));
   });
 });

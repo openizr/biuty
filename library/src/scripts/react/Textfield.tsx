@@ -26,7 +26,6 @@ const defaultTransform = (value: string): [string, number?] => [value];
  */
 function UITextfield(props: UITextfieldProps): JSX.Element {
   const { min, max } = props;
-  const { maxlength, onFocus } = props;
   const { type = 'text', size } = props;
   const { id, modifiers = '', label } = props;
   const { autofocus = false, onPaste } = props;
@@ -34,6 +33,7 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
   const { name, transform = defaultTransform } = props;
   const { iconPosition = 'left', icon, onBlur } = props;
   const { onIconKeyDown, readonly = false, step } = props;
+  const { maxlength, onFocus, disabled = false } = props;
   const { onIconClick, autocomplete = 'off', placeholder } = props;
   const { debounceTimeout = 50, allowedKeys = {}, onKeyDown } = props;
 
@@ -41,9 +41,8 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
   const [randomId] = React.useState(generateRandomId);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timeout = React.useRef<NodeJS.Timeout | null>(null);
-  const isDisabled = (modifiers).includes('disabled');
-  const className = buildClass('ui-textfield', modifiers);
   const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
+  const className = buildClass('ui-textfield', `${modifiers}${disabled ? ' disabled' : ''}`);
   const [currentValue, setCurrentValue] = React.useState(() => transform(`${value}`, 0)[0]);
 
   // Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
@@ -62,83 +61,89 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
   // -----------------------------------------------------------------------------------------------
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, filter = true): void => {
-    clearTimeout(timeout.current as NodeJS.Timeout);
-    isUserTyping.current = true;
-    const filteredValue = (filter && globalAllowedKeys.default !== null)
-      ? (event.target.value.match(globalAllowedKeys.default) || []).join('')
-      : event.target.value;
-    const selectionStart = event.target.selectionStart as number;
-    const [newValue, newCursorPosition] = transform(filteredValue, selectionStart);
-    setCurrentValue(newValue);
-    if (newCursorPosition !== undefined) {
-      setCursorPosition(newCursorPosition);
-    } else {
-      // At this point, the input's value has already changed, which means the cursor's position is
-      // at n + 1, which is why we substract 1 when checking last position.
-      const currentCursorPosition = selectionStart;
-      const isAtTheEnd = currentCursorPosition - 1 >= currentValue.length;
-      setCursorPosition(isAtTheEnd ? newValue.length : currentCursorPosition);
-    }
-    // This debounce system prevents triggering `onChange` callback too many times when user is
-    // still typing to improve performance and make UI more reactive on low-perfomance devices.
-    timeout.current = setTimeout(() => {
-      isUserTyping.current = false;
-      if (onChange !== undefined) {
-        onChange(newValue, event as unknown as InputEvent);
+    if (!disabled) {
+      clearTimeout(timeout.current as NodeJS.Timeout);
+      isUserTyping.current = true;
+      const filteredValue = (filter && globalAllowedKeys.default !== null)
+        ? (event.target.value.match(globalAllowedKeys.default) || []).join('')
+        : event.target.value;
+      const selectionStart = event.target.selectionStart as number;
+      const [newValue, newCursorPosition] = transform(filteredValue, selectionStart);
+      setCurrentValue(newValue);
+      if (newCursorPosition !== undefined) {
+        setCursorPosition(newCursorPosition);
+      } else {
+        // At this point, the input's value has already changed, which means the cursor's position
+        // is at n + 1, which is why we substract 1 when checking last position.
+        const currentCursorPosition = selectionStart;
+        const isAtTheEnd = currentCursorPosition - 1 >= currentValue.length;
+        setCursorPosition(isAtTheEnd ? newValue.length : currentCursorPosition);
       }
-    }, debounceTimeout);
+      // This debounce system prevents triggering `onChange` callback too many times when user is
+      // still typing to improve performance and make UI more reactive on low-perfomance devices.
+      timeout.current = setTimeout(() => {
+        isUserTyping.current = false;
+        if (onChange !== undefined) {
+          onChange(newValue, event as unknown as InputEvent);
+        }
+      }, debounceTimeout);
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
-    let allowedKeysForEvent = (allowedKeys as AllowedKeys).default || null;
-    if (event.ctrlKey === true) {
-      allowedKeysForEvent = (allowedKeys as AllowedKeys).ctrlKey || null;
-    } else if (event.shiftKey === true) {
-      allowedKeysForEvent = (allowedKeys as AllowedKeys).shiftKey || null;
-    } else if (event.altKey === true) {
-      allowedKeysForEvent = (allowedKeys as AllowedKeys).altKey || null;
-    } else if (event.metaKey === true) {
-      allowedKeysForEvent = (allowedKeys as AllowedKeys).metaKey || null;
-    }
-    if (
-      allowedKeysForEvent !== null
-      && !allowedKeysForEvent.test(event.key)
-      && !specialKeysRegexp.test(event.key)
-    ) {
-      event.preventDefault();
-    } else if (onKeyDown) {
-      onKeyDown(currentValue, event as unknown as KeyboardEvent);
+    if (!disabled) {
+      let allowedKeysForEvent = (allowedKeys as AllowedKeys).default || null;
+      if (event.ctrlKey === true) {
+        allowedKeysForEvent = (allowedKeys as AllowedKeys).ctrlKey || null;
+      } else if (event.shiftKey === true) {
+        allowedKeysForEvent = (allowedKeys as AllowedKeys).shiftKey || null;
+      } else if (event.altKey === true) {
+        allowedKeysForEvent = (allowedKeys as AllowedKeys).altKey || null;
+      } else if (event.metaKey === true) {
+        allowedKeysForEvent = (allowedKeys as AllowedKeys).metaKey || null;
+      }
+      if (
+        allowedKeysForEvent !== null
+        && !allowedKeysForEvent.test(event.key)
+        && !specialKeysRegexp.test(event.key)
+      ) {
+        event.preventDefault();
+      } else if (onKeyDown) {
+        onKeyDown(currentValue, event as unknown as KeyboardEvent);
+      }
     }
   };
 
   const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>): void => {
-    // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
-    // want to replace the entire content when pasting something in that case.
-    const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
-    const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.length;
-    const filteredValue = (globalAllowedKeys.default !== null)
-      ? (event.clipboardData.getData('text').match(globalAllowedKeys.default) || []).join('')
-      : event.clipboardData.getData('text');
-    handleChange({
-      target: {
-        value: `${currentValue.slice(0, selectionStart)}${filteredValue}${currentValue.slice(selectionEnd)}`,
-        selectionStart: selectionStart + filteredValue.length,
-      },
-    } as unknown as React.ChangeEvent<HTMLInputElement>, false);
-    event.preventDefault();
-    if (onPaste !== undefined) {
-      onPaste(currentValue, event as unknown as ClipboardEvent);
+    if (!disabled) {
+      // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
+      // want to replace the entire content when pasting something in that case.
+      const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
+      const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.length;
+      const filteredValue = (globalAllowedKeys.default !== null)
+        ? (event.clipboardData.getData('text').match(globalAllowedKeys.default) || []).join('')
+        : event.clipboardData.getData('text');
+      handleChange({
+        target: {
+          value: `${currentValue.slice(0, selectionStart)}${filteredValue}${currentValue.slice(selectionEnd)}`,
+          selectionStart: selectionStart + filteredValue.length,
+        },
+      } as unknown as React.ChangeEvent<HTMLInputElement>, false);
+      event.preventDefault();
+      if (onPaste !== undefined && !disabled) {
+        onPaste(currentValue, event as unknown as ClipboardEvent);
+      }
     }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onBlur !== undefined) {
+    if (onBlur !== undefined && !disabled) {
       onBlur(currentValue, event as unknown as FocusEvent);
     }
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onFocus !== undefined) {
+    if (onFocus !== undefined && !disabled) {
       onFocus(currentValue, event as unknown as FocusEvent);
     }
   };
@@ -193,7 +198,7 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
       name={name}
       id={randomId}
       ref={inputRef}
-      disabled={isDisabled}
+      disabled={disabled}
       onBlur={handleBlur}
       onFocus={handleFocus}
       value={currentValue}
@@ -202,10 +207,11 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
       autoFocus={autofocus}
       placeholder={placeholder}
       autoComplete={autocomplete}
+      tabIndex={disabled ? -1 : 0}
       className="ui-textfield__wrapper__field"
-      onPaste={(!readonly && !isDisabled) ? handlePaste : undefined}
-      onChange={(!readonly && !isDisabled) ? handleChange : undefined}
-      onKeyDown={(!readonly && !isDisabled) ? handleKeyDown : undefined}
+      onPaste={!readonly ? handlePaste : undefined}
+      onChange={!readonly ? handleChange : undefined}
+      onKeyDown={!readonly ? handleKeyDown : undefined}
     />,
   ];
 

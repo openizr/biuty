@@ -20,6 +20,11 @@ describe('vue/UILink', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - disabled', () => {
+    const { container } = render(UILink, { props: { label: 'Test', href: 'https://test.com', disabled: true } });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - with id', () => {
     const { container } = render(UILink, { props: { label: 'Test', href: 'https://test.com', id: 'test' } });
     expect(container.firstChild).toMatchSnapshot();

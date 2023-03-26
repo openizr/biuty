@@ -44,6 +44,7 @@ const props = withDefaults(defineProps<{
   options: Option[];
   multiple?: boolean;
   modifiers?: string;
+  disabled?: boolean;
   value?: string | string[];
   selectPosition?: 'top' | 'bottom';
   onFocus?: FocusEventHandler;
@@ -55,6 +56,7 @@ const props = withDefaults(defineProps<{
   multiple: false,
   label: undefined,
   helper: undefined,
+  disabled: false,
   value: [] as undefined,
   onFocus: undefined,
   onChange: undefined,
@@ -72,7 +74,7 @@ const randomId = ref(generateRandomId());
 const currentValue = ref(toArray(props.value));
 const className = computed(() => buildClass(
   'ui-options',
-  (props.modifiers) + (props.select ? ' select' : '') + (props.multiple ? ' multiple' : ''),
+  `${props.modifiers}${props.select ? ' select' : ''}${props.multiple ? ' multiple' : ''}${props.disabled ? ' disabled' : ''}`,
 ));
 
 // Memoizes all options' parsed labels to optimize rendering.
@@ -97,13 +99,15 @@ const handleBlur = (): void => {
 
 // In `select` mode only, displays the options list at the right place on the viewport.
 const displayList = (): void => {
-  if (props.selectPosition !== undefined) {
-    position.value = props.selectPosition;
-  } else {
-    const relativeOffsetTop = buttonRef.value.getBoundingClientRect().top;
-    position.value = ((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+  if (!props.disabled) {
+    if (props.selectPosition !== undefined) {
+      position.value = props.selectPosition;
+    } else {
+      const relativeOffsetTop = buttonRef.value.getBoundingClientRect().top;
+      position.value = ((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+    }
+    isDisplayed.value = true;
   }
-  isDisplayed.value = true;
 };
 
 // In `select` mode only, hides the options list only if forced or if focus is lost.
@@ -132,10 +136,12 @@ const findSiblingOption = (startIndex: number, direction: number, offset = 1): n
 
 // Automatically triggered when a `focus` event is fired.
 const handleFocus = (optionValue: string, optionIndex: number, event: FocusEvent): void => {
-  isFocused.value = true;
-  focusedOptionIndex.value = optionIndex;
-  if (props.onFocus !== undefined) {
-    props.onFocus(optionValue, event);
+  if (!props.disabled) {
+    isFocused.value = true;
+    focusedOptionIndex.value = optionIndex;
+    if (props.onFocus !== undefined) {
+      props.onFocus(optionValue, event);
+    }
   }
 };
 
@@ -151,30 +157,34 @@ const focusOption = (optionIndex: number): void => {
 
 // Automatically triggered when a `change` event is fired.
 const handleChange = (event: InputEvent): void => {
-  const selectedIndex = currentValue.value.indexOf((event.target as HTMLInputElement).value);
-  let newValue = [(event.target as HTMLInputElement).value];
-  if (props.multiple) {
-    newValue = (selectedIndex >= 0)
-      ? currentValue.value.slice(0, selectedIndex)
-        .concat(currentValue.value.slice(selectedIndex + 1))
-      : currentValue.value.concat([(event.target as HTMLInputElement).value]);
-  }
-  // If the value hasn't changed, we don't trigger anything.
-  if (props.multiple || newValue[0] !== currentValue.value[0]) {
-    currentValue.value = newValue;
-    if (props.onChange !== undefined) {
-      props.onChange(props.multiple ? newValue : newValue[0], event);
+  if (!props.disabled) {
+    const selectedIndex = currentValue.value.indexOf((event.target as HTMLInputElement).value);
+    let newValue = [(event.target as HTMLInputElement).value];
+    if (props.multiple) {
+      newValue = (selectedIndex >= 0)
+        ? currentValue.value.slice(0, selectedIndex)
+          .concat(currentValue.value.slice(selectedIndex + 1))
+        : currentValue.value.concat([(event.target as HTMLInputElement).value]);
+    }
+    // If the value hasn't changed, we don't trigger anything.
+    if (props.multiple || newValue[0] !== currentValue.value[0]) {
+      currentValue.value = newValue;
+      if (props.onChange !== undefined) {
+        props.onChange(props.multiple ? newValue : newValue[0], event);
+      }
     }
   }
 };
 
 // Manually triggered, used to simulate `change` events (`select` mode).
 const changeOption = (optionIndex: number): void => {
-  focusedOptionIndex.value = optionIndex;
-  const optionValue = (props.options[optionIndex] as UIOptionsOption).value;
-  handleChange({ target: { value: optionValue } } as unknown as InputEvent);
-  if (props.select) {
-    hideList(null);
+  if (!props.disabled) {
+    focusedOptionIndex.value = optionIndex;
+    const optionValue = (props.options[optionIndex] as UIOptionsOption).value;
+    handleChange({ target: { value: optionValue } } as unknown as InputEvent);
+    if (props.select) {
+      hideList(null);
+    }
   }
 };
 
@@ -184,40 +194,45 @@ const changeOption = (optionIndex: number): void => {
 
 // Handles keyboard navigation amongst options.
 const handleKeydown = (event: KeyboardEvent): void => {
-  const { key } = event;
-  const navigationControls: Record<string, () => number> = {
-    ArrowUp: () => findSiblingOption(focusedOptionIndex.value, -1),
-    ArrowLeft: () => findSiblingOption(focusedOptionIndex.value, -1),
-    ArrowDown: () => findSiblingOption(focusedOptionIndex.value, +1),
-    ArrowRight: () => findSiblingOption(focusedOptionIndex.value, +1),
-    PageUp: () => Math.max(0, findSiblingOption(-1, +1)),
-    Home: () => Math.max(0, findSiblingOption(-1, +1)),
-    PageDown: () => Math.min(props.options.length - 1, findSiblingOption(props.options.length, -1)),
-    End: () => Math.min(props.options.length - 1, findSiblingOption(props.options.length, -1)),
-  };
+  if (!props.disabled) {
+    const { key } = event;
+    const navigationControls: Record<string, () => number> = {
+      ArrowUp: () => findSiblingOption(focusedOptionIndex.value, -1),
+      ArrowLeft: () => findSiblingOption(focusedOptionIndex.value, -1),
+      ArrowDown: () => findSiblingOption(focusedOptionIndex.value, +1),
+      ArrowRight: () => findSiblingOption(focusedOptionIndex.value, +1),
+      PageUp: () => Math.max(0, findSiblingOption(-1, +1)),
+      Home: () => Math.max(0, findSiblingOption(-1, +1)),
+      PageDown: () => Math.min(
+        props.options.length - 1,
+        findSiblingOption(props.options.length, -1),
+      ),
+      End: () => Math.min(props.options.length - 1, findSiblingOption(props.options.length, -1)),
+    };
 
-  const siblingOption = navigationControls[key];
-  if (siblingOption !== undefined) {
-    // User is navigating through options...
-    if (isDisplayed.value || !props.select) {
-      focusOption(siblingOption());
-    } else {
-      changeOption(siblingOption());
+    const siblingOption = navigationControls[key];
+    if (siblingOption !== undefined) {
+      // User is navigating through options...
+      if (isDisplayed.value || !props.select) {
+        focusOption(siblingOption());
+      } else {
+        changeOption(siblingOption());
+      }
+      // `event.preventDefault` is not called globally to avoid overriding `Tab` behaviour.
+      event.preventDefault();
+    } else if (key === ' ' || key === 'Enter') {
+      // User wants to select / unselect an option...
+      if (isDisplayed.value === false && props.select) {
+        isDisplayed.value = true;
+      } else {
+        changeOption(focusedOptionIndex.value);
+      }
+      event.preventDefault();
+    } else if (key === 'Escape') {
+      // User wants to hide list (`select` mode)...
+      hideList(null, true);
+      event.preventDefault();
     }
-    // `event.preventDefault` is not called globally to avoid overriding `Tab` behaviour.
-    event.preventDefault();
-  } else if (key === ' ' || key === 'Enter') {
-    // User wants to select / unselect an option...
-    if (isDisplayed.value === false && props.select) {
-      isDisplayed.value = true;
-    } else {
-      changeOption(focusedOptionIndex.value);
-    }
-    event.preventDefault();
-  } else if (key === 'Escape') {
-    // User wants to hide list (`select` mode)...
-    hideList(null, true);
-    event.preventDefault();
   }
 };
 
@@ -292,7 +307,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
         aria-haspopup="listbox"
         class="ui-options__wrapper__button"
         :aria-labelledby="`${randomId} ${randomId}`"
-        :tabindex="modifiers.includes('disabled') ? -1 : 0"
+        :tabindex="disabled ? -1 : 0"
         @keydown="handleKeydown"
         @focus="handleFocus('', firstSelectedOption, $event)"
         @mousedown="displayList"
@@ -371,7 +386,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
           class="ui-options__wrapper__option__field"
           :tabindex="(
             option.disabled ||
-            modifiers.includes('disabled') ||
+            disabled ||
             !(
               ((index === 0 || !multiple) && currentValue.length === 0) ||
               option.value === currentValue[0]

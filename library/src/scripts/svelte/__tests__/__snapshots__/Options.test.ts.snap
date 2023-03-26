@@ -1180,7 +1180,7 @@ exports[`svelte/UIOptions > renders correctly - select changing options 1`] = `
 exports[`svelte/UIOptions > renders correctly - select disabled 1`] = `
 <div>
   <div
-    class="ui-options ui-options--disabled--select"
+    class="ui-options ui-options--select--disabled"
   >
      
     <div

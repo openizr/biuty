@@ -17,8 +17,30 @@ const JSXUIIcon = UIIcon as JSXElement;
  */
 function UIButton(props: UIButtonProps): JSX.Element {
   const { id, onClick, onFocus } = props;
-  const { type = 'button', modifiers = '' } = props;
   const { label, icon, iconPosition = 'left' } = props;
+  const { type = 'button', modifiers = '', disabled = false } = props;
+  const iconModifier = (icon !== undefined && label === undefined) ? ' icon' : '';
+  const className = buildClass('ui-button', `${modifiers}${iconModifier}${disabled ? ' disabled' : ''}`);
+
+  // -----------------------------------------------------------------------------------------------
+  // CALLBACKS DECLARATION.
+  // -----------------------------------------------------------------------------------------------
+
+  const handleFocus = (event: React.FocusEvent<HTMLButtonElement>): void => {
+    if (onFocus !== undefined && !disabled) {
+      onFocus(event as unknown as FocusEvent);
+    }
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    if (onClick !== undefined && !disabled) {
+      onClick(event as unknown as MouseEvent);
+    }
+  };
+
+  // -----------------------------------------------------------------------------------------------
+  // COMPONENT RENDERING.
+  // -----------------------------------------------------------------------------------------------
 
   const children = [
     (icon !== undefined) ? <JSXUIIcon key="icon" name={icon} /> : null,
@@ -28,11 +50,11 @@ function UIButton(props: UIButtonProps): JSX.Element {
   return (
     <button
       id={id}
+      onFocus={handleFocus}
+      onClick={handleClick}
+      tabIndex={disabled ? -1 : 0}
       type={(type === 'submit') ? 'submit' : 'button'}
-      tabIndex={(modifiers.includes('disabled') ? -1 : 0)}
-      onFocus={onFocus as unknown as React.FocusEventHandler<HTMLButtonElement>}
-      onClick={onClick as unknown as React.MouseEventHandler<HTMLButtonElement>}
-      className={buildClass('ui-button', `${modifiers}${(icon !== undefined && label === undefined) ? ' icon' : ''}`)}
+      className={className}
     >
       {(iconPosition === 'left') ? children : children.reverse()}
     </button>

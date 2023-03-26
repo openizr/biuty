@@ -25,6 +25,7 @@ export let value: string | string[] = [];
 export let id: string | undefined = undefined;
 export let label: string | undefined = undefined;
 export let helper: string | undefined = undefined;
+export let disabled: boolean | undefined = false;
 export let selectPosition: 'top' | 'bottom' | undefined = undefined;
 export let onFocus: ((value: string, event: FocusEvent) => void) | undefined = undefined;
 export let onChange: ChangeEventHandler | undefined = undefined;
@@ -41,7 +42,7 @@ let wrapperRef: HTMLElement | null = null;
 
 $: className = buildClass(
   'ui-options',
-  modifiers + (select ? ' select' : '') + (multiple ? ' multiple' : ''),
+  `${modifiers}${select ? ' select' : ''}${multiple ? ' multiple' : ''}${disabled ? ' disabled' : ''}`,
 );
 // Memoizes all options' parsed labels to optimize rendering.
 $: optionParsedLabels = options.reduce((mapping, option, index) => {
@@ -65,7 +66,7 @@ const handleBlur = (): void => {
 
 // In `select` mode only, displays the options list at the right place on the viewport.
 const displayList = (): void => {
-  if (buttonRef !== null) {
+  if (buttonRef !== null && !disabled) {
     if (selectPosition !== undefined) {
       position = selectPosition;
     } else {
@@ -99,17 +100,19 @@ const findSiblingOption = (
     return startIndex;
   }
   const option = options[nextIndex];
-  return option.type == 'option' && !option.disabled
+  return option.type === 'option' && !option.disabled
     ? nextIndex
     : findSiblingOption(startIndex, direction, offset + 1);
 };
 
 // Automatically triggered when a `focus` event is fired.
 const handleFocus = (optionValue: string, optionIndex: number) => (event: FocusEvent): void => {
-  isFocused = true;
-  focusedOptionIndex = optionIndex;
-  if (onFocus !== undefined) {
-    onFocus(optionValue, event);
+  if (!disabled) {
+    isFocused = true;
+    focusedOptionIndex = optionIndex;
+    if (onFocus !== undefined) {
+      onFocus(optionValue, event);
+    }
   }
 };
 
@@ -127,32 +130,36 @@ const focusOption = (optionIndex: number): void => {
 
 // Automatically triggered when a `change` event is fired.
 const handleChange = (event: Event): void => {
-  const target = (event.target as HTMLInputElement);
-  const selectedIndex = currentValue.indexOf(target.value);
-  let newValue = [target.value];
-  if (multiple === true) {
-    newValue = selectedIndex >= 0
-      ? currentValue
-        .slice(0, selectedIndex)
-        .concat(currentValue.slice(selectedIndex + 1))
-      : currentValue.concat([target.value]);
-  }
-  // If the value hasn't changed, we don't trigger anything.
-  if (multiple || newValue[0] !== currentValue[0]) {
-    currentValue = newValue;
-    if (onChange !== undefined) {
-      onChange(multiple === true ? newValue : newValue[0], event as InputEvent);
+  if (!disabled) {
+    const target = (event.target as HTMLInputElement);
+    const selectedIndex = currentValue.indexOf(target.value);
+    let newValue = [target.value];
+    if (multiple === true) {
+      newValue = selectedIndex >= 0
+        ? currentValue
+          .slice(0, selectedIndex)
+          .concat(currentValue.slice(selectedIndex + 1))
+        : currentValue.concat([target.value]);
+    }
+    // If the value hasn't changed, we don't trigger anything.
+    if (multiple || newValue[0] !== currentValue[0]) {
+      currentValue = newValue;
+      if (onChange !== undefined) {
+        onChange(multiple === true ? newValue : newValue[0], event as InputEvent);
+      }
     }
   }
 };
 
 // Manually triggered, used to simulate `change` events (`select` mode).
 const changeOption = (optionIndex: number) => (): void => {
-  focusedOptionIndex = optionIndex;
-  const optionValue = (options[optionIndex] as UIOptionsOption).value;
-  handleChange({ target: { value: optionValue } } as unknown as InputEvent);
-  if (select === true) {
-    hideList()(null);
+  if (!disabled) {
+    focusedOptionIndex = optionIndex;
+    const optionValue = (options[optionIndex] as UIOptionsOption).value;
+    handleChange({ target: { value: optionValue } } as unknown as InputEvent);
+    if (select === true) {
+      hideList()(null);
+    }
   }
 };
 
@@ -162,40 +169,42 @@ const changeOption = (optionIndex: number) => (): void => {
 
 // Handles keyboard navigation amongst options.
 const handleKeydown = (event: KeyboardEvent): void => {
-  const { key } = event;
-  const navigationControls: Record<string, () => number> = {
-    ArrowUp: () => findSiblingOption(focusedOptionIndex, -1),
-    ArrowLeft: () => findSiblingOption(focusedOptionIndex, -1),
-    ArrowDown: () => findSiblingOption(focusedOptionIndex, +1),
-    ArrowRight: () => findSiblingOption(focusedOptionIndex, +1),
-    PageUp: () => Math.max(0, findSiblingOption(-1, +1)),
-    Home: () => Math.max(0, findSiblingOption(-1, +1)),
-    PageDown: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
-    End: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
-  };
+  if (!disabled) {
+    const { key } = event;
+    const navigationControls: Record<string, () => number> = {
+      ArrowUp: () => findSiblingOption(focusedOptionIndex, -1),
+      ArrowLeft: () => findSiblingOption(focusedOptionIndex, -1),
+      ArrowDown: () => findSiblingOption(focusedOptionIndex, +1),
+      ArrowRight: () => findSiblingOption(focusedOptionIndex, +1),
+      PageUp: () => Math.max(0, findSiblingOption(-1, +1)),
+      Home: () => Math.max(0, findSiblingOption(-1, +1)),
+      PageDown: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
+      End: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
+    };
 
-  const siblingOption = navigationControls[key];
-  if (siblingOption !== undefined) {
-    // User is navigating through options...
-    if (isDisplayed || !select) {
-      focusOption(siblingOption());
-    } else {
-      changeOption(siblingOption())();
+    const siblingOption = navigationControls[key];
+    if (siblingOption !== undefined) {
+      // User is navigating through options...
+      if (isDisplayed || !select) {
+        focusOption(siblingOption());
+      } else {
+        changeOption(siblingOption())();
+      }
+      // `event.preventDefault` is not called globally to avoid overriding `Tab` behaviour.
+      event.preventDefault();
+    } else if (key === ' ' || key === 'Enter') {
+      // User wants to select / unselect an option...
+      if (!isDisplayed && select) {
+        isDisplayed = true;
+      } else {
+        changeOption(focusedOptionIndex)();
+      }
+      event.preventDefault();
+    } else if (key === 'Escape') {
+      // User wants to hide list (`select` mode)...
+      hideList(true)(null);
+      event.preventDefault();
     }
-    // `event.preventDefault` is not called globally to avoid overriding `Tab` behaviour.
-    event.preventDefault();
-  } else if (key === ' ' || key === 'Enter') {
-    // User wants to select / unselect an option...
-    if (!isDisplayed && select) {
-      isDisplayed = true;
-    } else {
-      changeOption(focusedOptionIndex)();
-    }
-    event.preventDefault();
-  } else if (key === 'Escape') {
-    // User wants to hide list (`select` mode)...
-    hideList(true)(null);
-    event.preventDefault();
   }
 };
 
@@ -266,9 +275,9 @@ $: onlyOptions = options.filter((option) => option.type === 'option') as UIOptio
         {name}
         type="button"
         aria-haspopup="listbox"
+        tabindex={disabled ? -1 : 0}
         class="ui-options__wrapper__button"
         aria-labelledby={`${randomId} ${randomId}`}
-        tabindex={modifiers.includes('disabled') ? -1 : 0}
         on:keydown={handleKeydown}
         on:mousedown={displayList}
         on:focus={handleFocus('', firstSelectedOption)}
@@ -343,7 +352,7 @@ $: onlyOptions = options.filter((option) => option.type === 'option') as UIOptio
             on:focus={handleFocus(option.value, index)}
             tabindex={(
               option.disabled
-              || modifiers.includes('disabled')
+              || disabled
               || !(((index === 0 || !multiple) && currentValue.length === 0)
               || option.value === currentValue[0]) ? -1 : 0
             )}

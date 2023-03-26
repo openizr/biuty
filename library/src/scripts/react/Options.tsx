@@ -18,17 +18,11 @@ const defaultValue: string[] = [];
 /**
  * Set of selectable options.
  */
-function UIOptions(props: UIOptionsProps & {
-  /** `focus` event handler. */
-  onFocus?: React.FocusEventHandler<HTMLElement>;
-
-  /** `change` event handler. */
-  onChange?: React.ChangeEventHandler<HTMLElement>;
-}): JSX.Element {
+function UIOptions(props: UIOptionsProps): JSX.Element {
   const { options, name } = props;
-  const { selectPosition } = props;
   const { id, modifiers = '', label } = props;
   const { multiple, select, onFocus } = props;
+  const { selectPosition, disabled = false } = props;
   const { helper, value = defaultValue, onChange } = props;
 
   const mounted = React.useRef(false);
@@ -41,7 +35,7 @@ function UIOptions(props: UIOptionsProps & {
   const [focusedOptionIndex, setFocusedOptionIndex] = React.useState(-1);
   const [position, setPosition] = React.useState(selectPosition ?? 'bottom');
   const [currentValue, setCurrentValue] = React.useState<string[]>(toArray(value));
-  const className = buildClass('ui-options', `${modifiers} ${(select ? 'select' : '')} ${(multiple ? ' multiple' : '')}`);
+  const className = buildClass('ui-options', `${modifiers}${(select ? ' select' : '')}${(multiple ? ' multiple' : '')}${disabled ? ' disabled' : ''}`);
   // Memoizes all options' parsed labels to optimize rendering.
   const optionParsedLabels = React.useMemo(() => options.reduce((mapping, option, index) => {
     if (option.type === 'option') {
@@ -64,14 +58,17 @@ function UIOptions(props: UIOptionsProps & {
 
   // In `select` mode only, displays the options list at the right place on the viewport.
   const displayList = React.useCallback((): void => {
-    if (selectPosition !== undefined) {
-      setPosition(selectPosition);
-    } else {
-      const relativeOffsetTop = (buttonRef.current as HTMLInputElement).getBoundingClientRect().top;
-      setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+    if (!disabled) {
+      if (selectPosition !== undefined) {
+        setPosition(selectPosition);
+      } else {
+        const relativeOffsetTop = (buttonRef.current as HTMLInputElement)
+          .getBoundingClientRect().top;
+        setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
+      }
+      setIsDisplayed(true);
     }
-    setIsDisplayed(true);
-  }, [selectPosition]);
+  }, [selectPosition, disabled]);
 
   // In `select` mode only, hides the options list only if forced or if focus is lost.
   const hideList = React.useCallback(
@@ -106,12 +103,14 @@ function UIOptions(props: UIOptionsProps & {
   // Automatically triggered when a `focus` event is fired.
   const handleFocus = React.useCallback((optionValue: string, optionIndex: number) => (
     (event: React.FocusEvent<HTMLElement>): void => {
-      isFocused.current = true;
-      setFocusedOptionIndex(optionIndex);
-      if (onFocus !== undefined && onFocus !== null) {
-        onFocus(optionValue, event as unknown as FocusEvent);
+      if (!disabled) {
+        isFocused.current = true;
+        setFocusedOptionIndex(optionIndex);
+        if (onFocus !== undefined) {
+          onFocus(optionValue, event as unknown as FocusEvent);
+        }
       }
-    }), [onFocus]);
+    }), [onFocus, disabled]);
 
   // Manually triggered, used to simulate `focus` events (`select` mode).
   const focusOption = React.useCallback((optionIndex: number): void => {
@@ -123,31 +122,35 @@ function UIOptions(props: UIOptionsProps & {
 
   // Automatically triggered when a `change` event is fired.
   const handleChange = React.useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
-    const selectedIndex = currentValue.indexOf(event.target.value);
-    let newValue = [event.target.value];
-    if (multiple === true) {
-      newValue = (selectedIndex >= 0)
-        ? currentValue.slice(0, selectedIndex).concat(currentValue.slice(selectedIndex + 1))
-        : currentValue.concat([event.target.value]);
-    }
-    // If the value hasn't changed, we don't trigger anything.
-    if (multiple || newValue[0] !== currentValue[0]) {
-      setCurrentValue(newValue);
-      if (onChange !== undefined && onChange !== null) {
-        onChange((multiple === true) ? newValue : newValue[0], event as unknown as InputEvent);
+    if (!disabled) {
+      const selectedIndex = currentValue.indexOf(event.target.value);
+      let newValue = [event.target.value];
+      if (multiple === true) {
+        newValue = (selectedIndex >= 0)
+          ? currentValue.slice(0, selectedIndex).concat(currentValue.slice(selectedIndex + 1))
+          : currentValue.concat([event.target.value]);
+      }
+      // If the value hasn't changed, we don't trigger anything.
+      if (multiple || newValue[0] !== currentValue[0]) {
+        setCurrentValue(newValue);
+        if (onChange !== undefined) {
+          onChange((multiple === true) ? newValue : newValue[0], event as unknown as InputEvent);
+        }
       }
     }
-  }, [onChange, currentValue, multiple]);
+  }, [onChange, currentValue, multiple, disabled]);
 
   // Manually triggered, used to simulate `change` events (`select` mode).
   const changeOption = React.useCallback((optionIndex: number) => (): void => {
-    setFocusedOptionIndex(optionIndex);
-    const optionValue = (options[optionIndex] as UIOptionsOption).value;
-    handleChange({ target: { value: optionValue } } as React.ChangeEvent<HTMLInputElement>);
-    if (select === true) {
-      hideList()(null);
+    if (!disabled) {
+      setFocusedOptionIndex(optionIndex);
+      const optionValue = (options[optionIndex] as UIOptionsOption).value;
+      handleChange({ target: { value: optionValue } } as React.ChangeEvent<HTMLInputElement>);
+      if (select === true) {
+        hideList()(null);
+      }
     }
-  }, [handleChange, hideList, options, select]);
+  }, [handleChange, hideList, options, select, disabled]);
 
   // -----------------------------------------------------------------------------------------------
   // KEYBOARD NAVIGATION.
@@ -155,39 +158,41 @@ function UIOptions(props: UIOptionsProps & {
 
   // Handles keyboard navigation amongst options.
   const handleKeydown = React.useCallback((event: React.KeyboardEvent<HTMLElement>): void => {
-    const { key } = event;
-    const navigationControls: Record<string, () => number> = {
-      ArrowUp: () => findSiblingOption(focusedOptionIndex, -1),
-      ArrowLeft: () => findSiblingOption(focusedOptionIndex, -1),
-      ArrowDown: () => findSiblingOption(focusedOptionIndex, +1),
-      ArrowRight: () => findSiblingOption(focusedOptionIndex, +1),
-      PageUp: () => Math.max(0, findSiblingOption(-1, +1)),
-      Home: () => Math.max(0, findSiblingOption(-1, +1)),
-      PageDown: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
-      End: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
-    };
-    const siblingOption = navigationControls[key];
-    if (siblingOption !== undefined) {
-      // User is navigating through options...
-      if (isDisplayed || !select) {
-        focusOption(siblingOption());
-      } else {
-        changeOption(siblingOption())();
+    if (!disabled) {
+      const { key } = event;
+      const navigationControls: Record<string, () => number> = {
+        ArrowUp: () => findSiblingOption(focusedOptionIndex, -1),
+        ArrowLeft: () => findSiblingOption(focusedOptionIndex, -1),
+        ArrowDown: () => findSiblingOption(focusedOptionIndex, +1),
+        ArrowRight: () => findSiblingOption(focusedOptionIndex, +1),
+        PageUp: () => Math.max(0, findSiblingOption(-1, +1)),
+        Home: () => Math.max(0, findSiblingOption(-1, +1)),
+        PageDown: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
+        End: () => Math.min(options.length - 1, findSiblingOption(options.length, -1)),
+      };
+      const siblingOption = navigationControls[key];
+      if (siblingOption !== undefined) {
+        // User is navigating through options...
+        if (isDisplayed || !select) {
+          focusOption(siblingOption());
+        } else {
+          changeOption(siblingOption())();
+        }
+        // `event.preventDefault` is not called globally to avoid overriding `Tab` behaviour.
+        event.preventDefault();
+      } else if (key === ' ' || key === 'Enter') {
+        // User wants to select / unselect an option...
+        if (isDisplayed === false && select) {
+          setIsDisplayed(true);
+        } else {
+          changeOption(focusedOptionIndex)();
+        }
+        event.preventDefault();
+      } else if (key === 'Escape') {
+        // User wants to hide list (`select` mode)...
+        hideList(true)(null);
+        event.preventDefault();
       }
-      // `event.preventDefault` is not called globally to avoid overriding `Tab` behaviour.
-      event.preventDefault();
-    } else if (key === ' ' || key === 'Enter') {
-      // User wants to select / unselect an option...
-      if (isDisplayed === false && select) {
-        setIsDisplayed(true);
-      } else {
-        changeOption(focusedOptionIndex)();
-      }
-      event.preventDefault();
-    } else if (key === 'Escape') {
-      // User wants to hide list (`select` mode)...
-      hideList(true)(null);
-      event.preventDefault();
     }
   }, [
     focusOption,
@@ -198,6 +203,7 @@ function UIOptions(props: UIOptionsProps & {
     isDisplayed,
     changeOption,
     options.length,
+    disabled,
   ]);
 
   // -----------------------------------------------------------------------------------------------
@@ -286,9 +292,9 @@ function UIOptions(props: UIOptionsProps & {
             aria-haspopup="listbox"
             onKeyDown={handleKeydown}
             onMouseDown={displayList}
+            tabIndex={disabled ? -1 : 0}
             className="ui-options__wrapper__button"
             aria-labelledby={`${randomId} ${randomId}`}
-            tabIndex={(modifiers.includes('disabled') ? -1 : 0)}
             onFocus={handleFocus('', firstSelectedOption.current)}
             dangerouslySetInnerHTML={{ __html: currentValue.map((optionValue) => optionParsedLabels[optionValue]).join(', ') }}
           />
@@ -371,11 +377,16 @@ function UIOptions(props: UIOptionsProps & {
                 value={realOption.value}
                 onChange={handleChange}
                 onKeyDown={handleKeydown}
-                disabled={realOption.disabled}
+                disabled={disabled || realOption.disabled}
                 onFocus={handleFocus(realOption.value, index)}
                 className="ui-options__wrapper__option__field"
                 type={(multiple === true) ? 'checkbox' : 'radio'}
-                tabIndex={(modifiers.includes('disabled') || realOption.disabled || !(((index === 0 || !multiple) && currentValue.length === 0) || realOption.value === currentValue[0]) ? -1 : 0)}
+                tabIndex={(
+                  disabled
+                    || realOption.disabled
+                    || !(((index === 0 || !multiple) && currentValue.length === 0)
+                      || realOption.value === currentValue[0])
+                    ? -1 : 0)}
               />
               <span
                 className="ui-options__wrapper__option__label"

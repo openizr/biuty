@@ -93,7 +93,7 @@ describe('vue/UITextfield', () => {
 
   test('renders correctly - with disabled', async () => {
     const onChange = vi.fn();
-    const { container } = render(UITextfield, { props: { name: 'test', modifiers: 'disabled', size: 100 } });
+    const { container } = render(UITextfield, { props: { name: 'test', disabled: true, size: 100 } });
     const input = container.getElementsByTagName('input')[0];
     await fireEvent.update(input, 'new value');
     expect(container.firstChild).toMatchSnapshot();

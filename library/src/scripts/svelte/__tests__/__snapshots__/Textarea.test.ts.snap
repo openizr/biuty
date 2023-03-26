@@ -14,6 +14,7 @@ exports[`svelte/UITextarea > renders correctly - autocomplete off 1`] = `
         class="ui-textarea__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="0"
       />
     </div>
      
@@ -36,6 +37,7 @@ exports[`svelte/UITextarea > renders correctly - basic 1`] = `
         class="ui-textarea__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="0"
       />
     </div>
      
@@ -59,6 +61,7 @@ exports[`svelte/UITextarea > renders correctly - disabled 1`] = `
         disabled=""
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="-1"
       />
     </div>
      
@@ -82,6 +85,7 @@ exports[`svelte/UITextarea > renders correctly - readonly 1`] = `
         id="z8a8d7a5zad4"
         name="test"
         readonly=""
+        tabindex="0"
       />
     </div>
      
@@ -105,6 +109,7 @@ exports[`svelte/UITextarea > renders correctly - with autofocus 1`] = `
         class="ui-textarea__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="0"
       />
     </div>
      
@@ -128,6 +133,7 @@ exports[`svelte/UITextarea > renders correctly - with autoresize 1`] = `
         id="z8a8d7a5zad4"
         name="test"
         rows="2"
+        tabindex="0"
       />
     </div>
      
@@ -152,6 +158,7 @@ exports[`svelte/UITextarea > renders correctly - with cols and rows 1`] = `
         id="z8a8d7a5zad4"
         name="test"
         rows="50"
+        tabindex="0"
       />
     </div>
      
@@ -174,6 +181,7 @@ exports[`svelte/UITextarea > renders correctly - with helper 1`] = `
         class="ui-textarea__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="0"
       />
     </div>
      
@@ -206,6 +214,7 @@ exports[`svelte/UITextarea > renders correctly - with id 1`] = `
         class="ui-textarea__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="0"
       />
     </div>
      
@@ -238,6 +247,7 @@ exports[`svelte/UITextarea > renders correctly - with label 1`] = `
         class="ui-textarea__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="0"
       />
     </div>
      
@@ -260,6 +270,7 @@ exports[`svelte/UITextarea > renders correctly - with listeners and debounce 1`]
         class="ui-textarea__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="0"
       />
     </div>
      
@@ -283,6 +294,7 @@ exports[`svelte/UITextarea > renders correctly - with placeholder 1`] = `
         id="z8a8d7a5zad4"
         name="test"
         placeholder="test..."
+        tabindex="0"
       />
     </div>
      
@@ -305,6 +317,7 @@ exports[`svelte/UITextarea > renders correctly - with value 1`] = `
         class="ui-textarea__wrapper__field"
         id="z8a8d7a5zad4"
         name="test"
+        tabindex="0"
       />
     </div>
      

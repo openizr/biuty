@@ -16,21 +16,38 @@ export let id: string | undefined = undefined;
 export let icon: string | undefined = undefined;
 export let label: string | undefined = undefined;
 export let type: 'button' | 'submit' = 'button';
+export let disabled: boolean | undefined = false;
 export let iconPosition: 'left' | 'right' = 'left';
 export let onClick: ((event: MouseEvent) => void) | undefined = undefined;
 export let onFocus: ((event: FocusEvent) => void) | undefined = undefined;
 
 $: iconModifier = icon !== undefined && label === undefined ? ' icon' : '';
-$: className = buildClass('ui-button', `${modifiers}${iconModifier}`);
+$: className = buildClass('ui-button', `${modifiers}${iconModifier}${disabled ? ' disabled' : ''}`);
+
+// -----------------------------------------------------------------------------------------------
+// CALLBACKS DECLARATION.
+// -----------------------------------------------------------------------------------------------
+
+const handleFocus = (event: FocusEvent): void => {
+  if (onFocus !== undefined && !disabled) {
+    onFocus(event);
+  }
+};
+
+const handleClick = (event: MouseEvent): void => {
+  if (onClick !== undefined && !disabled) {
+    onClick(event);
+  }
+};
 </script>
 
 <button
   {id}
   {type}
   class={className}
-  on:click={onClick}
-  on:focus={onFocus}
-  tabIndex={modifiers.includes('disabled') ? -1 : 0}
+  on:click={handleClick}
+  on:focus={handleFocus}
+  tabIndex={disabled ? -1 : 0}
 >
   {#if icon !== undefined && iconPosition === 'left'}
     <UIIcon name={icon} />

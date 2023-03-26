@@ -51,7 +51,7 @@ describe('vue/UIButton', () => {
   });
 
   test('renders correctly - disabled', () => {
-    const { container } = render(UIButton, { props: { modifiers: 'disabled' } });
+    const { container } = render(UIButton, { props: { disabled: true } });
     expect(container.firstChild).toMatchSnapshot();
   });
 

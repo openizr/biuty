@@ -14,8 +14,22 @@ import buildClass from 'scripts/helpers/buildClass';
  */
 function UILink(props: UILinkProps): JSX.Element {
   const { rel, id } = props;
-  const { href, label } = props;
+  const { href, label, disabled = false } = props;
   const { onClick, modifiers = '', target } = props;
+
+  // -----------------------------------------------------------------------------------------------
+  // CALLBACKS DECLARATION.
+  // -----------------------------------------------------------------------------------------------
+
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+    if (onClick !== undefined && !disabled) {
+      onClick(event as unknown as MouseEvent);
+    }
+  };
+
+  // -----------------------------------------------------------------------------------------------
+  // COMPONENT RENDERING.
+  // -----------------------------------------------------------------------------------------------
 
   return (
     <a
@@ -23,8 +37,9 @@ function UILink(props: UILinkProps): JSX.Element {
       rel={rel}
       href={href}
       target={target}
-      className={buildClass('ui-link', modifiers)}
-      onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
+      onClick={handleClick}
+      tabIndex={disabled ? -1 : 0}
+      className={buildClass('ui-link', `${modifiers}${disabled ? ' disabled' : ''}`)}
     >
       {label}
     </a>

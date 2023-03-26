@@ -67,7 +67,7 @@ describe('svelte/UITextarea', () => {
 
   test('renders correctly - disabled', async () => {
     const onChange = vi.fn();
-    const { container } = render(UITextarea, { props: { name: 'test', modifiers: 'disabled', onChange } });
+    const { container } = render(UITextarea, { props: { name: 'test', disabled: true, onChange } });
     const textarea = container.getElementsByTagName('textarea')[0];
     await fireEvent.input(textarea, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();

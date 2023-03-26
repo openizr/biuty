@@ -47,6 +47,7 @@ const props = withDefaults(defineProps<{
   maxlength?: number;
   modifiers?: string;
   autofocus?: boolean;
+  disabled?: boolean;
   placeholder?: string;
   value?: string | number;
   autocomplete?: 'on' | 'off';
@@ -75,6 +76,7 @@ const props = withDefaults(defineProps<{
   icon: undefined,
   step: undefined,
   size: 1,
+  disabled: false,
   label: undefined,
   helper: undefined,
   autocomplete: 'off',
@@ -102,8 +104,7 @@ const isUserTyping = ref(false);
 const cursorPosition = ref(null);
 const randomId = ref(generateRandomId());
 const currentValue = ref(props.transform(`${props.value}`, 0)[0]);
-const isDisabled = computed(() => props.modifiers.includes('disabled'));
-const className = computed(() => buildClass('ui-textfield', props.modifiers));
+const className = computed(() => buildClass('ui-textfield', `${props.modifiers}${props.disabled ? ' disabled' : ''}`));
 
 // Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
 const globalAllowedKeys = computed(() => keyTypes.reduce((allAllowedKeys, keyType) => {
@@ -121,76 +122,82 @@ const globalAllowedKeys = computed(() => keyTypes.reduce((allAllowedKeys, keyTyp
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: InputEvent, filter = true): void => {
-  clearTimeout(timeout.value);
-  isUserTyping.value = true;
-  const target = event.target as HTMLInputElement;
-  const { selectionStart } = target;
-  const filteredValue = (filter && globalAllowedKeys.value.default !== null)
-    ? (target.value.match(globalAllowedKeys.value.default) || []).join('')
-    : target.value;
-  const [newValue, newCursorPosition] = props.transform(filteredValue, selectionStart);
-  if (newCursorPosition !== undefined) {
-    cursorPosition.value = newCursorPosition;
-  } else {
-    const isAtTheEnd = selectionStart >= currentValue.value.length;
-    cursorPosition.value = isAtTheEnd ? newValue.length : selectionStart;
-  }
-  // We need to force the input value to prevent the component from getting uncontrolled.
-  if (newValue === currentValue.value) {
-    target.value = currentValue.value;
-  } else {
-    currentValue.value = newValue;
-  }
-  // This debounce system prevents triggering `onChange` callback too many times when user is
-  // still typing to improve performance and make UI more reactive on low-perfomance devices.
-  timeout.value = setTimeout(() => {
-    isUserTyping.value = false;
-    if (props.onChange !== undefined) {
-      props.onChange(newValue, event);
+  if (!props.disabled) {
+    clearTimeout(timeout.value);
+    isUserTyping.value = true;
+    const target = event.target as HTMLInputElement;
+    const { selectionStart } = target;
+    const filteredValue = (filter && globalAllowedKeys.value.default !== null)
+      ? (target.value.match(globalAllowedKeys.value.default) || []).join('')
+      : target.value;
+    const [newValue, newCursorPosition] = props.transform(filteredValue, selectionStart);
+    if (newCursorPosition !== undefined) {
+      cursorPosition.value = newCursorPosition;
+    } else {
+      const isAtTheEnd = selectionStart >= currentValue.value.length;
+      cursorPosition.value = isAtTheEnd ? newValue.length : selectionStart;
     }
-  }, props.debounceTimeout);
+    // We need to force the input value to prevent the component from getting uncontrolled.
+    if (newValue === currentValue.value) {
+      target.value = currentValue.value;
+    } else {
+      currentValue.value = newValue;
+    }
+    // This debounce system prevents triggering `onChange` callback too many times when user is
+    // still typing to improve performance and make UI more reactive on low-perfomance devices.
+    timeout.value = setTimeout(() => {
+      isUserTyping.value = false;
+      if (props.onChange !== undefined) {
+        props.onChange(newValue, event);
+      }
+    }, props.debounceTimeout);
+  }
 };
 
 const handleKeyDown = (event: KeyboardEvent): void => {
-  const { allowedKeys } = props;
-  let allowedKeysForEvent = allowedKeys.default || null;
-  if (event.ctrlKey === true) {
-    allowedKeysForEvent = allowedKeys.ctrlKey || null;
-  } else if (event.shiftKey === true) {
-    allowedKeysForEvent = allowedKeys.shiftKey || null;
-  } else if (event.altKey === true) {
-    allowedKeysForEvent = allowedKeys.altKey || null;
-  } else if (event.metaKey === true) {
-    allowedKeysForEvent = allowedKeys.metaKey || null;
-  }
-  if (
-    allowedKeysForEvent !== null
-    && !allowedKeysForEvent.test(event.key)
-    && !specialKeysRegexp.test(event.key)
-  ) {
-    event.preventDefault();
-  } else if (props.onKeyDown !== undefined) {
-    props.onKeyDown(currentValue.value, event);
+  if (!props.disabled) {
+    const { allowedKeys } = props;
+    let allowedKeysForEvent = allowedKeys.default || null;
+    if (event.ctrlKey === true) {
+      allowedKeysForEvent = allowedKeys.ctrlKey || null;
+    } else if (event.shiftKey === true) {
+      allowedKeysForEvent = allowedKeys.shiftKey || null;
+    } else if (event.altKey === true) {
+      allowedKeysForEvent = allowedKeys.altKey || null;
+    } else if (event.metaKey === true) {
+      allowedKeysForEvent = allowedKeys.metaKey || null;
+    }
+    if (
+      allowedKeysForEvent !== null
+      && !allowedKeysForEvent.test(event.key)
+      && !specialKeysRegexp.test(event.key)
+    ) {
+      event.preventDefault();
+    } else if (props.onKeyDown !== undefined) {
+      props.onKeyDown(currentValue.value, event);
+    }
   }
 };
 
 const handlePaste = (event: ClipboardEvent): void => {
-  // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
-  // want to replace the entire content when pasting something in that case.
-  const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
-  const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.value.length;
-  const filteredValue = (globalAllowedKeys.value.default !== null)
-    ? (event.clipboardData.getData('text').match(globalAllowedKeys.value.default) || []).join('')
-    : event.clipboardData.getData('text');
-  handleChange({
-    target: {
-      value: `${currentValue.value.slice(0, selectionStart)}${filteredValue}${currentValue.value.slice(selectionEnd)}`,
-      selectionStart: selectionStart + filteredValue.length,
-    },
-  } as unknown as InputEvent, false);
-  event.preventDefault();
-  if (props.onPaste !== undefined) {
-    props.onPaste(currentValue.value, event);
+  if (!props.disabled) {
+    // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
+    // want to replace the entire content when pasting something in that case.
+    const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
+    const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.value.length;
+    const filteredValue = (globalAllowedKeys.value.default !== null)
+      ? (event.clipboardData.getData('text').match(globalAllowedKeys.value.default) || []).join('')
+      : event.clipboardData.getData('text');
+    handleChange({
+      target: {
+        value: `${currentValue.value.slice(0, selectionStart)}${filteredValue}${currentValue.value.slice(selectionEnd)}`,
+        selectionStart: selectionStart + filteredValue.length,
+      },
+    } as unknown as InputEvent, false);
+    event.preventDefault();
+    if (props.onPaste !== undefined) {
+      props.onPaste(currentValue.value, event);
+    }
   }
 };
 
@@ -233,8 +240,8 @@ onUpdated(() => {
         tabIndex="0"
         role="button"
         class="ui-textfield__wrapper__icon"
-        @click="onIconClick !== undefined && onIconClick($event)"
-        @keydown="onIconKeyDown !== undefined && onIconKeyDown($event)"
+        @click="onIconClick !== undefined && !disabled && onIconClick($event)"
+        @keydown="onIconKeyDown !== undefined && !disabled && onIconKeyDown($event)"
       >
         <UIIcon :name="icon" />
       </span>
@@ -253,21 +260,22 @@ onUpdated(() => {
         :autofocus="autofocus"
         :autocomplete="autocomplete"
         class="ui-textfield__wrapper__field"
-        :disabled="isDisabled"
+        :disabled="disabled"
+        :tabindex="disabled ? -1 : 0"
         :size="size"
         @keydown="handleKeyDown"
-        @blur="onBlur !== undefined && onBlur(currentValue, $event)"
-        @focus="onFocus !== undefined && onFocus(currentValue, $event)"
-        @paste="(readonly !== true && !isDisabled) && handlePaste($event)"
-        @input="(readonly !== true && !isDisabled) && handleChange($event)"
+        @blur="onBlur !== undefined && !disabled && onBlur(currentValue, $event)"
+        @focus="onFocus !== undefined && !disabled && onFocus(currentValue, $event)"
+        @paste="(!readonly && !disabled) && handlePaste($event)"
+        @input="(!readonly && !disabled) && handleChange($event)"
       >
       <span
         v-if="icon !== undefined && iconPosition === 'right'"
         tabIndex="0"
         role="button"
         class="ui-textfield__wrapper__icon"
-        @click="onIconClick !== undefined && onIconClick($event)"
-        @keydown="onIconKeyDown !== undefined && onIconKeyDown($event)"
+        @click="onIconClick !== undefined && !disabled && onIconClick($event)"
+        @keydown="onIconKeyDown !== undefined && !disabled && onIconKeyDown($event)"
       >
         <UIIcon :name="icon" />
       </span>

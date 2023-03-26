@@ -110,6 +110,12 @@ declare module 'biuty' {
     modifiers?: string;
 
     /**
+     * When element is disabled, a special `disabled` modifier is automatically added, and all its
+     * user interactions are disabled. Defaults to `false`.
+     */
+    disabled?: boolean;
+
+    /**
      * `click` event handler.
      *
      * @param event `click` DOM event.
@@ -138,6 +144,12 @@ declare module 'biuty' {
 
     /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
+
+    /**
+     * When element is disabled, a special `disabled` modifier is automatically added, and all its
+     * user interactions are disabled. Defaults to `false`.
+     */
+    disabled?: boolean;
 
     /**
      * `click` event handler.
@@ -199,9 +211,6 @@ declare module 'biuty' {
     modifiers?: string;
   }
 
-  /**
-   * Selectable option.
-   */
   export type UIOptionsOption = {
     type: 'option';
 
@@ -235,6 +244,9 @@ declare module 'biuty' {
     modifiers?: string;
   };
 
+  /**
+   * Selectable option.
+   */
   export type Option = UIOptionsDivider | UIOptionsOption | UIOptionsHeader;
 
   /**
@@ -258,6 +270,12 @@ declare module 'biuty' {
 
     /** List of options to display in the component. */
     options: Option[];
+
+    /**
+     * When element is disabled, a special `disabled` modifier is automatically added, and all its
+     * user interactions are disabled. Defaults to `false`.
+     */
+    disabled?: boolean;
 
     /**
      * Whether user can select several options. Determines how the component will be displayed.
@@ -323,6 +341,12 @@ declare module 'biuty' {
 
     /** `site` HTML attribute to set to the element. */
     size?: number;
+
+    /**
+     * When element is disabled, a special `disabled` modifier is automatically added, and all its
+     * user interactions are disabled. Defaults to `false`.
+     */
+    disabled?: boolean;
 
     /**
      * Input's value. Updating this prop with a new value will replace the current value by
@@ -473,6 +497,12 @@ declare module 'biuty' {
     name: string;
 
     /**
+     * When element is disabled, a special `disabled` modifier is automatically added, and all its
+     * user interactions are disabled. Defaults to `false`.
+     */
+    disabled?: boolean;
+
+    /**
      * Textarea's value. Updating this prop with a new value will replace the current value by
      * the one passed. Defaults to `""`.
      */
@@ -583,6 +613,12 @@ declare module 'biuty' {
 
     /** Position of the icon relatively to the label. */
     iconPosition?: 'left' | 'right';
+
+    /**
+     * When element is disabled, a special `disabled` modifier is automatically added, and all its
+     * user interactions are disabled. Defaults to `false`.
+     */
+    disabled?: boolean;
 
     /**
      * File picker's value. Updating this prop with a new value will replace the current value by

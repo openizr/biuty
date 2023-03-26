@@ -98,7 +98,7 @@ describe('vue/UITextarea', () => {
     const onChange = vi.fn();
     const { container } = render(UITextarea, {
       props: {
-        name: 'test', modifiers: 'disabled', cols: 10, rows: 10, onChange,
+        name: 'test', disabled: true, cols: 10, rows: 10, onChange,
       },
     });
     const textarea = container.getElementsByTagName('textarea')[0];

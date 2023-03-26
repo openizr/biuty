@@ -12,20 +12,23 @@ import { computed } from 'vue';
 import UIIcon from 'scripts/vue/UIIcon.vue';
 import buildClass from 'scripts/helpers/buildClass';
 
-type EventHandler = (event: MouseEvent) => void;
+type MouseEventHandler = (event: MouseEvent) => void;
+type FocusEventHandler = (event: FocusEvent) => void;
 
 const props = withDefaults(defineProps<{
   id?: string;
   label?: string;
   icon?: string;
+  disabled?: boolean;
   type?: 'button' | 'submit';
   iconPosition?: 'left' | 'right';
   modifiers?: string;
-  onClick?: EventHandler;
-  onFocus?: EventHandler;
+  onClick?: MouseEventHandler;
+  onFocus?: FocusEventHandler;
 }>(), {
   modifiers: '',
   id: undefined,
+  disabled: false,
   icon: undefined,
   type: 'button',
   label: undefined,
@@ -34,7 +37,26 @@ const props = withDefaults(defineProps<{
   iconPosition: 'left',
 });
 
-const className = computed(() => buildClass('ui-button', `${props.modifiers}${(props.icon !== undefined && props.label === undefined) ? ' icon' : ''}`));
+const className = computed(() => {
+  const iconModifier = (props.icon !== undefined && props.label === undefined) ? ' icon' : '';
+  return buildClass('ui-button', `${props.modifiers}${iconModifier}${props.disabled ? ' disabled' : ''}`);
+});
+
+// -----------------------------------------------------------------------------------------------
+// CALLBACKS DECLARATION.
+// -----------------------------------------------------------------------------------------------
+
+const handleFocus = (event: FocusEvent): void => {
+  if (props.onFocus !== undefined && !props.disabled) {
+    props.onFocus(event);
+  }
+};
+
+const handleClick = (event: MouseEvent): void => {
+  if (props.onClick !== undefined && !props.disabled) {
+    props.onClick(event);
+  }
+};
 </script>
 
 <template>
@@ -42,9 +64,9 @@ const className = computed(() => buildClass('ui-button', `${props.modifiers}${(p
     :id="id"
     :type="type"
     :class="className"
-    :tabIndex="(modifiers.includes('disabled') ? -1 : 0)"
-    @click="props.onClick"
-    @focus="props.onFocus"
+    :tabIndex="(disabled ? -1 : 0)"
+    @click="handleClick"
+    @focus="handleFocus"
   >
     <UIIcon
       v-if="icon !== undefined && iconPosition === 'left'"

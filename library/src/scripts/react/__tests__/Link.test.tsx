@@ -9,7 +9,7 @@
 
 import React from 'react';
 import UILink from 'scripts/react/Link';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 
 const JSXUILink = UILink as JSXElement;
 
@@ -20,6 +20,11 @@ describe('react/UILink', () => {
 
   test('renders correctly - basic', () => {
     const { container } = render(<JSXUILink label="Test" href="https://test.com" modifiers="large" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - disabled', () => {
+    const { container } = render(<JSXUILink label="Test" href="https://test.com" disabled />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -41,5 +46,16 @@ describe('react/UILink', () => {
   test('renders correctly - with itemProp', () => {
     const { container } = render(<JSXUILink label="Test" href="https://test.com" itemProp="name" />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with listeners', async () => {
+    const onClick = vi.fn();
+    const { container } = render(<JSXUILink onClick={onClick} />);
+    const a = container.getElementsByTagName('a')[0];
+    fireEvent.focus(a);
+    fireEvent.click(a);
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledWith(expect.any(Object));
   });
 });

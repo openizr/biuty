@@ -15,6 +15,7 @@ exports[`vue/UITextfield > renders correctly - autocomplete off 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -38,6 +39,7 @@ exports[`vue/UITextfield > renders correctly - basic 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -62,6 +64,7 @@ exports[`vue/UITextfield > renders correctly - readonly 1`] = `
       name="test"
       readonly=""
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -86,6 +89,7 @@ exports[`vue/UITextfield > renders correctly - with autofocus 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -110,6 +114,7 @@ exports[`vue/UITextfield > renders correctly - with disabled 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="-1"
       type="text"
     />
     <!--v-if-->
@@ -133,6 +138,7 @@ exports[`vue/UITextfield > renders correctly - with helper 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -165,6 +171,7 @@ exports[`vue/UITextfield > renders correctly - with id 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -197,6 +204,7 @@ exports[`vue/UITextfield > renders correctly - with label 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -228,6 +236,7 @@ exports[`vue/UITextfield > renders correctly - with left icon 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -259,6 +268,7 @@ exports[`vue/UITextfield > renders correctly - with listeners and debounce 1`] =
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -283,6 +293,7 @@ exports[`vue/UITextfield > renders correctly - with placeholder 1`] = `
       name="test"
       placeholder="test..."
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -306,6 +317,7 @@ exports[`vue/UITextfield > renders correctly - with right icon 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <span
@@ -337,6 +349,7 @@ exports[`vue/UITextfield > renders correctly - with transform and allowedKeys 1`
       id="z8a8d7a5zad4"
       name="test"
       size="10"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -360,6 +373,7 @@ exports[`vue/UITextfield > renders correctly - with transform and allowedKeys 2`
       id="z8a8d7a5zad4"
       name="test"
       size="10"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->
@@ -386,6 +400,7 @@ exports[`vue/UITextfield > renders correctly - with type number 1`] = `
       name="test"
       size="100"
       step="10"
+      tabindex="0"
       type="number"
     />
     <!--v-if-->
@@ -409,6 +424,7 @@ exports[`vue/UITextfield > renders correctly - with value 1`] = `
       id="z8a8d7a5zad4"
       name="test"
       size="100"
+      tabindex="0"
       type="text"
     />
     <!--v-if-->

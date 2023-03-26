@@ -20,17 +20,29 @@ const props = withDefaults(defineProps<{
   rel?: string;
   target?: string;
   href: string;
+  disabled?: boolean;
   modifiers?: string;
   onClick?: ClickEventHandler;
 }>(), {
   modifiers: '',
   id: undefined,
   rel: undefined,
+  disabled: false,
   target: undefined,
   onClick: undefined,
 });
 
-const className = computed(() => buildClass('ui-link', props.modifiers));
+const className = computed(() => buildClass('ui-link', `${props.modifiers}${props.disabled ? ' disabled' : ''}`));
+
+// -----------------------------------------------------------------------------------------------
+// CALLBACKS DECLARATION.
+// -----------------------------------------------------------------------------------------------
+
+const handleClick = (event: MouseEvent): void => {
+  if (props.onClick !== undefined && !props.disabled) {
+    props.onClick(event);
+  }
+};
 </script>
 
 <template>
@@ -40,7 +52,8 @@ const className = computed(() => buildClass('ui-link', props.modifiers));
     :href="href"
     :class="className"
     :target="target"
-    @click="onClick"
+    :tabIndex="(disabled ? -1 : 0)"
+    @click="handleClick"
     v-html="markdown(props.label)"
   />
 </template>

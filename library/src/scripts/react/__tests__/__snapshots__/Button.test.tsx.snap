@@ -101,3 +101,11 @@ exports[`react/UIButton > renders correctly - with id 1`] = `
   </span>
 </button>
 `;
+
+exports[`react/UIButton > renders correctly - with listeners 1`] = `
+<button
+  class="ui-button"
+  tabindex="0"
+  type="button"
+/>
+`;
