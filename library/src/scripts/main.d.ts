@@ -573,7 +573,7 @@ declare module 'biuty' {
      * File picker's value. Updating this prop with a new value will replace the current value by
      * the one passed.
      */
-    value?: File[];
+    value?: File | File[];
 
     /** Element's label. Supports biuty light markdown. */
     label?: string;
@@ -594,7 +594,7 @@ declare module 'biuty' {
      *
      * @param event `blur` DOM event.
      */
-    onBlur?: (value: File[], event: FocusEvent) => void;
+    onBlur?: (value: File | File[], event: FocusEvent) => void;
 
     /**
      * `focus` event handler.
@@ -603,7 +603,7 @@ declare module 'biuty' {
      *
      * @param event `focus` DOM event.
      */
-    onFocus?: (value: File[], event: FocusEvent) => void;
+    onFocus?: (value: File | File[], event: FocusEvent) => void;
 
     /**
      * `change` event handler.
@@ -612,6 +612,6 @@ declare module 'biuty' {
      *
      * @param event `input` DOM event.
      */
-    onChange?: (value: File[], event: InputEvent) => void;
+    onChange?: (value: File | File[], event: InputEvent) => void;
   }
 }

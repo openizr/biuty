@@ -94,6 +94,38 @@ exports[`svelte/UIFilePicker > renders correctly - multiple 1`] = `
 </div>
 `;
 
+exports[`svelte/UIFilePicker > renders correctly - multiple with listeners 1`] = `
+<div>
+  <div
+    class="ui-file-picker ui-file-picker--multiple"
+  >
+     
+    <div
+      class="ui-file-picker__wrapper"
+    >
+       
+      <input
+        class="ui-file-picker__wrapper__field"
+        id="z8a8d7a5zad4"
+        multiple=""
+        name="test"
+        tabindex="0"
+        type="file"
+      />
+       
+       
+      <span
+        class="ui-file-picker__wrapper__placeholder"
+      >
+        /path/to/file1.png
+      </span>
+    </div>
+     
+  </div>
+  <!--&lt;FilePicker&gt;-->
+</div>
+`;
+
 exports[`svelte/UIFilePicker > renders correctly - with accept 1`] = `
 <div>
   <div

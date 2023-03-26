@@ -14,8 +14,12 @@ import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
-type FocusEventHandler = (event: FocusEvent) => void;
-type ChangeEventHandler = (value: File[], event: InputEvent) => void;
+type FocusEventHandler = (value: File | File[], event: FocusEvent) => void;
+type ChangeEventHandler = (value: File | File[], event: InputEvent) => void;
+
+const toArray = (newValue: File | File[]): File[] => (Array.isArray(newValue)
+  ? newValue
+  : [newValue]);
 
 const props = withDefaults(defineProps<{
   id?: string;
@@ -24,7 +28,7 @@ const props = withDefaults(defineProps<{
   icon?: string;
   multiple?: boolean;
   iconPosition?: 'left' | 'right';
-  value?: File[];
+  value?: File | File[];
   label?: string;
   helper?: string;
   modifiers?: string;
@@ -48,7 +52,7 @@ const props = withDefaults(defineProps<{
 });
 
 const randomId = ref(generateRandomId());
-const currentValue = ref(props.value);
+const currentValue = ref(toArray(props.value));
 const className = computed(() => buildClass('ui-file-picker', `${props.modifiers} ${props.multiple ? ' multiple' : ''}`));
 const currentPlaceholder = computed(() => ((currentValue.value.length > 0)
   ? currentValue.value.map((file) => file.name).join(', ')
@@ -67,7 +71,19 @@ const handleChange = (event: InputEvent): void => {
   }
   currentValue.value = files;
   if (props.onChange !== undefined) {
-    props.onChange(currentValue.value, event);
+    props.onChange(props.multiple ? files : files[0], event);
+  }
+};
+
+const handleFocus = (event: FocusEvent): void => {
+  if (props.onFocus !== undefined) {
+    props.onFocus(props.multiple ? currentValue.value : currentValue.value[0], event);
+  }
+};
+
+const handleBlur = (event: FocusEvent): void => {
+  if (props.onBlur !== undefined) {
+    props.onBlur(props.multiple ? currentValue.value : currentValue.value[0], event);
   }
 };
 
@@ -77,7 +93,7 @@ const handleChange = (event: InputEvent): void => {
 
 // Updates current value whenever `value` prop changes.
 watch(() => props.value, () => {
-  currentValue.value = props.value;
+  currentValue.value = toArray(props.value);
 });
 </script>
 
@@ -106,8 +122,8 @@ watch(() => props.value, () => {
         class="ui-file-picker__wrapper__field"
         :tabindex="modifiers.includes('disabled') ? -1 : 0"
         @change="handleChange"
-        @blur="onBlur !== undefined && onBlur(currentValue, $event)"
-        @focus="onFocus !== undefined && onFocus(currentValue, $event)"
+        @blur="handleBlur"
+        @focus="handleFocus"
       >
       <UIIcon
         v-if="icon !== undefined && iconPosition === 'right'"

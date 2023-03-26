@@ -13,10 +13,14 @@ import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
+const toArray = (newValue: File | File[]): File[] => (Array.isArray(newValue)
+  ? newValue
+  : [newValue]);
+
 export let name: string;
 export let modifiers = '';
 export let multiple = false;
-export let value: File[] = [];
+export let value: File | File[] = [];
 export let id: string | undefined = undefined;
 export let icon: string | undefined = undefined;
 export let label: string | undefined = undefined;
@@ -24,11 +28,11 @@ export let accept: string | undefined = undefined;
 export let helper: string | undefined = undefined;
 export let iconPosition: 'left' | 'right' = 'left';
 export let placeholder: string | undefined = undefined;
-export let onChange: ((value: File[], event: InputEvent) => void) | undefined = undefined;
-export let onFocus: ((value: File[], event: FocusEvent) => void) | undefined = undefined;
-export let onBlur: ((value: File[], event: FocusEvent) => void) | undefined = undefined;
+export let onChange: ((value: File | File[], event: InputEvent) => void) | undefined = undefined;
+export let onFocus: ((value: File | File[], event: FocusEvent) => void) | undefined = undefined;
+export let onBlur: ((value: File | File[], event: FocusEvent) => void) | undefined = undefined;
 
-let currentValue = value;
+let currentValue = toArray(value);
 const randomId = generateRandomId();
 
 $: className = buildClass('ui-file-picker', modifiers + (multiple ? ' multiple' : ''));
@@ -47,19 +51,19 @@ const handleChange = (event: Event): void => {
   }
   currentValue = files;
   if (onChange !== undefined) {
-    onChange(files, event as InputEvent);
+    onChange(multiple ? files : files[0], event as InputEvent);
   }
 };
 
 const handleFocus = (event: FocusEvent): void => {
   if (onFocus !== undefined) {
-    onFocus(currentValue, event);
+    onFocus(multiple ? currentValue : currentValue[0], event);
   }
 };
 
 const handleBlur = (event: FocusEvent): void => {
   if (onBlur !== undefined) {
-    onBlur(currentValue, event);
+    onBlur(multiple ? currentValue : currentValue[0], event);
   }
 };
 
@@ -68,8 +72,8 @@ const handleBlur = (event: FocusEvent): void => {
 // -------------------------------------------------------------------------------------------------
 
 // Updates current value whenever `value` prop changes.
-const updateValue = (updatedValue: File[]) => {
-  currentValue = updatedValue;
+const updateValue = (updatedValue: File | File[]) => {
+  currentValue = toArray(updatedValue);
 };
 $: updateValue(value);
 </script>
