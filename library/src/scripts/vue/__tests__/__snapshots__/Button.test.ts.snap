@@ -118,3 +118,15 @@ exports[`vue/UIButton > renders correctly - with id 1`] = `
   <!--v-if-->
 </button>
 `;
+
+exports[`vue/UIButton > renders correctly - with listener 1`] = `
+<button
+  class="ui-button"
+  tabindex="0"
+  type="button"
+>
+  <!--v-if-->
+  <!--v-if-->
+  <!--v-if-->
+</button>
+`;

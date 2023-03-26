@@ -8,7 +8,7 @@
  */
 
 import UIButton from 'scripts/vue/UIButton.vue';
-import { render } from '@testing-library/vue';
+import { render, fireEvent } from '@testing-library/vue';
 
 describe('vue/UIButton', () => {
   beforeEach(() => {
@@ -53,5 +53,24 @@ describe('vue/UIButton', () => {
   test('renders correctly - disabled', () => {
     const { container } = render(UIButton, { props: { modifiers: 'disabled' } });
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with listener', async () => {
+    const onClick = vi.fn();
+    const onFocus = vi.fn();
+    const { container } = render(UIButton, {
+      props: {
+        onClick,
+        onFocus,
+      },
+    });
+    const button = container.getElementsByTagName('button')[0];
+    await fireEvent.click(button);
+    await fireEvent.focus(button);
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledWith(expect.any(Object));
+    expect(onFocus).toHaveBeenCalledTimes(1);
+    expect(onFocus).toHaveBeenCalledWith(expect.any(Object));
   });
 });

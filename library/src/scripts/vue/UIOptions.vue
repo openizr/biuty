@@ -309,7 +309,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
             `${option.modifiers ?? ''}${option.disabled
               ? ' disabled': ''}${currentValue.includes(option.value) ? ' checked' : ''}`)"
           @blur="hideList($event, true)"
-          @mousedown="(option.type==='option') ? changeOption(index) : undefined"
+          @mousedown="(option.type==='option') && changeOption(index)"
           @focus="handleFocus(option.value, index, $event)"
           v-html="optionParsedLabels[option.value ?? '_']"
         />

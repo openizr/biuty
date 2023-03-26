@@ -24,12 +24,6 @@ exports[`svelte/UITooltip > renders correctly - basic 2 1`] = `
       i
     </button>
      
-    <span
-      class="ui-tooltip__description"
-      role="status"
-    >
-      undefined
-    </span>
   </div>
   <!--&lt;Tooltip&gt;-->
   <!--&lt;TestTooltip2&gt;-->
@@ -37,6 +31,40 @@ exports[`svelte/UITooltip > renders correctly - basic 2 1`] = `
 `;
 
 exports[`svelte/UITooltip > renders correctly - basic 2 2`] = `
+<div>
+  <div
+    aria-label="Test"
+    class="ui-tooltip"
+    role="tooltip"
+  >
+    <button>
+      i
+    </button>
+     
+  </div>
+  <!--&lt;Tooltip&gt;-->
+  <!--&lt;TestTooltip2&gt;-->
+</div>
+`;
+
+exports[`svelte/UITooltip > renders correctly - visible with no description 1`] = `
+<div>
+  <div
+    aria-label="Test"
+    class="ui-tooltip ui-tooltip--described"
+    role="tooltip"
+  >
+    <button>
+      i
+    </button>
+     
+  </div>
+  <!--&lt;Tooltip&gt;-->
+  <!--&lt;TestTooltip2&gt;-->
+</div>
+`;
+
+exports[`svelte/UITooltip > renders correctly - visible with no description 2`] = `
 <div>
   <div
     aria-label="Test"

@@ -47,12 +47,21 @@ describe('vue/UITextfield', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  test('renders correctly - with right icon', () => {
+  test('renders correctly - with right icon', async () => {
+    const listener = vi.fn();
     const { container } = render(UITextfield, {
       props: {
-        name: 'test', icon: 'star', iconPosition: 'right', size: 100,
+        name: 'test',
+        icon: 'star',
+        iconPosition: 'right',
+        size: 100,
+        onIconClick: listener,
+        onIconKeyDown: listener,
       },
     });
+    const icon = container.getElementsByTagName('i')[0];
+    await fireEvent.keyDown(icon);
+    await fireEvent.click(icon);
     expect(container.firstChild).toMatchSnapshot();
   });
 
