@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UIOptions from 'scripts/vue/Options.vue';
+import UIOptions from 'scripts/vue/UIOptions.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
 vi.mock('scripts/helpers/generateRandomId');
@@ -198,10 +198,10 @@ describe('vue/UIOptions', () => {
   });
 
   test('renders correctly - select with default value', () => {
-    const defaultOptions = [{ value: 'test' }];
+    const defaultOptions = [{ value: 'test', label: 'Test' }];
     const { container } = render(UIOptions, {
       props: {
-        name: 'test', select: true, options: defaultOptions, value: null,
+        name: 'test', select: true, options: defaultOptions, value: undefined,
       },
     });
     expect(container.firstChild).toMatchSnapshot();

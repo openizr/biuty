@@ -7,12 +7,13 @@
  * @vitest-environment jsdom
  */
 
-import UITextfield from 'scripts/vue/Textfield.vue';
+import UITextfield from 'scripts/vue/UITextfield.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
-vi.mock('scripts/helpers/generateRandomId');
-
 describe('vue/UITextfield', () => {
+  vi.mock('scripts/helpers/generateRandomId');
+  vi.useFakeTimers();
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -143,25 +144,32 @@ describe('vue/UITextfield', () => {
     await fireEvent.keyDown(input, { key: 'a', altKey: true });
     await fireEvent.keyDown(input, { key: 'a', metaKey: true });
     await fireEvent.update(input, 'new 015 test');
+    vi.runAllTimers();
     await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
-    expect(onChange).not.toHaveBeenCalled();
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenCalledWith('NEWTEST', expect.any(Object));
+    expect(onChange).toHaveBeenCalledWith('NEWTESTAND', expect.any(Object));
     expect(onKeyDown).toHaveBeenCalledTimes(5);
-    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onKeyDown).toHaveBeenCalledWith('', expect.any(Object));
     expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledWith('NEWTESTAND', expect.any(Object));
     await rerender({
-      name: 'test', size: 10, transform: null, allowedKeys: { default: /z/i },
+      name: 'test', size: 10, allowedKeys: { default: /z/i },
     });
     await fireEvent.update(input, 'zzzzzzzzzzzz');
+    vi.runAllTimers();
     await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'zzz') } });
+    vi.runAllTimers();
     await fireEvent.update(input, 'qsdqsd');
+    vi.runAllTimers();
     await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'sqdqsd') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
   });
 
   test('renders correctly - with listeners and debounce', async () => {
-    vi.useFakeTimers();
     const onBlur = vi.fn();
     const onFocus = vi.fn();
     const onChange = vi.fn();
@@ -189,6 +197,7 @@ describe('vue/UITextfield', () => {
     await fireEvent.keyDown(icon);
     await fireEvent.click(icon);
     await fireEvent.update(input, 'new 015 test');
+    vi.runAllTimers();
     await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
     vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
@@ -200,7 +209,8 @@ describe('vue/UITextfield', () => {
     expect(onIconClick).toHaveBeenCalledWith(expect.any(Object));
     expect(onIconKeyDown).toHaveBeenCalledTimes(1);
     expect(onIconKeyDown).toHaveBeenCalledWith(expect.any(Object));
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenCalledWith('NEW 015 TEST', expect.any(Object));
     expect(onChange).toHaveBeenCalledWith('NAND 89 OKOKEW 015 TEST', expect.any(Object));
   });
 });

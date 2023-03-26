@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UITooltip from 'scripts/vue/Tooltip.vue';
+import UITooltip from 'scripts/vue/UITooltip.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
 describe('vue/UITooltip', () => {

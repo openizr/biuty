@@ -15,13 +15,7 @@ const JSXUIIcon = UIIcon as JSXElement;
 /**
  * Button.
  */
-function UIButton(props: UIButtonProps & {
-  /** `click` event handler. */
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-
-  /** `focus` event handler. */
-  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-}): JSX.Element {
+function UIButton(props: UIButtonProps): JSX.Element {
   const { id, onClick, onFocus } = props;
   const { type = 'button', modifiers = '' } = props;
   const { label, icon, iconPosition = 'left' } = props;
@@ -34,11 +28,11 @@ function UIButton(props: UIButtonProps & {
   return (
     <button
       id={id}
-      onFocus={onFocus}
-      onClick={onClick}
       type={(type === 'submit') ? 'submit' : 'button'}
       tabIndex={(modifiers.includes('disabled') ? -1 : 0)}
-      className={buildClass('ui-button', `${modifiers}${(icon !== null && label === null) ? ' icon' : ''}`)}
+      onFocus={onFocus as unknown as React.FocusEventHandler<HTMLButtonElement>}
+      onClick={onClick as unknown as React.MouseEventHandler<HTMLButtonElement>}
+      className={buildClass('ui-button', `${modifiers}${(icon !== undefined && label === undefined) ? ' icon' : ''}`)}
     >
       {(iconPosition === 'left') ? children : children.reverse()}
     </button>

@@ -7,13 +7,13 @@
  * @vitest-environment jsdom
  */
 
-import UITextarea from 'scripts/vue/Textarea.vue';
+import UITextarea from 'scripts/vue/UITextarea.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
-vi.useFakeTimers();
-vi.mock('scripts/helpers/generateRandomId');
-
 describe('vue/UITextarea', () => {
+  vi.mock('scripts/helpers/generateRandomId');
+  vi.useFakeTimers();
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -146,6 +146,7 @@ describe('vue/UITextarea', () => {
         onKeyDown,
         cols: 10,
         rows: 10,
+        debounceTimeout: 250,
       },
     });
     const textarea = container.getElementsByTagName('textarea')[0];
@@ -153,6 +154,7 @@ describe('vue/UITextarea', () => {
     await fireEvent.blur(textarea);
     await fireEvent.keyDown(textarea, { key: 'a' });
     await fireEvent.update(textarea, 'new 015 test');
+    vi.runAllTimers();
     await fireEvent.paste(textarea, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
     vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
@@ -163,8 +165,8 @@ describe('vue/UITextarea', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith('new 015 test', expect.any(Object));
     expect(onKeyDown).toHaveBeenCalledTimes(1);
-    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onKeyDown).toHaveBeenCalledWith('', expect.any(Object));
     expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledWith('new 015 test', expect.any(Object));
   });
 });

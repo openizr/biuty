@@ -26,7 +26,7 @@ function UIOptions(props: UIOptionsProps & {
   onChange?: React.ChangeEventHandler<HTMLElement>;
 }): JSX.Element {
   const { options, name } = props;
-  const { selectPosition = 'bottom' } = props;
+  const { selectPosition } = props;
   const { id, modifiers = '', label } = props;
   const { multiple, select, onFocus } = props;
   const { helper, value = defaultValue, onChange } = props;
@@ -39,13 +39,13 @@ function UIOptions(props: UIOptionsProps & {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
   const [isDisplayed, setIsDisplayed] = React.useState(false);
   const [focusedOptionIndex, setFocusedOptionIndex] = React.useState(-1);
-  const [position, setPosition] = React.useState(selectPosition || 'bottom');
+  const [position, setPosition] = React.useState(selectPosition ?? 'bottom');
   const [currentValue, setCurrentValue] = React.useState<string[]>(toArray(value));
   const className = buildClass('ui-options', `${modifiers} ${(select ? 'select' : '')} ${(multiple ? ' multiple' : '')}`);
   // Memoizes all options' parsed labels to optimize rendering.
   const optionParsedLabels = React.useMemo(() => options.reduce((mapping, option) => {
     if (option.value !== undefined && option.value !== null) {
-      return { ...mapping, [option.value]: markdown(option.label || '') };
+      return { ...mapping, [option.value]: markdown(option.label ?? '') };
     }
     return mapping;
   }, { _: '' } as Record<string, string>), [options]);
@@ -61,7 +61,7 @@ function UIOptions(props: UIOptionsProps & {
 
   // In `select` mode only, displays the options list at the right place on the viewport.
   const displayList = React.useCallback((): void => {
-    if (selectPosition !== null) {
+    if (selectPosition !== undefined) {
       setPosition(selectPosition);
     } else {
       const relativeOffsetTop = (buttonRef.current as HTMLInputElement).getBoundingClientRect().top;
@@ -77,7 +77,7 @@ function UIOptions(props: UIOptionsProps & {
       const focusIsOutsideList = (event !== null)
         ? !event.currentTarget.contains(event.relatedTarget as Node)
         : true;
-      if (focusIsOutsideList && (force === true || multiple === false)) {
+      if (focusIsOutsideList && (force === true || !multiple)) {
         handleBlur();
         setIsDisplayed(false);
       }
@@ -106,7 +106,7 @@ function UIOptions(props: UIOptionsProps & {
       isFocused.current = true;
       setFocusedOptionIndex(optionIndex);
       if (onFocus !== undefined && onFocus !== null) {
-        onFocus(optionValue, event);
+        onFocus(optionValue, event as unknown as FocusEvent);
       }
     }), [onFocus]);
 
@@ -131,7 +131,7 @@ function UIOptions(props: UIOptionsProps & {
     if (multiple || newValue[0] !== currentValue[0]) {
       setCurrentValue(newValue);
       if (onChange !== undefined && onChange !== null) {
-        onChange((multiple === true) ? newValue : newValue[0], event);
+        onChange((multiple === true) ? newValue : newValue[0], event as unknown as InputEvent);
       }
     }
   }, [onChange, currentValue, multiple]);
@@ -210,7 +210,7 @@ function UIOptions(props: UIOptionsProps & {
   // Updates current value whenever `multiple` property changes.
   React.useEffect(() => {
     setCurrentValue((prevValue) => (
-      (multiple === true || prevValue.length === 0) ? prevValue : [prevValue[0]]));
+      (multiple || prevValue.length === 0) ? prevValue : [prevValue[0]]));
   }, [multiple]);
 
   // Updates `firstSelectedOption` ref whenever `currentValue` changes.
@@ -225,7 +225,7 @@ function UIOptions(props: UIOptionsProps & {
 
   // Re-focuses the right option whenever `options` property changes, to avoid out of range focus.
   React.useEffect(() => {
-    if (isFocused.current === true) {
+    if (isFocused.current) {
       focusOption(firstSelectedOption.current);
     }
   }, [options, focusOption]);
@@ -251,13 +251,20 @@ function UIOptions(props: UIOptionsProps & {
   // COMPONENT RENDERING.
   // -----------------------------------------------------------------------------------------------
 
-  const labelComponent = (label !== null && label !== undefined)
-    ? <label className="ui-options__label" htmlFor={select ? randomId : `${randomId}_${Math.max(firstSelectedOption.current, 0)}`} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
-    : null;
+  const labelComponent = (label !== undefined) && (
+    <label
+      className="ui-options__label"
+      htmlFor={select ? randomId : `${randomId}_${Math.max(firstSelectedOption.current, 0)}`}
+      dangerouslySetInnerHTML={{ __html: markdown(label) }}
+    />
+  );
 
-  const helperComponent = (helper !== null && helper !== undefined)
-    ? <span className="ui-options__helper" dangerouslySetInnerHTML={{ __html: markdown(helper) }} />
-    : null;
+  const helperComponent = (helper !== undefined) && (
+    <span
+      className="ui-options__helper"
+      dangerouslySetInnerHTML={{ __html: markdown(helper) }}
+    />
+  );
 
   // Display as select list...
   if (select) {
@@ -296,7 +303,7 @@ function UIOptions(props: UIOptionsProps & {
           >
             {options.map((option, index) => {
               const key = `${randomId}${index}`;
-              let optionModifiers = `${option.modifiers || ''}${option.disabled ? ' disabled' : ''}`;
+              let optionModifiers = `${option.modifiers ?? ''}${option.disabled ? ' disabled' : ''}`;
               const isChecked = currentValue.includes(option.value as string);
               if (isChecked) {
                 optionModifiers += ' checked';
@@ -310,7 +317,7 @@ function UIOptions(props: UIOptionsProps & {
                   aria-selected={isChecked}
                   role={(option.type === 'option') ? 'option' : undefined}
                   onFocus={handleFocus(option.value as string, index)}
-                  dangerouslySetInnerHTML={{ __html: optionParsedLabels[option.value || '_'] }}
+                  dangerouslySetInnerHTML={{ __html: optionParsedLabels[option.value ?? '_'] }}
                   onMouseDown={(option.type === 'option') ? changeOption(index) : undefined}
                   className={buildClass(`ui-options__wrapper__list__${option.type}`, optionModifiers)}
                 />
@@ -338,7 +345,7 @@ function UIOptions(props: UIOptionsProps & {
           const optionId = `${randomId}_${index}`;
           const isDisabled = option.disabled === true;
           const isChecked = currentValue.includes(option.value as string);
-          let optionModifiers = `${option.modifiers || ''}${option.disabled ? ' disabled' : ''}`;
+          let optionModifiers = `${option.modifiers ?? ''}${option.disabled ? ' disabled' : ''}`;
           if (isChecked) {
             optionModifiers += ' checked';
           }
@@ -357,7 +364,7 @@ function UIOptions(props: UIOptionsProps & {
                 onFocus={handleFocus(option.value as string, index)}
                 className="ui-options__wrapper__option__field"
                 type={(multiple === true) ? 'checkbox' : 'radio'}
-                tabIndex={(modifiers.includes('disabled') || isDisabled || !(((index === 0 || multiple === false) && currentValue.length === 0) || option.value === currentValue[0]) ? -1 : 0)}
+                tabIndex={(modifiers.includes('disabled') || isDisabled || !(((index === 0 || !multiple) && currentValue.length === 0) || option.value === currentValue[0]) ? -1 : 0)}
               />
               <span
                 className="ui-options__wrapper__option__label"

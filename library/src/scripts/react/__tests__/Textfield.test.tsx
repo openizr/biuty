@@ -25,10 +25,7 @@ describe('react/UITextfield', () => {
     const { container } = render(
       <JSXUITextfield
         name="test"
-        type={null}
         modifiers="large"
-        autocomplete={null}
-        iconPosition={null}
       />,
     );
     expect(container.firstChild).toMatchSnapshot();
@@ -134,9 +131,9 @@ describe('react/UITextfield', () => {
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).not.toHaveBeenCalled();
     expect(onKeyDown).toHaveBeenCalledTimes(5);
-    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onKeyDown).toHaveBeenCalledWith('', expect.any(Object));
     expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledWith('NEWTEST', expect.any(Object));
     rerender(<JSXUITextfield
       name="test"
       size={10}
@@ -166,7 +163,6 @@ describe('react/UITextfield', () => {
       icon="star"
       onBlur={onBlur}
       onFocus={onFocus}
-      allowedKeys={null}
       onChange={onChange}
       onIconClick={onIconClick}
       transform={transform}
@@ -180,6 +176,7 @@ describe('react/UITextfield', () => {
     fireEvent.keyDown(icon);
     fireEvent.click(icon);
     fireEvent.change(input, { target: { value: 'new 015 test', selectionStart: 100 } });
+    vi.runAllTimers();
     fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
     vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
@@ -191,7 +188,8 @@ describe('react/UITextfield', () => {
     expect(onIconClick).toHaveBeenCalledWith(expect.any(Object));
     expect(onIconKeyDown).toHaveBeenCalledTimes(1);
     expect(onIconKeyDown).toHaveBeenCalledWith(expect.any(Object));
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenCalledWith('NEW 015 TEST', expect.any(Object));
     expect(onChange).toHaveBeenCalledWith('NAND 89 OKOKEW 015 TEST', expect.any(Object));
   });
 });

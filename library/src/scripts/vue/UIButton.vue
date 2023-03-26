@@ -9,33 +9,28 @@
  */
 
 import { computed } from 'vue';
-import UIIcon from 'scripts/vue/Icon.vue';
+import UIIcon from 'scripts/vue/UIIcon.vue';
 import buildClass from 'scripts/helpers/buildClass';
 
+type EventHandler = (event: MouseEvent) => void;
+
 const props = withDefaults(defineProps<{
-  /** `id` HTML attribute to set to the element. */
   id?: string;
-
-  /** Button's content. */
   label?: string;
-
-  /** Name of the icon to set to the element. */
   icon?: string;
-
-  /** `type` HTML attribute to set to the element. Defaults to "button". */
   type?: 'button' | 'submit';
-
-  /** Position of the icon relatively to the label. Defaults to "left". */
   iconPosition?: 'left' | 'right';
-
-  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
+  onClick?: EventHandler;
+  onFocus?: EventHandler;
 }>(), {
   modifiers: '',
   id: undefined,
   icon: undefined,
   type: 'button',
   label: undefined,
+  onClick: undefined,
+  onFocus: undefined,
   iconPosition: 'left',
 });
 
@@ -48,9 +43,11 @@ const className = computed(() => buildClass('ui-button', `${props.modifiers}${(p
     :type="type"
     :class="className"
     :tabIndex="(modifiers.includes('disabled') ? -1 : 0)"
+    @click="props.onClick"
+    @focus="props.onFocus"
   >
     <UIIcon
-      v-if="icon !== undefined && iconPosition !== 'right'"
+      v-if="icon !== undefined && iconPosition === 'left'"
       :name="icon"
     />
     <span

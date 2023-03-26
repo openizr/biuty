@@ -131,6 +131,12 @@ declare module 'biuty' {
 
     /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
+
+    /** `click` event handler. */
+    onClick?: (event: MouseEvent) => void;
+
+    /** `focus` event handler. */
+    onFocus?: (event: FocusEvent) => void;
   }
 
   /**
@@ -418,7 +424,7 @@ declare module 'biuty' {
     name: string;
 
     /** `accept` HTML attribute to set to the element. */
-    accept: string;
+    accept?: string;
 
     /** Name of the icon to set to the element. */
     icon?: string;
@@ -446,5 +452,14 @@ declare module 'biuty' {
 
     /** Element's placeholder. */
     placeholder?: string;
+
+    /** `blur` event handler. */
+    onBlur?: (value: File[], event: FocusEvent) => void;
+
+    /** `focus` event handler. */
+    onFocus?: (value: File[], event: FocusEvent) => void;
+
+    /** `change` event handler. */
+    onChange?: (value: File[], event: InputEvent) => void;
   }
 }

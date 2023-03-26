@@ -8,13 +8,10 @@
  *
  */
 
-import { createEventDispatcher } from 'svelte';
 import UIIcon from 'scripts/svelte/Icon.svelte';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
-
-const dispatch = createEventDispatcher();
 
 export let name: string;
 export let modifiers = '';
@@ -27,13 +24,14 @@ export let accept: string | undefined = undefined;
 export let helper: string | undefined = undefined;
 export let iconPosition: 'left' | 'right' = 'left';
 export let placeholder: string | undefined = undefined;
+export let onChange: ((value: File[], event: InputEvent) => void) | undefined = undefined;
+export let onFocus: ((value: File[], event: FocusEvent) => void) | undefined = undefined;
+export let onBlur: ((value: File[], event: FocusEvent) => void) | undefined = undefined;
 
 let currentValue = value;
 const randomId = generateRandomId();
 
 $: className = buildClass('ui-file-picker', modifiers + (multiple ? ' multiple' : ''));
-$: parsedLabel = label !== null ? markdown(label) : null;
-$: parsedHelper = helper !== null ? markdown(helper) : null;
 $: currentPlaceholder = (currentValue.length > 0) ? currentValue.map((file) => file.name).join(', ') : placeholder;
 
 // -----------------------------------------------------------------------------------------------
@@ -48,15 +46,21 @@ const handleChange = (event: Event): void => {
     files.push((target.files as FileList)[index]);
   }
   currentValue = files;
-  dispatch('change', [files, event]);
+  if (onChange !== undefined) {
+    onChange(files, event as InputEvent);
+  }
 };
 
 const handleFocus = (event: FocusEvent): void => {
-  dispatch('focus', [currentValue, event]);
+  if (onFocus !== undefined) {
+    onFocus(currentValue, event);
+  }
 };
 
 const handleBlur = (event: FocusEvent): void => {
-  dispatch('blur', [currentValue, event]);
+  if (onBlur !== undefined) {
+    onBlur(currentValue, event);
+  }
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -74,13 +78,13 @@ $: updateValue(value);
   id={id}
   class={className}
 >
-  {#if label !== null}
+  {#if label !== undefined}
     <label for={randomId} class="ui-file-picker__label">
-      {@html parsedLabel}
+      {@html markdown(label)}
     </label>
   {/if}
   <div class="ui-file-picker__wrapper">
-    {#if icon !== null && iconPosition === 'left'}
+    {#if icon !== undefined && iconPosition === 'left'}
       <UIIcon name={icon} />
     {/if}
     <input
@@ -95,16 +99,16 @@ $: updateValue(value);
       class="ui-file-picker__wrapper__field"
       tabIndex={modifiers.includes('disabled') ? -1 : 0}
     >
-    {#if icon !== null && iconPosition === 'right'}
+    {#if icon !== undefined && iconPosition === 'right'}
       <UIIcon name={icon} />
     {/if}
     <span class="ui-file-picker__wrapper__placeholder">
       {currentPlaceholder}
     </span>
   </div>
-  {#if helper !== null}
+  {#if helper !== undefined}
     <span  class="ui-file-picker__helper">
-      {@html parsedHelper}
+      {@html markdown(helper)}
     </span>
   {/if}
 </div>

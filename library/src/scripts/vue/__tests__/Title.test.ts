@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UITitle from 'scripts/vue/Title.vue';
+import UITitle from 'scripts/vue/UITitle.vue';
 import { render } from '@testing-library/vue';
 
 describe('vue/UITitle', () => {

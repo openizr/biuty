@@ -8,22 +8,19 @@
  *
  */
 
-import UIIcon from 'scripts/vue/Icon.vue';
 import { ref, computed, watch } from 'vue';
+import UIIcon from 'scripts/vue/UIIcon.vue';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
-const emit = defineEmits({
-  focus: null,
-  blur: null,
-  change: null,
-});
+type FocusEventHandler = (event: FocusEvent) => void;
+type ChangeEventHandler = (value: File[], event: InputEvent) => void;
 
 const props = withDefaults(defineProps<{
   id?: string;
   name: string;
-  accept: string;
+  accept?: string;
   icon?: string;
   multiple?: boolean;
   iconPosition?: 'left' | 'right';
@@ -32,22 +29,27 @@ const props = withDefaults(defineProps<{
   helper?: string;
   modifiers?: string;
   placeholder?: string;
+  onBlur?: FocusEventHandler;
+  onFocus?: FocusEventHandler;
+  onChange?: ChangeEventHandler;
 }>(), {
   modifiers: '',
   id: undefined,
   icon: undefined,
   label: undefined,
+  accept: undefined,
   helper: undefined,
   iconPosition: 'left',
   value: [] as undefined,
   placeholder: undefined,
+  onBlur: undefined,
+  onFocus: undefined,
+  onChange: undefined,
 });
 
 const randomId = ref(generateRandomId());
 const currentValue = ref(props.value);
-const parsedLabel = computed(() => markdown(props.label));
-const parsedHelper = computed(() => markdown(props.helper));
-const className = computed(() => buildClass('ui-file-picker', props.modifiers + (props.multiple ? ' multiple' : '')));
+const className = computed(() => buildClass('ui-file-picker', `${props.modifiers} ${props.multiple ? ' multiple' : ''}`));
 const currentPlaceholder = computed(() => ((currentValue.value.length > 0)
   ? currentValue.value.map((file) => file.name).join(', ')
   : props.placeholder));
@@ -64,7 +66,9 @@ const handleChange = (event: InputEvent): void => {
     files.push(target.files[index]);
   }
   currentValue.value = files;
-  emit('change', currentValue.value, event);
+  if (props.onChange !== undefined) {
+    props.onChange(currentValue.value, event);
+  }
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -84,9 +88,9 @@ watch(() => props.value, () => {
   >
     <label
       v-if="label !== undefined"
-      class="ui-file-picker__label"
       :for="randomId"
-      v-html="parsedLabel"
+      class="ui-file-picker__label"
+      v-html="markdown(props.label)"
     />
     <div class="ui-file-picker__wrapper">
       <UIIcon
@@ -100,10 +104,10 @@ watch(() => props.value, () => {
         :accept="accept"
         :multiple="multiple"
         class="ui-file-picker__wrapper__field"
-        :tabindex="modifiers?.includes('disabled') ? -1 : 0"
+        :tabindex="modifiers.includes('disabled') ? -1 : 0"
         @change="handleChange"
-        @blur="$emit('blur', currentValue, $event)"
-        @focus="$emit('focus', currentValue, $event)"
+        @blur="onBlur !== undefined && onBlur(currentValue, $event)"
+        @focus="onFocus !== undefined && onFocus(currentValue, $event)"
       >
       <UIIcon
         v-if="icon !== undefined && iconPosition === 'right'"
@@ -116,7 +120,7 @@ watch(() => props.value, () => {
     <span
       v-if="helper !== undefined"
       class="ui-file-picker__helper"
-      v-html="parsedHelper"
+      v-html="markdown(props.helper)"
     />
   </div>
 </template>

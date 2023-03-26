@@ -23,7 +23,6 @@ const props = withDefaults(defineProps<{
   itemProp: undefined,
 });
 
-const parsedLabel = computed(() => markdown(props.label));
 const className = computed(() => buildClass('ui-p', props.modifiers));
 </script>
 
@@ -32,6 +31,6 @@ const className = computed(() => buildClass('ui-p', props.modifiers));
     :id="id"
     :class="className"
     :itemprop="itemProp"
-    v-html="parsedLabel"
+    v-html="markdown(props.label)"
   />
 </template>

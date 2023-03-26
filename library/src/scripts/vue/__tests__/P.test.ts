@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UIP from 'scripts/vue/P.vue';
+import UIP from 'scripts/vue/UIP.vue';
 import { render } from '@testing-library/vue';
 
 describe('vue/UIP', () => {

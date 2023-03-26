@@ -8,17 +8,16 @@
  *
  */
 
+import { tick } from 'svelte';
 import UIIcon from 'scripts/svelte/Icon.svelte';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
-import { createEventDispatcher, tick } from 'svelte';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
 type KeyType = 'default' | 'ctrlKey' | 'altKey' | 'shiftKey' | 'metaKey';
-type AllowedKeys = Partial<Record<KeyType, RegExp | null>>;
+type AllowedKeys = Partial<Record<KeyType, RegExp>>;
 type Transform = (value: string, selectionStart: number) => [string, number?];
 
-const dispatch = createEventDispatcher();
 const defaultTransform: Transform = (newValue) => [newValue];
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
 const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|Home|End|AltGraph|NumLock|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp/;
@@ -28,7 +27,7 @@ export let name: string;
 export let modifiers = '';
 export let readonly = false;
 export let autofocus = false;
-export let debounceTimeout = 0;
+export let debounceTimeout = 50;
 export let allowedKeys: AllowedKeys = {};
 export let autocomplete: 'on' | 'off' = 'on';
 export let id: string | undefined = undefined;
@@ -42,27 +41,31 @@ export let helper: string | undefined = undefined;
 export let iconPosition: 'left' | 'right' = 'left';
 export let maxlength: number | undefined = undefined;
 export let placeholder: string | undefined = undefined;
-export let transform: Transform | null = defaultTransform;
+export let transform: Transform | undefined = defaultTransform;
 export let type: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url' = 'text';
+export let onFocus: ((value: string, event: FocusEvent) => void) | undefined = undefined;
+export let onBlur: ((value: string, event: FocusEvent) => void) | undefined = undefined;
+export let onPaste: ((value: string, event: ClipboardEvent) => void) | undefined = undefined;
+export let onChange: ((value: string, event: InputEvent) => void) | undefined = undefined;
+export let onKeyDown: ((value: string, event: KeyboardEvent) => void) | undefined = undefined;
+export let onIconKeyDown: ((event: KeyboardEvent) => void) | undefined = undefined;
+export let onIconClick: ((event: MouseEvent) => void) | undefined = undefined;
 
 let userIsTyping = false;
 const randomId = generateRandomId();
 let timeout: number | null = null;
 let cursorPosition: number | null = null;
-const actualTransform = transform || defaultTransform;
 let currentValue = defaultTransform(value, 0)[0];
 let inputRef: HTMLInputElement | null = null;
 
 $: isDisabled = modifiers.includes('disabled');
 $: className = buildClass('ui-textfield', modifiers);
-$: parsedLabel = label !== null ? markdown(label) : null;
-$: parsedHelper = helper !== null ? markdown(helper) : null;
 // Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
 $: globalAllowedKeys = keyTypes.reduce((allAllowedKeys, keyType) => {
   const allowedKeysForType = allowedKeys[keyType];
   return {
     ...allAllowedKeys,
-    [keyType]: (allowedKeysForType !== undefined && allowedKeysForType !== null)
+    [keyType]: (allowedKeysForType !== undefined)
       ? new RegExp(allowedKeysForType.source, `${allowedKeysForType.flags}g`)
       : null,
   };
@@ -89,7 +92,7 @@ const handleChange = (event: Event, filter = true): void => {
   const filteredValue = (filter && globalAllowedKeys.default !== null)
     ? (target.value.match(globalAllowedKeys.default as RegExp) || []).join('')
     : target.value;
-  const [newValue, newCursorPosition] = actualTransform(filteredValue, selectionStart);
+  const [newValue, newCursorPosition] = (transform as Transform)(filteredValue, selectionStart);
   if (newCursorPosition !== undefined) {
     cursorPosition = newCursorPosition;
   } else {
@@ -106,30 +109,32 @@ const handleChange = (event: Event, filter = true): void => {
   // still typing to improve performance and make UI more reactive on low-perfomance devices.
   timeout = setTimeout(() => {
     userIsTyping = false;
-    dispatch('change', { newValue, event });
+    if (onChange !== undefined) {
+      onChange(newValue, event as InputEvent);
+    }
   }, debounceTimeout) as unknown as number;
   updateCursorPosition();
 };
 
 const handleKeyDown = (event: KeyboardEvent): void => {
-  let allowedKeysForEvent = allowedKeys.default || null;
+  let allowedKeysForEvent = allowedKeys.default;
   if (event.ctrlKey === true) {
-    allowedKeysForEvent = allowedKeys.ctrlKey || null;
+    allowedKeysForEvent = allowedKeys.ctrlKey;
   } else if (event.shiftKey === true) {
-    allowedKeysForEvent = allowedKeys.shiftKey || null;
+    allowedKeysForEvent = allowedKeys.shiftKey;
   } else if (event.altKey === true) {
-    allowedKeysForEvent = allowedKeys.altKey || null;
+    allowedKeysForEvent = allowedKeys.altKey;
   } else if (event.metaKey === true) {
-    allowedKeysForEvent = allowedKeys.metaKey || null;
+    allowedKeysForEvent = allowedKeys.metaKey;
   }
   if (
-    allowedKeysForEvent !== null
+    allowedKeysForEvent !== undefined
     && !allowedKeysForEvent.test(event.key)
     && !specialKeysRegexp.test(event.key)
   ) {
     event.preventDefault();
-  } else {
-    dispatch('keyDown', { event });
+  } else if (onKeyDown !== undefined) {
+    onKeyDown(currentValue, event);
   }
 };
 
@@ -149,23 +154,33 @@ const handlePaste = (event: ClipboardEvent): void => {
     },
   } as unknown as InputEvent, false);
   event.preventDefault();
-  dispatch('paste', { event });
+  if (onPaste !== undefined) {
+    onPaste(currentValue, event);
+  }
 };
 
 const handleBlur = (event: FocusEvent): void => {
-  dispatch('blur', { event, currentValue });
+  if (onBlur !== undefined) {
+    onBlur(currentValue, event);
+  }
 };
 
 const handleFocus = (event: FocusEvent): void => {
-  dispatch('focus', { event, currentValue });
+  if (onFocus !== undefined) {
+    onFocus(currentValue, event);
+  }
 };
 
 const handleIconClick = (event: MouseEvent): void => {
-  dispatch('iconClick', event);
+  if (onIconClick !== undefined) {
+    onIconClick(event);
+  }
 };
 
 const handleIconKeyDown = (event: KeyboardEvent): void => {
-  dispatch('iconKeyDown', event);
+  if (onIconKeyDown !== undefined) {
+    onIconKeyDown(event);
+  }
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -188,13 +203,13 @@ $: {
 id={id}
   class={className}
 >
-  {#if label !== null}
+  {#if label !== undefined}
     <label for={randomId} class="ui-textfield__label">
-      {@html parsedLabel}
+      {@html markdown(label)}
     </label>
   {/if}
   <div class="ui-textfield__wrapper">
-    {#if icon !== null && iconPosition === 'left'}
+    {#if icon !== undefined && iconPosition === 'left'}
       <span
         tabIndex="0"
         role="button"
@@ -225,10 +240,10 @@ id={id}
       on:keydown={handleKeyDown}
       autocomplete={autocomplete}
       class="ui-textfield__wrapper__field"
-      on:paste={(readonly !== true && !isDisabled) ? handlePaste : null}
-      on:input={(readonly !== true && !isDisabled) ? handleChange : null}
+      on:paste={(!readonly && !isDisabled) ? handlePaste : null}
+      on:input={(!readonly && !isDisabled) ? handleChange : null}
     >
-    {#if icon !== null && iconPosition === 'right'}
+    {#if icon !== undefined && iconPosition === 'right'}
       <span
         tabIndex="0"
         role="button"
@@ -240,9 +255,9 @@ id={id}
       </span>
     {/if}
   </div>
-  {#if helper !== null}
+  {#if helper !== undefined}
     <span  class="ui-textfield__helper">
-      {@html parsedHelper}
+      {@html markdown(helper)}
     </span>
   {/if}
 </div>

@@ -17,11 +17,11 @@ export let modifiers = '';
 export let id: string | undefined = undefined;
 export let rel: string | undefined = undefined;
 export let target: string | undefined = undefined;
+export let onClick: ((event: MouseEvent) => void) | undefined = undefined;
 
-$: parsedLabel = markdown(label);
 $: className = buildClass('ui-link', modifiers);
 </script>
 
-<a {id} {rel} {href} class={className} {target} on:click>
-  {@html parsedLabel}
+<a {id} {rel} {href} class={className} {target} on:click={onClick}>
+  {@html markdown(label)}
 </a>

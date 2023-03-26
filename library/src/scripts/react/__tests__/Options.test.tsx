@@ -159,7 +159,7 @@ describe('react/UIOptions', () => {
 
   test('renders correctly - select with default value', () => {
     const defaultOptions = [{ value: 'test' }];
-    const { container } = render(<JSXUIOptions name="test" select options={defaultOptions} value={null} />);
+    const { container } = render(<JSXUIOptions name="test" select options={defaultOptions} />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

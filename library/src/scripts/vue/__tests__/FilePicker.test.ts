@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UIFilePicker from 'scripts/vue/FilePicker.vue';
+import UIFilePicker from 'scripts/vue/UIFilePicker.vue';
 import { render, fireEvent } from '@testing-library/vue';
 
 vi.mock('scripts/helpers/generateRandomId');

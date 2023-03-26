@@ -16,10 +16,9 @@ export let modifiers = '';
 export let id: string | undefined = undefined;
 export let itemProp: string | undefined = undefined;
 
-$: parsedLabel = markdown(label);
 $: className = buildClass('ui-p', modifiers);
 </script>
 
 <p {id} class={className} itemprop={itemProp}>
-  {@html parsedLabel}
+  {@html markdown(label)}
 </p>

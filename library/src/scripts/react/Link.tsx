@@ -12,10 +12,7 @@ import buildClass from 'scripts/helpers/buildClass';
 /**
  * Hyperlink.
  */
-function UILink(props: UILinkProps & {
-  /** `click` event handler. */
-  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-}): JSX.Element {
+function UILink(props: UILinkProps): JSX.Element {
   const { rel, id } = props;
   const { href, label } = props;
   const { onClick, modifiers = '', target } = props;
@@ -26,8 +23,8 @@ function UILink(props: UILinkProps & {
       rel={rel}
       href={href}
       target={target}
-      onClick={onClick}
       className={buildClass('ui-link', modifiers)}
+      onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
     >
       {label}
     </a>

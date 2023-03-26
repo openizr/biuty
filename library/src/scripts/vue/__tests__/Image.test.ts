@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UIImage from 'scripts/vue/Image.vue';
+import UIImage from 'scripts/vue/UIImage.vue';
 import { render } from '@testing-library/vue';
 
 describe('vue/UIImage', () => {

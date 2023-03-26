@@ -13,19 +13,10 @@ import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 
 const props = withDefaults(defineProps<{
-  /** `id` HTML attribute to set to the element. */
   id?: string;
-
-  /** Heading's content. Supports biuty light markdown. */
   label: string;
-
-  /** `itemprop` HTML attribute to set to the element. */
   itemProp?: string;
-
-  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
-
-  /** Heading HTML level (1 to 6). This will determine which HTML tag to use. Defaults to "1". */
   level?: '1' | '2' | '3' | '4' | '5' | '6';
 }>(), {
   level: '1',
@@ -34,7 +25,6 @@ const props = withDefaults(defineProps<{
   itemProp: undefined,
 });
 
-const parsedLabel = computed(() => markdown(props.label));
 const className = computed(() => {
   let fullModifiers = props.modifiers;
   // Checks if any of the given modifiers corresponds to a valid level (1, 2, ...).
@@ -52,6 +42,6 @@ const className = computed(() => {
     :id="id"
     :class="className"
     :itemprop="itemProp"
-    v-html="parsedLabel"
+    v-html="markdown(props.label)"
   />
 </template>
