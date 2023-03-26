@@ -17,7 +17,6 @@ export let id: string | undefined = undefined;
 export let itemProp: string | undefined = undefined;
 export let level: '1' | '2' | '3' | '4' | '5' | '6' = '1';
 
-$: parsedLabel = markdown(label);
 $: fullModifiers = modifiers;
 // Checks if any of the given modifiers corresponds to a valid level (1, 2, ...).
 // By default, if no level is specified in modifiers, we set it to the `level` prop.
@@ -29,26 +28,26 @@ $: className = buildClass('ui-title', fullModifiers);
 
 {#if level === '1'}
   <h1 {id} class={className} itemprop={itemProp}>
-    {@html parsedLabel}
+    {@html markdown(label)}
   </h1>
 {:else if level === '2'}
   <h2 {id} class={className} itemprop={itemProp}>
-    {@html parsedLabel}
+    {@html markdown(label)}
   </h2>
 {:else if level === '3'}
   <h3 {id} class={className} itemprop={itemProp}>
-    {@html parsedLabel}
+    {@html markdown(label)}
   </h3>
 {:else if level === '4'}
   <h4 {id} class={className} itemprop={itemProp}>
-    {@html parsedLabel}
+    {@html markdown(label)}
   </h4>
 {:else if level === '5'}
   <h5 {id} class={className} itemprop={itemProp}>
-    {@html parsedLabel}
+    {@html markdown(label)}
   </h5>
 {:else}
   <h6 {id} class={className} itemprop={itemProp}>
-    {@html parsedLabel}
+    {@html markdown(label)}
   </h6>
 {/if}

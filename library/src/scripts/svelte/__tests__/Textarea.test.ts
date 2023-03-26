@@ -10,10 +10,10 @@
 import UITextarea from 'scripts/svelte/Textarea.svelte';
 import { render, fireEvent } from '@testing-library/svelte';
 
-vi.useFakeTimers();
-vi.mock('scripts/helpers/generateRandomId');
-
 describe('svelte/UITextarea', () => {
+  vi.mock('scripts/helpers/generateRandomId');
+  vi.useFakeTimers();
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -67,8 +67,7 @@ describe('svelte/UITextarea', () => {
 
   test('renders correctly - disabled', async () => {
     const onChange = vi.fn();
-    const { container, component } = render(UITextarea, { props: { name: 'test', modifiers: 'disabled' } });
-    component.$on('change', onChange);
+    const { container } = render(UITextarea, { props: { name: 'test', modifiers: 'disabled', onChange } });
     const textarea = container.getElementsByTagName('textarea')[0];
     await fireEvent.input(textarea, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();
@@ -82,8 +81,7 @@ describe('svelte/UITextarea', () => {
 
   test('renders correctly - readonly', async () => {
     const onChange = vi.fn();
-    const { container, component } = render(UITextarea, { props: { name: 'test', readonly: true } });
-    component.$on('change', onChange);
+    const { container } = render(UITextarea, { props: { name: 'test', readonly: true, onChange } });
     const textarea = container.getElementsByTagName('textarea')[0];
     await fireEvent.input(textarea, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();
@@ -96,29 +94,35 @@ describe('svelte/UITextarea', () => {
     const onChange = vi.fn();
     const onPaste = vi.fn();
     const onKeyDown = vi.fn();
-    const { container, component } = render(UITextarea, { props: { name: 'test', debounceTimeout: 250 } });
-    component.$on('blur', onBlur);
-    component.$on('focus', onFocus);
-    component.$on('paste', onPaste);
-    component.$on('change', onChange);
-    component.$on('keydown', onKeyDown);
+    const { container } = render(UITextarea, {
+      props: {
+        name: 'test',
+        onBlur,
+        onFocus,
+        onPaste,
+        onChange,
+        onKeyDown,
+        debounceTimeout: 250,
+      },
+    });
     const textarea = container.getElementsByTagName('textarea')[0];
     await fireEvent.focus(textarea);
     await fireEvent.blur(textarea);
     await fireEvent.keyDown(textarea, { key: 'a' });
     await fireEvent.input(textarea, { target: { value: 'new 015 test' } });
+    vi.runAllTimers();
     await fireEvent.paste(textarea, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
     vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
-    expect(onFocus).toHaveBeenCalledWith(expect.any(Object));
+    expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));
     expect(onBlur).toHaveBeenCalledTimes(1);
-    expect(onBlur).toHaveBeenCalledWith(expect.any(Object));
+    expect(onBlur).toHaveBeenCalledWith('', expect.any(Object));
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(expect.any(Object));
+    expect(onChange).toHaveBeenCalledWith('new 015 test', expect.any(Object));
     expect(onKeyDown).toHaveBeenCalledTimes(1);
-    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onKeyDown).toHaveBeenCalledWith('', expect.any(Object));
     expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledWith('new 015 test', expect.any(Object));
   });
 });

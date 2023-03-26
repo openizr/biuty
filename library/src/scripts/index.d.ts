@@ -25,7 +25,7 @@ interface UIPProps {
   /** `itemprop` HTML attribute to set to the element. */
   itemProp?: string;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
 }
 
@@ -39,7 +39,7 @@ interface UIIconProps {
   /** Icon's name. */
   name: string;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
 }
 
@@ -56,7 +56,7 @@ interface UITitleProps {
   /** `itemprop` HTML attribute to set to the element. */
   itemProp?: string;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
 
   /** Heading HTML level (1 to 6). This will determine which HTML tag to use. Defaults to "1". */
@@ -82,8 +82,15 @@ interface UILinkProps {
   /** `href` HTML attribute to set to the element. */
   href: string;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
+
+  /**
+   * `click` event handler.
+   *
+   * @param event `click` DOM event.
+   */
+  onClick?: (event: MouseEvent) => void;
 }
 
 /**
@@ -105,8 +112,22 @@ interface UIButtonProps {
   /** Position of the icon relatively to the label. Defaults to "left". */
   iconPosition?: 'left' | 'right';
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
+
+  /**
+   * `click` event handler.
+   *
+   * @param event `click` DOM event.
+   */
+  onClick?: (event: MouseEvent) => void;
+
+  /**
+   * `focus` event handler.
+   *
+   * @param event `focus` DOM event.
+   */
+  onFocus?: (event: FocusEvent) => void;
 }
 
 /**
@@ -127,7 +148,7 @@ interface UITooltipProps {
    */
   description?: string;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `"top"`. */
   modifiers?: string;
 }
 
@@ -150,7 +171,7 @@ interface UIImageProps {
   /** `itemProp` HTML attribute to set to the element. */
   itemProp?: string;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
 }
 
@@ -203,20 +224,40 @@ interface UIOptionsProps {
    * Whether user can select several options. Determines how the component will be displayed.
    * `false` will display options as radio buttons, `true` will display them as check-boxes,
    * and `true` along with `select` set to `true` will display a multi-choices drop-down.
+   * Defaults to `false`.
    * */
   multiple?: boolean;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
 
   /**
    * Initial value (pre-selected options).
    * Updating this prop with a new value will replace the current value by the one passed.
+   * Defaults to `[]`.
    */
   value?: string | string[];
 
   /** Pass this prop if you want to force options list positionning in `select` mode. */
   selectPosition?: 'top' | 'bottom';
+
+  /**
+   * `focus` event handler.
+   *
+   * @param value Focused option's value.
+   *
+   * @param event `focus` DOM event.
+   */
+  onFocus?: (value: string, event: FocusEvent) => void;
+
+  /**
+   * `change` event handler.
+   *
+   * @param value Current options' value.
+   *
+   * @param event `input` DOM event.
+   */
+  onChange?: (value: string | string[], event: InputEvent) => void;
 }
 
 /**
@@ -246,7 +287,7 @@ interface UITextfieldProps {
 
   /**
    * Input's value. Updating this prop with a new value will replace the current value by
-   * the one passed.
+   * the one passed. Defaults to `""`.
    */
   value?: string;
 
@@ -262,7 +303,7 @@ interface UITextfieldProps {
   /** `maxlength` HTML attribute to set to the element. */
   maxlength?: number;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
 
   /** `autofocus` HTML attribute to set to the element. Defaults to `false`. */
@@ -295,7 +336,7 @@ interface UITextfieldProps {
    * Number of milliseconds to wait before triggering the `change` event. If user changes the
    * input value during that time, the timeout is reset. This is especially useful to limit the
    * number of triggers, if you want to use this component as an autocomplete performing HTTP
-   * requests on user inputs, for instance. Defaults to `0`.
+   * requests on user inputs, for instance. Defaults to `50`.
    */
   debounceTimeout?: number;
 
@@ -315,6 +356,65 @@ interface UITextfieldProps {
    * after formatting.
    */
   transform?: (value: string, selectionStart: number) => [string, number?];
+
+  /**
+   * `focus` event handler.
+   *
+   * @param value Current textfield's value.
+   *
+   * @param event `focus` DOM event.
+   */
+  onFocus?: (value: string, event: FocusEvent) => void;
+
+  /**
+   * `blur` event handler.
+   *
+   * @param value Current textfield's value.
+   *
+   * @param event `blur` DOM event.
+   */
+  onBlur?: (value: string, event: FocusEvent) => void;
+
+  /**
+   * `paste` event handler.
+   *
+   * @param value Current textfield's value.
+   *
+   * @param event `clipboard` DOM event.
+   */
+  onPaste?: (value: string, event: ClipboardEvent) => void;
+
+  /**
+   * `change` event handler.
+   *
+   * @param value Current textfield's value.
+   *
+   * @param event `input` DOM event.
+   */
+  onChange?: (value: string, event: InputEvent) => void;
+
+  /**
+   * `keyDown` event handler.
+   *
+   * @param value Current textfield's value.
+   *
+   * @param event `keyDown` DOM event.
+   */
+  onKeyDown?: (value: string, event: KeyboardEvent) => void;
+
+  /**
+   * `iconKeyDown` event handler.
+   *
+   * @param event `keyDown` DOM event.
+   */
+  onIconKeyDown?: (event: KeyboardEvent) => void;
+
+  /**
+   * `iconClick` event handler.
+   *
+   * @param event `click` DOM event.
+   */
+  onIconClick?: (event: MouseEvent) => void;
 }
 
 /**
@@ -335,7 +435,7 @@ interface UITextareaProps {
 
   /**
    * Textarea's value. Updating this prop with a new value will replace the current value by
-   * the one passed.
+   * the one passed. Defaults to `""`.
    */
   value?: string;
 
@@ -351,7 +451,7 @@ interface UITextareaProps {
   /** `maxlength` HTML attribute to set to the element. */
   maxlength?: number;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
 
   /** `autofocus` HTML attribute to set to the element. Defaults to `false`. */
@@ -373,9 +473,54 @@ interface UITextareaProps {
    * Number of milliseconds to wait before triggering the `change` event. If user changes the
    * textarea value during that time, the timeout is reset. This is especially useful to limit the
    * number of triggers, if you want to use this component as an autocomplete performing HTTP
-   * requests on user inputs, for instance. Defaults to `0`.
+   * requests on user inputs, for instance. Defaults to `50`.
    */
   debounceTimeout?: number;
+
+  /**
+   * `focus` event handler.
+   *
+   * @param value Current textarea's value.
+   *
+   * @param event `focus` DOM event.
+   */
+  onFocus?: (value: string, event: FocusEvent) => void;
+
+  /**
+   * `blur` event handler.
+   *
+   * @param value Current textarea's value.
+   *
+   * @param event `blur` DOM event.
+   */
+  onBlur?: (value: string, event: FocusEvent) => void;
+
+  /**
+   * `paste` event handler.
+   *
+   * @param value Current textarea's value.
+   *
+   * @param event `clipboard` DOM event.
+   */
+  onPaste?: (value: string, event: ClipboardEvent) => void;
+
+  /**
+   * `change` event handler.
+   *
+   * @param value Current textarea's value.
+   *
+   * @param event `input` DOM event.
+   */
+  onChange?: (value: string, event: InputEvent) => void;
+
+  /**
+   * `keyDown` event handler.
+   *
+   * @param value Current textarea's value.
+   *
+   * @param event `keyDown` DOM event.
+   */
+  onKeyDown?: (value: string, event: KeyboardEvent) => void;
 }
 
 /**
@@ -389,7 +534,7 @@ interface UIFilePickerProps {
   name: string;
 
   /** `accept` HTML attribute to set to the element. */
-  accept: string;
+  accept?: string;
 
   /** Name of the icon to set to the element. */
   icon?: string;
@@ -412,9 +557,36 @@ interface UIFilePickerProps {
   /** Element's helper. Supports biuty light markdown. */
   helper?: string;
 
-  /** List of modifiers to apply to the element. */
+  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
 
   /** Element's placeholder. */
   placeholder?: string;
+
+  /**
+   * `blur` event handler.
+   *
+   * @param value Current file picker's value.
+   *
+   * @param event `blur` DOM event.
+   */
+  onBlur?: (value: File[], event: FocusEvent) => void;
+
+  /**
+   * `focus` event handler.
+   *
+   * @param value Current file picker's value.
+   *
+   * @param event `focus` DOM event.
+   */
+  onFocus?: (value: File[], event: FocusEvent) => void;
+
+  /**
+   * `change` event handler.
+   *
+   * @param value Current file picker's value.
+   *
+   * @param event `input` DOM event.
+   */
+  onChange?: (value: File[], event: InputEvent) => void;
 }

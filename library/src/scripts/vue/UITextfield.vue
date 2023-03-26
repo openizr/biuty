@@ -13,7 +13,7 @@ import {
   onUpdated,
   ref, watch,
 } from 'vue';
-import UIIcon from 'scripts/vue/Icon.vue';
+import UIIcon from 'scripts/vue/UIIcon.vue';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
@@ -27,105 +27,43 @@ type AllowedKeys = {
 };
 type KeyType = 'default' | 'ctrlKey' | 'altKey' | 'shiftKey' | 'metaKey';
 type Transform = (value: string, selectionStart: number) => [string, number?];
-
-const emit = defineEmits({
-  focus: null,
-  blur: null,
-  paste: null,
-  change: null,
-  keyDown: null,
-  iconClick: null,
-  iconKeyDown: null,
-});
+type MouseEventHandler = (event: MouseEvent) => void;
+type FocusEventHandler = (value: string, event: FocusEvent) => void;
+type ChangeEventHandler = (value: string, event: InputEvent) => void;
+type KeyboardEventHandler = (value: string, event: KeyboardEvent) => void;
+type ClipboardEventHandler = (value: string, event: ClipboardEvent) => void;
 
 const props = withDefaults(defineProps<{
-  /** `id` HTML attribute to set to the element. */
   id?: string;
-
-  /** `min` HTML attribute to set to the element. */
   min?: number;
-
-  /** `max` HTML attribute to set to the element. */
   max?: number;
-
-  /** `name` HTML attribute to set to the element. */
   name: string;
-
-  /** `step` HTML attribute to set to the element. */
   step?: number;
-
-  /** Name of the icon to set to the element. */
   icon?: string;
-
-  /** `site` HTML attribute to set to the element. */
   size?: number;
-
-  /**
-   * Input's value. Updating this prop with a new value will replace the current value by
-   * the one passed.
-   */
   value?: string;
-
-  /** Element's label. Supports biuty light markdown. */
   label?: string;
-
-  /** Element's helper. Supports biuty light markdown. */
   helper?: string;
-
-  /** `readonly` HTML attribute to set to the element. Defaults to `false`. */
   readonly?: boolean;
-
-  /** `maxlength` HTML attribute to set to the element. */
   maxlength?: number;
-
-  /** List of modifiers to apply to the element. Defaults to `""`. */
   modifiers?: string;
-
-  /** `autofocus` HTML attribute to set to the element. Defaults to `false`. */
   autofocus?: boolean;
-
-  /** `placeholder` HTML attribute to set to the element. Defaults to `false`. */
   placeholder?: string;
-
-  /** `autocomplete` HTML attribute to set to the element. Defaults to `on`. */
   autocomplete?: 'on' | 'off';
-
-  /** Position of the icon relatively to the label. */
   iconPosition?: 'left' | 'right';
-
-  /**
-   * List of RegExp patterns used to filter user inputs and keep only authorized characters.
-   * Useful for purpose-specific inputs, like phone numbers (you only want to allow digits).
-   * `default` is used to filter all inputs, and the others keys are used to allow specific
-   * patterns when holding special keys, like `Ctrl`.
-   */
   allowedKeys?: AllowedKeys;
-
-  /**
-   * Number of milliseconds to wait before triggering the `change` event. If user changes the
-   * input value during that time, the timeout is reset. This is especially useful to limit the
-   * number of triggers, if you want to use this component as an autocomplete performing HTTP
-   * requests on user inputs, for instance. Defaults to `0`.
-   */
   debounceTimeout?: number;
-
-  /** `type` HTML attribute to set to the element. Defaults to `text`. */
   type?: 'text' | 'email' | 'number' | 'password' | 'search' | 'tel' | 'url';
-
-  /**
-   * Transformation function that will format input value.
-   * This is especially useful for purpose-specific inputs, like phone numbers (you want to format
-   * the number to something like (XXX) XXX-XXXX).
-   *
-   * @param value Input value to transform.
-   *
-   * @param selectionStart Current cursor position in the input.
-   *
-   * @returns An array of at least the formatted value, and optionally the new cursor position
-   * after formatting.
-   */
   transform?: Transform;
+  onFocus?: FocusEventHandler;
+  onBlur?: FocusEventHandler;
+  onPaste?: ClipboardEventHandler;
+  onChange?: ChangeEventHandler;
+  onKeyDown?: KeyboardEventHandler;
+  onIconKeyDown?: KeyboardEventHandler;
+  onIconClick?: MouseEventHandler;
 }>(), {
+  value: '',
   type: 'text',
   modifiers: '',
   min: undefined,
@@ -137,7 +75,6 @@ const props = withDefaults(defineProps<{
   icon: undefined,
   step: undefined,
   size: undefined,
-  value: undefined,
   label: undefined,
   helper: undefined,
   autocomplete: 'on',
@@ -147,6 +84,13 @@ const props = withDefaults(defineProps<{
   placeholder: undefined,
   allowedKeys: {} as undefined,
   transform: (value: string): [string, number?] => [value],
+  onFocus: undefined,
+  onBlur: undefined,
+  onChange: undefined,
+  onPaste: undefined,
+  onKeyDown: undefined,
+  onIconKeyDown: undefined,
+  onIconClick: undefined,
 });
 
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
@@ -154,7 +98,7 @@ const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|
 
 const timeout = ref(null);
 const inputRef = ref(null);
-const reverseTimeout = ref(null);
+const isUserTyping = ref(false);
 const cursorPosition = ref(null);
 const randomId = ref(generateRandomId());
 const parsedLabel = computed(() => markdown(props.label));
@@ -180,7 +124,7 @@ const globalAllowedKeys = computed(() => keyTypes.reduce((allAllowedKeys, keyTyp
 
 const handleChange = (event: InputEvent, filter = true): void => {
   clearTimeout(timeout.value);
-  clearTimeout(reverseTimeout.value);
+  isUserTyping.value = true;
   const target = event.target as HTMLInputElement;
   const { selectionStart } = target;
   const filteredValue = (filter && globalAllowedKeys.value.default !== null)
@@ -202,7 +146,10 @@ const handleChange = (event: InputEvent, filter = true): void => {
   // This debounce system prevents triggering `onChange` callback too many times when user is
   // still typing to improve performance and make UI more reactive on low-perfomance devices.
   timeout.value = setTimeout(() => {
-    emit('change', newValue, event);
+    isUserTyping.value = false;
+    if (props.onChange !== undefined) {
+      props.onChange(newValue, event);
+    }
   }, props.debounceTimeout);
 };
 
@@ -224,8 +171,8 @@ const handleKeyDown = (event: KeyboardEvent): void => {
     && !specialKeysRegexp.test(event.key)
   ) {
     event.preventDefault();
-  } else {
-    emit('keyDown', event);
+  } else if (props.onKeyDown !== undefined) {
+    props.onKeyDown(currentValue.value, event);
   }
 };
 
@@ -244,7 +191,9 @@ const handlePaste = (event: ClipboardEvent): void => {
     },
   } as unknown as InputEvent, false);
   event.preventDefault();
-  emit('paste', event);
+  if (props.onPaste !== undefined) {
+    props.onPaste(currentValue.value, event);
+  }
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -253,12 +202,11 @@ const handlePaste = (event: ClipboardEvent): void => {
 
 // Updates current value whenever `value` and `transform` props change.
 watch(() => [props.value, props.transform], () => {
-  clearTimeout(reverseTimeout.value);
   // Do not update current value immediatly while user is typing something else.
-  reverseTimeout.value = setTimeout(() => {
+  if (!isUserTyping.value) {
     const [newValue] = props.transform(props.value, 0);
     currentValue.value = newValue;
-  }, 150);
+  }
 });
 
 // Re-positions cursor at the right place when using transform function.
@@ -283,12 +231,12 @@ onUpdated(() => {
     />
     <div class="ui-textfield__wrapper">
       <span
-        v-if="icon !== undefined && iconPosition !== 'right'"
+        v-if="icon !== undefined && iconPosition === 'left'"
         tabIndex="0"
         role="button"
         class="ui-textfield__wrapper__icon"
-        @click="$emit('iconClick', $event)"
-        @keydown="$emit('iconKeyDown', $event)"
+        @click="onIconClick !== undefined && onIconClick($event)"
+        @keydown="onIconKeyDown !== undefined && onIconKeyDown($event)"
       >
         <UIIcon :name="icon" />
       </span>
@@ -310,8 +258,8 @@ onUpdated(() => {
         :disabled="isDisabled"
         :size="size === undefined ? 1 : size"
         @keydown="handleKeyDown"
-        @blur="$emit('blur', currentValue, $event)"
-        @focus="$emit('focus', currentValue, $event)"
+        @blur="onBlur !== undefined && onBlur(currentValue, $event)"
+        @focus="onFocus !== undefined && onFocus(currentValue, $event)"
         @paste="(readonly !== true && !isDisabled) ? handlePaste($event) : undefined"
         @input="(readonly !== true && !isDisabled) ? handleChange($event) : undefined"
       >
@@ -320,8 +268,8 @@ onUpdated(() => {
         tabIndex="0"
         role="button"
         class="ui-textfield__wrapper__icon"
-        @click="$emit('iconClick', $event)"
-        @keydown="$emit('iconKeyDown', $event)"
+        @click="onIconClick !== undefined && onIconClick($event)"
+        @keydown="onIconKeyDown !== undefined && onIconKeyDown($event)"
       >
         <UIIcon :name="icon" />
       </span>

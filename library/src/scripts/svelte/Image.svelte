@@ -18,7 +18,7 @@ export let id: string | undefined = undefined;
 export let itemProp: string | undefined = undefined;
 
 $: isCustomRatio = /^([0-9]+)x([0-9]+)$/i.test(ratio);
-$: className = buildClass('ui-image', `${ratio} ${modifiers || ''}`);
+$: className = buildClass('ui-image', `${ratio} ${modifiers}`);
 $: dimensions = (() => {
   let newDimensions;
   switch (ratio) {

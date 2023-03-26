@@ -19,33 +19,12 @@ const JSXUIIcon = UIIcon as JSXElement;
 
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
 const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|Home|End|AltGraph|NumLock|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp/;
-const defaultTransform = (value: string): string[] => [value];
+const defaultTransform = (value: string): [string, number?] => [value];
 
 /**
  * Text field.
  */
-function UITextfield(props: UITextfieldProps & {
-  /** `focus` event handler. */
-  onFocus?: React.FocusEventHandler<HTMLInputElement>;
-
-  /** `change` event handler. */
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-
-  /** `blur` event handler. */
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-
-  /** `paste` event handler. */
-  onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
-
-  /** `keyDown` event handler. */
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-
-  /** `iconKeyDown` event handler. */
-  onIconKeyDown?: React.KeyboardEventHandler<HTMLElement>;
-
-  /** `iconClick` event handler. */
-  onIconClick?: React.MouseEventHandler<HTMLElement>;
-}): JSX.Element {
+function UITextfield(props: UITextfieldProps): JSX.Element {
   const { min, max } = props;
   const { maxlength, onFocus } = props;
   const { type = 'text', size } = props;
@@ -89,14 +68,14 @@ function UITextfield(props: UITextfieldProps & {
       ? (event.target.value.match(globalAllowedKeys.default) || []).join('')
       : event.target.value;
     const { selectionStart } = event.target;
-    const [newValue, newCursorPosition] = transform(filteredValue, selectionStart);
+    const [newValue, newCursorPosition] = transform(filteredValue, selectionStart ?? 0);
     setCurrentValue(newValue);
     if (newCursorPosition !== undefined) {
       setCursorPosition(newCursorPosition);
     } else {
       // At this point, the input's value has already changed, which means the cursor's position is
       // at n + 1, which is why we substract 1 when checking last position.
-      const currentCursorPosition = event.target.selectionStart;
+      const currentCursorPosition = event.target.selectionStart ?? 0;
       const isAtTheEnd = currentCursorPosition - 1 >= currentValue.length;
       setCursorPosition(isAtTheEnd ? newValue.length : currentCursorPosition);
     }
@@ -104,8 +83,8 @@ function UITextfield(props: UITextfieldProps & {
     // still typing to improve performance and make UI more reactive on low-perfomance devices.
     timeout.current = setTimeout(() => {
       isUserTyping.current = false;
-      if (onChange !== undefined && onChange !== null) {
-        onChange(newValue, event);
+      if (onChange !== undefined) {
+        onChange(newValue, event as unknown as InputEvent);
       }
     }, debounceTimeout);
   };
@@ -128,7 +107,7 @@ function UITextfield(props: UITextfieldProps & {
     ) {
       event.preventDefault();
     } else if (onKeyDown) {
-      onKeyDown(event);
+      onKeyDown(currentValue, event as unknown as KeyboardEvent);
     }
   };
 
@@ -147,20 +126,20 @@ function UITextfield(props: UITextfieldProps & {
       },
     } as unknown as React.ChangeEvent<HTMLInputElement>, false);
     event.preventDefault();
-    if (onPaste !== undefined && onPaste !== null) {
-      onPaste(event);
+    if (onPaste !== undefined) {
+      onPaste(currentValue, event as unknown as ClipboardEvent);
     }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onBlur !== undefined && onBlur !== null) {
-      onBlur(currentValue, event);
+    if (onBlur !== undefined) {
+      onBlur(currentValue, event as unknown as FocusEvent);
     }
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onFocus !== undefined && onFocus !== null) {
-      onFocus(currentValue, event);
+    if (onFocus !== undefined) {
+      onFocus(currentValue, event as unknown as FocusEvent);
     }
   };
 
@@ -190,15 +169,15 @@ function UITextfield(props: UITextfieldProps & {
   // -----------------------------------------------------------------------------------------------
 
   const children = [
-    (icon !== null && icon !== undefined)
+    (icon !== undefined)
       ? (
         <span
           key="icon"
           tabIndex={0}
           role="button"
           className="ui-textfield__wrapper__icon"
-          onClick={onIconClick as React.MouseEventHandler<HTMLSpanElement>}
-          onKeyDown={onIconKeyDown as React.KeyboardEventHandler<HTMLSpanElement>}
+          onClick={onIconClick as unknown as React.MouseEventHandler<HTMLSpanElement>}
+          onKeyDown={onIconKeyDown as unknown as React.KeyboardEventHandler<HTMLSpanElement>}
         >
           <JSXUIIcon name={icon} />
         </span>
@@ -224,9 +203,9 @@ function UITextfield(props: UITextfieldProps & {
       placeholder={placeholder}
       autoComplete={autocomplete}
       className="ui-textfield__wrapper__field"
-      onPaste={(readonly === false && !isDisabled) ? handlePaste : undefined}
-      onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
-      onKeyDown={(readonly === false && !isDisabled) ? handleKeyDown : undefined}
+      onPaste={(!readonly && !isDisabled) ? handlePaste : undefined}
+      onChange={(!readonly && !isDisabled) ? handleChange : undefined}
+      onKeyDown={(!readonly && !isDisabled) ? handleKeyDown : undefined}
     />,
   ];
 
@@ -235,15 +214,22 @@ function UITextfield(props: UITextfieldProps & {
       id={id}
       className={className}
     >
-      {(label !== null && label !== undefined)
-        ? <label className="ui-textfield__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
-        : null}
+      {(label !== undefined) && (
+        <label
+          className="ui-textfield__label"
+          htmlFor={randomId}
+          dangerouslySetInnerHTML={{ __html: markdown(label) }}
+        />
+      )}
       <div className="ui-textfield__wrapper">
         {(iconPosition === 'left') ? children : children.reverse()}
       </div>
-      {(helper !== null && helper !== undefined)
-        ? <span className="ui-textfield__helper" dangerouslySetInnerHTML={{ __html: markdown(helper) }} />
-        : null}
+      {(helper !== undefined) && (
+        <span
+          className="ui-textfield__helper"
+          dangerouslySetInnerHTML={{ __html: markdown(helper) }}
+        />
+      )}
     </div>
   );
 }

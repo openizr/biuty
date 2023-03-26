@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UILink from 'scripts/vue/Link.vue';
+import UILink from 'scripts/vue/UILink.vue';
 import { render } from '@testing-library/vue';
 
 describe('vue/UILink', () => {

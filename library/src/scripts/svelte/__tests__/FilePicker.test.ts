@@ -87,20 +87,24 @@ describe('svelte/UIFilePicker', () => {
     const onChange = vi.fn();
     const onFocus = vi.fn();
     const onBlur = vi.fn();
-    const { container, component } = render(UIFilePicker, { props: { name: 'test' } });
-    component.$on('blur', onBlur);
-    component.$on('focus', onFocus);
-    component.$on('change', onChange);
+    const { container } = render(UIFilePicker, {
+      props: {
+        name: 'test',
+        onBlur,
+        onChange,
+        onFocus,
+      },
+    });
     const input = container.getElementsByTagName('input')[0];
     await fireEvent.focus(input);
     await fireEvent.input(input, { target: { files: [{ name: '/path/to/file1.png' }] } });
     await fireEvent.blur(input);
     expect(container.firstChild).toMatchSnapshot();
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(expect.any(Object));
+    expect(onChange).toHaveBeenCalledWith([{ name: '/path/to/file1.png' }], expect.any(Object));
     expect(onFocus).toHaveBeenCalledTimes(1);
-    expect(onFocus).toHaveBeenCalledWith(expect.any(Object));
+    expect(onFocus).toHaveBeenCalledWith([], expect.any(Object));
     expect(onBlur).toHaveBeenCalledTimes(1);
-    expect(onBlur).toHaveBeenCalledWith(expect.any(Object));
+    expect(onBlur).toHaveBeenCalledWith([{ name: '/path/to/file1.png' }], expect.any(Object));
   });
 });

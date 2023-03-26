@@ -24,6 +24,12 @@ exports[`svelte/UITooltip > renders correctly - basic 2 1`] = `
       i
     </button>
      
+    <span
+      class="ui-tooltip__description"
+      role="status"
+    >
+      undefined
+    </span>
   </div>
   <!--&lt;Tooltip&gt;-->
   <!--&lt;TestTooltip2&gt;-->

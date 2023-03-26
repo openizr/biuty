@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UIIcon from 'scripts/vue/Icon.vue';
+import UIIcon from 'scripts/vue/UIIcon.vue';
 import { render } from '@testing-library/vue';
 
 describe('vue/UIIcon', () => {

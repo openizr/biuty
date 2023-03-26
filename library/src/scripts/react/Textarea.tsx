@@ -14,22 +14,7 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 /**
  * Text area.
  */
-function UITextarea(props: UITextareaProps & {
-  /** `focus` event handler. */
-  onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
-
-  /** `change` event handler. */
-  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
-
-  /** `blur` event handler. */
-  onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-
-  /** `paste` event handler. */
-  onPaste?: React.ClipboardEventHandler<HTMLTextAreaElement>;
-
-  /** `keyDown` event handler. */
-  onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-}): JSX.Element {
+function UITextarea(props: UITextareaProps): JSX.Element {
   let { rows } = props;
   const { name } = props;
   const { autoresize = false } = props;
@@ -46,7 +31,7 @@ function UITextarea(props: UITextareaProps & {
   const [currentValue, setCurrentValue] = React.useState(value);
   const isDisabled = modifiers.includes('disabled');
   const className = buildClass('ui-textarea', modifiers);
-  rows = (autoresize && rows === null) ? Math.max(1, currentValue.split('\n').length) : rows;
+  rows = (autoresize && rows === undefined) ? Math.max(1, currentValue.split('\n').length) : rows;
 
   // -----------------------------------------------------------------------------------------------
   // CALLBACKS DECLARATION.
@@ -57,25 +42,37 @@ function UITextarea(props: UITextareaProps & {
     isUserTyping.current = true;
     const newValue = event.target.value;
     setCurrentValue(newValue);
-    if (onChange !== null) {
-      // This debounce system prevents triggering `onChange` callback too many times when user is
-      // still typing to save performance and make the UI more reactive on low-perfomance devices.
-      timeout.current = setTimeout(() => {
-        isUserTyping.current = false;
-        (onChange as JSXElement)(newValue, event);
-      }, debounceTimeout as number);
-    }
+    // This debounce system prevents triggering `onChange` callback too many times when user is
+    // still typing to save performance and make the UI more reactive on low-perfomance devices.
+    timeout.current = setTimeout(() => {
+      isUserTyping.current = false;
+      if (onChange !== undefined) {
+        onChange(newValue, event as unknown as InputEvent);
+      }
+    }, debounceTimeout as number);
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>): void => {
-    if (onBlur !== undefined && onBlur !== null) {
-      onBlur(currentValue, event);
+    if (onBlur !== undefined) {
+      onBlur(currentValue, event as unknown as FocusEvent);
     }
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>): void => {
-    if (onFocus !== undefined && onFocus !== null) {
-      onFocus(currentValue, event);
+    if (onFocus !== undefined) {
+      onFocus(currentValue, event as unknown as FocusEvent);
+    }
+  };
+
+  const handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>): void => {
+    if (onPaste !== undefined) {
+      onPaste(currentValue, event as unknown as ClipboardEvent);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>): void => {
+    if (onKeyDown !== undefined) {
+      onKeyDown(currentValue, event as unknown as KeyboardEvent);
     }
   };
 
@@ -100,9 +97,13 @@ function UITextarea(props: UITextareaProps & {
       id={id}
       className={className}
     >
-      {(label !== null)
-        ? <label className="ui-textarea__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
-        : null}
+      {(label !== undefined) && (
+        <label
+          className="ui-textarea__label"
+          htmlFor={randomId}
+          dangerouslySetInnerHTML={{ __html: markdown(label) }}
+        />
+      )}
       <div className="ui-textarea__wrapper">
         <textarea
           cols={cols}
@@ -119,14 +120,17 @@ function UITextarea(props: UITextareaProps & {
           placeholder={placeholder}
           autoComplete={autocomplete}
           className="ui-textarea__wrapper__field"
-          onChange={(readonly === false && !isDisabled) ? handleChange : undefined}
-          onPaste={(readonly === false && !isDisabled) ? onPaste as JSXElement : undefined}
-          onKeyDown={(readonly === false && !isDisabled) ? onKeyDown as JSXElement : undefined}
+          onChange={(!readonly && !isDisabled) ? handleChange : undefined}
+          onPaste={(!readonly && !isDisabled) ? handlePaste : undefined}
+          onKeyDown={(!readonly && !isDisabled) ? handleKeyDown : undefined}
         />
       </div>
-      {(helper !== null)
-        ? <span className="ui-textarea__helper" dangerouslySetInnerHTML={{ __html: markdown(helper) }} />
-        : null}
+      {(helper !== undefined) && (
+        <span
+          className="ui-textarea__helper"
+          dangerouslySetInnerHTML={{ __html: markdown(helper) }}
+        />
+      )}
     </div>
   );
 }

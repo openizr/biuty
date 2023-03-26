@@ -10,9 +10,10 @@
 import UITextfield from 'scripts/svelte/Textfield.svelte';
 import { render, fireEvent } from '@testing-library/svelte';
 
-vi.mock('scripts/helpers/generateRandomId');
-
 describe('svelte/UITextfield', () => {
+  vi.mock('scripts/helpers/generateRandomId');
+  vi.useFakeTimers();
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -77,8 +78,7 @@ describe('svelte/UITextfield', () => {
 
   test('renders correctly - with disabled', async () => {
     const onChange = vi.fn();
-    const { container, component } = render(UITextfield, { props: { name: 'test', modifiers: 'disabled' } });
-    component.$on('change', onChange);
+    const { container } = render(UITextfield, { props: { name: 'test', modifiers: 'disabled', onChange } });
     const input = container.getElementsByTagName('input')[0];
     await fireEvent.input(input, { value: 'new value' });
     expect(container.firstChild).toMatchSnapshot();
@@ -92,8 +92,7 @@ describe('svelte/UITextfield', () => {
 
   test('renders correctly - readonly', async () => {
     const onChange = vi.fn();
-    const { container, component } = render(UITextfield, { props: { name: 'test', readonly: true } });
-    component.$on('change', onChange);
+    const { container } = render(UITextfield, { props: { name: 'test', readonly: true, onChange } });
     const input = container.getElementsByTagName('input')[0];
     await fireEvent.keyDown(input, { key: 'A' });
     await fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
@@ -110,11 +109,14 @@ describe('svelte/UITextfield', () => {
     const onKeyDown = vi.fn();
     const onPaste = vi.fn();
     const transform = (value: string): [string, number?] => [value.toUpperCase()];
-    const { container, rerender, component } = render(UITextfield, {
+    const { container, rerender } = render(UITextfield, {
       props: {
         name: 'test',
         size: 10,
         transform,
+        onChange,
+        onKeyDown,
+        onPaste,
         allowedKeys: {
           default: /[a-z]/i,
           altKey: /[a-z]/i,
@@ -124,9 +126,6 @@ describe('svelte/UITextfield', () => {
         },
       },
     });
-    component.$on('paste', onPaste);
-    component.$on('change', onChange);
-    component.$on('keyDown', onKeyDown);
     const input = container.getElementsByTagName('input')[0];
     await fireEvent.keyDown(input, { key: 'A' });
     await fireEvent.keyDown(input, { key: '0' });
@@ -137,13 +136,17 @@ describe('svelte/UITextfield', () => {
     await fireEvent.input(input, { value: 'new 015 test' });
     await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89') } });
     expect(container.firstChild).toMatchSnapshot();
-    expect(onChange).not.toHaveBeenCalled();
+    vi.runAllTimers();
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith('AND', expect.any(Object));
     expect(onKeyDown).toHaveBeenCalledTimes(5);
-    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onKeyDown).toHaveBeenCalledWith('', expect.any(Object));
     expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledWith('AND', expect.any(Object));
     rerender({
-      name: 'test', size: 10, transform: null, allowedKeys: { default: /z/i },
+      name: 'test',
+      size: 10,
+      allowedKeys: { default: /z/i },
     });
     await fireEvent.input(input, { value: 'zzzzzzzzzzzz' });
     await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'zzz') } });
@@ -153,46 +156,46 @@ describe('svelte/UITextfield', () => {
   });
 
   test('renders correctly - with listeners and debounce', async () => {
-    vi.useFakeTimers();
     const onBlur = vi.fn();
     const onFocus = vi.fn();
     const onChange = vi.fn();
     const onIconClick = vi.fn();
     const onIconKeyDown = vi.fn();
-    const transform = (value: string): [string, number?] => [value.toUpperCase(), 1];
-    const { container, component } = render(UITextfield, {
+    const { container } = render(UITextfield, {
       props: {
         name: 'test',
         icon: 'star',
-        transform,
+        transform: (value: string): [string, number?] => [value.toUpperCase(), 1],
         size: 100,
+        onBlur,
+        onFocus,
+        onChange,
+        onIconClick,
+        onIconKeyDown,
         debounceTimeout: 250,
       },
     });
-    component.$on('blur', onBlur);
-    component.$on('focus', onFocus);
-    component.$on('change', onChange);
-    component.$on('iconClick', onIconClick);
-    component.$on('iconKeyDown', onIconKeyDown);
     const input = container.getElementsByTagName('input')[0];
     const icon = container.getElementsByTagName('i')[0];
     await fireEvent.focus(input);
     await fireEvent.blur(input);
     await fireEvent.keyDown(icon);
     await fireEvent.click(icon);
-    await fireEvent.input(input, { value: 'new 015 test' });
-    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') } });
+    await fireEvent.input(input, { target: { value: 'new 015 test' } });
+    vi.runAllTimers();
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'and 89 OKOK') }, target: { selectionStart: 100 } });
     vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
     expect(onFocus).toHaveBeenCalledTimes(1);
-    expect(onFocus).toHaveBeenCalledWith(expect.any(Object));
+    expect(onFocus).toHaveBeenCalledWith('', expect.any(Object));
     expect(onBlur).toHaveBeenCalledTimes(1);
-    expect(onBlur).toHaveBeenCalledWith(expect.any(Object));
+    expect(onBlur).toHaveBeenCalledWith('', expect.any(Object));
     expect(onIconClick).toHaveBeenCalledTimes(1);
     expect(onIconClick).toHaveBeenCalledWith(expect.any(Object));
     expect(onIconKeyDown).toHaveBeenCalledTimes(1);
     expect(onIconKeyDown).toHaveBeenCalledWith(expect.any(Object));
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(expect.any(Object));
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenCalledWith('NEW 015 TEST', expect.any(Object));
+    expect(onChange).toHaveBeenCalledWith('NEW 015 TESTAND 89 OKOK', expect.any(Object));
   });
 });

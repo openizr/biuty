@@ -19,16 +19,7 @@ const defaultValue: File[] = [];
 /**
  * File picker.
  */
-function UIFilePicker(props: UIFilePickerProps & {
-  /** `blur` event handler. */
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-
-  /** `focus` event handler. */
-  onFocus?: React.FocusEventHandler<HTMLInputElement>;
-
-  /** `change` event handler. */
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-}): JSX.Element {
+function UIFilePicker(props: UIFilePickerProps): JSX.Element {
   const { name } = props;
   const { placeholder } = props;
   const { icon, onChange, multiple } = props;
@@ -51,20 +42,20 @@ function UIFilePicker(props: UIFilePickerProps & {
       files.push((event.target.files as FileList)[index]);
     }
     setCurrentValue(files);
-    if (onChange !== null) {
-      (onChange as JSXElement)(files, event);
+    if (onChange !== undefined) {
+      onChange(files, event as unknown as InputEvent);
     }
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onFocus !== null) {
-      (onFocus as JSXElement)(currentValue, event);
+    if (onFocus !== undefined) {
+      onFocus(currentValue, event as unknown as FocusEvent);
     }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
-    if (onBlur !== null) {
-      (onBlur as JSXElement)(currentValue, event);
+    if (onBlur !== undefined) {
+      onBlur(currentValue, event as unknown as FocusEvent);
     }
   };
 
@@ -82,7 +73,7 @@ function UIFilePicker(props: UIFilePickerProps & {
   // -----------------------------------------------------------------------------------------------
 
   const children = [
-    (icon !== null && icon !== undefined) ? <JSXUIIcon key="icon" name={icon} /> : null,
+    (icon !== undefined) ? <JSXUIIcon key="icon" name={icon} /> : null,
     <input
       key="file"
       type="file"
@@ -102,18 +93,25 @@ function UIFilePicker(props: UIFilePickerProps & {
       id={id}
       className={className}
     >
-      {(label !== null && label !== undefined)
-        ? <label className="ui-file-picker__label" htmlFor={randomId} dangerouslySetInnerHTML={{ __html: markdown(label) }} />
-        : null}
+      {(label !== undefined) && (
+        <label
+          className="ui-file-picker__label"
+          htmlFor={randomId}
+          dangerouslySetInnerHTML={{ __html: markdown(label) }}
+        />
+      )}
       <div className="ui-file-picker__wrapper">
         {(iconPosition === 'left') ? children : children.reverse()}
         <span className="ui-file-picker__wrapper__placeholder">
           {(currentValue.length === 0) ? placeholder : currentValue.map((file) => file.name).join(', ')}
         </span>
       </div>
-      {(helper !== null && helper !== undefined)
-        ? <span className="ui-file-picker__helper" dangerouslySetInnerHTML={{ __html: markdown(helper) }} />
-        : null}
+      {(helper !== undefined) && (
+        <span
+          className="ui-file-picker__helper"
+          dangerouslySetInnerHTML={{ __html: markdown(helper) }}
+        />
+      )}
     </div>
   );
 }

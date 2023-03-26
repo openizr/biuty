@@ -1439,7 +1439,9 @@ exports[`vue/UIOptions > renders correctly - select with default value 1`] = `
         class="ui-options__wrapper__list__undefined"
         id="z8a8d7a5zad40"
         tabindex="-1"
-      />
+      >
+        Test
+      </li>
       
     </ul>
   </div>

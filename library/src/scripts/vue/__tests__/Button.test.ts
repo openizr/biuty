@@ -7,7 +7,7 @@
  * @vitest-environment jsdom
  */
 
-import UIButton from 'scripts/vue/Button.vue';
+import UIButton from 'scripts/vue/UIButton.vue';
 import { render } from '@testing-library/vue';
 
 describe('vue/UIButton', () => {

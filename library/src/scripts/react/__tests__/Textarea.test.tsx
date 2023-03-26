@@ -22,7 +22,7 @@ describe('react/UITextarea', () => {
   });
 
   test('renders correctly - basic', async () => {
-    const { container } = render(<JSXUITextarea name="test" modifiers="large" autocomplete={null} />);
+    const { container } = render(<JSXUITextarea name="test" modifiers="large" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -117,8 +117,8 @@ describe('react/UITextarea', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toHaveBeenCalledWith('new 015 test', expect.any(Object));
     expect(onKeyDown).toHaveBeenCalledTimes(1);
-    expect(onKeyDown).toHaveBeenCalledWith(expect.any(Object));
+    expect(onKeyDown).toHaveBeenCalledWith('', expect.any(Object));
     expect(onPaste).toHaveBeenCalledTimes(1);
-    expect(onPaste).toHaveBeenCalledWith(expect.any(Object));
+    expect(onPaste).toHaveBeenCalledWith('new 015 test', expect.any(Object));
   });
 });

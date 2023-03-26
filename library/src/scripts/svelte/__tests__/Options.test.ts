@@ -93,16 +93,16 @@ describe('svelte/UIOptions', () => {
 
   test('renders correctly - select with option disabled', async () => {
     const onChange = vi.fn();
-    const { container, component } = render(UIOptions, {
+    const { container } = render(UIOptions, {
       props: {
         name: 'test',
+        onChange,
         select: true,
         options: [{
           type: 'option', value: 'option5', label: 'Option 5', disabled: true,
         }],
       },
     });
-    component.$on('change', onChange);
     await fireEvent.change(container.getElementsByTagName('button')[0]);
     expect(onChange).not.toHaveBeenCalled();
     expect(container.firstChild).toMatchSnapshot();
@@ -175,13 +175,16 @@ describe('svelte/UIOptions', () => {
   test('renders correctly - select with listeners', async () => {
     const onChange = vi.fn();
     const onFocus = vi.fn();
-    const { container, component } = render(UIOptions, {
+    const { container } = render(UIOptions, {
       props: {
-        name: 'test', select: true, options: selectOptions, value: 'option2',
+        name: 'test',
+        select: true,
+        options: selectOptions,
+        value: 'option2',
+        onChange,
+        onFocus,
       },
     });
-    component.$on('change', onChange);
-    component.$on('focus', onFocus);
     const li = container.getElementsByTagName('li')[0];
     const button = container.getElementsByTagName('button')[0];
     await fireEvent.focus(button);
@@ -197,7 +200,9 @@ describe('svelte/UIOptions', () => {
     const defaultOptions = [{ value: 'test' }];
     const { container } = render(UIOptions, {
       props: {
-        name: 'test', select: true, options: defaultOptions, value: null,
+        name: 'test',
+        select: true,
+        options: defaultOptions,
       },
     });
     expect(container.firstChild).toMatchSnapshot();
@@ -206,13 +211,17 @@ describe('svelte/UIOptions', () => {
   test('renders correctly - multiple select with listeners', async () => {
     const onChange = vi.fn();
     const onFocus = vi.fn();
-    const { container, component } = render(UIOptions, {
+    const { container } = render(UIOptions, {
       props: {
-        name: 'test', select: true, options: selectOptions, value: 'option2', multiple: true,
+        name: 'test',
+        select: true,
+        options: selectOptions,
+        value: 'option2',
+        multiple: true,
+        onChange,
+        onFocus,
       },
     });
-    component.$on('change', onChange);
-    component.$on('focus', onFocus);
     const li = container.getElementsByTagName('li')[0];
     const button = container.getElementsByTagName('button')[0];
     await fireEvent.focus(button);
@@ -230,12 +239,16 @@ describe('svelte/UIOptions', () => {
     const onFocus = vi.fn();
     const { container, component, rerender } = render(UIOptions, {
       props: {
-        name: 'test', select: true, options: selectOptions, value: 'option3', multiple: true,
+        name: 'test',
+        select: true,
+        options: selectOptions,
+        value: 'option3',
+        multiple: true,
+        onFocus,
       },
     });
     const li = container.getElementsByTagName('li')[3];
     const button = container.getElementsByTagName('button')[0];
-    component.$on('focus', onFocus);
     await fireEvent.focus(button);
     await nextTick();
     await fireEvent.mouseDown(button);
@@ -249,7 +262,7 @@ describe('svelte/UIOptions', () => {
     component.$set({ options: selectOptions.slice(0, 2) });
     await nextTick();
     rerender({
-      name: 'test', select: true, options: selectOptions.slice(0, 2), value: null, multiple: true,
+      name: 'test', select: true, options: selectOptions.slice(0, 2), multiple: true,
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();
@@ -322,10 +335,15 @@ describe('svelte/UIOptions', () => {
   test('renders correctly - radio  with listeners', async () => {
     const onChange = vi.fn();
     const onFocus = vi.fn();
-    const { container, component } = render(UIOptions, { props: { name: 'test', options } });
+    const { container } = render(UIOptions, {
+      props: {
+        name: 'test',
+        options,
+        onChange,
+        onFocus,
+      },
+    });
     const input = container.getElementsByTagName('input')[2];
-    component.$on('focus', onFocus);
-    component.$on('change', onChange);
     await fireEvent.focus(input);
     await fireEvent.click(input);
     await nextTick();

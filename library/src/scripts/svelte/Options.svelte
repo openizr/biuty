@@ -8,10 +8,11 @@
  *
  */
 
-import { createEventDispatcher } from 'svelte';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
+
+type ChangeEventHandler = (value: string | string[], event: InputEvent) => void;
 
 const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
 
@@ -25,6 +26,8 @@ export let id: string | undefined = undefined;
 export let label: string | undefined = undefined;
 export let helper: string | undefined = undefined;
 export let selectPosition: 'top' | 'bottom' | undefined = undefined;
+export let onFocus: ((value: string, event: FocusEvent) => void) | undefined = undefined;
+export let onChange: ChangeEventHandler | undefined = undefined;
 
 let mounted = false;
 let isFocused = false;
@@ -35,19 +38,16 @@ let currentValue = toArray(value);
 const randomId = generateRandomId();
 let buttonRef: HTMLElement | null = null;
 let wrapperRef: HTMLElement | null = null;
-const dispatch = createEventDispatcher();
 
 $: className = buildClass(
   'ui-options',
   modifiers + (select ? ' select' : '') + (multiple ? ' multiple' : ''),
 );
-$: parsedLabel = label !== null ? markdown(label) : null;
-$: parsedHelper = helper !== null ? markdown(helper) : null;
 // Memoizes all options' parsed labels to optimize rendering.
 $: optionParsedLabels = options.reduce(
   (mapping, option) => {
     if (option.value !== undefined && option.value !== null) {
-      return { ...mapping, [option.value]: markdown(option.label || '') };
+      return { ...mapping, [option.value]: markdown(option.label ?? '') };
     }
     return mapping;
   },
@@ -66,7 +66,7 @@ const handleBlur = (): void => {
 // In `select` mode only, displays the options list at the right place on the viewport.
 const displayList = (): void => {
   if (buttonRef !== null) {
-    if (selectPosition !== null) {
+    if (selectPosition !== undefined) {
       position = selectPosition;
     } else {
       const relativeOffsetTop = buttonRef.getBoundingClientRect().top;
@@ -82,7 +82,7 @@ const hideList = (force = false) => (event: FocusEvent | null): void => {
   const focusIsOutsideList = event !== null && wrapperRef !== null
     ? !wrapperRef.contains(event.relatedTarget as Node)
     : true;
-  if (focusIsOutsideList && (force === true || multiple === false)) {
+  if (focusIsOutsideList && (force === true || !multiple)) {
     handleBlur();
     isDisplayed = false;
   }
@@ -108,7 +108,9 @@ const findSiblingOption = (
 const handleFocus = (optionValue: string, optionIndex: number) => (event: FocusEvent): void => {
   isFocused = true;
   focusedOptionIndex = optionIndex;
-  dispatch('focus', { optionValue, event });
+  if (onFocus !== undefined) {
+    onFocus(optionValue, event);
+  }
 };
 
 // Manually triggered, used to simulate `focus` events (`select` mode).
@@ -138,7 +140,9 @@ const handleChange = (event: Event): void => {
   // If the value hasn't changed, we don't trigger anything.
   if (multiple || newValue[0] !== currentValue[0]) {
     currentValue = newValue;
-    dispatch('change', { value: multiple === true ? newValue : newValue[0], event });
+    if (onChange !== undefined) {
+      onChange(multiple === true ? newValue : newValue[0], event as InputEvent);
+    }
   }
 };
 
@@ -212,11 +216,11 @@ $: {
 }
 
 // Updates current value whenever `value` property changes.
-$: currentValue = toArray(value || []);
+$: currentValue = toArray(value);
 
 // Updates current value whenever `multiple` property changes.
 const updateCurrentValue = (newMultiple: boolean) => {
-  currentValue = (newMultiple === true || currentValue.length === 0)
+  currentValue = (newMultiple || currentValue.length === 0)
     ? currentValue
     : [currentValue[0]];
 };
@@ -249,9 +253,9 @@ $: updateSelectFocus(mounted, isDisplayed);
 
 {#if select === true}
   <div {id} class={className}>
-    {#if label !== null}
+    {#if label !== undefined}
       <label for={randomId} class="ui-options__label">
-        {@html parsedLabel}
+        {@html markdown(label)}
       </label>
     {/if}
     <div class="ui-options__wrapper">
@@ -277,7 +281,7 @@ $: updateSelectFocus(mounted, isDisplayed);
         role="listbox"
         aria-labelledby={randomId}
         aria-expanded={isDisplayed}
-        aria-multiselectable={multiple === true}
+        aria-multiselectable={multiple}
         aria-activedescendant={`${randomId}${focusedOptionIndex}`}
         class={buildClass('ui-options__wrapper__list', isDisplayed ? `${position} expanded` : position)}
         on:keydown={handleKeydown}
@@ -290,29 +294,29 @@ $: updateSelectFocus(mounted, isDisplayed);
             role={option.type === 'option' ? 'option' : undefined}
             class={buildClass(
               `ui-options__wrapper__list__${option.type}`,
-              `${option.modifiers || ''}${option.disabled
+              `${option.modifiers ?? ''}${option.disabled
                 ? ' disabled' : ''}${currentValue.includes(`${option.value}`) ? ' checked' : ''}`,
             )}
             on:blur={hideList(true)}
             on:mousedown={option.type === 'option' ? changeOption(index) : undefined}
             on:focus={handleFocus(`${option.value}`, index)}
           >
-            {@html optionParsedLabels[option.value || '_']}
+            {@html optionParsedLabels[option.value ?? '_']}
           </li>
         {/each}
       </svelte:element>
     </div>
-    {#if helper !== null}
+    {#if helper !== undefined}
       <span class="ui-options__helper">
-        {@html parsedHelper}
+        {@html markdown(helper)}
       </span>
     {/if}
   </div>
 {:else}
   <div {id} class={className}>
-    {#if label !== null}
+    {#if label !== undefined}
       <label for={`${randomId}_${Math.max(firstSelectedOption, 0)}`} class="ui-options__label">
-        {@html parsedLabel}
+        {@html markdown(label)}
       </label>
     {/if}
     <div bind:this={wrapperRef} class="ui-options__wrapper">
@@ -320,7 +324,7 @@ $: updateSelectFocus(mounted, isDisplayed);
         <label
           class={buildClass(
             'ui-options__wrapper__option',
-            `${option.modifiers || ''}${option.disabled
+            `${option.modifiers ?? ''}${option.disabled
                 ? ' disabled' : ''}${currentValue.includes(`${option.value}`) ? ' checked' : ''}`,
           )}
         >
@@ -328,18 +332,18 @@ $: updateSelectFocus(mounted, isDisplayed);
             id={`${randomId}_${index}`}
             {name}
             checked={currentValue.includes(`${option.value}`)}
-            type={multiple === true ? 'checkbox' : 'radio'}
+            type={multiple ? 'checkbox' : 'radio'}
             value={option.value}
-            disabled={option.disabled === true}
+            disabled={option.disabled}
             class="ui-options__wrapper__option__field"
             on:blur={handleBlur}
             on:change={handleChange}
             on:keydown={handleKeydown}
             on:focus={handleFocus(`${option.value}`, index)}
             tabindex={(
-              option.disabled === true
+              option.disabled
               || modifiers.includes('disabled')
-              || !(((index === 0 || multiple === false) && currentValue.length === 0)
+              || !(((index === 0 || !multiple) && currentValue.length === 0)
               || option.value === currentValue[0]) ? -1 : 0
             )}
           />
@@ -349,9 +353,9 @@ $: updateSelectFocus(mounted, isDisplayed);
         </label>
       {/each}
     </div>
-    {#if helper !== null}
+    {#if helper !== undefined}
       <span class="ui-options__helper">
-        {@html parsedHelper}
+        {@html markdown(helper)}
       </span>
     {/if}
   </div>

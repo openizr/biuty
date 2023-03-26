@@ -42,21 +42,12 @@ declare module 'biuty/react' {
   /**
    * Hyperlink.
    */
-  export function UILink(props: UILinkProps & {
-    /** `click` event handler. */
-    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-  }): JSX.Element;
+  export function UILink(props: UILinkProps): JSX.Element;
 
   /**
    * Button.
    */
-  export function UIButton(props: UIButtonProps & {
-    /** `click` event handler. */
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-
-    /** `focus` event handler. */
-    onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-  }): JSX.Element;
+  export function UIButton(props: UIButtonProps): JSX.Element;
 
   /**
    * Tooltip wrapper, for accessibility.
@@ -74,71 +65,20 @@ declare module 'biuty/react' {
   /**
    * Set of selectable options.
    */
-  export function UIOptions(props: UIOptionsProps & {
-    /** `focus` event handler. */
-    onFocus?: React.FocusEventHandler<HTMLElement>;
-
-    /** `change` event handler. */
-    onChange?: React.ChangeEventHandler<HTMLElement>;
-  }): JSX.Element;
+  export function UIOptions(props: UIOptionsProps): JSX.Element;
 
   /**
    * Text field.
    */
-  export function UITextfield(props: UITextfieldProps & {
-    /** `focus` event handler. */
-    onFocus?: React.FocusEventHandler<HTMLInputElement>;
-
-    /** `change` event handler. */
-    onChange?: React.ChangeEventHandler<HTMLInputElement>;
-
-    /** `blur` event handler. */
-    onBlur?: React.FocusEventHandler<HTMLInputElement>;
-
-    /** `paste` event handler. */
-    onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
-
-    /** `keyDown` event handler. */
-    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
-
-    /** `iconKeyDown` event handler. */
-    onIconKeyDown?: React.KeyboardEventHandler<HTMLElement>;
-
-    /** `iconClick` event handler. */
-    onIconClick?: React.MouseEventHandler<HTMLElement>;
-  }): JSX.Element;
+  export function UITextfield(props: UITextfieldProps): JSX.Element;
 
   /**
    * Text area.
    */
-  export function UITextarea(props: UITextareaProps & {
-    /** `focus` event handler. */
-    onFocus?: React.FocusEventHandler<HTMLTextAreaElement>;
-
-    /** `change` event handler. */
-    onChange?: React.ChangeEventHandler<HTMLTextAreaElement>;
-
-    /** `blur` event handler. */
-    onBlur?: React.FocusEventHandler<HTMLTextAreaElement>;
-
-    /** `paste` event handler. */
-    onPaste?: React.ClipboardEventHandler<HTMLTextAreaElement>;
-
-    /** `keyDown` event handler. */
-    onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
-  }): JSX.Element;
+  export function UITextarea(props: UITextareaProps): JSX.Element;
 
   /**
    * File picker.
    */
-  export function UIFilePicker(props: UIFilePickerProps & {
-    /** `blur` event handler. */
-    onBlur?: React.FocusEventHandler<HTMLInputElement>;
-
-    /** `focus` event handler. */
-    onFocus?: React.FocusEventHandler<HTMLInputElement>;
-
-    /** `change` event handler. */
-    onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  }): JSX.Element;
+  export function UIFilePicker(props: UIFilePickerProps): JSX.Element;
 }

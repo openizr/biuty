@@ -13,12 +13,10 @@ import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
-const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
+type FocusEventHandler = (value: string, event: FocusEvent) => void;
+type ChangeEventHandler = (value: string | string[], event: InputEvent) => void;
 
-const emit = defineEmits({
-  focus: null,
-  change: null,
-});
+const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
 
 const props = withDefaults(defineProps<{
   id?: string;
@@ -37,6 +35,8 @@ const props = withDefaults(defineProps<{
   modifiers?: string;
   value?: string | string[];
   selectPosition?: 'top' | 'bottom';
+  onFocus?: FocusEventHandler;
+  onChange?: ChangeEventHandler;
 }>(), {
   select: false,
   modifiers: '',
@@ -45,7 +45,9 @@ const props = withDefaults(defineProps<{
   label: undefined,
   helper: undefined,
   value: [] as undefined,
-  selectPosition: 'bottom',
+  onFocus: undefined,
+  onChange: undefined,
+  selectPosition: undefined,
 });
 
 const buttonRef = ref(null);
@@ -57,16 +59,14 @@ const position = ref('bottom');
 const focusedOptionIndex = ref(-1);
 const randomId = ref(generateRandomId());
 const currentValue = ref(toArray(props.value));
-const parsedLabel = computed(() => markdown(props.label));
-const parsedHelper = computed(() => markdown(props.helper));
 const className = computed(() => buildClass(
   'ui-options',
-  (props.modifiers) + (props.select === true ? ' select' : '') + (props.multiple === true ? ' multiple' : ''),
+  (props.modifiers) + (props.select ? ' select' : '') + (props.multiple ? ' multiple' : ''),
 ));
 
 // Memoizes all options' parsed labels to optimize rendering.
 const optionParsedLabels = computed(() => props.options.reduce((mapping, option) => {
-  if (option.value !== undefined && option.value !== null) {
+  if (option.value !== undefined) {
     return { ...mapping, [option.value]: markdown(option.label) };
   }
   return mapping;
@@ -83,7 +83,7 @@ const handleBlur = (): void => {
 
 // In `select` mode only, displays the options list at the right place on the viewport.
 const displayList = (): void => {
-  if ((props.selectPosition) !== null) {
+  if (props.selectPosition !== undefined) {
     position.value = props.selectPosition;
   } else {
     const relativeOffsetTop = buttonRef.value.getBoundingClientRect().top;
@@ -98,7 +98,7 @@ const hideList = (event: FocusEvent | null, force = false): void => {
   const focusIsOutsideList = (event !== null && wrapperRef.value !== null)
     ? !wrapperRef.value.contains(event.relatedTarget as Node)
     : true;
-  if (focusIsOutsideList && (force === true || props.multiple === false)) {
+  if (focusIsOutsideList && (force === true || !props.multiple)) {
     handleBlur();
     isDisplayed.value = false;
   }
@@ -120,7 +120,9 @@ const findSiblingOption = (startIndex: number, direction: number, offset = 1): n
 const handleFocus = (optionValue: string, optionIndex: number, event: FocusEvent): void => {
   isFocused.value = true;
   focusedOptionIndex.value = optionIndex;
-  emit('focus', optionValue, event);
+  if (props.onFocus !== undefined) {
+    props.onFocus(optionValue, event);
+  }
 };
 
 // Manually triggered, used to simulate `focus` events (`select` mode).
@@ -137,7 +139,7 @@ const focusOption = (optionIndex: number): void => {
 const handleChange = (event: InputEvent): void => {
   const selectedIndex = currentValue.value.indexOf((event.target as HTMLInputElement).value);
   let newValue = [(event.target as HTMLInputElement).value];
-  if (props.multiple === true) {
+  if (props.multiple) {
     newValue = (selectedIndex >= 0)
       ? currentValue.value.slice(0, selectedIndex)
         .concat(currentValue.value.slice(selectedIndex + 1))
@@ -146,7 +148,9 @@ const handleChange = (event: InputEvent): void => {
   // If the value hasn't changed, we don't trigger anything.
   if (props.multiple || newValue[0] !== currentValue.value[0]) {
     currentValue.value = newValue;
-    emit('change', (props.multiple === true) ? newValue : newValue[0], event);
+    if (props.onChange !== undefined) {
+      props.onChange(props.multiple ? newValue : newValue[0], event);
+    }
   }
 };
 
@@ -155,7 +159,7 @@ const changeOption = (optionIndex: number): void => {
   focusedOptionIndex.value = optionIndex;
   const optionValue = props.options[optionIndex].value;
   handleChange({ target: { value: optionValue } } as unknown as InputEvent);
-  if (props.select === true) {
+  if (props.select) {
     hideList(null);
   }
 };
@@ -225,7 +229,7 @@ watch(() => props.value, () => {
 
 // Updates current value whenever `multiple` property changes.
 watch(() => props.multiple, () => {
-  currentValue.value = (props.multiple === true || currentValue.value.length === 0)
+  currentValue.value = (props.multiple || currentValue.value.length === 0)
     ? currentValue.value
     : [currentValue.value[0]];
 });
@@ -242,7 +246,7 @@ watch(() => props.options, () => {
 watch([isDisplayed, mounted, () => props.select], async () => {
   if (mounted.value) {
     setTimeout(() => {
-      if (wrapperRef.value !== null && props.select === true && isDisplayed.value) {
+      if (wrapperRef.value !== null && props.select && isDisplayed.value) {
         focusOption(firstSelectedOption.value);
       } else if (!isDisplayed.value && buttonRef.value !== null) {
         buttonRef.value.focus();
@@ -255,7 +259,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
 
 <template>
   <div
-    v-if="select === true"
+    v-if="select"
     :id="id"
     :class="className"
   >
@@ -263,7 +267,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
       v-if="label !== undefined"
       class="ui-options__label"
       :for="randomId"
-      v-html="parsedLabel"
+      v-html="markdown(label)"
     />
     <div class="ui-options__wrapper">
       <button
@@ -274,7 +278,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
         aria-haspopup="listbox"
         class="ui-options__wrapper__button"
         :aria-labelledby="`${randomId} ${randomId}`"
-        :tabindex="modifiers?.includes('disabled') ? -1 : 0"
+        :tabindex="modifiers.includes('disabled') ? -1 : 0"
         @keydown="handleKeydown"
         @focus="handleFocus('', firstSelectedOption, $event)"
         @mousedown="displayList"
@@ -286,7 +290,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
         role="listbox"
         :aria-labelledby="randomId"
         :aria-expanded="isDisplayed"
-        :aria-multiselectable="multiple === true"
+        :aria-multiselectable="multiple"
         :aria-activedescendant="`${randomId}${focusedOptionIndex}`"
         :class="buildClass(
           'ui-options__wrapper__list', isDisplayed ? `${position} expanded` : position
@@ -302,19 +306,19 @@ watch([isDisplayed, mounted, () => props.select], async () => {
           :role="(option.type === 'option') ? 'option' : undefined"
           :class="buildClass(
             `ui-options__wrapper__list__${option.type}`,
-            `${option.modifiers || ''}${option.disabled
+            `${option.modifiers ?? ''}${option.disabled
               ? ' disabled': ''}${currentValue.includes(option.value) ? ' checked' : ''}`)"
           @blur="hideList($event, true)"
           @mousedown="(option.type==='option') ? changeOption(index) : undefined"
           @focus="handleFocus(option.value, index, $event)"
-          v-html="optionParsedLabels[option.value || '_']"
+          v-html="optionParsedLabels[option.value ?? '_']"
         />
       </ul>
     </div>
     <span
       v-if="helper !== undefined"
       class="ui-options__helper"
-      v-html="parsedHelper"
+      v-html="markdown(helper)"
     />
   </div>
 
@@ -327,7 +331,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
       v-if="label !== undefined"
       class="ui-options__label"
       :for="`${randomId}_${Math.max(firstSelectedOption, 0)}`"
-      v-html="parsedLabel"
+      v-html="markdown(label)"
     />
     <div
       ref="wrapperRef"
@@ -338,22 +342,22 @@ watch([isDisplayed, mounted, () => props.select], async () => {
         :key="option.value"
         :class="buildClass(
           'ui-options__wrapper__option',
-          `${option.modifiers || ''}${option.disabled
+          `${option.modifiers ?? ''}${option.disabled
             ? ' disabled': ''}${currentValue.includes(option.value) ? ' checked' : ''}`)"
       >
         <input
           :id="`${randomId}_${index}`"
           :name="name"
           :checked="currentValue.includes(option.value)"
-          :type="(multiple === true) ? 'checkbox' : 'radio'"
+          :type="multiple ? 'checkbox' : 'radio'"
           :value="option.value"
-          :disabled="option.disabled === true"
+          :disabled="option.disabled"
           class="ui-options__wrapper__option__field"
           :tabindex="(
-            option.disabled === true ||
-            modifiers?.includes('disabled') ||
+            option.disabled ||
+            modifiers.includes('disabled') ||
             !(
-              ((index === 0 || multiple === false) && currentValue.length === 0) ||
+              ((index === 0 || !multiple) && currentValue.length === 0) ||
               option.value === currentValue[0]
             )
               ? -1 : 0)"
@@ -371,7 +375,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
     <span
       v-if="helper !== undefined"
       class="ui-options__helper"
-      v-html="parsedHelper"
+      v-html="markdown(helper)"
     />
   </div>
 </template>

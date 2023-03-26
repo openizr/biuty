@@ -46,7 +46,7 @@ describe('react/UIFilePicker', () => {
   });
 
   test('renders correctly - with left icon', () => {
-    const { container } = render(<JSXUIFilePicker name="test" icon="star" iconPosition={null} />);
+    const { container } = render(<JSXUIFilePicker name="test" icon="star" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
@@ -71,7 +71,7 @@ describe('react/UIFilePicker', () => {
   });
 
   test('renders correctly - with default value', () => {
-    const { container } = render(<JSXUIFilePicker name="test" value={null} />);
+    const { container } = render(<JSXUIFilePicker name="test" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 

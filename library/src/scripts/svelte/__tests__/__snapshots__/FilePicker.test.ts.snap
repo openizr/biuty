@@ -22,7 +22,7 @@ exports[`svelte/UIFilePicker > renders correctly - basic 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
@@ -53,7 +53,7 @@ exports[`svelte/UIFilePicker > renders correctly - disabled 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
@@ -85,7 +85,7 @@ exports[`svelte/UIFilePicker > renders correctly - multiple 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
@@ -117,7 +117,7 @@ exports[`svelte/UIFilePicker > renders correctly - with accept 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
@@ -148,7 +148,7 @@ exports[`svelte/UIFilePicker > renders correctly - with helper 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
@@ -185,7 +185,7 @@ exports[`svelte/UIFilePicker > renders correctly - with id 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
@@ -222,7 +222,7 @@ exports[`svelte/UIFilePicker > renders correctly - with label 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
@@ -257,7 +257,7 @@ exports[`svelte/UIFilePicker > renders correctly - with left icon 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
@@ -354,7 +354,7 @@ exports[`svelte/UIFilePicker > renders correctly - with right icon 1`] = `
       <span
         class="ui-file-picker__wrapper__placeholder"
       >
-        null
+        undefined
       </span>
     </div>
      
