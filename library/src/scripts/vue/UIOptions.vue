@@ -13,6 +13,23 @@ import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
+type UIOptionsOption = {
+  type: 'option';
+  value: string;
+  label: string;
+  disabled?: boolean;
+  modifiers?: string;
+};
+type UIOptionsHeader = {
+  type: 'header';
+  label: string;
+  modifiers?: string;
+};
+type UIOptionsDivider = {
+  type: 'divider';
+  modifiers?: string;
+};
+type Option = UIOptionsDivider | UIOptionsOption | UIOptionsHeader;
 type FocusEventHandler = (value: string, event: FocusEvent) => void;
 type ChangeEventHandler = (value: string | string[], event: InputEvent) => void;
 
@@ -24,13 +41,7 @@ const props = withDefaults(defineProps<{
   label?: string;
   helper?: string;
   select?: boolean;
-  options: {
-    value?: string;
-    label?: string;
-    disabled?: boolean;
-    modifiers?: string;
-    type?: 'header' | 'divider' | 'option';
-  }[];
+  options: Option[];
   multiple?: boolean;
   modifiers?: string;
   value?: string | string[];
@@ -65,12 +76,15 @@ const className = computed(() => buildClass(
 ));
 
 // Memoizes all options' parsed labels to optimize rendering.
-const optionParsedLabels = computed(() => props.options.reduce((mapping, option) => {
-  if (option.value !== undefined) {
+const optionParsedLabels = computed(() => props.options.reduce((mapping, option, index) => {
+  if (option.type === 'option') {
     return { ...mapping, [option.value]: markdown(option.label) };
   }
+  if (option.type === 'header') {
+    return { ...mapping, [`header_${index}`]: markdown(option.label) };
+  }
   return mapping;
-}, { _: '' } as Record<string, string>));
+}, {} as Record<string, string>));
 
 // -------------------------------------------------------------------------------------------------
 // CALLBACKS DECLARATION.
@@ -111,7 +125,7 @@ const findSiblingOption = (startIndex: number, direction: number, offset = 1): n
     return startIndex;
   }
   const option = props.options[nextIndex];
-  return (option.value !== undefined && option.disabled !== true)
+  return (option.type === 'option' && !option.disabled)
     ? nextIndex
     : findSiblingOption(startIndex, direction, offset + 1);
 };
@@ -157,7 +171,7 @@ const handleChange = (event: InputEvent): void => {
 // Manually triggered, used to simulate `change` events (`select` mode).
 const changeOption = (optionIndex: number): void => {
   focusedOptionIndex.value = optionIndex;
-  const optionValue = props.options[optionIndex].value;
+  const optionValue = (props.options[optionIndex] as UIOptionsOption).value;
   handleChange({ target: { value: optionValue } } as unknown as InputEvent);
   if (props.select) {
     hideList(null);
@@ -217,7 +231,7 @@ const firstSelectedOption = computed(() => {
     return findSiblingOption(-1, 1);
   }
   return Math.max(0, props.options.findIndex(
-    (option) => currentValue.value.includes(option.value as string),
+    (option) => option.type === 'option' && currentValue.value.includes(option.value),
   ));
 });
 
@@ -302,16 +316,18 @@ watch([isDisplayed, mounted, () => props.select], async () => {
           :id="`${randomId}${index}`"
           :key="`${randomId}${index}`"
           tabindex="-1"
-          :aria-selected="currentValue.includes(option.value)"
+          :aria-selected="option.type === 'option' && currentValue.includes(option.value)"
           :role="(option.type === 'option') ? 'option' : undefined"
           :class="buildClass(
             `ui-options__wrapper__list__${option.type}`,
-            `${option.modifiers ?? ''}${option.disabled
-              ? ' disabled': ''}${currentValue.includes(option.value) ? ' checked' : ''}`)"
+            `${option.modifiers ?? ''}${option.type === 'option' && option.disabled
+              ? ' disabled': ''}${option.type === 'option' && currentValue.includes(option.value)
+              ? ' checked' : ''}`)"
           @blur="hideList($event, true)"
           @mousedown="(option.type==='option') && changeOption(index)"
-          @focus="handleFocus(option.value, index, $event)"
-          v-html="optionParsedLabels[option.value ?? '_']"
+          @focus="(option.type==='option') && handleFocus(option.value, index, $event)"
+          v-html="(option.type==='divider') ? '' : optionParsedLabels[(option.type==='option')
+            ? option.value : `header_${index}`]"
         />
       </ul>
     </div>
@@ -338,7 +354,7 @@ watch([isDisplayed, mounted, () => props.select], async () => {
       class="ui-options__wrapper"
     >
       <label
-        v-for="(option, index) in options"
+        v-for="(option, index) in options.filter((option) => option.type === 'option')"
         :key="option.value"
         :class="buildClass(
           'ui-options__wrapper__option',

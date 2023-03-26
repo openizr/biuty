@@ -150,7 +150,9 @@ exports[`vue/UIOptions > correctly handles select keyboard navigation 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -234,7 +236,9 @@ exports[`vue/UIOptions > renders correctly - basic select 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -318,7 +322,9 @@ exports[`vue/UIOptions > renders correctly - multiple select with listeners 1`] 
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1026,7 +1032,9 @@ exports[`vue/UIOptions > renders correctly - select changing options 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="true"
         class="ui-options__wrapper__list__option ui-options__wrapper__list__option--checked"
@@ -1108,7 +1116,9 @@ exports[`vue/UIOptions > renders correctly - select disabled 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1190,7 +1200,9 @@ exports[`vue/UIOptions > renders correctly - select expanded 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1306,7 +1318,9 @@ exports[`vue/UIOptions > renders correctly - select expanded with selectPosition
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1390,7 +1404,9 @@ exports[`vue/UIOptions > renders correctly - select expanded with value 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1439,9 +1455,7 @@ exports[`vue/UIOptions > renders correctly - select with default value 1`] = `
         class="ui-options__wrapper__list__undefined"
         id="z8a8d7a5zad40"
         tabindex="-1"
-      >
-        Test
-      </li>
+      />
       
     </ul>
   </div>
@@ -1514,7 +1528,9 @@ exports[`vue/UIOptions > renders correctly - select with helper 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1601,7 +1617,9 @@ exports[`vue/UIOptions > renders correctly - select with id 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1688,7 +1706,9 @@ exports[`vue/UIOptions > renders correctly - select with label 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1772,7 +1792,9 @@ exports[`vue/UIOptions > renders correctly - select with listeners 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -1899,7 +1921,9 @@ exports[`vue/UIOptions > renders correctly - select with value 1`] = `
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -2032,7 +2056,9 @@ exports[`vue/UIOptions > select correctly updates current value when changing va
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -2114,7 +2140,9 @@ exports[`vue/UIOptions > select correctly updates current value when changing va
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -2198,7 +2226,9 @@ exports[`vue/UIOptions > select correctly updates current value when changing va
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"
@@ -2280,7 +2310,9 @@ exports[`vue/UIOptions > select correctly updates current value when changing va
         class="ui-options__wrapper__list__header"
         id="z8a8d7a5zad44"
         tabindex="-1"
-      />
+      >
+        Group 2
+      </li>
       <li
         aria-selected="false"
         class="ui-options__wrapper__list__option"

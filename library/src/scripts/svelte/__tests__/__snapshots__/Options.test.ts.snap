@@ -167,6 +167,7 @@ exports[`svelte/UIOptions > correctly handles select keyboard navigation 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -262,6 +263,7 @@ exports[`svelte/UIOptions > renders correctly - basic select 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -357,6 +359,7 @@ exports[`svelte/UIOptions > renders correctly - multiple select with listeners 1
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1152,6 +1155,7 @@ exports[`svelte/UIOptions > renders correctly - select changing options 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1245,6 +1249,7 @@ exports[`svelte/UIOptions > renders correctly - select disabled 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1338,6 +1343,7 @@ exports[`svelte/UIOptions > renders correctly - select expanded 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1467,6 +1473,7 @@ exports[`svelte/UIOptions > renders correctly - select expanded with selectPosit
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1562,6 +1569,7 @@ exports[`svelte/UIOptions > renders correctly - select expanded with value 1`] =
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1613,10 +1621,12 @@ exports[`svelte/UIOptions > renders correctly - select with default value 1`] = 
       >
         <li
           aria-selected="false"
-          class="ui-options__wrapper__list__undefined"
+          class="ui-options__wrapper__list__option"
           id="z8a8d7a5zad40"
+          role="option"
           tabindex="-1"
         >
+          Test
            
         </li>
       </ul>
@@ -1700,6 +1710,7 @@ exports[`svelte/UIOptions > renders correctly - select with helper 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1799,6 +1810,7 @@ exports[`svelte/UIOptions > renders correctly - select with id 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1898,6 +1910,7 @@ exports[`svelte/UIOptions > renders correctly - select with label 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -1993,6 +2006,7 @@ exports[`svelte/UIOptions > renders correctly - select with listeners 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -2135,6 +2149,7 @@ exports[`svelte/UIOptions > renders correctly - select with value 1`] = `
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -2285,6 +2300,7 @@ exports[`svelte/UIOptions > select correctly updates current value when changing
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -2378,6 +2394,7 @@ exports[`svelte/UIOptions > select correctly updates current value when changing
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -2473,6 +2490,7 @@ exports[`svelte/UIOptions > select correctly updates current value when changing
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
@@ -2566,6 +2584,7 @@ exports[`svelte/UIOptions > select correctly updates current value when changing
           id="z8a8d7a5zad44"
           tabindex="-1"
         >
+          Group 2
            
         </li>
         <li
