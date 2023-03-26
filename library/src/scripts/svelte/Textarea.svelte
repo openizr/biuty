@@ -12,13 +12,13 @@ import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
-export let value = '';
 export let name: string;
 export let modifiers = '';
 export let readonly = false;
 export let autofocus = false;
 export let autoresize = false;
 export let debounceTimeout = 50;
+export let value: string | number = '';
 export let autocomplete: 'on' | 'off' = 'off';
 export let id: string | undefined = undefined;
 export let cols: number | undefined = undefined;
@@ -33,7 +33,7 @@ export let onPaste: ((value: string, event: ClipboardEvent) => void) | undefined
 export let onChange: ((value: string, event: InputEvent) => void) | undefined = undefined;
 export let onKeyDown: ((value: string, event: KeyboardEvent) => void) | undefined = undefined;
 
-let currentValue = value;
+let currentValue = `${value}`;
 let isUserTyping = false;
 let timeout: number | null = null;
 const randomId = generateRandomId();
@@ -92,7 +92,7 @@ const handleFocus = (event: FocusEvent): void => {
 $: {
   // Do not update current value immediatly while user is typing something else.
   if (!isUserTyping) {
-    currentValue = value;
+    currentValue = `${value}`;
   }
 }
 $: actualRows = (autoresize && rows === undefined) ? Math.max(1, currentValue.split('\n').length) : rows;

@@ -313,7 +313,7 @@ declare module 'biuty' {
      * Input's value. Updating this prop with a new value will replace the current value by
      * the one passed. Defaults to `""`.
      */
-    value?: string;
+    value?: string | number;
 
     /** Element's label. Supports biuty light markdown. */
     label?: string;
@@ -461,7 +461,7 @@ declare module 'biuty' {
      * Textarea's value. Updating this prop with a new value will replace the current value by
      * the one passed. Defaults to `""`.
      */
-    value?: string;
+    value?: string | number;
 
     /** Element's label. Supports biuty light markdown. */
     label?: string;

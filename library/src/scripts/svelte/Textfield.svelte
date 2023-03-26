@@ -22,12 +22,12 @@ const defaultTransform: Transform = (newValue) => [newValue];
 const keyTypes: KeyType[] = ['default', 'ctrlKey', 'altKey', 'shiftKey', 'metaKey'];
 const specialKeysRegexp = /Tab|Control|Shift|Meta|ContextMenu|Alt|Escape|Insert|Home|End|AltGraph|NumLock|Backspace|Delete|Enter|ArrowRight|ArrowLeft|ArrowDown|ArrowUp/;
 
-export let value = '';
 export let name: string;
 export let modifiers = '';
 export let readonly = false;
 export let autofocus = false;
 export let debounceTimeout = 50;
+export let value: string | number = '';
 export let allowedKeys: AllowedKeys = {};
 export let autocomplete: 'on' | 'off' = 'off';
 export let id: string | undefined = undefined;
@@ -55,8 +55,8 @@ let userIsTyping = false;
 const randomId = generateRandomId();
 let timeout: number | null = null;
 let cursorPosition: number | null = null;
-let currentValue = defaultTransform(value, 0)[0];
 let inputRef: HTMLInputElement | null = null;
+let currentValue = (transform as Transform)(`${value}`, 0)[0];
 
 $: isDisabled = modifiers.includes('disabled');
 $: className = buildClass('ui-textfield', modifiers);
@@ -191,7 +191,7 @@ const handleIconKeyDown = (event: KeyboardEvent): void => {
 $: {
   // Do not update current value immediatly while user is typing something else.
   if (!userIsTyping) {
-    const [newValue] = (transform as Transform)(value as string, 0);
+    const [newValue] = (transform as Transform)(`${value}`, 0);
     currentValue = newValue;
     updateCursorPosition();
   }

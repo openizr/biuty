@@ -289,7 +289,7 @@ interface UITextfieldProps {
    * Input's value. Updating this prop with a new value will replace the current value by
    * the one passed. Defaults to `""`.
    */
-  value?: string;
+  value?: string | number;
 
   /** Element's label. Supports biuty light markdown. */
   label?: string;
@@ -437,7 +437,7 @@ interface UITextareaProps {
    * Textarea's value. Updating this prop with a new value will replace the current value by
    * the one passed. Defaults to `""`.
    */
-  value?: string;
+  value?: string | number;
 
   /** Element's label. Supports biuty light markdown. */
   label?: string;
