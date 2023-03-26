@@ -39,70 +39,184 @@
 
 // Built-in classes.
 $classes: (
-  flex: ("--disp", flex),
-  grid: ("--disp", grid),
-  none: ("--disp", none),
-  block: ("--disp", block),
-  wrap: ("--wrap", wrap),
-  nowrap: ("--wrap", nowrap),
-  wrap-rev: ("--wrap", wrap-reverse),
-  flex-row: ("--dir", row),
-  flex-col: ("--dir", column),
-  flex-row-rev: ("--dir", row-reverse),
-  flex-col-rev: ("--dir", column-reverse),
-  grid-row: ("--flow", row),
-  grid-col: ("--flow", column),
-  grid-dense: ("--flow", dense),
-  flex-none: ("--flex", none),
-  flex-auto: ("--flex", 1 1 auto),
-  justify-between: ("--just", space-between),
-  justify-around: ("--just", space-around),
-  justify-start: ("--just", flex-start),
-  justify-end: ("--just", flex-end),
-  justify-stretch: ("--just", stretch),
-  justify-center: ("--just", center),
-  items-center: ("--items", center),
-  items-start: ("--items", flex-start),
-  items-end: ("--items", flex-end),
-  items-stretch: ("--items", stretch),
-  self-center: ("--self", center),
-  self-start: ("--self", flex-start),
-  self-end: ("--self", flex-end),
-  self-stretch: ("--self", stretch),
+  flex: (
+    '--disp',
+    flex,
+  ),
+  grid: (
+    '--disp',
+    grid,
+  ),
+  none: (
+    '--disp',
+    none,
+  ),
+  block: (
+    '--disp',
+    block,
+  ),
+  flex-wrap: (
+    '--wrap',
+    wrap,
+  ),
+  flex-nowrap: (
+    '--wrap',
+    nowrap,
+  ),
+  flex-wrap-rev: (
+    '--wrap',
+    wrap-reverse,
+  ),
+  flex-row: (
+    '--dir',
+    row,
+  ),
+  flex-col: (
+    '--dir',
+    column,
+  ),
+  flex-row-rev: (
+    '--dir',
+    row-reverse,
+  ),
+  flex-col-rev: (
+    '--dir',
+    column-reverse,
+  ),
+  grid-row: (
+    '--flow',
+    row,
+  ),
+  grid-col: (
+    '--flow',
+    column,
+  ),
+  grid-dense: (
+    '--flow',
+    dense,
+  ),
+  flex-none: (
+    '--flex',
+    none,
+  ),
+  flex-auto: (
+    '--flex',
+    1 1 auto,
+  ),
+  justify-between: (
+    '--just',
+    space-between,
+  ),
+  justify-around: (
+    '--just',
+    space-around,
+  ),
+  justify-start: (
+    '--just',
+    flex-start,
+  ),
+  justify-end: (
+    '--just',
+    flex-end,
+  ),
+  justify-stretch: (
+    '--just',
+    stretch,
+  ),
+  justify-center: (
+    '--just',
+    center,
+  ),
+  items-center: (
+    '--items',
+    center,
+  ),
+  items-start: (
+    '--items',
+    flex-start,
+  ),
+  items-end: (
+    '--items',
+    flex-end,
+  ),
+  items-stretch: (
+    '--items',
+    stretch,
+  ),
+  self-center: (
+    '--self',
+    center,
+  ),
+  self-start: (
+    '--self',
+    flex-start,
+  ),
+  self-end: (
+    '--self',
+    flex-end,
+  ),
+  self-stretch: (
+    '--self',
+    stretch,
+  ),
 );
 
 // --cols
 @for $i from 1 to $gridColumnsNumber + 1 {
-  $classes: map-merge($classes, ("cols-#{$i}": (("--cols", $i))));
+  $classes: map-merge(
+    $classes,
+    (
+      'cols-#{$i}': (
+        ('--cols', $i),
+      ),
+    )
+  );
 }
 
 // --span
 @for $i from 1 to $gridColumnsNumber + 1 {
-  $classes: map-merge($classes, ("col-#{$i}": (("--span", $i))));
+  $classes: map-merge(
+    $classes,
+    (
+      'col-#{$i}': (
+        ('--span', $i),
+      ),
+    )
+  );
 }
 
 // --vgap, --hgap
-@each $key,
-$value in $gaps {
-  $classes: map-merge($classes, ("vgap-#{$key}": (("--vgap", $value))));
-  $classes: map-merge($classes, ("hgap-#{$key}": (("--hgap", $value))));
+@each $key, $value in $gaps {
+  $classes: map-merge(
+    $classes,
+    (
+      'vgap-#{$key}': (
+        ('--vgap', $value),
+      ),
+    )
+  );
+  $classes: map-merge(
+    $classes,
+    (
+      'hgap-#{$key}': (
+        ('--hgap', $value),
+      ),
+    )
+  );
 }
 
 // Generating breakpoints-based built-in classes...
-@each $breakpoint,
-$value in $breakpoints {
+@each $breakpoint, $value in $breakpoints {
   @include query($breakpoint) {
     $class-bp: if($breakpoint==xxs, '', #{$breakpoint}#{'\\:'});
 
-    @each $class,
-    $val in $classes {
+    @each $class, $val in $classes {
       .#{$class-bp}#{$class} {
         #{nth($val, 1)}: nth($val, 2);
       }
     }
   }
 }
-
 
 // Actual CSS properties declarations.
 %grid {
@@ -117,7 +231,7 @@ $value in $breakpoints {
 
 // Auto-sizing for flex.
 %flex-auto {
-  > *:not([class*="flex-none"]) {
+  > *:not([class*='flex-none']) {
     --flex: 1 1 auto;
     flex: var(--flex);
   }
@@ -176,19 +290,14 @@ $value in $breakpoints {
 }
 
 body {
-
-  @each $variable,
-  $values in $variables {
-
-    @each $key,
-    $value in $values {
+  @each $variable, $values in $variables {
+    @each $key, $value in $values {
       --#{$variable}-#{$key}: #{$value};
 
       // For `rgba` usage.
-      @if ($variable=='clr') {
-        --#{$variable}-#{$key}-rgb: #{color.red($value)},
-        #{color.green($value)},
-        #{color.blue($value)};
+      @if ($variable== 'clr') {
+        --#{$variable}-#{$key}-rgb: #{color.red($value)}, #{color.green($value)},
+          #{color.blue($value)};
       }
     }
   }
