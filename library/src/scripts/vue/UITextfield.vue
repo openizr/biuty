@@ -41,7 +41,6 @@ const props = withDefaults(defineProps<{
   step?: number;
   icon?: string;
   size?: number;
-  value?: string;
   label?: string;
   helper?: string;
   readonly?: boolean;
@@ -49,6 +48,7 @@ const props = withDefaults(defineProps<{
   modifiers?: string;
   autofocus?: boolean;
   placeholder?: string;
+  value?: string | number;
   autocomplete?: 'on' | 'off';
   iconPosition?: 'left' | 'right';
   allowedKeys?: AllowedKeys;
@@ -101,7 +101,7 @@ const inputRef = ref(null);
 const isUserTyping = ref(false);
 const cursorPosition = ref(null);
 const randomId = ref(generateRandomId());
-const currentValue = ref(props.transform(props.value, 0)[0]);
+const currentValue = ref(props.transform(`${props.value}`, 0)[0]);
 const isDisabled = computed(() => props.modifiers.includes('disabled'));
 const className = computed(() => buildClass('ui-textfield', props.modifiers));
 
@@ -202,7 +202,7 @@ const handlePaste = (event: ClipboardEvent): void => {
 watch(() => [props.value, props.transform], () => {
   // Do not update current value immediatly while user is typing something else.
   if (!isUserTyping.value) {
-    const [newValue] = props.transform(props.value, 0);
+    const [newValue] = props.transform(`${props.value}`, 0);
     currentValue.value = newValue;
   }
 });

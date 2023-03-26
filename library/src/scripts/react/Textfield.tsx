@@ -44,7 +44,7 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
   const isDisabled = (modifiers).includes('disabled');
   const className = buildClass('ui-textfield', modifiers);
   const [cursorPosition, setCursorPosition] = React.useState<number | null>(null);
-  const [currentValue, setCurrentValue] = React.useState(() => transform(value, 0)[0]);
+  const [currentValue, setCurrentValue] = React.useState(() => transform(`${value}`, 0)[0]);
 
   // Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
   const globalAllowedKeys = React.useMemo(() => keyTypes.reduce((allAllowedKeys, keyType) => {
@@ -151,7 +151,7 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
   React.useEffect(() => {
     // Do not update current value immediatly while user is typing something else.
     if (!isUserTyping.current) {
-      const [newValue] = transform(value, 0);
+      const [newValue] = transform(`${value}`, 0);
       setCurrentValue(newValue);
     }
   }, [value, transform]);

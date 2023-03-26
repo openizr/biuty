@@ -23,7 +23,6 @@ const props = withDefaults(defineProps<{
   cols?: number;
   rows?: number;
   name: string;
-  value?: string;
   label?: string;
   helper?: string;
   readonly?: boolean;
@@ -31,6 +30,7 @@ const props = withDefaults(defineProps<{
   modifiers?: string;
   autofocus?: boolean;
   placeholder?: string;
+  value?: string | number;
   autocomplete?: 'on' | 'off';
   autoresize?: boolean;
   debounceTimeout?: number;
@@ -65,7 +65,7 @@ const props = withDefaults(defineProps<{
 const timeout = ref(null);
 const isUserTyping = ref(false);
 const randomId = ref(generateRandomId());
-const currentValue = ref(props.value);
+const currentValue = ref(`${props.value}`);
 const actualRows = computed(() => ((props.autoresize && props.rows === undefined)
   ? Math.max(1, currentValue.value.split('\n').length)
   : props.rows));
@@ -99,7 +99,7 @@ const handleChange = (event: InputEvent): void => {
 watch(() => props.value, () => {
   // Do not update current value immediatly while user is typing something else.
   if (!isUserTyping.value) {
-    currentValue.value = props.value;
+    currentValue.value = `${props.value}`;
   }
 });
 </script>
