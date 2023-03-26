@@ -12,14 +12,19 @@ import { computed } from 'vue';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   id?: string;
-  rel?: string;
-  href: string;
   label: string;
+  rel?: string;
   target?: string;
+  href: string;
   modifiers?: string;
-}>();
+}>(), {
+  modifiers: '',
+  id: undefined,
+  rel: undefined,
+  target: undefined,
+});
 
 const parsedLabel = computed(() => markdown(props.label));
 const className = computed(() => buildClass('ui-link', props.modifiers));

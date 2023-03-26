@@ -12,19 +12,11 @@ import UIIcon from 'scripts/svelte/Icon.svelte';
 import buildClass from 'scripts/helpers/buildClass';
 
 export let modifiers = '';
-export let id: string | null = null;
-export let icon: string | null = null;
-export let label: string | null = null;
+export let id: string | undefined = undefined;
+export let icon: string | undefined = undefined;
+export let label: string | undefined = undefined;
 export let type: 'button' | 'submit' = 'button';
 export let iconPosition: 'left' | 'right' = 'left';
-
-// Enforces props default values.
-$: id = id || null;
-$: icon = icon || null;
-$: label = label || null;
-$: type = type || 'button';
-$: modifiers = modifiers || '';
-$: iconPosition = iconPosition || 'left';
 
 $: iconModifier = icon !== null && label === null ? ' icon' : '';
 $: className = buildClass('ui-button', `${modifiers}${iconModifier}`);

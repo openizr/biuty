@@ -11,16 +11,20 @@
 import { computed } from 'vue';
 import buildClass from 'scripts/helpers/buildClass';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
+  ratio: string;
   src: string;
   alt: string;
-  ratio: string;
   id?: string;
-  modifiers?: string;
   itemProp?: string;
-}>();
+  modifiers?: string;
+}>(), {
+  modifiers: '',
+  id: undefined,
+  itemProp: undefined,
+});
 
-const className = computed(() => buildClass('ui-image', `${props.ratio} ${props.modifiers || ''}`));
+const className = computed(() => buildClass('ui-image', `${props.ratio} ${props.modifiers}`));
 const dimensions = computed(() => {
   let newDimensions;
   switch (props.ratio) {

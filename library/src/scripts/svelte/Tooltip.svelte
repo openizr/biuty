@@ -12,13 +12,8 @@ import buildClass from 'scripts/helpers/buildClass';
 
 export let label: string;
 export let modifiers = '';
-export let id: string | null = null;
-export let description: string | null = null;
-
-// Enforces props default values.
-$: id = id || null;
-$: modifiers = modifiers || '';
-$: description = description || null;
+export let id: string | undefined = undefined;
+export let description: string | undefined = undefined;
 
 let isDescriptionVisible = false;
 

@@ -31,41 +31,36 @@ const getDimensions = (ratio: string): { width: number; height: number; } => {
  */
 function UIImage(props: UIImageProps): JSX.Element {
   const { src, alt, ratio } = props;
-  let { id, modifiers, itemProp } = props;
+  const { id, modifiers = '', itemProp } = props;
   const dimensions = getDimensions(ratio);
   const className = buildClass('ui-image', `${ratio} ${modifiers}`);
-
-  // Enforces props default values.
-  id = id || null;
-  itemProp = itemProp || null;
-  modifiers = modifiers || '';
 
   // Custom aspect ratio...
   if (/^([0-9]+)x([0-9]+)$/i.test(ratio)) {
     return (
       <img
+        id={id}
         src={src}
         alt={alt}
         loading="lazy"
-        id={id as string}
+        itemProp={itemProp}
         className={className}
         width={dimensions.width}
         height={dimensions.height}
-        itemProp={itemProp as string}
       />
     );
   }
 
   // Standard aspect ratio...
   return (
-    <div id={id as string} className={className}>
+    <div id={id} className={className}>
       <img
         src={src}
         alt={alt}
         loading="lazy"
+        itemProp={itemProp}
         width={dimensions.width}
         height={dimensions.height}
-        itemProp={itemProp as string}
       />
     </div>
   );

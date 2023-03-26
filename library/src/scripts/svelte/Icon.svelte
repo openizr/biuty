@@ -12,11 +12,7 @@ import buildClass from 'scripts/helpers/buildClass';
 
 export let name: string;
 export let modifiers = '';
-export let id: string | null = null;
-
-// Enforces props default values.
-$: id = id || null;
-$: modifiers = modifiers || '';
+export let id: string | undefined = undefined;
 
 $: className = buildClass('ui-icon', `${name} ${modifiers}`);
 </script>

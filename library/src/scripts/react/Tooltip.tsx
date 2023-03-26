@@ -12,13 +12,12 @@ import buildClass from 'scripts/helpers/buildClass';
 /**
  * Tooltip wrapper, for accessibility.
  */
-function Tooltip(props: UITooltipProps): JSX.Element {
+function Tooltip(props: UITooltipProps & {
+  /** Tooltip content. */
+  children: React.ReactNode;
+}): JSX.Element {
   const { label, children } = props;
-  let { id, description, modifiers } = props;
-
-  id = id || null;
-  modifiers = modifiers || 'top';
-  description = description || null;
+  const { id, description, modifiers = 'top' } = props;
 
   const [isDescriptionVisible, setIsDescriptionVisible] = React.useState(false);
   const className = buildClass('ui-tooltip', [modifiers, isDescriptionVisible ? 'described' : ''].join(' '));
@@ -33,13 +32,13 @@ function Tooltip(props: UITooltipProps): JSX.Element {
 
   return (
     <div
-      id={id as string}
+      id={id}
       role="tooltip"
-      className={className}
       aria-label={label}
+      className={className}
+      onBlur={hideDescription}
       onFocus={displayDescription}
       onKeyPress={displayDescription}
-      onBlur={hideDescription}
     >
       {children}
       {(isDescriptionVisible && description !== undefined) && (

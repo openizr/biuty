@@ -13,16 +13,11 @@ import buildClass from 'scripts/helpers/buildClass';
 
 export let label: string;
 export let modifiers = '';
-export let id: string | null = null;
-export let itemProp: string | null = null;
-
-// Enforces props default values.
-$: id = id || null;
-$: itemProp = itemProp || null;
-$: modifiers = modifiers || '';
+export let id: string | undefined = undefined;
+export let itemProp: string | undefined = undefined;
 
 $: parsedLabel = markdown(label);
-$: className = buildClass('ui-p', modifiers as string);
+$: className = buildClass('ui-p', modifiers);
 </script>
 
 <p {id} class={className} itemprop={itemProp}>

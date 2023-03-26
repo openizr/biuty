@@ -20,11 +20,12 @@ const emit = defineEmits({
   change: null,
 });
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   id?: string;
   name: string;
   label?: string;
   helper?: string;
+  select?: boolean;
   options: {
     value?: string;
     label?: string;
@@ -32,12 +33,20 @@ const props = defineProps<{
     modifiers?: string;
     type?: 'header' | 'divider' | 'option';
   }[];
-  select?: boolean;
   multiple?: boolean;
   modifiers?: string;
-  value?: null | string | string[];
+  value?: string | string[];
   selectPosition?: 'top' | 'bottom';
-}>();
+}>(), {
+  select: false,
+  modifiers: '',
+  id: undefined,
+  multiple: false,
+  label: undefined,
+  helper: undefined,
+  value: [] as undefined,
+  selectPosition: 'bottom',
+});
 
 const buttonRef = ref(null);
 const wrapperRef = ref(null);
@@ -47,18 +56,18 @@ const isFocused = ref(false);
 const position = ref('bottom');
 const focusedOptionIndex = ref(-1);
 const randomId = ref(generateRandomId());
-const currentValue = ref(toArray(props.value || []));
+const currentValue = ref(toArray(props.value));
 const parsedLabel = computed(() => markdown(props.label));
 const parsedHelper = computed(() => markdown(props.helper));
 const className = computed(() => buildClass(
   'ui-options',
-  (props.modifiers || '') + (props.select === true ? ' select' : '') + (props.multiple === true ? ' multiple' : ''),
+  (props.modifiers) + (props.select === true ? ' select' : '') + (props.multiple === true ? ' multiple' : ''),
 ));
 
 // Memoizes all options' parsed labels to optimize rendering.
 const optionParsedLabels = computed(() => props.options.reduce((mapping, option) => {
   if (option.value !== undefined && option.value !== null) {
-    return { ...mapping, [option.value]: markdown(option.label || '') };
+    return { ...mapping, [option.value]: markdown(option.label) };
   }
   return mapping;
 }, { _: '' } as Record<string, string>));
@@ -74,7 +83,7 @@ const handleBlur = (): void => {
 
 // In `select` mode only, displays the options list at the right place on the viewport.
 const displayList = (): void => {
-  if ((props.selectPosition || null) !== null) {
+  if ((props.selectPosition) !== null) {
     position.value = props.selectPosition;
   } else {
     const relativeOffsetTop = buttonRef.value.getBoundingClientRect().top;
@@ -210,7 +219,7 @@ const firstSelectedOption = computed(() => {
 
 // Updates current value whenever `value` property changes.
 watch(() => props.value, () => {
-  const newValue = toArray(props.value || []);
+  const newValue = toArray(props.value);
   currentValue.value = newValue;
 });
 

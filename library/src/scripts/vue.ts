@@ -11,7 +11,7 @@ import UIIcon from 'scripts/vue/Icon.vue';
 import UILink from 'scripts/vue/Link.vue';
 import UITitle from 'scripts/vue/Title.vue';
 import UIImage from 'scripts/vue/Image.vue';
-import UIButton from 'scripts/vue/Button.vue';
+import UIButton from 'scripts/vue/UIButton.vue';
 import UIOptions from 'scripts/vue/Options.vue';
 import UITooltip from 'scripts/vue/Tooltip.vue';
 import markdown from 'scripts/helpers/markdown';

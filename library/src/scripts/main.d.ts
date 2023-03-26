@@ -49,7 +49,7 @@ declare module 'biuty' {
     /** `itemprop` HTML attribute to set to the element. */
     itemProp?: string;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
   }
 
@@ -63,7 +63,7 @@ declare module 'biuty' {
     /** Icon's name. */
     name: string;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
   }
 
@@ -80,7 +80,7 @@ declare module 'biuty' {
     /** `itemprop` HTML attribute to set to the element. */
     itemProp?: string;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
 
     /** Heading HTML level (1 to 6). This will determine which HTML tag to use. Defaults to "1". */
@@ -106,7 +106,7 @@ declare module 'biuty' {
     /** `href` HTML attribute to set to the element. */
     href: string;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
   }
 
@@ -129,7 +129,7 @@ declare module 'biuty' {
     /** Position of the icon relatively to the label. Defaults to "left". */
     iconPosition?: 'left' | 'right';
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
   }
 
@@ -151,7 +151,7 @@ declare module 'biuty' {
      */
     description?: string;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `"top"`. */
     modifiers?: string;
   }
 
@@ -174,7 +174,7 @@ declare module 'biuty' {
     /** `itemProp` HTML attribute to set to the element. */
     itemProp?: string;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
   }
 
@@ -227,19 +227,24 @@ declare module 'biuty' {
      * Whether user can select several options. Determines how the component will be displayed.
      * `false` will display options as radio buttons, `true` will display them as check-boxes,
      * and `true` along with `select` set to `true` will display a multi-choices drop-down.
+     * Defaults to `false`.
      * */
     multiple?: boolean;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
 
     /**
      * Initial value (pre-selected options).
      * Updating this prop with a new value will replace the current value by the one passed.
+     * Defaults to `[]`.
      */
     value?: string | string[];
 
-    /** Pass this prop if you want to force options list positionning in `select` mode. */
+    /**
+     * Pass this prop if you want to force options list positionning in `select` mode.
+     * Defaults to `"bottom"`.
+     */
     selectPosition?: 'top' | 'bottom';
   }
 
@@ -286,7 +291,7 @@ declare module 'biuty' {
     /** `maxlength` HTML attribute to set to the element. */
     maxlength?: number;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
 
     /** `autofocus` HTML attribute to set to the element. Defaults to `false`. */
@@ -375,7 +380,7 @@ declare module 'biuty' {
     /** `maxlength` HTML attribute to set to the element. */
     maxlength?: number;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
 
     /** `autofocus` HTML attribute to set to the element. Defaults to `false`. */
@@ -436,7 +441,7 @@ declare module 'biuty' {
     /** Element's helper. Supports biuty light markdown. */
     helper?: string;
 
-    /** List of modifiers to apply to the element. */
+    /** List of modifiers to apply to the element. Defaults to `""`. */
     modifiers?: string;
 
     /** Element's placeholder. */

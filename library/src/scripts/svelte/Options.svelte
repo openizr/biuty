@@ -15,34 +15,16 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 
 const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
 
-interface Option {
-  value?: string;
-  label?: string;
-  disabled?: boolean;
-  modifiers?: string;
-  type?: 'header' | 'divider' | 'option';
-}
-
 export let name: string;
 export let modifiers = '';
 export let select = false;
 export let multiple = false;
 export let options: Option[];
-export let id: string | null = null;
-export let label: string | null = null;
-export let helper: string | null = null;
-export let value: string | string[] | null = [];
-export let selectPosition: 'top' | 'bottom' | null = null;
-
-// Enforces props default values.
-$: id = id || null;
-$: value = value || [];
-$: label = label || null;
-$: helper = helper || null;
-$: select = select || false;
-$: modifiers = modifiers || '';
-$: multiple = multiple || false;
-$: selectPosition = selectPosition || null;
+export let value: string | string[] = [];
+export let id: string | undefined = undefined;
+export let label: string | undefined = undefined;
+export let helper: string | undefined = undefined;
+export let selectPosition: 'top' | 'bottom' | undefined = undefined;
 
 let mounted = false;
 let isFocused = false;

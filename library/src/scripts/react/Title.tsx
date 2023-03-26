@@ -10,32 +10,26 @@ import * as React from 'react';
 import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 
-const validLevels = ['1', '2', '3', '4', '5', '6'];
-
 /**
  * Title.
  */
 function UITitle(props: UITitleProps): JSX.Element {
   const { label } = props;
-  let { id, itemProp } = props;
-  let { level, modifiers } = props;
+  const { id, itemProp } = props;
+  const { level = '1', modifiers = '' } = props;
 
-  id = id || null;
-  level = level || '1';
-  itemProp = itemProp || null;
-  modifiers = modifiers || '';
-
+  let fullModifiers = modifiers;
   // Checks if any of the given modifiers corresponds to a valid level (1, 2, ...).
   // By default, if no level is specified in modifiers, we set it to the `level` prop.
-  if (/(^|\s)([1-6])($|\s)/i.test(modifiers as string) === false) {
-    modifiers += ` ${level}`;
+  if (/(^|\s)([1-6])($|\s)/i.test(modifiers) === false) {
+    fullModifiers += ` ${level}`;
   }
 
   return React.createElement(`h${level}`, {
     id,
     itemProp,
     dangerouslySetInnerHTML: { __html: markdown(label) },
-    className: buildClass('ui-title', modifiers as string),
+    className: buildClass('ui-title', fullModifiers),
   }) as JSXElement;
 }
 

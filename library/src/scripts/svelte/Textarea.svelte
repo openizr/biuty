@@ -22,30 +22,14 @@ export let readonly = false;
 export let autofocus = false;
 export let autoresize = false;
 export let debounceTimeout = 0;
-export let id: string | null = null;
-export let cols: number | null = null;
-export let rows: number | null = null;
-export let label: string | null = null;
-export let helper: string | null = null;
-export let maxlength: number | null = null;
-export let placeholder: string | null = null;
 export let autocomplete: 'on' | 'off' = 'on';
-
-// Enforces props default values.
-$: id = id || null;
-$: value = value || '';
-$: label = label || null;
-$: helper = helper || null;
-$: modifiers = modifiers || '';
-$: readonly = readonly || false;
-$: autofocus = autofocus || false;
-$: autoresize = autoresize || false;
-$: placeholder = placeholder || null;
-$: autocomplete = autocomplete || 'on';
-$: debounceTimeout = debounceTimeout ?? 50;
-$: rows = (rows !== undefined) ? rows : null;
-$: cols = (cols !== undefined) ? cols : null;
-$: maxlength = (maxlength !== undefined) ? maxlength : null;
+export let id: string | undefined = undefined;
+export let cols: number | undefined = undefined;
+export let rows: number | undefined = undefined;
+export let label: string | undefined = undefined;
+export let helper: string | undefined = undefined;
+export let maxlength: number | undefined = undefined;
+export let placeholder: string | undefined = undefined;
 
 let currentValue = value;
 let userIsTyping = false;

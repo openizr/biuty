@@ -16,25 +16,18 @@ function UILink(props: UILinkProps & {
   /** `click` event handler. */
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }): JSX.Element {
-  let { rel, id } = props;
+  const { rel, id } = props;
   const { href, label } = props;
-  let { onClick, modifiers, target } = props;
-
-  // Enforces props default values.
-  id = id || null;
-  rel = rel || null;
-  target = target || null;
-  onClick = onClick || null;
-  modifiers = modifiers || '';
+  const { onClick, modifiers = '', target } = props;
 
   return (
     <a
+      id={id}
+      rel={rel}
       href={href}
-      id={id as string}
-      rel={rel as string}
-      target={target as string}
+      target={target}
+      onClick={onClick}
       className={buildClass('ui-link', modifiers)}
-      onClick={onClick as React.MouseEventHandler<HTMLAnchorElement>}
     >
       {label}
     </a>

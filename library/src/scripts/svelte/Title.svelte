@@ -13,15 +13,9 @@ import buildClass from 'scripts/helpers/buildClass';
 
 export let label: string;
 export let modifiers = '';
-export let id: string | null = null;
-export let itemProp: string | null = null;
+export let id: string | undefined = undefined;
+export let itemProp: string | undefined = undefined;
 export let level: '1' | '2' | '3' | '4' | '5' | '6' = '1';
-
-// Enforces props default values.
-$: id = id || null;
-$: level = level || '1';
-$: itemProp = itemProp || null;
-$: modifiers = modifiers || '';
 
 $: parsedLabel = markdown(label);
 $: fullModifiers = modifiers;

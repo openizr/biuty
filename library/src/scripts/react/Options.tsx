@@ -13,6 +13,8 @@ import generateRandomId from 'scripts/helpers/generateRandomId';
 
 const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
 
+const defaultValue: string[] = [];
+
 /**
  * Set of selectable options.
  */
@@ -24,21 +26,10 @@ function UIOptions(props: UIOptionsProps & {
   onChange?: React.ChangeEventHandler<HTMLElement>;
 }): JSX.Element {
   const { options, name } = props;
-  let { selectPosition } = props;
-  let { id, modifiers, label } = props;
-  let { helper, value, onChange } = props;
-  let { multiple, select, onFocus } = props;
-
-  id = id || null;
-  value = value || [];
-  label = label || null;
-  helper = helper || null;
-  select = select || false;
-  onFocus = onFocus || null;
-  onChange = onChange || null;
-  modifiers = modifiers || '';
-  multiple = multiple || false;
-  selectPosition = selectPosition || null;
+  const { selectPosition = 'bottom' } = props;
+  const { id, modifiers = '', label } = props;
+  const { multiple, select, onFocus } = props;
+  const { helper, value = defaultValue, onChange } = props;
 
   const mounted = React.useRef(false);
   const wrapperRef = React.useRef(null);
@@ -71,7 +62,7 @@ function UIOptions(props: UIOptionsProps & {
   // In `select` mode only, displays the options list at the right place on the viewport.
   const displayList = React.useCallback((): void => {
     if (selectPosition !== null) {
-      setPosition(selectPosition as string);
+      setPosition(selectPosition);
     } else {
       const relativeOffsetTop = (buttonRef.current as HTMLInputElement).getBoundingClientRect().top;
       setPosition((relativeOffsetTop > window.innerHeight / 2) ? 'top' : 'bottom');
@@ -272,7 +263,7 @@ function UIOptions(props: UIOptionsProps & {
   if (select) {
     return (
       <div
-        id={id as string}
+        id={id}
         className={className}
       >
         {labelComponent}
@@ -335,7 +326,7 @@ function UIOptions(props: UIOptionsProps & {
   // Display as radio buttons / checkboxes...
   return (
     <div
-      id={id as string}
+      id={id}
       className={className}
     >
       {labelComponent}
@@ -360,13 +351,13 @@ function UIOptions(props: UIOptionsProps & {
                 onBlur={handleBlur}
                 checked={isChecked}
                 disabled={isDisabled}
+                value={option.value}
                 onChange={handleChange}
                 onKeyDown={handleKeydown}
-                value={option.value as string}
                 onFocus={handleFocus(option.value as string, index)}
                 className="ui-options__wrapper__option__field"
                 type={(multiple === true) ? 'checkbox' : 'radio'}
-                tabIndex={((modifiers as string).includes('disabled') || isDisabled || !(((index === 0 || multiple === false) && currentValue.length === 0) || option.value === currentValue[0]) ? -1 : 0)}
+                tabIndex={(modifiers.includes('disabled') || isDisabled || !(((index === 0 || multiple === false) && currentValue.length === 0) || option.value === currentValue[0]) ? -1 : 0)}
               />
               <span
                 className="ui-options__wrapper__option__label"
