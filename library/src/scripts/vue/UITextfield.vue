@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<{
   name: undefined,
   icon: undefined,
   step: undefined,
-  size: undefined,
+  size: 1,
   label: undefined,
   helper: undefined,
   autocomplete: 'on',
@@ -101,8 +101,6 @@ const inputRef = ref(null);
 const isUserTyping = ref(false);
 const cursorPosition = ref(null);
 const randomId = ref(generateRandomId());
-const parsedLabel = computed(() => markdown(props.label));
-const parsedHelper = computed(() => markdown(props.helper));
 const currentValue = ref(props.transform(props.value, 0)[0]);
 const isDisabled = computed(() => props.modifiers.includes('disabled'));
 const className = computed(() => buildClass('ui-textfield', props.modifiers));
@@ -227,7 +225,7 @@ onUpdated(() => {
       v-if="label !== undefined"
       class="ui-textfield__label"
       :for="randomId"
-      v-html="parsedLabel"
+      v-html="markdown(label)"
     />
     <div class="ui-textfield__wrapper">
       <span
@@ -256,12 +254,12 @@ onUpdated(() => {
         :autocomplete="autocomplete"
         class="ui-textfield__wrapper__field"
         :disabled="isDisabled"
-        :size="size === undefined ? 1 : size"
+        :size="size"
         @keydown="handleKeyDown"
         @blur="onBlur !== undefined && onBlur(currentValue, $event)"
         @focus="onFocus !== undefined && onFocus(currentValue, $event)"
-        @paste="(readonly !== true && !isDisabled) ? handlePaste($event) : undefined"
-        @input="(readonly !== true && !isDisabled) ? handleChange($event) : undefined"
+        @paste="(readonly !== true && !isDisabled) && handlePaste($event)"
+        @input="(readonly !== true && !isDisabled) && handleChange($event)"
       >
       <span
         v-if="icon !== undefined && iconPosition === 'right'"
@@ -277,7 +275,7 @@ onUpdated(() => {
     <span
       v-if="helper !== undefined"
       class="ui-textfield__helper"
-      v-html="parsedHelper"
+      v-html="markdown(helper)"
     />
   </div>
 </template>

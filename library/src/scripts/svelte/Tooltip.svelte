@@ -38,7 +38,7 @@ $: className = buildClass('ui-tooltip', [modifiers, isDescriptionVisible ? 'desc
   on:keypress={displayDescription}
 >
 <slot></slot>
-{#if isDescriptionVisible && description !== null}
+{#if isDescriptionVisible && description !== undefined}
   <span class="ui-tooltip__description" role="status">{description}</span>
 {/if}
 </div>

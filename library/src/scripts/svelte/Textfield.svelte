@@ -78,7 +78,7 @@ $: globalAllowedKeys = keyTypes.reduce((allAllowedKeys, keyType) => {
 // Re-positions cursor at the right place when using transform function.
 const updateCursorPosition = async () => {
   await tick();
-  if (/^(url|text|tel|search|password)$/.test(type || 'text') && inputRef !== null) {
+  if (/^(url|text|tel|search|password)$/.test(type) && inputRef !== null) {
     inputRef.selectionStart = cursorPosition;
     inputRef.selectionEnd = cursorPosition;
   }
@@ -90,7 +90,7 @@ const handleChange = (event: Event, filter = true): void => {
   const target = event.target as HTMLInputElement;
   const selectionStart = target.selectionStart as number;
   const filteredValue = (filter && globalAllowedKeys.default !== null)
-    ? (target.value.match(globalAllowedKeys.default as RegExp) || []).join('')
+    ? (target.value.match(globalAllowedKeys.default as RegExp) ?? []).join('')
     : target.value;
   const [newValue, newCursorPosition] = (transform as Transform)(filteredValue, selectionStart);
   if (newCursorPosition !== undefined) {
@@ -142,10 +142,10 @@ const handlePaste = (event: ClipboardEvent): void => {
   const clipboardData = event.clipboardData as DataTransfer;
   // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
   // want to replace the entire content when pasting something in that case.
-  const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
-  const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.length;
+  const selectionStart = (event.target as HTMLInputElement).selectionStart as number;
+  const selectionEnd = (event.target as HTMLInputElement).selectionEnd ?? currentValue.length;
   const filteredValue = (globalAllowedKeys.default !== null)
-    ? (clipboardData.getData('text').match(globalAllowedKeys.default as RegExp) || []).join('')
+    ? (clipboardData.getData('text').match(globalAllowedKeys.default as RegExp) ?? []).join('')
     : clipboardData.getData('text');
   handleChange({
     target: {

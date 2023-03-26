@@ -8,7 +8,7 @@
  */
 
 import UILink from 'scripts/vue/UILink.vue';
-import { render } from '@testing-library/vue';
+import { render, fireEvent } from '@testing-library/vue';
 
 describe('vue/UILink', () => {
   beforeEach(() => {
@@ -33,5 +33,15 @@ describe('vue/UILink', () => {
   test('renders correctly - with rel', () => {
     const { container } = render(UILink, { props: { label: 'Test', href: 'https://test.com', rel: 'no referrer' } });
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - with listener', async () => {
+    const onClick = vi.fn();
+    const { container } = render(UILink, { props: { label: 'Test', href: 'https://test.com', onClick } });
+    const a = container.getElementsByTagName('a')[0];
+    await fireEvent.click(a);
+    expect(container.firstChild).toMatchSnapshot();
+    expect(onClick).toHaveBeenCalledTimes(1);
+    expect(onClick).toHaveBeenCalledWith(expect.any(Object));
   });
 });

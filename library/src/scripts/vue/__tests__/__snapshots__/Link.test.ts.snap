@@ -19,6 +19,15 @@ exports[`vue/UILink > renders correctly - with id 1`] = `
 </a>
 `;
 
+exports[`vue/UILink > renders correctly - with listener 1`] = `
+<a
+  class="ui-link"
+  href="https://test.com"
+>
+  Test
+</a>
+`;
+
 exports[`vue/UILink > renders correctly - with rel 1`] = `
 <a
   class="ui-link"

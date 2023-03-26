@@ -67,15 +67,15 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
     const filteredValue = (filter && globalAllowedKeys.default !== null)
       ? (event.target.value.match(globalAllowedKeys.default) || []).join('')
       : event.target.value;
-    const { selectionStart } = event.target;
-    const [newValue, newCursorPosition] = transform(filteredValue, selectionStart ?? 0);
+    const selectionStart = event.target.selectionStart as number;
+    const [newValue, newCursorPosition] = transform(filteredValue, selectionStart);
     setCurrentValue(newValue);
     if (newCursorPosition !== undefined) {
       setCursorPosition(newCursorPosition);
     } else {
       // At this point, the input's value has already changed, which means the cursor's position is
       // at n + 1, which is why we substract 1 when checking last position.
-      const currentCursorPosition = event.target.selectionStart ?? 0;
+      const currentCursorPosition = selectionStart;
       const isAtTheEnd = currentCursorPosition - 1 >= currentValue.length;
       setCursorPosition(isAtTheEnd ? newValue.length : currentCursorPosition);
     }
