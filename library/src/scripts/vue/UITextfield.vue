@@ -77,7 +77,7 @@ const props = withDefaults(defineProps<{
   size: 1,
   label: undefined,
   helper: undefined,
-  autocomplete: 'on',
+  autocomplete: 'off',
   debounceTimeout: 50,
   iconPosition: 'left',
   maxlength: undefined,

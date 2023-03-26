@@ -27,7 +27,7 @@ exports[`react/UITextfield > renders correctly - basic 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -46,7 +46,7 @@ exports[`react/UITextfield > renders correctly - readonly 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -66,7 +66,7 @@ exports[`react/UITextfield > renders correctly - with disabled 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       disabled=""
       id="z8a8d7a5zad4"
@@ -86,7 +86,7 @@ exports[`react/UITextfield > renders correctly - with helper 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -115,7 +115,7 @@ exports[`react/UITextfield > renders correctly - with id 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -144,7 +144,7 @@ exports[`react/UITextfield > renders correctly - with label 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -172,7 +172,7 @@ exports[`react/UITextfield > renders correctly - with left icon 1`] = `
       />
     </span>
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -200,7 +200,7 @@ exports[`react/UITextfield > renders correctly - with listeners and debounce 1`]
       />
     </span>
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -219,7 +219,7 @@ exports[`react/UITextfield > renders correctly - with placeholder 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -239,7 +239,7 @@ exports[`react/UITextfield > renders correctly - with right icon 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -267,7 +267,7 @@ exports[`react/UITextfield > renders correctly - with transform and allowedKeys 
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
@@ -287,7 +287,7 @@ exports[`react/UITextfield > renders correctly - with type number 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       max="30"
@@ -309,7 +309,7 @@ exports[`react/UITextfield > renders correctly - with value 1`] = `
     class="ui-textfield__wrapper"
   >
     <input
-      autocomplete="on"
+      autocomplete="off"
       class="ui-textfield__wrapper__field"
       id="z8a8d7a5zad4"
       name="test"
