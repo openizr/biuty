@@ -35,6 +35,9 @@
   --wrap: initial;
   --dir: initial;
   --flex: none;
+
+  // Text properties.
+  --text: initial;
 }
 
 // Built-in classes.
@@ -159,6 +162,22 @@ $classes: (
     '--self',
     stretch,
   ),
+  text-center: (
+    '--text',
+    center,
+  ),
+  text-start: (
+    '--text',
+    start,
+  ),
+  text-end: (
+    '--text',
+    end,
+  ),
+  text-justify: (
+    '--text',
+    justify,
+  ),
 );
 
 // --cols
@@ -167,7 +186,8 @@ $classes: (
     $classes,
     (
       'cols-#{$i}': (
-        ('--cols', $i),
+        '--cols',
+        $i,
       ),
     )
   );
@@ -179,19 +199,21 @@ $classes: (
     $classes,
     (
       'col-#{$i}': (
-        ('--span', $i),
+        '--span',
+        $i,
       ),
     )
   );
 }
 
 // --vgap, --hgap
-@each $key, $value in $gaps {
+@each $key, $value in map-get($variables, gaps) {
   $classes: map-merge(
     $classes,
     (
       'vgap-#{$key}': (
-        ('--vgap', $value),
+        '--vgap',
+        $value,
       ),
     )
   );
@@ -199,7 +221,8 @@ $classes: (
     $classes,
     (
       'hgap-#{$key}': (
-        ('--hgap', $value),
+        '--hgap',
+        $value,
       ),
     )
   );
@@ -270,6 +293,10 @@ $classes: (
   @extend %self;
 }
 
+[class*='text'] {
+  text-align: var(--text);
+}
+
 %flex {
   display: var(--disp);
   flex: var(--flex);
@@ -293,12 +320,6 @@ body {
   @each $variable, $values in $variables {
     @each $key, $value in $values {
       --#{$variable}-#{$key}: #{$value};
-
-      // For `rgba` usage.
-      @if ($variable== 'clr') {
-        --#{$variable}-#{$key}-rgb: #{color.red($value)}, #{color.green($value)},
-          #{color.blue($value)};
-      }
     }
   }
 
@@ -310,7 +331,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     width: 80vw;
-    max-width: 320px;
+    max-width: 20rem;
     padding: 1.5em;
     font-weight: bold;
     text-align: center;

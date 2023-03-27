@@ -10,7 +10,7 @@
   overflow: hidden;
   user-select: none;
   position: relative;
-  @include extend(flex flex-col wrap);
+  @include extend(flex flex-col flex-wrap);
 
   &__wrapper {
     flex: 1;
@@ -25,11 +25,11 @@
     font-size: 0.875em;
     transition: border-color 250ms;
     border-radius: var(--shp-default);
-    border: 1px solid var(--clr-default);
     padding: var(--gaps-1) var(--gaps-2);
+    border: 1px solid var(--clr-greys-100);
 
     &::placeholder {
-      color: var(--clr-default);
+      color: var(--clr-greys-100);
     }
   }
 
@@ -37,11 +37,15 @@
     @extend %label;
   }
 
+  &__helper {
+    @extend %ellipsis;
+  }
+
   &__wrapper__field {
     user-select: all;
   }
 
-  @include modifier(disabled) {
+  @include modifiers(disabled) {
     @extend %disabled;
   }
 }
