@@ -12,6 +12,26 @@ import markdown from 'scripts/helpers/markdown';
 import buildClass from 'scripts/helpers/buildClass';
 import generateRandomId from 'scripts/helpers/generateRandomId';
 
+type UIOptionsOption = {
+  type: 'option';
+  value: string;
+  label: string;
+  disabled?: boolean;
+  modifiers?: string;
+};
+
+type UIOptionsHeader = {
+  type: 'header';
+  label: string;
+  modifiers?: string;
+};
+
+type UIOptionsDivider = {
+  type: 'divider';
+  modifiers?: string;
+};
+
+type Option = UIOptionsDivider | UIOptionsOption | UIOptionsHeader;
 type ChangeEventHandler = (value: string | string[], event: InputEvent) => void;
 
 const toArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
