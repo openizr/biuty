@@ -6,4 +6,10 @@
  *
  */
 
-declare module '*.svelte';
+.ui-icon {
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
+  user-select: none;
+  background: var(--clr-greys-100);
+}

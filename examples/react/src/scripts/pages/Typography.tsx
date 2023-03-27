@@ -29,6 +29,7 @@ export default function Typography(): JSX.Element {
           rel="nofollow noopener noreferer"
           title="link title"
           label="ui-link"
+          disabled
           onClick={onClick}
         />
       </main>

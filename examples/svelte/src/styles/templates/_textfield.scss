@@ -10,7 +10,7 @@
   overflow: hidden;
   user-select: none;
   position: relative;
-  @include extend(flex flex-col wrap);
+  @include extend(flex flex-col flex-wrap);
 
   &__wrapper {
     flex: 1;
@@ -20,15 +20,15 @@
 
   &__wrapper__field,
   &__wrapper__field:focus {
-    width: 100%;
     user-select: all;
     font-size: 0.875em;
+    @include extend(w-full);
     border-radius: var(--shp-default);
     padding: var(--gaps-1) var(--gaps-2);
-    border: 1px solid var(--clr-default);
+    border: 1px solid var(--clr-greys-100);
 
     &::placeholder {
-      color: var(--clr-default);
+      color: var(--clr-greys-100);
     }
   }
 
@@ -38,11 +38,11 @@
 
   &:focus-within & {
     &__wrapper__field {
-      border-color: var(--clr-default);
+      border-color: var(--clr-greys-100);
     }
   }
 
-  @include modifier(disabled) {
+  @include modifiers(disabled) {
     @extend %disabled;
   }
 }

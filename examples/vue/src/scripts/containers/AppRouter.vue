@@ -9,10 +9,10 @@
  */
 
 import { Locale } from 'basx/i18n';
+import routes from 'scripts/store/routes';
+import { store } from 'scripts/store/index';
 import connect from 'diox/connectors/vue';
 import { defineAsyncComponent } from 'vue';
-import routes from 'scripts/store/vueRoutes';
-import { store } from 'scripts/store/vueIndex';
 import { RoutingContext } from 'diox/extensions/router';
 
 defineProps<{

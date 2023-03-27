@@ -23,31 +23,30 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
       object-fit: cover;
+      @include extend(h-full w-full);
     }
   }
 
-  @include modifier(square) {
+  @include modifiers(square) {
     &:not(img) {
       padding-top: 100%;
     }
   }
 
-  @include modifier(landscape) {
+  @include modifiers(landscape) {
     &:not(img) {
       padding-top: 66.66%;
     }
   }
 
-  @include modifier(portrait) {
+  @include modifiers(portrait) {
     &:not(img) {
       padding-top: 150%;
     }
   }
 
-  @include modifier(panoramic) {
+  @include modifiers(panoramic) {
     &:not(img) {
       padding-top: 56.25%;
     }

@@ -16,12 +16,12 @@ defineProps<{
   locale: Locale;
 }>();
 
-const onChange = (value: string | string[]): void => {
-  console.log('Changed!', value);
+const onChange = (value: string | string[], event: InputEvent): void => {
+  console.log('Changed!', value, event);
 };
 
-const onFocus = (value: string): void => {
-  console.log('Focused!', value);
+const onFocus = (value: string, event: FocusEvent): void => {
+  console.log('Focused!', value, event);
 };
 
 const newValue = ref('option3');
@@ -130,7 +130,7 @@ onMounted(() => {
         value="option3"
         label="Radio with listener"
         :options="options"
-        @change="onChange"
+        :on-change="onChange"
       />
       <UIOptions
         name="radio6"
@@ -143,7 +143,7 @@ onMounted(() => {
         value="option3"
         label="Radio with focus listener"
         :options="options"
-        @focus="onFocus"
+        :on-focus="onFocus"
       />
 
       <!-- Multiple -->
@@ -152,8 +152,8 @@ onMounted(() => {
         :options="options"
         multiple
         label="Checkboxes disabled"
-        @focus="onFocus"
-        @change="onChange"
+        :on-focus="onFocus"
+        :on-change="onChange"
       />
       <UIOptions
         name="checkbox1"
@@ -185,14 +185,14 @@ onMounted(() => {
         multiple
         :options="options"
         label="Checkboxes with listener"
-        @change="onChange"
+        :on-change="onChange"
       />
       <UIOptions
         name="checkbox7"
         multiple
         :options="options"
         label="Checkboxes with focus listener"
-        @focus="onFocus"
+        :on-focus="onFocus"
       />
 
       <!-- Selects -->
@@ -202,7 +202,7 @@ onMounted(() => {
         :options="selectOptions"
         :value="['option1']"
         label="*Select*"
-        @change="onChange"
+        :on-change="onChange"
       />
       <UIOptions
         name="dropdown2"
@@ -217,8 +217,8 @@ onMounted(() => {
         :options="selectOptions"
         value="option1"
         label="Select large"
-        @focus="onFocus"
-        @change="onChange"
+        :on-focus="onFocus"
+        :on-change="onChange"
       />
       <UIOptions
         name="dropdown4"
@@ -243,8 +243,8 @@ onMounted(() => {
         value="option1"
         multiple
         label="Select with focus listener"
-        @focus="onFocus"
-        @change="onChange"
+        :on-focus="onFocus"
+        :on-change="onChange"
       />
     </main>
   </div>

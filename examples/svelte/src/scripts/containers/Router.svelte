@@ -1,9 +1,9 @@
 <!-- App router. -->
 <script lang="ts">
   import type { Locale } from 'basx/i18n';
-  import routes from 'scripts/store/svelteRoutes';
+  import routes from 'scripts/store/routes';
+  import { useCombiner } from 'scripts/store/index';
   import { onDestroy, SvelteComponent } from 'svelte';
-  import { useCombiner } from 'scripts/store/svelteIndex';
   import type { RoutingContext } from 'diox/extensions/router';
 
   const locale: Locale = {};

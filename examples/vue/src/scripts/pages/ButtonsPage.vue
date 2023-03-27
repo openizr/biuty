@@ -18,11 +18,11 @@ defineProps<{
 
 const { log } = console;
 
-const onClick = (): void => {
-  log('Clicked!');
+const onClick = (event: MouseEvent): void => {
+  log('Clicked!', event);
 };
-const onFocus = (): void => {
-  log('Focused!');
+const onFocus = (event: MouseEvent): void => {
+  log('Focused!', event);
 };
 </script>
 
@@ -49,7 +49,7 @@ const onFocus = (): void => {
       />
       <UIButton
         label="ui-button with listener"
-        @click="onClick"
+        :on-click="onClick"
       />
       <UIButton
         label="ui-button with type submit"
@@ -57,7 +57,7 @@ const onFocus = (): void => {
       />
       <UIButton
         label="ui-button with focus listener"
-        @focus="onFocus"
+        :on-focus="onFocus"
       />
     </main>
   </div>

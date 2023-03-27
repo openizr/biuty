@@ -29,7 +29,7 @@ const onClick = (event: MouseEvent): void => {
       <a href="/">GO BACK</a>
       <UITitle
         level="1"
-        :label="'ui-title\n**ui-title--1 ui-title strong**'"
+        :label="'ui-title\n^ui-title--1 ui-title strong^'"
       />
       <UITitle
         level="2"
@@ -54,7 +54,7 @@ const onClick = (event: MouseEvent): void => {
       <UIP
         c=""
         :label="
-          'ui-p ui-p ui-p ui-p ~ui-p italic~ _ui-p underline_ **ui-p strong** *ui-p emphasis* ' +
+          'ui-p ui-p ui-p ui-p ~ui-p italic~ _ui-p underline_ ^ui-p strong^ *ui-p emphasis* ' +
             'ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p' +
             ' ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p ui-p '"
       />
@@ -64,7 +64,7 @@ const onClick = (event: MouseEvent): void => {
         rel="nofollow noopener noreferer"
         title="link title"
         label="ui-link"
-        @click="onClick"
+        :on-click="onClick"
       />
     </main>
   </div>

@@ -17,7 +17,7 @@
   &__wrapper {
     padding: var(--gaps-1) var(--gaps-3);
     border-radius: var(--shp-default);
-    border: 1px solid var(--clr-default);
+    border: 1px solid var(--clr-greys-100);
 
     &__option {
       display: block;
@@ -26,25 +26,24 @@
     }
 
     &__button:focus {
-      background: rgba(var(--clr-default-rgb), 0.5);
+      background: var(--clr-greys-500);
     }
   }
 
-
-  @include modifier(disabled) {
+  @include modifiers(disabled) {
     @extend %disabled;
   }
 
-  @include modifier(select, &) {
+  @include modifiers(select, &) {
     &__wrapper {
       position: relative;
       @include extend(flex hgap-2);
 
       &:after {
-        content: ">";
+        content: '>';
         display: block;
         transform: rotate(90deg);
-        color: var(--clr-default);
+        color: var(--clr-greys-100);
       }
 
       &__list {
@@ -53,41 +52,40 @@
         z-index: 999;
         display: none;
         overflow-y: auto;
-        max-height: 200px;
+        max-height: 15rem;
         position: absolute;
-        background: #FFFFFF;
+        background: var(--clr-greys-900);
         border-radius: var(--shp-default);
-        border: 1px solid var(--clr-default);
         padding: var(--gaps-1) var(--gaps-2);
+        border: 1px solid var(--clr-greys-100);
 
         &__option {
           cursor: pointer;
 
           &:hover,
           &:focus-within {
-            background: rgba(var(--clr-default-rgb), 0.5);
+            background: var(--clr-greys-700);
           }
 
-          @include modifier(checked) {
-            background: rgba(var(--clr-default-rgb), 0.5);
+          @include modifiers(checked) {
+            background: var(--clr-greys-700);
           }
         }
 
         &__header {
-          color: rgba(var(--clr-default-rgb), 0.5);
+          color: var(--clr-greys-500);
         }
 
         &__divider:before {
           display: block;
-          font-size: 12px;
+          font-size: 0.75rem;
           content: '---------------';
         }
 
-        @include modifier(expanded) {
+        @include modifiers(expanded) {
           display: block;
         }
       }
     }
   }
-
 }
