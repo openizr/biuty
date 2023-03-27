@@ -7,22 +7,25 @@
  */
 
 /**
- * Applies given style to `modifier` BEM+ modifier.
+ * Applies given style to `modifiers` BEM+ modifier.
  *
- * @param {string} modifier BEM+ modifier to apply style to.
+ * @param {string} name BEM+ modifiers names to apply style to.
  *
- * @param {string} [children = false] Whether to use the mixin for modifier's children, or the
- * modifier itself.
+ * @param {string} [children = false] Whether to use the mixin for modifiers' children, or the
+ * modifiers themselves.
  */
-@mixin modifier($name, $children: false) {
-  @if ($children  !=false) {
-    &[class*='--#{$name}'] #{&} {
-      @content;
-    }
+@mixin modifiers($modifiers, $children: false) {
+  $selectors: '';
+  @each $modifier in $modifiers {
+    $selectors: '#{$selectors}[class*="--#{$modifier}"]';
   }
 
-  @else {
-    &[class*='--#{$name}'] {
+  @if ($children !=false) {
+    &#{$selectors} #{&} {
+      @content;
+    }
+  } @else {
+    &#{$selectors} {
       @content;
     }
   }
@@ -63,6 +66,14 @@
       @extend %self;
     }
 
+    @if (str-index($class, w-full)) {
+      @extend %width;
+    }
+
+    @if (str-index($class, h-full)) {
+      @extend %height;
+    }
+
     @extend .#{$class};
   }
 }
@@ -80,25 +91,37 @@
  * (like `xl`), or an absolute value (like `1200px`).
  */
 @mixin query($firstBreakpoint, $secondBreakpoint: '') {
-  $firstValue: if(map-has-key($breakpoints, $firstBreakpoint), map-get($breakpoints, $firstBreakpoint), $firstBreakpoint);
-  $secondValue: if(map-has-key($breakpoints, $secondBreakpoint), map-get($breakpoints, $secondBreakpoint), $secondBreakpoint);
+  $firstValue: if(
+    map-has-key($breakpoints, $firstBreakpoint),
+    map-get($breakpoints, $firstBreakpoint),
+    $firstBreakpoint
+  );
+  $secondValue: if(
+    map-has-key($breakpoints, $secondBreakpoint),
+    map-get($breakpoints, $secondBreakpoint),
+    $secondBreakpoint
+  );
 
-  @if (type-of($firstValue) !='number') {
+  @if (type-of($firstValue) != 'number') {
     @error "#{$firstValue} is not a valid breakpoint.";
   }
 
-  @if ($secondValue  !='' and type-of($firstValue) !='number') {
+  @if ($secondValue != '' and type-of($firstValue) != 'number') {
     @error "#{$secondValue} is not a valid breakpoint.";
   }
 
   // For '0px' breakpoint, we don't need to write a media query. The @content code is rendered.
-  @if ($firstValue==0px and $secondValue=='') {
+  @if ($firstValue==0px and $secondValue== '') {
     @content;
   }
 
   // Build a max-width if needed
-  @else if ($secondValue  !='') {
-    $query: if($firstValue <=$secondValue, '(min-width:#{$firstValue}) and (max-width:#{$secondValue - 1})', '(min-width:#{$secondValue}) and (max-width:#{$firstValue - 1})');
+  @else if ($secondValue != '') {
+    $query: if(
+      $firstValue <=$secondValue,
+      '(min-width:#{$firstValue}) and (max-width:#{$secondValue - 1})',
+      '(min-width:#{$secondValue}) and (max-width:#{$firstValue - 1})'
+    );
 
     @media screen and #{$query} {
       @content;

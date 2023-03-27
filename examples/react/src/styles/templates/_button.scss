@@ -7,36 +7,44 @@
  */
 
 .ui-button {
-  display: flex;
-  @extend %ellipsis;
+  flex: 1 1 auto;
+  max-width: 100%;
+  overflow: hidden;
   user-select: none;
   font-size: 0.875em;
   transition: all 250ms;
-  max-width: fit-content;
   border-radius: var(--shp-default);
-  border: 1px solid var(--clr-default);
   padding: var(--gaps-1) var(--gaps-3);
-  @include extend(flex items-center hgap-2);
+  border: 1px solid var(--clr-greys-100);
+  @include extend(flex items-center hgap-2 justify-center);
 
   &__label {
+    max-width: 100%;
+    @extend %ellipsis;
     line-height: 1.5em;
+    text-align: center;
+  }
+
+  .ui-icon {
+    width: 1rem;
+    height: 1rem;
   }
 
   &:hover,
   &:focus,
   &:focus-visible {
-    background: rgba(var(--clr-default-rgb), 0.5);
+    background: var(--clr-greys-900);
   }
 
-  @include modifier(icon) {
+  @include modifiers(icon) {
     padding: var(--gaps-2);
   }
 
-  @include modifier(disabled) {
+  @include modifiers(disabled) {
     @extend %disabled;
   }
 
-  @include modifier(floating) {
+  @include modifiers(floating) {
     z-index: 1;
     position: absolute;
     right: var(--gaps-4);

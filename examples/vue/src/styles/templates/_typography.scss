@@ -35,7 +35,6 @@
 }
 
 .ui-link {
-
   &,
   &:visited {
     color: initial;
@@ -44,7 +43,7 @@
 }
 
 .ui-markdown {
-  @include modifier(strong) {
+  @include modifiers(strong) {
     font-weight: 900;
   }
 }

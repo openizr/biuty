@@ -25,6 +25,9 @@ export default function Buttons(): JSX.Element {
         <UIButton label="ui-button with type submit" type="submit" />
         <UIButton label="ui-button with focus listener" onFocus={onFocus} />
         <UIButton icon="star" onFocus={onFocus} />
+        <UIButton label="ui-button test1" modifiers="test1" />
+        <UIButton label="ui-button test2" modifiers="test2" />
+        <UIButton label="ui-button test1 test2" modifiers="test1 test2" />
       </main>
     </div>
   );

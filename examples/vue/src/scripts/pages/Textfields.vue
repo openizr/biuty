@@ -27,34 +27,34 @@ onMounted(() => {
 
 const { log } = console;
 
-const onChange = (...e): void => {
-  log('Changed!', e);
+const onChange = (value: string, event: Event): void => {
+  log('Changed!', value, event);
 };
 
-const onBlur = (...e): void => {
-  log('Blurred!', e);
+const onBlur = (value: string, event: Event): void => {
+  log('Blurred!', value, event);
 };
 
-const onFocus = (...e): void => {
-  log('Focused!', e);
+const onFocus = (value: string, event: Event): void => {
+  log('Focused!', value, event);
 };
 
-const onIconClick = (...e): void => {
-  log('Clicked!', e);
+const onIconClick = (value: string, event: Event): void => {
+  log('Clicked!', value, event);
 };
 
-const onKeyDown = (...e): void => {
-  log('Key down!', e);
+const onKeyDown = (value: string, event: Event): void => {
+  log('Key down!', value, event);
 };
 
-const transform = (value: string): string => {
+const transform = (value: string): [string] => {
   if (value.length >= 7) {
-    return `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+    return [`(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`];
   }
   if (value.length >= 4) {
-    return `(${value.slice(0, 3)}) ${value.slice(3)}`;
+    return [`(${value.slice(0, 3)}) ${value.slice(3)}`];
   }
-  return value;
+  return [value];
 };
 </script>
 

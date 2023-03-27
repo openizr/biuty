@@ -1,8 +1,5 @@
 {
   "devDependencies": {
-    "@types/prop-types": "^15.7.5",
-    "@types/react": "^18.0.20",
-    "@types/react-dom": "^18.0.6",
     "typescript-dev-kit": "^6.0.0"
   },
   "eslintConfig": {
@@ -12,8 +9,6 @@
     "overrides": [
       {
         "files": [
-          "*.tsx",
-          "*.vue",
           "*.svelte"
         ],
         "rules": {
@@ -27,11 +22,7 @@
     "basx": "^2.0.1",
     "biuty": "file:/library/dist",
     "diox": "^5.0.3",
-    "prop-types": "^15.7.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "svelte": "^3.50.1",
-    "vue": "^3.2.39"
+    "svelte": "^3.57.0"
   },
   "tsDevKitConfig": {
     "target": "web",

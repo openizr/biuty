@@ -38,6 +38,10 @@ const onBlur = (value: string): void => {
 const onFocus = (): void => {
   log('Focused!');
 };
+
+const onPaste = (): void => {
+  log('Pasted!');
+};
 </script>
 
 <template>
@@ -75,6 +79,7 @@ const onFocus = (): void => {
       <UITextarea
         name="textarea7"
         label="ui-textarea with listener"
+        :on-paste="onPaste"
         @change="onChange"
       />
       <UITextarea

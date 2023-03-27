@@ -13,18 +13,22 @@ const options = [
   {
     label: '*Option 1*',
     value: 'option1',
+    type: 'option',
   },
   {
     label: 'Option 2',
     value: 'option2',
+    type: 'option',
   },
   {
     label: 'Option 3',
     value: 'option3',
+    type: 'option',
   },
   {
     label: 'Option 4',
     value: 'option4',
+    type: 'option',
     disabled: true,
   },
 ];
@@ -35,7 +39,7 @@ const selectOptions = [
     type: 'header',
   },
   {
-    label: '**Option** & 1',
+    label: '^Option^ & 1',
     value: 'option1',
     disabled: false,
     type: 'option',
@@ -77,18 +81,22 @@ export default function Options(): JSX.Element {
     {
       label: '*Option 1*',
       value: 'option1',
+      type: 'option',
     },
     {
       label: 'Option 2',
       value: 'option2',
+      type: 'option',
     },
     {
       label: 'Option 3',
       value: 'option3',
+      type: 'option',
     },
     {
       label: 'Option 4',
       value: 'option4',
+      type: 'option',
       disabled: true,
     },
   ]);
@@ -100,6 +108,7 @@ export default function Options(): JSX.Element {
         {
           label: '*Option 1*',
           value: 'option1',
+          type: 'option',
         },
       ]);
     }, 3000);

@@ -10,6 +10,7 @@
  */
 
 import { Locale } from 'basx/i18n';
+import { UIFilePicker } from 'biuty/vue';
 
 defineProps<{
   locale: Locale;
@@ -17,13 +18,19 @@ defineProps<{
 
 const { log } = console;
 
-const onChange = (value: string): void => {
-  log('Changed!', value);
+const onChange = (value: File[], event: InputEvent): void => {
+  log('Changed!', value, event);
 };
 
-const onFocus = (): void => {
-  log('Focused!');
+const onFocus = (value: File[], event: FocusEvent): void => {
+  log('Focused!', value, event);
 };
+
+const onBlur = (value: File[], event: FocusEvent): void => {
+  log('Blurred!', value, event);
+};
+
+const file = new File([], 'test.png');
 </script>
 
 <template>
@@ -33,56 +40,57 @@ const onFocus = (): void => {
         href="/"
         className="cols-l-3"
       >GO BACK</a>
-      <UIFileUploader name="file-uploader1" />
-      <UIFileUploader
+      <UIFilePicker name="file-uploader1" />
+      <UIFilePicker
         name="file-uploader2"
         label="*ui-file-uploader*"
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader5"
         label="ui-file-uploader multiple"
         multiple
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader5"
         label="ui-file-uploader with helper"
         helper="helper"
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader6"
         label="ui-file-uploader with listener"
-        @change="onChange"
+        :on-change="onChange"
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader11"
         label="ui-file-uploader disabled"
         modifiers="disabled"
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader12"
         label="ui-file-uploader icon left"
         icon="star"
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader13"
         label="ui-file-uploader icon right"
         icon="star"
         icon-position="right"
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader14"
         label="ui-file-uploader with focus listener"
-        @focus="onFocus"
+        :on-focus="onFocus"
+        :on-blur="onBlur"
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader15"
         label="ui-file-uploader with accept"
         accept="image/*"
       />
-      <UIFileUploader
+      <UIFilePicker
         name="file-uploader15"
         label="ui-file-uploader with value"
-        :value="[new File([], 'test.png')]"
+        :value="[file]"
       />
     </main>
   </div>

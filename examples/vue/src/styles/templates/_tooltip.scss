@@ -6,33 +6,32 @@
  *
  */
 
-%top {
-  right: 50%;
-  transform: translateX(50%);
-  bottom: calc(100% + var(--gaps-1));
-}
-
-%bottom {
-  right: 50%;
-  transform: translateX(50%);
-  top: calc(100% + var(--gaps-1));
-}
-
-%right {
-  bottom: 50%;
-  transform: translateY(50%);
-  left: calc(100% + var(--gaps-1));
-}
-
-%left {
-  bottom: 50%;
-  transform: translateY(50%);
-  right: calc(100% + var(--gaps-1));
-}
-
 .ui-tooltip {
   position: relative;
 
+  %top {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: calc(100% + var(--gaps-1));
+  }
+
+  %bottom {
+    right: 50%;
+    transform: translateX(50%);
+    top: calc(100% + var(--gaps-1));
+  }
+
+  %right {
+    bottom: 50%;
+    transform: translateY(50%);
+    left: calc(100% + var(--gaps-1));
+  }
+
+  %left {
+    bottom: 50%;
+    transform: translateY(50%);
+    right: calc(100% + var(--gaps-1));
+  }
 
   &:after,
   &__description {
@@ -42,56 +41,56 @@
     width: max-content;
     position: absolute;
     pointer-events: none;
-    background: #FFFFFF;
+    background: var(--clr-greys-900);
     padding: var(--gaps-1);
     content: attr(aria-label);
-    border: 1px solid var(--clr-default);
+    border: 1px solid var(--clr-greys-100);
   }
 
-  @include modifier(top) {
-    &:after {
+  @include modifiers(top, &) {
+    &__description {
       @extend %top;
     }
   }
 
-  @include modifier(bottom) {
-    &:after {
+  @include modifiers(bottom, &) {
+    &__description {
       @extend %bottom;
     }
   }
 
-  @include modifier(left) {
-    &:after {
+  @include modifiers(left, &) {
+    &__description {
       @extend %left;
     }
   }
 
-  @include modifier(right) {
-    &:after {
+  @include modifiers(right, &) {
+    &__description {
       @extend %right;
     }
   }
 
-  @include modifier(top, &) {
-    &__description {
+  @include modifiers(top) {
+    &:after {
       @extend %top;
     }
   }
 
-  @include modifier(bottom, &) {
-    &__description {
+  @include modifiers(bottom) {
+    &:after {
       @extend %bottom;
     }
   }
 
-  @include modifier(left, &) {
-    &__description {
+  @include modifiers(left) {
+    &:after {
       @extend %left;
     }
   }
 
-  @include modifier(right, &) {
-    &__description {
+  @include modifiers(right) {
+    &:after {
       @extend %right;
     }
   }
@@ -103,8 +102,7 @@
     }
   }
 
-  @include modifier(described) {
-
+  @include modifiers(described) {
     &:hover,
     &:focus-within {
       &:after {
@@ -113,7 +111,7 @@
     }
   }
 
-  @include modifier(described, &) {
+  @include modifiers(described, &) {
     &__description {
       display: block;
     }

@@ -7,9 +7,9 @@
  */
 
 import Store from 'diox';
+import routes from 'scripts/store/routes';
 import router from 'diox/extensions/router';
 import connect from 'diox/connectors/svelte';
-import routes from 'scripts/store/svelteRoutes';
 
 const store = new Store();
 store.register('router', router(Object.keys(routes)));

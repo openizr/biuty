@@ -45,9 +45,9 @@ defineProps<{
       >MARKDOWN</a>
       <br>
       <a
-        href="/dropdowns"
+        href="/options"
         class="cols-3"
-      >DROPDOWNS</a>
+      >OPTIONS</a>
       <br>
       <a
         href="/textfields"
@@ -60,19 +60,9 @@ defineProps<{
       >TEXTAREAS</a>
       <br>
       <a
-        href="/file-uploaders"
+        href="/file-pickers"
         class="cols-3"
-      >FILE UPLOADERS</a>
-      <br>
-      <a
-        href="/radios"
-        class="cols-3"
-      >RADIOS</a>
-      <br>
-      <a
-        href="/checkboxes"
-        class="cols-3"
-      >CHECKBOXES</a>
+      >FILE PICKERS</a>
       <br>
       <a
         href="/icons"
