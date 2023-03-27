@@ -20,9 +20,9 @@
 
   &__wrapper__field,
   &__wrapper__field:focus {
-    width: 100%;
     user-select: all;
     font-size: 0.875em;
+    @include extend(w-full);
     transition: border-color 250ms;
     border-radius: var(--shp-default);
     padding: var(--gaps-1) var(--gaps-2);

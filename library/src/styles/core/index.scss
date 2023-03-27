@@ -38,6 +38,10 @@
 
   // Text properties.
   --text: initial;
+
+  // Size properties.
+  --width: initial;
+  --height: initial;
 }
 
 // Built-in classes.
@@ -178,6 +182,14 @@ $classes: (
     '--text',
     justify,
   ),
+  w-full: (
+    '--width',
+    100%,
+  ),
+  h-full: (
+    '--height',
+    100%,
+  ),
 );
 
 // --cols
@@ -293,8 +305,28 @@ $classes: (
   @extend %self;
 }
 
-[class*='text'] {
+%text {
   text-align: var(--text);
+}
+
+[class*='text-'] {
+  @extend %text;
+}
+
+%width {
+  width: var(--width);
+}
+
+[class*='w-full'] {
+  @extend %width;
+}
+
+%height {
+  height: var(--height);
+}
+
+[class*='h-full'] {
+  @extend %height;
 }
 
 %flex {
