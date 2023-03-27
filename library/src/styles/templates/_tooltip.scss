@@ -41,55 +41,55 @@
     width: max-content;
     position: absolute;
     pointer-events: none;
-    background: #FFFFFF;
+    background: var(--clr-greys-900);
     padding: var(--gaps-1);
     content: attr(aria-label);
-    border: 1px solid var(--clr-default);
+    border: 1px solid var(--clr-greys-100);
   }
 
-  @include modifier(top, &) {
+  @include modifiers(top, &) {
     &__description {
       @extend %top;
     }
   }
 
-  @include modifier(bottom, &) {
+  @include modifiers(bottom, &) {
     &__description {
       @extend %bottom;
     }
   }
 
-  @include modifier(left, &) {
+  @include modifiers(left, &) {
     &__description {
       @extend %left;
     }
   }
 
-  @include modifier(right, &) {
+  @include modifiers(right, &) {
     &__description {
       @extend %right;
     }
   }
 
-  @include modifier(top) {
+  @include modifiers(top) {
     &:after {
       @extend %top;
     }
   }
 
-  @include modifier(bottom) {
+  @include modifiers(bottom) {
     &:after {
       @extend %bottom;
     }
   }
 
-  @include modifier(left) {
+  @include modifiers(left) {
     &:after {
       @extend %left;
     }
   }
 
-  @include modifier(right) {
+  @include modifiers(right) {
     &:after {
       @extend %right;
     }
@@ -102,8 +102,7 @@
     }
   }
 
-  @include modifier(described) {
-
+  @include modifiers(described) {
     &:hover,
     &:focus-within {
       &:after {
@@ -112,7 +111,7 @@
     }
   }
 
-  @include modifier(described, &) {
+  @include modifiers(described, &) {
     &__description {
       display: block;
     }
