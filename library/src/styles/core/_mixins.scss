@@ -66,6 +66,14 @@
       @extend %self;
     }
 
+    @if (str-index($class, w-full)) {
+      @extend %width;
+    }
+
+    @if (str-index($class, h-full)) {
+      @extend %height;
+    }
+
     @extend .#{$class};
   }
 }
