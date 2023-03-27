@@ -184,7 +184,8 @@ const handlePaste = (event: ClipboardEvent): void => {
     // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
     // want to replace the entire content when pasting something in that case.
     const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
-    const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.value.length;
+    const selectionEnd = (event.target as HTMLInputElement).selectionEnd
+      ?? currentValue.value.length;
     const filteredValue = (globalAllowedKeys.value.default !== null)
       ? (event.clipboardData.getData('text').match(globalAllowedKeys.value.default) || []).join('')
       : event.clipboardData.getData('text');
