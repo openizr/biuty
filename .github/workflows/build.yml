@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: openizr/node:3.0.0-dev
+      image: openizr/node:5.0.0-dev
 
     steps:
       - name: Check out repository

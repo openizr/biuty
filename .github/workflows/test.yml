@@ -6,7 +6,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container:
-      image: openizr/node:3.0.0-dev
+      image: openizr/node:5.0.0-dev
       env:
         COVERALLS_SERVICE_NAME: github-actions
         GITHUB_RUN_ID: ${{ vars.GITHUB_RUN_ID }}
@@ -39,4 +39,4 @@ jobs:
         run: cd library && yarn run test
 
       - name: Update Coveralls
-        run: cd library && sed -i "s/\.\.\/\.\.\///g" coverage/lcov.info && node_modules/coveralls/bin/coveralls.js < coverage/lcov.info
+        run: cd library && sed -i "s/:scripts/:src\/scripts/g" coverage/lcov.info && node_modules/coveralls/bin/coveralls.js < coverage/lcov.info
