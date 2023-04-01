@@ -40,6 +40,7 @@ export let name: string;
 export let modifiers = '';
 export let select = false;
 export let multiple = false;
+export let expanded = false;
 export let options: Option[];
 export let value: string | string[] = [];
 export let id: string | undefined = undefined;
@@ -105,7 +106,7 @@ const hideList = (force = false) => (event: FocusEvent | null): void => {
     : true;
   if (focusIsOutsideList && (force === true || !multiple)) {
     handleBlur();
-    isDisplayed = false;
+    isDisplayed = expanded || false;
   }
 };
 
@@ -247,6 +248,9 @@ $: {
 // Updates current value whenever `value` property changes.
 $: currentValue = toArray(value);
 
+// Updates select visibility whenever `expanded` property changes.
+$: isDisplayed = expanded;
+
 // Updates current value whenever `multiple` property changes.
 const updateCurrentValue = (newMultiple: boolean) => {
   currentValue = (newMultiple || currentValue.length === 0)
@@ -268,9 +272,9 @@ $: updateFocus(options);
 const updateSelectFocus = (newMounted: boolean, newIsDisplayed: boolean): void => {
   if (newMounted) {
     setTimeout(() => {
-      if (wrapperRef !== undefined && select && newIsDisplayed) {
+      if (wrapperRef !== undefined && select && newIsDisplayed && !expanded) {
         focusOption(firstSelectedOption);
-      } else if (!newIsDisplayed && buttonRef !== null) {
+      } else if (!newIsDisplayed && buttonRef !== null && !expanded) {
         buttonRef.focus();
       }
     }, 10);

@@ -263,7 +263,7 @@ describe('vue/UIOptions', () => {
     await rerender({ value: 'option1', options: selectOptions });
   });
 
-  test('select correctly updates current value when changing value and multiple props', async () => {
+  test('select correctly updates current value when changing value, expanded and multiple props', async () => {
     const { container, rerender } = render(UIOptions, {
       props: {
         name: 'test', select: true, options: selectOptions, value: ['option3'], multiple: true,
@@ -286,6 +286,11 @@ describe('vue/UIOptions', () => {
     expect(container.firstChild).toMatchSnapshot();
     await rerender({
       name: 'test', select: true, multiple: true, options: selectOptions, value: undefined,
+    });
+    await nextTick();
+    expect(container.firstChild).toMatchSnapshot();
+    await rerender({
+      name: 'test', select: true, expanded: true, options: selectOptions,
     });
     await nextTick();
     expect(container.firstChild).toMatchSnapshot();

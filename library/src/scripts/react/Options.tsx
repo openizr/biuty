@@ -19,9 +19,9 @@ const defaultValue: string[] = [];
  * Set of selectable options.
  */
 function UIOptions(props: UIOptionsProps): JSX.Element {
-  const { options, name } = props;
   const { id, modifiers = '', label } = props;
   const { multiple, select, onFocus } = props;
+  const { options, name, expanded = false } = props;
   const { selectPosition, disabled = false } = props;
   const { helper, value = defaultValue, onChange } = props;
 
@@ -79,10 +79,10 @@ function UIOptions(props: UIOptionsProps): JSX.Element {
         : true;
       if (focusIsOutsideList && (force === true || !multiple)) {
         handleBlur();
-        setIsDisplayed(false);
+        setIsDisplayed(expanded || false);
       }
     },
-    [multiple, handleBlur],
+    [multiple, handleBlur, expanded],
   );
 
   // Finds the direct previous or next option when navigating with keyboard.
@@ -216,6 +216,11 @@ function UIOptions(props: UIOptionsProps): JSX.Element {
     setCurrentValue(newValue);
   }, [value]);
 
+  // Updates select visibility whenever `expanded` property changes.
+  React.useEffect(() => {
+    setIsDisplayed(expanded);
+  }, [expanded]);
+
   // Updates current value whenever `multiple` property changes.
   React.useEffect(() => {
     setCurrentValue((prevValue) => (
@@ -242,14 +247,14 @@ function UIOptions(props: UIOptionsProps): JSX.Element {
   // HTML elements with `display: none` can't be focused. Thus, we need to wait for the HTML list to
   // be displayed before actually focusing it (`select` mode).
   React.useEffect(() => {
-    if (!isDisplayed && buttonRef.current !== null && mounted.current === true) {
+    if (!isDisplayed && !expanded && buttonRef.current !== null && mounted.current === true) {
       buttonRef.current.focus();
-    } else if (isDisplayed && wrapperRef.current !== null) {
+    } else if (isDisplayed && !expanded && wrapperRef.current !== null) {
       setTimeout(() => {
         focusOption(firstSelectedOption.current);
       }, 10);
     }
-  }, [isDisplayed, focusOption]);
+  }, [isDisplayed, focusOption, expanded]);
   // Prevents focusing the dropdown at component mount in strict mode.
   React.useEffect(() => {
     mounted.current = true;

@@ -42,6 +42,7 @@ const props = withDefaults(defineProps<{
   helper?: string;
   select?: boolean;
   options: Option[];
+  expanded?: boolean;
   multiple?: boolean;
   modifiers?: string;
   disabled?: boolean;
@@ -57,6 +58,7 @@ const props = withDefaults(defineProps<{
   label: undefined,
   helper: undefined,
   disabled: false,
+  expanded: false,
   value: [] as undefined,
   onFocus: undefined,
   onChange: undefined,
@@ -118,7 +120,7 @@ const hideList = (event: FocusEvent | null, force = false): void => {
     : true;
   if (focusIsOutsideList && (force === true || !props.multiple)) {
     handleBlur();
-    isDisplayed.value = false;
+    isDisplayed.value = props.expanded || false;
   }
 };
 
@@ -263,6 +265,11 @@ watch(() => props.multiple, () => {
     : [currentValue.value[0]];
 });
 
+// Updates select visibility whenever `expanded` property changes.
+watch(() => props.expanded, () => {
+  isDisplayed.value = props.expanded;
+});
+
 // Re-focuses the right option whenever `options` property changes, to avoid out of range focus.
 watch(() => props.options, () => {
   if (isFocused.value === true) {
@@ -275,9 +282,9 @@ watch(() => props.options, () => {
 watch([isDisplayed, mounted, () => props.select], async () => {
   if (mounted.value) {
     setTimeout(() => {
-      if (wrapperRef.value !== null && props.select && isDisplayed.value) {
+      if (wrapperRef.value !== null && props.select && isDisplayed.value && !props.expanded) {
         focusOption(firstSelectedOption.value);
-      } else if (!isDisplayed.value && buttonRef.value !== null) {
+      } else if (!isDisplayed.value && buttonRef.value !== null && !props.expanded) {
         buttonRef.value.focus();
       }
     }, 10);
