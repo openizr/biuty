@@ -24,8 +24,26 @@ describe('svelte/UIImage', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - no lazy', () => {
+    const { container } = render(UIImage, {
+      props: {
+        alt: 'test', ratio: 'square', src: 'https://test.com/a.jpg', lazy: false,
+      },
+    });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - custom ratio', () => {
     const { container } = render(UIImage, { props: { alt: 'test', ratio: '25x32', src: 'https://test.com/a.jpg' } });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - no lazy custom ratio', () => {
+    const { container } = render(UIImage, {
+      props: {
+        alt: 'test', lazy: false, ratio: '25x32', src: 'https://test.com/a.jpg',
+      },
+    });
     expect(container.firstChild).toMatchSnapshot();
   });
 

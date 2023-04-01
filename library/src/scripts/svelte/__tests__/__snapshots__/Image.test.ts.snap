@@ -49,6 +49,37 @@ exports[`svelte/UIImage > renders correctly - custom ratio with itemprop 1`] = `
 </div>
 `;
 
+exports[`svelte/UIImage > renders correctly - no lazy 1`] = `
+<div>
+  <div
+    class="ui-image ui-image--square"
+  >
+    <img
+      alt="test"
+      height="1"
+      src="https://test.com/a.jpg"
+      width="1"
+    />
+  </div>
+  
+  <!--&lt;Image&gt;-->
+</div>
+`;
+
+exports[`svelte/UIImage > renders correctly - no lazy custom ratio 1`] = `
+<div>
+  <img
+    alt="test"
+    class="ui-image ui-image--25x32"
+    height="32"
+    src="https://test.com/a.jpg"
+    width="25"
+  />
+  
+  <!--&lt;Image&gt;-->
+</div>
+`;
+
 exports[`svelte/UIImage > renders correctly - standard ratio with itemprop 1`] = `
 <div>
   <div

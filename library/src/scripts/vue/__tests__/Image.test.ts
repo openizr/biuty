@@ -24,6 +24,19 @@ describe('vue/UIImage', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - no lazy', () => {
+    const { container } = render(UIImage, {
+      props: {
+        alt: 'test',
+        lazy: false,
+        ratio: 'square',
+        modifiers: 'large',
+        src: 'https://test.com/a.jpg',
+      },
+    });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - custom ratio', () => {
     const { container } = render(UIImage, { props: { alt: 'test', ratio: '25x32', src: 'https://test.com/a.jpg' } });
     expect(container.firstChild).toMatchSnapshot();
@@ -51,6 +64,19 @@ describe('vue/UIImage', () => {
     const { container } = render(UIImage, {
       props: {
         itemProp: 'image', alt: 'test', ratio: '1x5', src: 'https://test.com/a.jpg',
+      },
+    });
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - no lazy custom ratio', () => {
+    const { container } = render(UIImage, {
+      props: {
+        alt: 'test',
+        lazy: false,
+        ratio: '1x5',
+        modifiers: 'large',
+        src: 'https://test.com/a.jpg',
       },
     });
     expect(container.firstChild).toMatchSnapshot();

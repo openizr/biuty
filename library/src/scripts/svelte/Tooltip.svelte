@@ -25,6 +25,7 @@ const hideDescription = () => {
   isDescriptionVisible = false;
 };
 
+$: isDescriptionDisplayed = isDescriptionVisible && description !== undefined;
 $: className = buildClass('ui-tooltip', [modifiers, isDescriptionVisible ? 'described' : ''].join(' '));
 </script>
 
@@ -38,7 +39,7 @@ $: className = buildClass('ui-tooltip', [modifiers, isDescriptionVisible ? 'desc
   on:keypress={displayDescription}
 >
 <slot></slot>
-{#if isDescriptionVisible && description !== undefined}
+{#if isDescriptionDisplayed}
   <span class="ui-tooltip__description" role="status">{description}</span>
 {/if}
 </div>

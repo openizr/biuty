@@ -39,6 +39,7 @@ let isUserTyping = false;
 let timeout: number | null = null;
 const randomId = generateRandomId();
 
+$: tabIndex = disabled ? -1 : 0;
 $: className = buildClass('ui-textarea', `${modifiers}${disabled ? ' disabled' : ''}`);
 
 // -------------------------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ $: className = buildClass('ui-textarea', `${modifiers}${disabled ? ' disabled' :
 // -------------------------------------------------------------------------------------------------
 
 const handleChange = (event: Event): void => {
-  if (!disabled) {
+  if (!disabled && !readonly) {
     clearTimeout(timeout as number);
     isUserTyping = true;
     const newValue = (event.target as HTMLTextAreaElement).value;
@@ -63,13 +64,13 @@ const handleChange = (event: Event): void => {
 };
 
 const handlePaste = (event: ClipboardEvent): void => {
-  if (onPaste !== undefined && !disabled) {
+  if (onPaste !== undefined && !disabled && !readonly) {
     onPaste(currentValue, event);
   }
 };
 
 const handleKeyDown = (event: KeyboardEvent): void => {
-  if (onKeyDown !== undefined && !disabled) {
+  if (onKeyDown !== undefined && !disabled && !readonly) {
     onKeyDown(currentValue, event);
   }
 };
@@ -116,6 +117,7 @@ $: actualRows = (autoresize && rows === undefined) ? Math.max(1, currentValue.sp
       cols={cols}
       id={randomId}
       rows={actualRows}
+      tabindex={tabIndex}
       readonly={readonly}
       on:blur={handleBlur}
       value={currentValue}
@@ -125,11 +127,10 @@ $: actualRows = (autoresize && rows === undefined) ? Math.max(1, currentValue.sp
       on:focus={handleFocus}
       placeholder={placeholder}
       autocomplete={autocomplete}
-      tabindex={disabled ? -1 : 0}
       class="ui-textarea__wrapper__field"
-      on:paste={!readonly ? handlePaste : undefined}
-      on:input={!readonly ? handleChange : undefined}
-      on:keydown={!readonly ? handleKeyDown : undefined}
+      on:paste={handlePaste}
+      on:input={handleChange}
+      on:keydown={handleKeyDown}
     />
   </div>
   {#if helper !== undefined}

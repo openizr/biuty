@@ -244,6 +244,9 @@ interface UIOptionsProps {
   /** Element's helper. Supports biuty light markdown. */
   helper?: string;
 
+  /** Whether to force drop-down displaying in select mode. Defaults to `false`. */
+  expanded?: boolean;
+
   /** Whether to display options as a select (=drop-down). Defaults to `false`. */
   select?: boolean;
 

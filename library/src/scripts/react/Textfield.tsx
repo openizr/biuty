@@ -65,7 +65,7 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
       clearTimeout(timeout.current as NodeJS.Timeout);
       isUserTyping.current = true;
       const filteredValue = (filter && globalAllowedKeys.default !== null)
-        ? (event.target.value.match(globalAllowedKeys.default) || []).join('')
+        ? (event.target.value.match(globalAllowedKeys.default) ?? []).join('')
         : event.target.value;
       const selectionStart = event.target.selectionStart as number;
       const [newValue, newCursorPosition] = transform(filteredValue, selectionStart);
@@ -92,15 +92,15 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
     if (!disabled) {
-      let allowedKeysForEvent = (allowedKeys as AllowedKeys).default || null;
+      let allowedKeysForEvent = (allowedKeys as AllowedKeys).default ?? null;
       if (event.ctrlKey === true) {
-        allowedKeysForEvent = (allowedKeys as AllowedKeys).ctrlKey || null;
+        allowedKeysForEvent = (allowedKeys as AllowedKeys).ctrlKey ?? null;
       } else if (event.shiftKey === true) {
-        allowedKeysForEvent = (allowedKeys as AllowedKeys).shiftKey || null;
+        allowedKeysForEvent = (allowedKeys as AllowedKeys).shiftKey ?? null;
       } else if (event.altKey === true) {
-        allowedKeysForEvent = (allowedKeys as AllowedKeys).altKey || null;
+        allowedKeysForEvent = (allowedKeys as AllowedKeys).altKey ?? null;
       } else if (event.metaKey === true) {
-        allowedKeysForEvent = (allowedKeys as AllowedKeys).metaKey || null;
+        allowedKeysForEvent = (allowedKeys as AllowedKeys).metaKey ?? null;
       }
       if (
         allowedKeysForEvent !== null
@@ -118,10 +118,10 @@ function UITextfield(props: UITextfieldProps): JSX.Element {
     if (!disabled) {
       // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
       // want to replace the entire content when pasting something in that case.
-      const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
-      const selectionEnd = (event.target as HTMLInputElement).selectionEnd || currentValue.length;
+      const selectionStart = (event.target as HTMLInputElement).selectionStart ?? 0;
+      const selectionEnd = (event.target as HTMLInputElement).selectionEnd ?? currentValue.length;
       const filteredValue = (globalAllowedKeys.default !== null)
-        ? (event.clipboardData.getData('text').match(globalAllowedKeys.default) || []).join('')
+        ? (event.clipboardData.getData('text').match(globalAllowedKeys.default) ?? []).join('')
         : event.clipboardData.getData('text');
       handleChange({
         target: {

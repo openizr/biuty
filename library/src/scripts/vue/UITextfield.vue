@@ -128,7 +128,7 @@ const handleChange = (event: InputEvent, filter = true): void => {
     const target = event.target as HTMLInputElement;
     const { selectionStart } = target;
     const filteredValue = (filter && globalAllowedKeys.value.default !== null)
-      ? (target.value.match(globalAllowedKeys.value.default) || []).join('')
+      ? (target.value.match(globalAllowedKeys.value.default) ?? []).join('')
       : target.value;
     const [newValue, newCursorPosition] = props.transform(filteredValue, selectionStart);
     if (newCursorPosition !== undefined) {
@@ -157,15 +157,15 @@ const handleChange = (event: InputEvent, filter = true): void => {
 const handleKeyDown = (event: KeyboardEvent): void => {
   if (!props.disabled) {
     const { allowedKeys } = props;
-    let allowedKeysForEvent = allowedKeys.default || null;
+    let allowedKeysForEvent = allowedKeys.default ?? null;
     if (event.ctrlKey === true) {
-      allowedKeysForEvent = allowedKeys.ctrlKey || null;
+      allowedKeysForEvent = allowedKeys.ctrlKey ?? null;
     } else if (event.shiftKey === true) {
-      allowedKeysForEvent = allowedKeys.shiftKey || null;
+      allowedKeysForEvent = allowedKeys.shiftKey ?? null;
     } else if (event.altKey === true) {
-      allowedKeysForEvent = allowedKeys.altKey || null;
+      allowedKeysForEvent = allowedKeys.altKey ?? null;
     } else if (event.metaKey === true) {
-      allowedKeysForEvent = allowedKeys.metaKey || null;
+      allowedKeysForEvent = allowedKeys.metaKey ?? null;
     }
     if (
       allowedKeysForEvent !== null
@@ -183,11 +183,11 @@ const handlePaste = (event: ClipboardEvent): void => {
   if (!props.disabled) {
     // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
     // want to replace the entire content when pasting something in that case.
-    const selectionStart = (event.target as HTMLInputElement).selectionStart || 0;
+    const selectionStart = (event.target as HTMLInputElement).selectionStart ?? 0;
     const selectionEnd = (event.target as HTMLInputElement).selectionEnd
       ?? currentValue.value.length;
     const filteredValue = (globalAllowedKeys.value.default !== null)
-      ? (event.clipboardData.getData('text').match(globalAllowedKeys.value.default) || []).join('')
+      ? (event.clipboardData.getData('text').match(globalAllowedKeys.value.default) ?? []).join('')
       : event.clipboardData.getData('text');
     handleChange({
       target: {

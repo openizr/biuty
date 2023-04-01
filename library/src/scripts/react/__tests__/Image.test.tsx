@@ -33,6 +33,11 @@ describe('react/UIImage', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
+  test('renders correctly - no lazy', () => {
+    const { container } = render(<JSXUIImage alt="test" lazy={false} src="https://test.com/a.jpg" ratio="portrait" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
   test('renders correctly - standard ratio with itemprop', () => {
     const { container } = render(<JSXUIImage itemProp="image" alt="test" src="https://test.com/a.jpg" ratio="landscape" />);
     expect(container.firstChild).toMatchSnapshot();
@@ -40,6 +45,11 @@ describe('react/UIImage', () => {
 
   test('renders correctly - custom ratio with itemprop', () => {
     const { container } = render(<JSXUIImage itemProp="image" alt="test" src="https://test.com/a.jpg" ratio="1x5" />);
+    expect(container.firstChild).toMatchSnapshot();
+  });
+
+  test('renders correctly - custom ratio no lazy', () => {
+    const { container } = render(<JSXUIImage alt="test" lazy={false} src="https://test.com/a.jpg" ratio="1x5" />);
     expect(container.firstChild).toMatchSnapshot();
   });
 
