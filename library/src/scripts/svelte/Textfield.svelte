@@ -59,6 +59,7 @@ let cursorPosition: number | null = null;
 let inputRef: HTMLInputElement | null = null;
 let currentValue = (transform as Transform)(`${value}`, 0)[0];
 
+$: tabIndex = disabled ? -1 : 0;
 $: className = buildClass('ui-textfield', `${modifiers}${disabled ? ' disabled' : ''}`);
 // Memoizes global version of allowed keys RegExps (required for filtering out a whole text).
 $: globalAllowedKeys = keyTypes.reduce((allAllowedKeys, keyType) => {
@@ -85,7 +86,7 @@ const updateCursorPosition = async () => {
 };
 
 const handleChange = (event: Event, filter = true): void => {
-  if (!disabled) {
+  if (!disabled && !readonly) {
     clearTimeout(timeout as number);
     userIsTyping = true;
     const target = event.target as HTMLInputElement;
@@ -119,7 +120,7 @@ const handleChange = (event: Event, filter = true): void => {
 };
 
 const handleKeyDown = (event: KeyboardEvent): void => {
-  if (!disabled) {
+  if (!disabled && !readonly) {
     let allowedKeysForEvent = allowedKeys.default;
     if (event.ctrlKey === true) {
       allowedKeysForEvent = allowedKeys.ctrlKey;
@@ -143,7 +144,7 @@ const handleKeyDown = (event: KeyboardEvent): void => {
 };
 
 const handlePaste = (event: ClipboardEvent): void => {
-  if (!disabled) {
+  if (!disabled && !readonly) {
     const clipboardData = event.clipboardData as DataTransfer;
     // `selectionStart` and `selectionEnd` do not exist on inputs with type `number`, so we just
     // want to replace the entire content when pasting something in that case.
@@ -204,7 +205,7 @@ $: {
 }
 </script>
 
-<!-- svelte-ignore a11y-autofocus -->
+<!-- svelte-ignore a11y-autofocus a11y-interactive-supports-focus -->
 <div
 id={id}
   class={className}
@@ -241,14 +242,14 @@ id={id}
       maxlength={maxlength}
       autofocus={autofocus}
       disabled={disabled}
+      tabindex={tabIndex}
       on:focus={handleFocus}
       placeholder={placeholder}
       autocomplete={autocomplete}
-      tabindex={disabled ? -1 : 0}
       class="ui-textfield__wrapper__field"
-      on:paste={!readonly ? handlePaste : undefined}
-      on:input={!readonly ? handleChange : undefined}
-      on:keydown={!readonly ? handleKeyDown : undefined}
+      on:paste={handlePaste}
+      on:input={handleChange}
+      on:keydown={handleKeyDown}
     >
     {#if icon !== undefined && iconPosition === 'right'}
       <span

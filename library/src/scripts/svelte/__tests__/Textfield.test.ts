@@ -126,7 +126,7 @@ describe('svelte/UITextfield', () => {
         },
       },
     });
-    const input = container.getElementsByTagName('input')[0];
+    let input = container.getElementsByTagName('input')[0];
     await fireEvent.keyDown(input, { key: 'A' });
     await fireEvent.keyDown(input, { key: '0' });
     await fireEvent.keyDown(input, { key: 'a', ctrlKey: true });
@@ -148,10 +148,12 @@ describe('svelte/UITextfield', () => {
       size: 10,
       allowedKeys: { default: /z/i },
     });
+    [input] = container.getElementsByTagName('input');
     await fireEvent.input(input, { value: 'zzzzzzzzzzzz' });
-    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'zzz') } });
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'zzz') } });
     await fireEvent.input(input, { value: 'qsdqsd' });
-    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'sqdqsd') } });
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'sqdqsd') } });
+    vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
   });
 

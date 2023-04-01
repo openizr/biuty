@@ -169,11 +169,12 @@ describe('vue/UITextfield', () => {
     });
     await fireEvent.update(input, 'zzzzzzzzzzzz');
     vi.runAllTimers();
-    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'zzz') } });
+    input.selectionEnd = null;
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'zzz') } });
     vi.runAllTimers();
     await fireEvent.update(input, 'qsdqsd');
     vi.runAllTimers();
-    await fireEvent.paste(input, { target: { selectionStart: 0 }, clipboardData: { getData: vi.fn(() => 'sqdqsd') } });
+    await fireEvent.paste(input, { clipboardData: { getData: vi.fn(() => 'sqdqsd') } });
     vi.runAllTimers();
     expect(container.firstChild).toMatchSnapshot();
   });

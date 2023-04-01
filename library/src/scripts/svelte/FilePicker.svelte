@@ -36,6 +36,7 @@ export let onBlur: ((value: File | File[], event: FocusEvent) => void) | undefin
 let currentValue = toArray(value);
 const randomId = generateRandomId();
 
+$: tabIndex = disabled ? -1 : 0;
 $: className = buildClass('ui-file-picker', `${modifiers}${multiple ? ' multiple' : ''}${disabled ? ' disabled' : ''}`);
 $: currentPlaceholder = (currentValue.length > 0) ? currentValue.map((file) => file.name).join(', ') : placeholder;
 
@@ -103,7 +104,7 @@ $: updateValue(value);
       on:blur={handleBlur}
       on:focus={handleFocus}
       on:input={handleChange}
-      tabIndex={disabled ? -1 : 0}
+      tabIndex={tabIndex}
       class="ui-file-picker__wrapper__field"
     >
     {#if icon !== undefined && iconPosition === 'right'}
