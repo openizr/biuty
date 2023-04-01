@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "@types/react": "^18.0.20",
+    "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.6",
-    "typescript-dev-kit": "^6.0.0"
+    "typescript-dev-kit": "^6.0.7"
   },
   "eslintConfig": {
     "extends": [
@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "basx": "^2.0.1",
-    "biuty": "file:/library/dist",
-    "diox": "^5.0.3",
+    "biuty": "file:../../../../library/dist",
+    "diox": "^6.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
