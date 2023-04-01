@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { UIOptions } from 'biuty/react';
+import { Option, UIOptions } from 'biuty/react';
 
 const onChange = (value: string | string[]): void => {
   console.log('Changed!', value);
@@ -9,7 +9,7 @@ const onFocus = (value: string): void => {
   console.log('Focused!', value);
 };
 
-const options = [
+const options: Option[] = [
   {
     label: '*Option 1*',
     value: 'option1',
@@ -33,7 +33,7 @@ const options = [
   },
 ];
 
-const selectOptions = [
+const selectOptions: Option[] = [
   {
     label: '*Group 1*',
     type: 'header',
@@ -77,7 +77,7 @@ const selectOptions = [
  */
 export default function Options(): JSX.Element {
   const [newValue, setNewValue] = React.useState('option3');
-  const [v, setV] = React.useState([
+  const [v, setV] = React.useState<Option[]>([
     {
       label: '*Option 1*',
       value: 'option1',
@@ -143,6 +143,7 @@ export default function Options(): JSX.Element {
         <UIOptions name="dropdown4" select options={selectOptions} value={newValue} label="Select large" selectPosition="bottom" />
         <UIOptions name="dropdown5" select options={selectOptions} value={['option1']} label="Select" modifiers="disabled" />
         <UIOptions name="dropdown6" select options={selectOptions} value="option4" multiple label="Select with focus listener" onFocus={onFocus} onChange={onChange} />
+        <UIOptions name="dropdown7" select options={selectOptions} value="option4" expanded label="Select expanded" />
       </main>
     </div>
   );

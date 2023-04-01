@@ -203,7 +203,7 @@
       modifiers="disabled"
     />
     <UIOptions
-      name="dropdown5"
+      name="dropdown6"
       select
       options={selectOptions}
       value="option1"
@@ -211,6 +211,14 @@
       label="Select with focus listener"
       on:focus={onFocus}
       on:change={onChange}
+    />
+    <UIOptions
+      name="dropdown7"
+      select
+      options={selectOptions}
+      value="option4"
+      expanded
+      label="Select expanded"
     />
   </main>
 </div>

@@ -1989,7 +1989,7 @@ exports[`vue/UIOptions > select correctly focuses last available option when nar
 </div>
 `;
 
-exports[`vue/UIOptions > select correctly updates current value when changing value and multiple props 1`] = `
+exports[`vue/UIOptions > select correctly updates current value when changing value, expanded and multiple props 1`] = `
 <div
   class="ui-options ui-options--select--multiple"
 >
@@ -2075,7 +2075,7 @@ exports[`vue/UIOptions > select correctly updates current value when changing va
 </div>
 `;
 
-exports[`vue/UIOptions > select correctly updates current value when changing value and multiple props 2`] = `
+exports[`vue/UIOptions > select correctly updates current value when changing value, expanded and multiple props 2`] = `
 <div
   class="ui-options ui-options--select--multiple"
 >
@@ -2159,7 +2159,7 @@ exports[`vue/UIOptions > select correctly updates current value when changing va
 </div>
 `;
 
-exports[`vue/UIOptions > select correctly updates current value when changing value and multiple props 3`] = `
+exports[`vue/UIOptions > select correctly updates current value when changing value, expanded and multiple props 3`] = `
 <div
   class="ui-options ui-options--select"
 >
@@ -2245,7 +2245,7 @@ exports[`vue/UIOptions > select correctly updates current value when changing va
 </div>
 `;
 
-exports[`vue/UIOptions > select correctly updates current value when changing value and multiple props 4`] = `
+exports[`vue/UIOptions > select correctly updates current value when changing value, expanded and multiple props 4`] = `
 <div
   class="ui-options ui-options--select--multiple"
 >
@@ -2268,6 +2268,90 @@ exports[`vue/UIOptions > select correctly updates current value when changing va
       aria-labelledby="z8a8d7a5zad4"
       aria-multiselectable="true"
       class="ui-options__wrapper__list ui-options__wrapper__list--bottom"
+      role="listbox"
+      tabindex="-1"
+    >
+      
+      <li
+        aria-selected="false"
+        class="ui-options__wrapper__list__option"
+        id="z8a8d7a5zad40"
+        role="option"
+        tabindex="-1"
+      >
+        Option 1
+      </li>
+      <li
+        aria-selected="false"
+        class="ui-options__wrapper__list__divider"
+        id="z8a8d7a5zad41"
+        tabindex="-1"
+      />
+      <li
+        aria-selected="false"
+        class="ui-options__wrapper__list__option"
+        id="z8a8d7a5zad42"
+        role="option"
+        tabindex="-1"
+      >
+        Option 2
+      </li>
+      <li
+        aria-selected="false"
+        class="ui-options__wrapper__list__option"
+        id="z8a8d7a5zad43"
+        role="option"
+        tabindex="-1"
+      >
+        Option 3
+      </li>
+      <li
+        aria-selected="false"
+        class="ui-options__wrapper__list__header"
+        id="z8a8d7a5zad44"
+        tabindex="-1"
+      >
+        Group 2
+      </li>
+      <li
+        aria-selected="false"
+        class="ui-options__wrapper__list__option"
+        id="z8a8d7a5zad45"
+        role="option"
+        tabindex="-1"
+      >
+        Option 4
+      </li>
+      
+    </ul>
+  </div>
+  <!--v-if-->
+</div>
+`;
+
+exports[`vue/UIOptions > select correctly updates current value when changing value, expanded and multiple props 5`] = `
+<div
+  class="ui-options ui-options--select--multiple"
+>
+  <!--v-if-->
+  <div
+    class="ui-options__wrapper"
+  >
+    <button
+      aria-haspopup="listbox"
+      aria-labelledby="z8a8d7a5zad4 z8a8d7a5zad4"
+      class="ui-options__wrapper__button"
+      id="z8a8d7a5zad4"
+      name="test"
+      tabindex="0"
+      type="button"
+    />
+    <ul
+      aria-activedescendant="z8a8d7a5zad4-1"
+      aria-expanded="true"
+      aria-labelledby="z8a8d7a5zad4"
+      aria-multiselectable="true"
+      class="ui-options__wrapper__list ui-options__wrapper__list--bottom--expanded"
       role="listbox"
       tabindex="-1"
     >
