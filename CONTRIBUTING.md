@@ -180,6 +180,7 @@ changelogs to watch for updates:
 - [prop-types](https://github.com/facebook/prop-types/blob/master/CHANGELOG.md)
 - [react](https://github.com/facebook/react/releases)
 - [react-dom](https://github.com/facebook/react/releases)
+- [svelte](https://github.com/sveltejs/svelte/blob/master/CHANGELOG.md)
 - [typescript-dev-kit](https://github.com/openizr/typescript-dev-kit/releases)
 - [vue](https://github.com/vuejs/vue/releases)
 
