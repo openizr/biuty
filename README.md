@@ -1,4 +1,7 @@
-# biuty
+# ⚠️ Please use [@perseid/ui](https://www.npmjs.com/package/@perseid/ui) instead
+
+This NPM package is deprecated and no longer maintained.
+[@perseid/ui](https://github.com/openizr/perseid/tree/main/ui) is the new official repository.
 
 SASS and components library, without the superfluous
 
